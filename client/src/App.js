@@ -1,18 +1,18 @@
 import "./App.css";
 import React from "react";
 import { Route } from "react-router-dom";
-import Funciones from "./components/Funciones";
+import Shows from "./components/Shows";
 import NavBar from "./components/NavBar";
-import Tienda from "./components/Tienda";
-import Clases from "./components/Clases";
+import Shop from "./components/Shop";
+import Lessons from "./components/Lessons";
 
 function App() {
   return (
     <React.Fragment>
       <NavBar />
-      <Route exact path={"/"} component={Funciones} />
-      <Route exact path={"/tienda"} component={Tienda} />
-      <Route exact path={"/clases"} component={Clases} />
+      <Route exact path={"/"} component={Shows} />
+      <Route exact path={"/Shop"} component={Shop} />
+      <Route exact path={"/Lessons"} component={Lessons} />
     </React.Fragment>
   );
 }
