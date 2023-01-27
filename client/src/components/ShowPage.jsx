@@ -1,9 +1,18 @@
 import React from 'react'
+import NavBar from "./NavBar"
 
 const ShowPage = () => {
   return (
-    <div>Funciones</div>
+    <div className="show-page__container">
+      <NavBar></NavBar>
+      <div className="show-page-container__banner"></div>
+
+      
+
+
+
+    </div>
   )
 }
 
-export default Funciones
+export default ShowPage
