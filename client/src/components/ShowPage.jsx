@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Funciones = () => {
+const ShowPage = () => {
   return (
     <div>Funciones</div>
   )
