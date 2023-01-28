@@ -15,6 +15,7 @@ function App() {
       <Route exact path={"/shows"} component={Shows} />
       <Route exact path={"/Shop"} component={Shop} />
       <Route exact path={"/Lessons"} component={Lessons} />
+
     </React.Fragment>
   );
 }
