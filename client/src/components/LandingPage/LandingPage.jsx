@@ -20,7 +20,7 @@ export default function LandingPage() {
                 <h3>Shows</h3>
             </div>        
         </Link>
-        <Link className="landingPage_link" to={'/Lessons'}>
+        <Link className="landingPage_link" to={'/'}>
             <div className="landingPage_cards_shows">
                 <img src={teaching} alt="clases de instrumentos" />
                 <h3>Clases</h3>
