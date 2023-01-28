@@ -10,9 +10,9 @@ function App() {
   return (
     <React.Fragment>
       <NavBar />
-      <Route exact path={"/"} component={Shows} />
-      <Route exact path={"/Shop"} component={Shop} />
-      <Route exact path={"/Lessons"} component={Lessons} />
+      {/* <Route exact path={"/"} component={Shows} /> */}
+      {/* <Route exact path={"/Shop"} component={Shop} />
+      <Route exact path={"/Lessons"} component={Lessons} /> */}
     </React.Fragment>
   );
 }
