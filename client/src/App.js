@@ -1,11 +1,14 @@
 import "./App.css";
 import React from "react";
+
 import { Route, Switch } from "react-router-dom";
 import Shows from "./components/Shows";
 import NavBar from "./components/NavBar";
 import Shop from "./components/Shop";
 import Lessons from "./components/Lessons";
-import LandingPage from "./components/LandingPage/LandingPage";
+
+import LandingPage from "./components/LandingPage/LandingPage"
+
 
 function App() {
   return (
