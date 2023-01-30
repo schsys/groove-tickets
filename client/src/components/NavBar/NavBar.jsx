@@ -30,8 +30,7 @@ const Navbar = () => {
               <div className="nav_username">{username}</div>
             ) : (
               <div className="nav_login_btns">
-                <button>REGISTRATE</button>
-                <button>INGRESAR</button>
+                 <Link to={"/micuenta"} className="navbar_menu_link">MI CUENTA</Link>
               </div>
             )}
           </div>
