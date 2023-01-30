@@ -14,9 +14,9 @@ const Navbar = () => {
               <Link to="/"><img className="navbar_logo_img" src={Logo} alt="" /></Link>
             </div>
             <div className={`nav_items ${isOpen && "open"}`}>
-              <Link to="/shows" className="navbar_menu_link">SHOWS</Link>
-              <Link to="/tienda" className="navbar_menu_link">TIENDA</Link>
-              <Link to="/clases" className="navbar_menu_link">CLASES</Link>
+              <Link to={"/shows"} className="navbar_menu_link">SHOWS</Link>
+              <Link to={"/shop"} className="navbar_menu_link">TIENDA</Link>
+              <Link to={"/lessons"} className="navbar_menu_link">CLASES</Link>
             </div>
             <div className={`nav_toggle ${isOpen && "open"}`} onClick={ () => setIsOpen(!isOpen)} >
                 <span></span>
