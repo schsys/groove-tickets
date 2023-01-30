@@ -11,16 +11,13 @@ import LandingPage from "./components/LandingPage/LandingPage";
 function App() {
   const { pathname } = useLocation();
   return (
-    <div className="App">
+    <Switch>
+      <Route exact path={"/"} component={LandingPage} />
       {pathname !== "/" ? <NavBar /> : null}
-      <NavBar />
-      <Switch>
-        <Route exact path={"/"} component={LandingPage} />
-        <Route exact path={"/shows"} component={Shows} />
-        <Route exact path={"/Shop"} component={Shop} />
-        <Route exact path={"/Lessons"} component={Lessons} />
-      </Switch>
-    </div>
+      <Route exact path={"/shows"} component={Shows} />
+      <Route exact path={"/shop"} component={Shop} />
+      <Route exact path={"/lessons"} component={Lessons} />
+    </Switch>
   );
 }
 
