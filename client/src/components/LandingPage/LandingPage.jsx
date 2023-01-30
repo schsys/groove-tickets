@@ -20,13 +20,13 @@ export default function LandingPage() {
                 <h3>Shows</h3>
             </div>        
         </Link>
-        <Link className="landingPage_link" to={'/'}>
+        <Link className="landingPage_link" to={'/lessons'}>
             <div className="landingPage_cards_shows">
                 <img src={teaching} alt="clases de instrumentos" />
                 <h3>Clases</h3>
             </div>
         </Link>
-        <Link className="landingPage_link" to={'/Shop'}>
+        <Link className="landingPage_link" to={'/shop'}>
             <div className="landingPage_cards_shows">
                 <img src={discs} alt="mira nuestros productos" />
                 <h3>Tienda</h3>
