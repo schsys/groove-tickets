@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Shows from "./components/Shows";
 import NavBar from "./components/NavBar";
 import Shop from "./components/Shop";
-import Lessons from "./components/Lessons";
+import Lessons from "./components/Lessons/Lessons";
 import LandingPage from "./components/LandingPage/LandingPage";
 
 function App() {
