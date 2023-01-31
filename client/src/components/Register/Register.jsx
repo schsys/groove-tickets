@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Register.css";
+import GoogleLogo from "./googleLogo.png";
 
 export default function Register() {
   const history = useHistory();
@@ -77,8 +78,9 @@ export default function Register() {
 
   return (
     <div className="register_section">
+      {/*SECTION TO REGISTER*/}
       <div className="register_container">
-        <h2 className="register_h2">REGISTRATE</h2>
+        <h2 className="register_h2">¿TODAVÍA NO SOS USUARIO?</h2>
         <form
           action="POST"
           onSubmit={(e) => handleSubmitRegister(e)}
@@ -127,6 +129,20 @@ export default function Register() {
             />
           </div>
           <div className="register_info_wraper">
+            <label className="register-form_label" htmlFor="phone">
+              Teléfono:
+            </label>
+            <input
+              className="register_section_input"
+              type="tel"
+              id="phone"
+              name="phone"
+              value={input.phone}
+              placeholder="Ingresá tu teléfono"
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="password">
               Contraseña:
             </label>
@@ -154,23 +170,11 @@ export default function Register() {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="register_info_wraper">
-            <label className="register-form_label" htmlFor="phone">
-              Teléfono:
-            </label>
-            <input
-              className="register_section_input"
-              type="tel"
-              id="phone"
-              name="phone"
-              value={input.phone}
-              placeholder="Ingresá tu teléfono"
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
           <div className="register_info_wraper_check">
             <label className="register-label_check" htmlFor="terms">
-              Aceptás los términos y condiciones:
+              <Link to={"./terms"} className="register_link_terms">
+                Aceptás los términos y condiciones:
+              </Link>
             </label>
             <input
               className="register-input_check"
@@ -190,6 +194,9 @@ export default function Register() {
         </form>
       </div>
 
+      <div className="sections_separation_div"></div>
+
+      {/*SECTION TO LOGIN*/}
       <div className="login_container">
         <h2 className="register_h2">INGRESÁ</h2>
         <form
@@ -231,6 +238,17 @@ export default function Register() {
             </button>
           </div>
         </form>
+        <Link className="link_recover_password">¿Olvidaste tu contraseña?</Link>
+        <div className="login_with_google">
+          <h3>O ingresá con tu cuenta de Google</h3>
+          <Link>
+            <img
+              className="login_with_google_logo"
+              src={GoogleLogo}
+              alt="logo de google"
+            />
+          </Link>
+        </div>
       </div>
     </div>
   );
