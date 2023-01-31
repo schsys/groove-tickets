@@ -39,7 +39,7 @@
     
 }
 
-.nav_login_btns button{
+.navbar_menu_link{
     margin: 0.75rem;
     color: white;
     position: relative;
@@ -50,19 +50,27 @@
     border: none;
 }
 
+.navbar_menu_link:hover{
+    color: #AFEF4B;
+    cursor: pointer;
+}
 
 .nav_btn_logged {
     display: flex;
     align-items: center;
-    justify-content: center;
     align-content: center;
-    fill: white;
 }
 
-#cart-icon {
-    color: #ff0000;
-    height: 3rem;
+#cart-icon_nav{
+    color: white;
+    transition: all 0.2s;
 }
+
+#cart-icon_nav:hover{
+    color: #AFEF4B;
+    cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
     .nav_items{

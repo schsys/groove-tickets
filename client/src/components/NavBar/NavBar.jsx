@@ -44,7 +44,7 @@ const Navbar = () => {
               </div>
               <div className="nav_cart_btn">
                 <Link to={"/carrito"} className="navbar_menu_link">
-                  <i id="cart-icon" className="fa-solid fa-cart-shopping" ></i>
+                  <i id="cart-icon_nav" className="fa-solid fa-cart-shopping" ></i>
                 </Link>
               </div>
             </div>
