@@ -50,6 +50,20 @@
     border: none;
 }
 
+
+.nav_btn_logged {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    fill: white;
+}
+
+#cart-icon {
+    color: #ff0000;
+    height: 3rem;
+}
+
 @media (max-width: 768px) {
     .nav_items{
         position: absolute;
