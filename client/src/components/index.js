@@ -1,0 +1,8 @@
+export {default as Footer} from "./Footer"
+export {default as LandingPage} from "./LandingPage"
+export {default as Lessons} from "./Lessons"
+export {default as NavBar} from "./NavBar"
+export {default as Register} from "./Register"
+export {default as SearchBar} from "./SearchBar"
+export {default as Shop} from "./Shop"
+export {default as Shows} from "./Shows"
