@@ -1,5 +1,4 @@
 import axios from "axios";
-import data from '../fakeData.json';
 
 export const SEARCH = "SEARCH";
 export const SET_ERROR = "SET_ERROR";
@@ -15,7 +14,9 @@ export const search = (name) => {
   return async function(dispatch) {
       try {
           // let info = await axios.get("https://pokemonapi-jzai.onrender.com/pokemons?name=" + name);
-          let info = await axios.get(data);
+
+          let info = await axios.get(data);     // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
+
           console.log(info);
           let searchRes = info.filter((e) => e.name === name);
           console.log(searchRes);
