@@ -1,11 +1,11 @@
 import {
-
   SET_ERROR,
-
-} from "../actions";
+  SEARCH,
+} from "./actions";
 
 const initialState = {
   error: false,
+  products: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -16,6 +16,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         error: payload,
+      };
+      
+    case SEARCH:
+      return {
+        ...state,
+          products: action.payload,
       };
 
     default:
