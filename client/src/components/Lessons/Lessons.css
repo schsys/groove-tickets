@@ -46,24 +46,6 @@ input {
   margin-bottom: 25px;
 }
 
-button {
-  margin-top: 10px;
-  margin-bottom: -20px;
-  background-color: #72cb10;
-  color: white;
-  font-style: italic;
-  line-height: 1.2em;
-  letter-spacing: 0.7px;
-  width: 100%;
-  padding: 10px 10px 10px 10px;
-  border-radius: 32px 32px 32px 32px;
-  cursor: pointer;
-  font-size: 18px;
-  box-shadow: 6px 6px 10px 0px rgb(0 10 10 / 40%);
-}
-button:hover {
-  background-color: #4a0126;
-}
 .card-container img {
   display: inline-block;
   width: 20%;
@@ -104,22 +86,6 @@ button:hover {
     width: 30%; /* valor en porcentaje */
     top: 10px;
     right: 10px;
-  }
-
-  button {
-    margin-top: 10px;
-    margin-bottom: -20px;
-    background-color: #72cb10;
-    color: white;
-    font-style: italic;
-    line-height: 1.2em;
-    letter-spacing: 0.7px;
-    width: 70%;
-    padding: 10px 10px 10px 10px;
-    border-radius: 32px 32px 32px 32px;
-    cursor: pointer;
-    font-size: 18px;
-    box-shadow: 6px 6px 10px 0px rgb(0 10 10 / 40%);
   }
 }
 
@@ -164,21 +130,6 @@ button:hover {
     width: 95%;
   }
 
-  button {
-    margin-top: 10px;
-    margin-bottom: -20px;
-    background-color: #72cb10;
-    color: white;
-    font-style: italic;
-    line-height: 1.2em;
-    letter-spacing: 0.7px;
-    width: 80%;
-    padding: 10px 10px 10px 10px;
-    border-radius: 32px 32px 32px 32px;
-    cursor: pointer;
-    font-size: 18px;
-    box-shadow: 6px 6px 10px 0px rgb(0 10 10 / 40%);
-  }
   .whatsapp {
     position: fixed;
     bottom: 30px;
