@@ -1,10 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SearchBar.css'
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as actions from "../../redux/actions";
 
-export default function Search() {
+function Search() {
+  const getData=()=>{
+    fetch('fakeData.json'
+    ,{
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    }
+    )
+      .then(function(response){
+        console.log(response)
+        return response.json();
+      })
+      .then(function(myJson) {
+        //console.log(myJson);
+        setData(myJson)
+      });
+  }
+  useEffect(()=>{
+    getData()
+  },[])
+
+  const [data, setData] = useState([]);
   const [name, setName] = useState("")
   const dispatch = useDispatch();
   const history = useHistory();
@@ -19,7 +42,7 @@ export default function Search() {
   function handleSearch(e) {
     e.preventDefault();
     console.log('products en search', products)
-    let findProduct = products.find((p) => p.name.toLowerCase() === name.toLowerCase()) //busca el nombre dentro de la array de products
+    let findProduct = data.find((p) => p.name.toLowerCase() === name.toLowerCase()) //busca el nombre dentro de la array de data
     console.log('findProduct en search', findProduct)
     if(!name){
       alert('Please, enter some name');
@@ -47,3 +70,5 @@ export default function Search() {
      
   )
 }
+
+export default Search;
