@@ -8,6 +8,7 @@ import Lessons from "./components/Lessons/Lessons";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Register from "./components/Register/Register";
 import Footer from "./components/Footer/Footer";
+import SearchTest from "./components/SearchBar/SearchTest";
 
 function App() {
   const { pathname } = useLocation();
@@ -20,6 +21,7 @@ function App() {
       <Route exact path={"/shop"} component={Shop} />
       <Route exact path={"/lessons"} component={Lessons} />
       <Route exact path={"/micuenta"} component={Register} />
+      <Route exact path={"/test"} component={SearchTest} />
     </React.Fragment>
   );
 }
