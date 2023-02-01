@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "locationId": 101,
+    "artistId": 201,
+    "name": "Artículo1",
+    "description": "Descripción del artículo 1",
+    "startDate": "2023-01-01",
+    "startTime": "10:00",
+    "stock": 20,
+    "price": 50
+  },
+  {
+    "id": 2,
+    "locationId": 102,
+    "artistId": 202,
+    "name": "Artículo 2",
+    "description": "Descripción del artículo 2",
+    "startDate": "2023-01-02",
+    "startTime": "11:00",
+    "stock": 15,
+    "price": 60
+  },
+  {
+    "id": 3,
+    "locationId": 103,
+    "artistId": 203,
+    "name": "Fotografía aérea",
+    "description": "Una fotografía aérea que captura la belleza de una ciudad desde una perspectiva única.",
+    "startDate": "2023-01-03",
+    "startTime": "12:00",
+    "stock": 25,
+    "price": 40
+  },
+  {
+    "id": 4,
+    "locationId": 104,
+    "artistId": 204,
+    "name": "Cuadro abstracto",
+    "description": "Un cuadro abstracto con una combinación de colores y formas únicas.",
+    "startDate": "2023-01-04",
+    "startTime": "13:00",
+    "stock": 30,
+    "price": 80
+  },
+  {
+    "id": 5,
+    "locationId": 105,
+    "artistId": 205,
+    "name": "Retrato al óleo",
+    "description": "Un retrato al óleo con un estilo tradicional y detallado.",
+    "startDate": "2023-01-05",
+    "startTime": "14:00",
+    "stock": 10,
+    "price": 90
+  },
+  {
+    "id": 6,
+    "locationId": 106,
+    "artistId": 206,
+    "name": "Escultura de bronce",
+    "description": "Una escultura de bronce con un diseño elegante y sofisticado.",
+    "startDate": "2023-01-06",
+    "startTime": "15:00",
+    "stock": 20,
+    "price": 100
+  },
+  {
+    "id": 7,
+    "locationId": 120,
+    "artistId": 220,
+    "name": "Artículo 7",
+    "description": "Descripción del artículo 7",
+    "startDate": "2023-01-20",
+    "startTime": "12:00",
+    "stock": 10,
+    "price": 70
+  }
+]
