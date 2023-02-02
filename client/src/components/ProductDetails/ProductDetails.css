@@ -1,5 +1,6 @@
 .container-details {
-  background-image: url("./FONDO_ILUS3.png");
+  background-image: url("./img.png");
+  background-color: black;
   position: absolute;
   top: auto;
   left: 0;
@@ -9,10 +10,13 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
-
+.global-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
 .product-container {
   margin-top: 25px;
-  width: 46.1%;
+  width: 100%;
   height: 340px;
   flex: 1;
   flex-wrap: wrap;
@@ -26,7 +30,7 @@
 
 .product-image {
   margin-top: 25px;
-  width: 49.9%;
+  width: 100%;
   flex: 1;
   flex-wrap: wrap;
   float: right;
