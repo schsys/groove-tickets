@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { search } from "../../redux/actions";
 import "./SearchBar.css";
@@ -9,7 +9,8 @@ function Search() {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  
+  const products = useSelector(state => state.products)
+
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
     e.preventDefault();
@@ -18,7 +19,7 @@ function Search() {
 
   function handleSearch(e) {
     e.preventDefault();
-    let findProduct = data.find(
+    let findProduct = products.find(
       (p) => p.name.toLowerCase() === name.toLowerCase()
     ); //busca el nombre dentro de la array de data
 
