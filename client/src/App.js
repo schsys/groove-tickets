@@ -15,6 +15,7 @@ function App() {
     <React.Fragment>
       <Route exact path={"/"} component={LandingPage} />
       {pathname !== "/" ? <NavBar /> : null}
+      {/* <Route path="/" component={Footer} /> */}
       <Route exact path={"/shows"} component={Shows} />
       <Route exact path={"/shop"} component={Shop} />
       <Route exact path={"/lessons"} component={Lessons} />

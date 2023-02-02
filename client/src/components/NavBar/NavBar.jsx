@@ -2,6 +2,8 @@ import Logo from "./LogoYazz.png";
 import React, { useState } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import Search from '../SearchBar/Search';
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,13 +35,14 @@ const Navbar = () => {
 
       <div className="nav_right">
         <div>
+          <Search />
           {loggedIn ? (
             <div className="nav_username">{username}</div>
           ) : (
             <div className="nav_btn_logged">
               <div className="nav_login_btns">
                 <Link to={"/micuenta"} className="navbar_menu_link">
-                  MI CUENTA
+                  INGRESAR
                 </Link>
               </div>
               <div className="nav_cart_btn">
