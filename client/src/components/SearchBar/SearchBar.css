@@ -1,280 +1,287 @@
 /*menos de 640*/
 @media (max-width: 640px) {
-    .searchContainer{
-        width: 8rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .searchContainer {
+    width: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    }
+  .searchBar {
+    height: 1rem;
+    width: 6rem;
+    border: none;
 
-    .searchBar{
-        height: 1rem;
-        width: 6rem;
-        border: none;
-        border-radius: 0.3rem;
-        padding-left: 0.2rem;
-        font-size: 600;
-        color: black;
-    }
+    padding-left: 0.2rem;
+    font-size: 600;
+    color: black;
+  }
 
-    .searchBar::placeholder{
-        padding-left: 0.2rem;
-        font-size: 0.6rem;
-    }
+  .btnSearch {
+    background: rgb(2, 0, 36);
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    appearance: none;
+    outline: none;
+    border: none;
+    font-size: 0.6rem;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+  }
 
-    .btnSearch{
-        background: rgb(2,0,36);
-        background: linear-gradient(138deg, rgba(2,0,36,1) 33%, rgba(255, 0, 0 ,1) 70%, rgba(227,108,255,1) 100%);
-        text-decoration: none;
-        font-weight: 600;
-        color: white;
-        appearance: none;
-        outline: none;
-        border: none;
-        font-size: 0.6rem;
-        border-radius: 50%;
-        position: relative;
-        width: 1rem;
-        height: 1rem;
-        cursor: pointer;
-        margin-left: 0.15rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.5s;
-    }
+  .dropDown {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
 
-    .btnSearch:hover{
-        background: rgb(2,0,26);
-        background: linear-gradient(100deg, rgba(2,0,36,1) 0%, rgba(255, 0, 0 ,1) 43%, rgba(227,108,255,1) 100%);
-    }
+  .dropDown :empty {
+    border: none;
+  }
 
-    .dropDown{
-        background-color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        flex-direction: column;
-    }
+  .divDrop {
+    cursor: pointer;
+    text-align: start;
+    margin: 0.15rem 0;
+  }
 
-    .dropDown :empty{
-        border: none;
-    }
-
-    .divDrop{
-        cursor: pointer;
-        text-align: start;
-        margin: 0.15rem 0;
-    }
-
-    .searchInner {
-        display: flex;
-    }
+  .searchInner {
+    display: flex;
+  }
 }
 
 /*de 640 a 768*/
 @media (min-width: 640px) {
-    .searchContainer{
-        width: 9rem;
-        display: flex;
-    }
+  .searchContainer {
+    width: 9rem;
+    display: flex;
+  }
 
-    .searchBar{
-        height: 1.4rem;
-        width: 7rem;
-        border: none;
-        border-radius: 0.3rem;
-        padding-left: 0.2rem;
-        font-size: 600;
-        color: black;
-    }
+  .searchBar {
+    height: 1.4rem;
+    width: 7rem;
+    border: none;
+    padding-left: 0.2rem;
+    font-size: 600;
+    color: black;
+  }
 
-    .searchBar::placeholder{
-        padding-left: 0.2rem;
-    }
+  .btnSearch {
+    background: rgb(2, 0, 36);
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    appearance: none;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    cursor: pointer;
+    margin-left: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+  }
 
-    .btnSearch{
-        background: rgb(2,0,36);
-        background: linear-gradient(138deg, rgba(2,0,36,1) 33%, rgba(255, 0, 0 ,1) 70%, rgba(227,108,255,1) 100%);
-        text-decoration: none;
-        font-weight: 600;
-        color: white;
-        appearance: none;
-        outline: none;
-        border: none;
-        font-size: 0.8rem;
-        border-radius: 50%;
-        position: relative;
-        width: 1.4rem;
-        height: 1.4rem;
-        cursor: pointer;
-        margin-left: 0.15rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.5s;
-    }
+  .dropDown {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
 
-    .btnSearch:hover{
-        background: rgb(2,0,26);
-        background: linear-gradient(100deg, rgba(2,0,36,1) 0%, rgba(255, 0, 0 ,1) 43%, rgba(227,108,255,1) 100%);
-    }
+  .dropDown :empty {
+    border: none;
+  }
 
-    .dropDown{
-        background-color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        flex-direction: column;
-    }
+  .divDrop {
+    cursor: pointer;
+    text-align: start;
+    margin: 0.15rem 0;
+  }
 
-    .dropDown :empty{
-        border: none;
-    }
-
-    .divDrop{
-        cursor: pointer;
-        text-align: start;
-        margin: 0.15rem 0;
-    }
-
-    .searchInner {
-        display: flex;
-    }
+  .searchInner {
+    display: flex;
+  }
 }
 
 /*de 768 a 1200*/
 @media (min-width: 768px) {
-    .searchContainer{
-        width: 9rem;
-        display: flex;
-    }
+  .searchContainer {
+    width: 9rem;
+    display: flex;
+  }
 
-    .searchBar{
-        height: 1.4rem;
-        width: 7rem;
-        border: none;
-        border-radius: 0.3rem;
-        padding-left: 0.2rem;
-        font-size: 600;
-        color: black;
-    }
+  .searchBar {
+    height: 1.4rem;
+    width: 7rem;
+    border: none;
+    padding-left: 0.2rem;
+    font-size: 600;
+    color: black;
+  }
 
-    .searchBar::placeholder{
-        padding-left: 0.2rem;
-    }
+  .searchBar::placeholder {
+    padding-left: 0.2rem;
+  }
 
-    .btnSearch{
-        background: rgb(2,0,36);
-        background: linear-gradient(138deg, rgba(2,0,36,1) 33%, rgba(255, 0, 0 ,1) 70%, rgba(227,108,255,1) 100%);
-        text-decoration: none;
-        font-weight: 600;
-        color: white;
-        appearance: none;
-        outline: none;
-        border: none;
-        font-size: 0.8rem;
-        border-radius: 50%;
-        position: relative;
-        width: 1.4rem;
-        height: 1.4rem;
-        cursor: pointer;
-        margin-left: 0.15rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.5s;
-    }
+  .btnSearch {
+    background: rgb(2, 0, 36);
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    appearance: none;
+    outline: none;
+    border: none;
+    font-size: 0.8rem;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    cursor: pointer;
+    margin-left: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+  }
 
-    .btnSearch:hover{
-        background: rgb(2,0,26);
-        background: linear-gradient(100deg, rgba(2,0,36,1) 0%, rgba(255, 0, 0 ,1) 43%, rgba(227,108,255,1) 100%);
-    }
+  .btnSearch:hover {
+    background: transparent;
+    background: linear-gradient(
+      100deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(255, 0, 0, 1) 43%,
+      rgba(227, 108, 255, 1) 100%
+    );
+  }
 
-    .dropDown{
-        background-color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        flex-direction: column;
-    }
+  .dropDown {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
 
-    .dropDown :empty{
-        border: none;
-    }
+  .dropDown :empty {
+    border: none;
+  }
 
-    .divDrop{
-        cursor: pointer;
-        text-align: start;
-        margin: 0.15rem 0;
-    }
+  .divDrop {
+    cursor: pointer;
+    text-align: start;
+    margin: 0.15rem 0;
+  }
 
-    .searchInner {
-        display: flex;
-    }
+  .searchInner {
+    display: flex;
+  }
 }
 
 /*MAS DE 1200*/
 @media (min-width: 1200px) {
-    .searchContainer{
-        width: 12rem;
-        display: flex;
-    }
+  .searchContainer {
+    width: 15rem;
+    display: flex;
+  }
 
-    .searchBar{
-        height: 1.8rem;
-        width: 10rem;
-        border: none;
-        border-radius: 0.3rem;
-        padding-left: 0.2rem;
-        font-size: 600;
-        color: black;
-    }
+  .searchBar {
+    height: 1.8rem;
+    width: 13rem;
+    border: none;
 
-    .searchBar::placeholder{
-        padding-left: 0.2rem;
-    }
+    padding-left: 0.2rem;
+    font-size: 600;
+    color: black;
+    margin-right: 0.5rem;
+  }
 
-    .btnSearch{
-        background: rgb(2,0,36);
-        background: linear-gradient(138deg, rgba(2,0,36,1) 33%, rgba(255, 0, 0 ,1) 70%, rgba(227,108,255,1) 100%);
-        text-decoration: none;
-        text-align: center;
-        font-weight: 600;
-        color: white;
-        appearance: none;
-        outline: none;
-        border: none;
-        font-size: 1rem;
-        border-radius: 50%;
-        position: relative;
-        width: 2rem;
-        height: 2rem;
-        cursor: pointer;
-        margin-left: 0.15rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.5s;
-    }
+  .searchBar::placeholder {
+    padding-left: 0.2rem;
+  }
 
-    .btnSearch:hover{
-        background: rgb(2,0,26);
-        background: linear-gradient(100deg, rgba(2,0,36,1) 0%, rgba(255, 0, 0 ,1) 43%, rgba(227,108,255,1) 100%);
-    }
+  .btnSearch {
+    background: transparent;
 
-    .dropDown{
-        background-color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        flex-direction: column;
-    }
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    appearance: none;
+    outline: none;
+    border: none;
+    font-size: 1rem;
 
-    .dropDown :empty{
-        border: none;
-    }
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+  }
 
-    .divDrop{
-        cursor: pointer;
-        text-align: start;
-        margin: 0.15rem 0;
-    }
+  .btnSearch:hover {
+    background: transparent;
+  }
 
-    .searchInner {
-        display: flex;
-    }
+  .dropDown {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropDown :empty {
+    border: none;
+  }
+
+  .divDrop {
+    cursor: pointer;
+    text-align: start;
+    margin: 0.15rem 0;
+  }
+
+  .searchInner {
+    display: flex;
+  }
+
+  .search_suggestion_div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search_inputSuggest {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .suggestionsList {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .suggestionsList_item {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.8rem;
+    cursor: pointer;
+  }
 }

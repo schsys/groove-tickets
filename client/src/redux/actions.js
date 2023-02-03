@@ -15,12 +15,9 @@ export function setError(payload) {
 export const search = (name) => {
   return async function (dispatch) {
     try {
-      // let info = await axios.get("https://pokemonapi-jzai.onrender.com/pokemons?name=" + name);
-
       let info = await axios.get(); // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
-
       console.log(info);
-      let searchRes = info.filter((e) => e.name === name);
+      let searchRes = info.filter((e) => e.name.includes(name));
       console.log(searchRes);
       return dispatch({
         type: "SEARCH",

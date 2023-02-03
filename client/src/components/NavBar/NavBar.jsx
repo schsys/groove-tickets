@@ -2,15 +2,14 @@ import Logo from "./LogoYazz.png";
 import React, { useState } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
-import Search from '../SearchBar/Search';
-
+import Search from "../SearchBar/Search";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
- return (
+  return (
     <div className="navbar">
       <div className="nav_logo">
         <Link to="/">
@@ -34,25 +33,23 @@ const Navbar = () => {
       </div>
 
       <div className="nav_right">
-        <div>
-          <Search />
-          {loggedIn ? (
-            <div className="nav_username">{username}</div>
-          ) : (
-            <div className="nav_btn_logged">
-              <div className="nav_login_btns">
-                <Link to={"/micuenta"} className="navbar_menu_link">
-                  INGRESAR
-                </Link>
-              </div>
-              <div className="nav_cart_btn">
-                <Link to={"/carrito"} className="navbar_menu_link">
-                  <i id="cart-icon_nav" className="fa-solid fa-cart-shopping" ></i>
-                </Link>
-              </div>
+        <Search />
+        {loggedIn ? (
+          <div className="nav_username">{username}</div>
+        ) : (
+          <div className="nav_btn_logged">
+            <div className="nav_login_btns">
+              <Link to={"/micuenta"} className="navbar_menu_link">
+                INGRESAR
+              </Link>
             </div>
-          )}
-        </div>
+            <div className="nav_cart_btn">
+              <Link to={"/carrito"} className="navbar_menu_link">
+                <i id="cart-icon_nav" className="fa-solid fa-cart-shopping"></i>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

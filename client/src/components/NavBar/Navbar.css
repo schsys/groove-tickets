@@ -33,10 +33,10 @@
 
 .nav_right{
     display: flex;
-    align-items: center;
-    justify-content: space-around;
     margin-right: 1.5rem;
-    
+    width: 45%;
+    justify-content: space-around;
+    align-content: space-between;
 }
 
 .navbar_menu_link{
@@ -110,5 +110,13 @@
     }
     .nav_toggle.open > span:nth-child(3){
         transform: rotate(-45deg) translate(-0.3rem, 1px);
+    }
+
+    .nav_right{
+        display: flex;
+        margin-right: 1.5rem;
+        width: 45%;
+        justify-content: space-around;
+        align-content: space-between;
     }
 }

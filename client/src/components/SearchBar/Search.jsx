@@ -5,7 +5,7 @@ import { search } from "../../redux/actions";
 import "./SearchBar.css";
 
 function Search() {
-
+  const [suggestions, setSuggestions] = useState([]);
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
@@ -15,12 +15,16 @@ function Search() {
     //setea el name con lo que va escribiendo el usuario
     e.preventDefault();
     setName(e.target.value);
+    let filteredProducts = products.filter(
+      (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setSuggestions(filteredProducts);
   }
 
   function handleSearch(e) {
     e.preventDefault();
     let findProduct = products.find(
-      (p) => p.name.toLowerCase() === name.toLowerCase()
+      (p) => p.name.toLowerCase().includes(name.toLowerCase()) 
     ); //busca el nombre dentro de la array de data
 
     if (!name) {
@@ -33,21 +37,41 @@ function Search() {
     } else if (!findProduct) {
       alert("That Product doesnt exist");
     }
-    setName(""); //vacia el input
+    setName("");
+    setSuggestions([]); //vacia el input
+  }
+
+  function handleSuggestionClick(id) {
+    history.push(`/products/${id}`);
   }
 
   return (
     <div className="searchContainer">
-      <input
-        className="searchBar"
-        type="text"
-        placeholder="Search by name"
-        onChange={(e) => handleInputChange(e)}
-        value={name}
-      />
+      <div className="search_inputSuggest">
+        <input
+          className="searchBar"
+          type="text"
+          placeholder="Search by name"
+          onChange={(e) => handleInputChange(e)}
+          value={name}
+        />
+       {suggestions.length > 0 && (
+      <div className="search_suggestion_div">
+        <ul className="suggestionsList">
+          {suggestions.slice(0, 10).map(s => (
+            <li className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.id)}>
+              {s.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+      </div>
       <button className="btnSearch" onClick={(e) => handleSearch(e)}>
         Buscar
       </button>
+      
     </div>
   );
 }
