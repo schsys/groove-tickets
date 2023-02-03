@@ -123,10 +123,24 @@
   font-weight: 1000;
   text-decoration: none;
   color: white;
+  /* alternativa de animacion */
+  animation: pulse 1s ease-in-out infinite;
 }
 
 .shows_cards-linkInfo:hover{
   color:var(--color-yellow)
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .shows__categories-title {
@@ -173,5 +187,21 @@
   .shows__cards-show1 {
     width: 80vw;
     height: 50vh;
+  }
+  .shows__cards-texth1{
+    font-size: 4vw;
+    padding-bottom: 1vh;
+  }
+
+  .shows__cards-texth2{
+    font-size: 3vw;
+  }
+
+  .shows__cards-texth3{
+    font-size: 2.6vw;
+  }
+
+  .shows_cards-linkInfo{
+    font-size: 9vw;
   }
 }

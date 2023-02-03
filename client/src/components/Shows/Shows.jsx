@@ -40,7 +40,9 @@ const Shows = () => {
   const formattedDate = (StartDate) => {
     const date = new Date(StartDate);
     const options = { weekday: "long", day: "numeric", month: "numeric" };
-    const formattedDate = date.toLocaleDateString("es-ES", options);
+    let formattedDate = date.toLocaleDateString("es-ES", options);
+    formattedDate = formattedDate.replace("/", ".");
+    formattedDate = formattedDate.replace(",", "");
 
     return formattedDate;
   };
