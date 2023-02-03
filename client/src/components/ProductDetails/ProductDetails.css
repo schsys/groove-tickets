@@ -15,7 +15,6 @@
   grid-template-columns: 50% 50%;
   margin-left: 2vw;
   margin-right: 2vw;
-
 }
 .product-container {
   margin-top: 25px;
@@ -58,6 +57,7 @@
   border: none;
   margin-right: 2%;
   margin-left: 2%;
+  cursor: pointer;
 }
 
 .product-button:hover {
@@ -75,6 +75,4 @@
   margin-bottom: 5vh;
   margin-right: 2vw;
   margin-left: 2vw;
-
 }
-

@@ -47,7 +47,9 @@ export const getProducts = () => {
 export const getProductById = (id) => {
   return async (dispatch) => {
     try {
-      const productById = await axios.get(`http://localhost:3001/products/${id}`);
+      const productById = await axios.get(
+        `http://localhost:3001/products/${id}`
+      );
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productById.data });
     } catch (error) {
       console.log(error);
