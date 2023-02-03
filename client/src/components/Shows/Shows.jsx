@@ -139,3 +139,6 @@ const Shows = () => {
       {/* FIN FILTRADO POR CATEGORIAS */}
       <Pagination shows={shows}/>
     </div>
+  )};
+
+  export default Shows;
