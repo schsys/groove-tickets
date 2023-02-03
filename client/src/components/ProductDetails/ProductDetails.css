@@ -13,6 +13,9 @@
 .global-container {
   display: grid;
   grid-template-columns: 50% 50%;
+  margin-left: 2vw;
+  margin-right: 2vw;
+
 }
 .product-container {
   margin-top: 25px;
@@ -41,8 +44,7 @@
 .product-button {
   clear: both;
   display: block;
-  margin: 0 auto;
-  width: 100%;
+  width: 96%;
   padding: 10px;
   background: #efa13c;
   color: white;
@@ -54,18 +56,25 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-style: normal;
   border: none;
+  margin-right: 2%;
+  margin-left: 2%;
 }
 
-button:hover {
+.product-button:hover {
   background-color: #72cb10;
 }
 
 .product-info {
-  display: block;
-  width: 97.35%;
+  /* display: block; */
+  /* width: 97.35%; */
   padding: 20px;
   text-align: left;
   background-color: rgba(49, 103, 144, 0.8);
   color: #ffffff;
   height: 200px;
+  margin-bottom: 5vh;
+  margin-right: 2vw;
+  margin-left: 2vw;
+
 }
+

@@ -1,19 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Pagination.css";
 
-const Pagination = ({ shows }) => {
+const Pagination = ({ products, handlePrev, handleNext, currentPage }) => {
   
-  // reeemplazar 12 por shows.length
-  const totalPages = Math.ceil(12 / 6);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePrev = () => {
-    setCurrentPage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    setCurrentPage(currentPage + 1);
-  };
+  // reeemplazar 12 por products.length
+  const totalPages = Math.ceil(products.length / 6);
+  
 
   return (
     <div className="shows__pagination-container">
@@ -36,3 +28,9 @@ const Pagination = ({ shows }) => {
 };
 
 export default Pagination;
+
+export const productIndex = (page, productsXPage) => {
+  const lastProduct = page * productsXPage;
+  const firstProduct = lastProduct - productsXPage;
+  return { lastProduct, firstProduct };
+};
