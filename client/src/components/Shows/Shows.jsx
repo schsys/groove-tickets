@@ -5,7 +5,6 @@ import Pagination, { productIndex } from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actions";
 import { Link } from "react-router-dom";
-import imagen from "./Resources/Show.jpg";
 import {filterProductsByDate} from "../../redux/actions"
 
 const Shows = () => {
@@ -64,7 +63,7 @@ const Shows = () => {
           onClick={() => {
             handleOrderByName(1)
           }}
-          >1 Día</button>
+          >1 DÍA</button>
           <button onClick={() => {
             handleOrderByName(7)
           }}>7 DÍAS</button>

@@ -41,15 +41,6 @@ const rootReducer = (state = initialState, action) => {
         products: action.payload,
       };
     case FILTER_PRODUCTS_BY_DATE:
-      const filteredDates = (day) => {
-        state.filteredProducts.filter((event) => {
-          let eventDate = new Date(event.StartDate);
-          let currentDate = new Date();
-          let difference = (eventDate - currentDate) / (1000 * 60 * 60 * 24);
-          return difference <= day;
-        });
-      };
-      console.log(state.filteredProducts);
       if (action.payload === 1) {
         return {
           ...state,
