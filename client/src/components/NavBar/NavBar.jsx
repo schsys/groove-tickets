@@ -10,7 +10,7 @@ const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
-  return (
+ return (
     <div className="navbar">
       <div className="nav_logo">
         <Link to="/">
