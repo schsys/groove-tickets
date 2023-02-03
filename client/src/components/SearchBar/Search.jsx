@@ -14,11 +14,11 @@ function Search() {
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
     e.preventDefault();
-    setName(e.target.value);
-    let filteredProducts = products.filter(
-      (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setSuggestions(filteredProducts);
+      setName(e.target.value);
+      let filteredProducts = products.filter(
+        (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSuggestions(filteredProducts);
   }
 
   function handleSearch(e) {
@@ -33,40 +33,41 @@ function Search() {
     
     if (findProduct) {
       dispatch(search(name)); //si lo encuentra se dispara la accion ####
-      history.push(`/products/${findProduct.id}`); //despues redirige para ver el detalle
+      history.push(`/product/${findProduct.id}`); //despues redirige para ver el detalle
+      // console.log(findProduct);
     } else if (!findProduct) {
       alert("That Product doesnt exist");
     }
-    setName("");
-    setSuggestions([]); //vacia el input
+    setName("");//vacia el input
+    setSuggestions([]); 
   }
 
   function handleSuggestionClick(id) {
-    history.push(`/products/${id}`);
+    history.push(`/product/${id}`);
+    setName("");//vacia el input
+    setSuggestions([]); 
   }
 
   return (
     <div className="searchContainer">
       <div className="search_inputSuggest">
         <input
+          id="search"
           className="searchBar"
           type="text"
           placeholder="Search by name"
           onChange={(e) => handleInputChange(e)}
           value={name}
         />
-       {suggestions.length > 0 && (
-      <div className="search_suggestion_div">
-        <ul className="suggestionsList">
-          {suggestions.slice(0, 10).map(s => (
-            <li className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.id)}>
+        <div className="search_suggestion_div">
+        <datalist className="suggestionsList">
+          {suggestions.slice(0, 10).map(s => ( //shows just 10 suggestions
+            <option className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.id)}>
               {s.name}
-            </li>
+            </option>
           ))}
-        </ul>
+        </datalist>
       </div>
-    )}
-
       </div>
       <button className="btnSearch" onClick={(e) => handleSearch(e)}>
         Buscar

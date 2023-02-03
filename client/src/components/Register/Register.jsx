@@ -49,7 +49,6 @@ export default function Register() {
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-    //dispatch(actions.createPokemon(input));
     console.log("form register submited");
     setInput({
       //resetea el estado del input
@@ -61,19 +60,18 @@ export default function Register() {
       phone: 0,
       terms: false,
     });
-    history.push("/"); //despues redirige para ver todos los poke
+    history.push("/"); //despues redirige para ver todos los shows
   };
 
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-    //dispatch(actions.createPokemon(input));
     console.log("form login submited");
     setInput({
       //resetea el estado del input
       email: "",
       password: "",
     });
-    history.push("/"); //despues redirige para ver todos los poke
+    history.push("/"); //despues redirige para ver todo
   };
 
   return (
