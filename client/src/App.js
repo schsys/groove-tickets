@@ -20,7 +20,7 @@ function App() {
       <Route exact path={"/shop"} component={Shop} />
       <Route exact path={"/lessons"} component={Lessons} />
       <Route exact path={"/micuenta"} component={Register} />
-      <Route exact path={"/product"} component={product} />
+      <Route exact path={"/product/:id"} component={product} />
     </React.Fragment>
   );
 }

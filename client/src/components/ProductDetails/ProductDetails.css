@@ -12,7 +12,7 @@
 }
 .global-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 50% 50%;
 }
 .product-container {
   margin-top: 25px;
@@ -67,4 +67,5 @@ button:hover {
   text-align: left;
   background-color: rgba(49, 103, 144, 0.8);
   color: #ffffff;
+  height: 200px;
 }
