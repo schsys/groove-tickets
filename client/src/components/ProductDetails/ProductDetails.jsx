@@ -1,3 +1,4 @@
+detalles-de-un-producto-individual
 import React from "react";
 import { useEffect } from "react";
 import "./ProductDetails.css";
@@ -9,10 +10,13 @@ import { useParams } from "react-router-dom";
 export default function ProductDetails() {
   const { id } = useParams();
   const product = useSelector((state) => state.product);
+
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProductById(id));
+ detalles-de-un-producto-individual
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -20,6 +24,7 @@ export default function ProductDetails() {
   const date = new Date(product.StartDate);
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
+
 
   return (
     <div className="container-details">
@@ -37,6 +42,7 @@ export default function ProductDetails() {
           </p>
           <p>
             <i className="fas fa-clock"></i> {product.StartTime} horas
+               detalles-de-un-producto-individual
             {/*  <p>
               <i className="fas fa-music"></i> Músicos: {product.Artist.Name}
             </p> */}
@@ -46,7 +52,9 @@ export default function ProductDetails() {
             <p>
               <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
               {product.Location.Address}
+              detalles-de-un-producto-individual
             </p> */}
+
           </p>
           <h2>Precio: ${product.Price}</h2>
         </div>
