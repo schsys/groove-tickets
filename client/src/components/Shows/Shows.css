@@ -48,13 +48,20 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.shows__filter-box div {
+.shows__filter-box button {
+  background-color: inherit;
+  color: inherit;
   border: 1px solid white;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: medium;
+}
+
+.shows__filter-box button:hover{
+  color:var(--color-yellow)
 }
 
 .shows__cards-container {
@@ -64,6 +71,7 @@
   margin-bottom: 5vh;
   margin-left: 2vw;
 }
+
 
 .shows__cards-box1 {
   width: 30vw;
@@ -148,4 +156,22 @@
   align-items: center;
   height: 5vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 992px) {
+  .shows__cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .shows__cards-box1 {
+    width: 80vw;
+  }
+  
+  .shows__cards-show1 {
+    width: 80vw;
+    height: 50vh;
+  }
 }
