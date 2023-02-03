@@ -116,7 +116,7 @@ const Shows = () => {
             <h1 className="shows__cards-texth1">Los Carlitos</h1>
             <h2 className="shows__cards-texth2">Jueves 2.12</h2>
             <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
+            <a href={`product/:id`} className="shows_cards-linkInfo">
               +
             </a>
           </div>
