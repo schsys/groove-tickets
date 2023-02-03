@@ -1,5 +1,6 @@
 import React from "react";
 import "./ProductDetails.css";
+import Footer from "../Footer/Footer";
 
 const data = {
   id: 1,
@@ -87,6 +88,7 @@ export default function ProductDetails() {
         <h4>Descripción:</h4>
         <p>{data.Description}</p>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,13 +1,39 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Shows.css";
 import banner from "./Resources/banner.shows.fw.png";
-import imageShow1 from "./Resources/Show.jpg";
-import Pagination from "../Pagination/Pagination";
-import { useSelector } from "react-redux";
+import Pagination, { productIndex } from "../Pagination/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../redux/actions";
+import { Link } from "react-router-dom";
+import imagen from "./Resources/Show.jpg";
 
 const Shows = () => {
-  const shows = useSelector((state) => state.shows);
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrev = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const { lastProduct, firstProduct } = productIndex(currentPage, 6);
+
+  const formattedDate = (StartDate) => {
+    const date = new Date(StartDate);
+    const options = { weekday: "long", day: "numeric", month: "numeric" };
+    const formattedDate = date.toLocaleDateString("es-ES", options);
+
+    return formattedDate;
+  };
 
   return (
     <div className="shows__background-container">
@@ -31,96 +57,62 @@ const Shows = () => {
       {/*FIN FILTRADO  POR FECHAS*/}
 
       <div className="shows__cards-container">
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
-              +
-            </a>
+        {Array.isArray(products) === false ? (
+          <div className="shows__cards-box1">
+            <img
+              src={products.Photos[0].Path}
+              alt="imagen show1"
+              className="shows__cards-show1"
+            />
+            <div className="shows__cards-textContainer">
+              <h1 className="shows__cards-texth1">{products.name}</h1>
+              <h2 className="shows__cards-texth2">
+                {formattedDate(products.StartDate).replace(/^\w/, (c) =>
+                  c.toUpperCase()
+                )}
+              </h2>
+              <h3 className="shows__cards-texth3">
+                {products.StartTime.slice(0, 2)}
+              </h3>
+              <Link
+                to={`product/${products.id}`}
+                className="shows_cards-linkInfo"
+              >
+                +
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
-              +
-            </a>
-          </div>
-        </div>
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
-              +
-            </a>
-          </div>
-        </div>
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
-              +
-            </a>
-          </div>
-        </div>
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href="shows/id" className="shows_cards-linkInfo">
-              +
-            </a>
-          </div>
-        </div>
-        <div className="shows__cards-box1">
-          <img
-            src={imageShow1}
-            alt="imagen show1"
-            className="shows__cards-show1"
-          />
-          <div className="shows__cards-textContainer">
-            <h1 className="shows__cards-texth1">Los Carlitos</h1>
-            <h2 className="shows__cards-texth2">Jueves 2.12</h2>
-            <h3 className="shows__cards-texth3">20 hs</h3>
-            <a href={`product/:id`} className="shows_cards-linkInfo">
-              +
-            </a>
-          </div>
-        </div>
+        ) : (
+          products?.slice(firstProduct, lastProduct).map((product) => {
+            return (
+              <div className="shows__cards-box1">
+                <img
+                  // src={imagen}
+                  src={product.Photos[0].Path}
+                  alt="imagen show1"
+                  className="shows__cards-show1"
+                />
+                <div className="shows__cards-textContainer">
+                  <h1 className="shows__cards-texth1">{product.name}</h1>
+                  <h2 className="shows__cards-texth2">
+                    {formattedDate(product.StartDate).replace(/^\w/, (c) =>
+                      c.toUpperCase()
+                    )}
+                  </h2>
+                  <h3 className="shows__cards-texth3">
+                    {product.StartTime.slice(0, 2)} Horas
+                  </h3>
+                  <Link
+                    to={`product/${product.id}`}
+                    className="shows_cards-linkInfo"
+                  >
+                    +
+                  </Link>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
 
       {/* TRABAJAR FILTRADO POR CATEGORIAS */}
@@ -137,8 +129,14 @@ const Shows = () => {
       </div>
 
       {/* FIN FILTRADO POR CATEGORIAS */}
-      <Pagination shows={shows}/>
+      <Pagination
+        products={products}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        currentPage={currentPage}
+      />
     </div>
-  )};
+  );
+};
 
-  export default Shows;
+export default Shows;
