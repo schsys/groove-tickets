@@ -5,11 +5,20 @@ import Pagination, { productIndex } from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actions";
 import { Link } from "react-router-dom";
-import imagen from "./Resources/Show.jpg";
+import {filterProductsByDate} from "../../redux/actions"
 
 const Shows = () => {
+  const [input, setInput] = useState("");
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
+
+  // PARA FILTRADO POR FECHA
+  const handleOrderByName = (day) => {
+    dispatch(filterProductsByDate(day));
+    setInput(day);
+    setCurrentPage(1);
+  };
+  //
 
   useEffect(() => {
     dispatch(getProducts());
@@ -30,7 +39,9 @@ const Shows = () => {
   const formattedDate = (StartDate) => {
     const date = new Date(StartDate);
     const options = { weekday: "long", day: "numeric", month: "numeric" };
-    const formattedDate = date.toLocaleDateString("es-ES", options);
+    let formattedDate = date.toLocaleDateString("es-ES", options);
+    formattedDate = formattedDate.replace("/", ".");
+    formattedDate = formattedDate.replace(",", "");
 
     return formattedDate;
   };
@@ -48,9 +59,17 @@ const Shows = () => {
       </div>
       <div className="shows__filter-datescontainer">
         <div className="shows__filter-box">
-          <div>24 HS</div>
-          <div>7 DÍAS</div>
-          <div>14 DÍAS</div>
+          <button 
+          onClick={() => {
+            handleOrderByName(1)
+          }}
+          >1 DÍA</button>
+          <button onClick={() => {
+            handleOrderByName(7)
+          }}>7 DÍAS</button>
+          <button onClick={() => {
+            handleOrderByName(15)
+          }}>15 DÍAS</button>
         </div>
       </div>
 

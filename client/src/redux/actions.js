@@ -4,6 +4,7 @@ export const SEARCH = "SEARCH";
 export const SET_ERROR = "SET_ERROR";
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
+export const FILTER_PRODUCTS_BY_DATE = "FILTER_PRODUCTS_BY_DATE";
 
 export function setError(payload) {
   return {
@@ -52,5 +53,12 @@ export const getProductById = (id) => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+export const filterProductsByDate = (day) => {
+  return {
+      type: FILTER_PRODUCTS_BY_DATE,
+      payload: day,
   };
 };
