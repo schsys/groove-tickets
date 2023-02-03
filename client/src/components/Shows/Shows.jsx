@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./Shows.css";
 import banner from "./Resources/banner.shows.fw.png";
@@ -138,7 +139,3 @@ const Shows = () => {
       {/* FIN FILTRADO POR CATEGORIAS */}
       <Pagination shows={shows}/>
     </div>
-  );
-};
-
-export default Shows;

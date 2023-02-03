@@ -1,45 +1,63 @@
 import Logo from "./LogoYazz.png";
-import React, {useState} from "react";
-import "./Navbar.css"
+import React, { useState } from "react";
+import "./Navbar.css";
 import { Link } from "react-router-dom";
+import Search from '../SearchBar/Search';
+
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [username, setUsername] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
-    return(
-        <div className="navbar">
-            <div className="nav_logo">
-              <Link to="/"><img className="navbar_logo_img" src={Logo} alt="" /></Link>
-            </div>
-            <div className={`nav_items ${isOpen && "open"}`}>
-              <Link to={"/shows"} className="navbar_menu_link">SHOWS</Link>
-              <Link to={"/shop"} className="navbar_menu_link">TIENDA</Link>
-              <Link to={"/lessons"} className="navbar_menu_link">CLASES</Link>
-            </div>
-            <div className={`nav_toggle ${isOpen && "open"}`} onClick={ () => setIsOpen(!isOpen)} >
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+ return (
+    <div className="navbar">
+      <div className="nav_logo">
+        <Link to="/">
+          <img className="navbar_logo_img" src={Logo} alt="" />
+        </Link>
+      </div>
+      <div className={`nav_items ${isOpen && "open"}`}>
+        <Link to={"/shows"} className="navbar_menu_link">
+          SHOWS
+        </Link>
+        {/* <Link to={"/shop"} className="navbar_menu_link">TIENDA</Link>
+              <Link to={"/lessons"} className="navbar_menu_link">CLASES</Link> */}
+      </div>
+      <div
+        className={`nav_toggle ${isOpen && "open"}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-            <div className="nav_right">
-          <div>
-            {loggedIn ? (
-              <div className="nav_username">{username}</div>
-            ) : (
+      <div className="nav_right">
+        <div>
+          <Search />
+          {loggedIn ? (
+            <div className="nav_username">{username}</div>
+          ) : (
+            <div className="nav_btn_logged">
               <div className="nav_login_btns">
-                <button>REGISTRATE</button>
-                <button>INGRESAR</button>
+                <Link to={"/micuenta"} className="navbar_menu_link">
+                  INGRESAR
+                </Link>
               </div>
-            )}
-          </div>
+              <div className="nav_cart_btn">
+                <Link to={"/carrito"} className="navbar_menu_link">
+                  <i id="cart-icon_nav" className="fa-solid fa-cart-shopping" ></i>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
-        </div>
-    )
-}
-export default Navbar
+      </div>
+    </div>
+  );
+};
+export default Navbar;
 
 /*import Logo from "./LogoYazz.png";
 import React, { useEffect, useState } from "react";

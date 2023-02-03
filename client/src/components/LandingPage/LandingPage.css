@@ -1,7 +1,7 @@
 .landindPage_section{
     background-image: url(bg01.png);
     width: 100%;
-    height: 100vh;
+    height: 97.5vh;
     overflow:hidden;
     background-size:cover;
     display: flex;
@@ -12,27 +12,28 @@
 }
 
 .landingPage_titles{
-   height: 30vh;
+   height: 20vh;
 }
 
 .landingPage_titles_h1{
     font-size: 3rem;
-    color: white;
+    color: rgb(255, 255, 255);
     text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
 }
 
-.landingPage_titles_h2{
-    font-size: 2.2rem;
-    color: white;
-}
-
-.landingPage_cards{
+/* .landingPage_cards{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 2.5rem;
-    width: 100%;
-    
+    width: 100%; 
 }
+*/
+.landingPage_cards{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 .landingPage_titles, .landingPage_link, .landingPage_cards_shows{
     display: flex;
@@ -56,7 +57,7 @@
 .landingPage_cards_shows img {
     width: 100%;
     height: auto;
-    opacity: 0.88;
+    opacity: 0.92;
 }
 
 .landingPage_cards_shows h3 {
@@ -66,6 +67,6 @@
     transform: translate(-50%, -50%);
     color: #3773A1;
     text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
-    font-size: 2rem;
+    font-size: 4rem;
     z-index: 10;
 }
