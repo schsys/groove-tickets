@@ -4,12 +4,43 @@ import { useHistory } from "react-router-dom";
 import { search } from "../../redux/actions";
 import "./SearchBar.css";
 
+import Swal from 'sweetalert2';
+import Error_Search from './Error_Search.jpg'
+
 function Search() {
   const [suggestions, setSuggestions] = useState([]);
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const products = useSelector(state => state.products)
+
+  const showAlertNoEnter=()=> {
+    Swal.fire({
+      //icon:'warning',
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: 'Hubo un error en la búsqueda.',
+      title: 'Buscador de Yazz', 
+      html:'<h3>Por favor, ingresá un nombre</p>', 
+      footer:'<p>Probá de nuevo.</p>'
+    }
+    )
+  }
+
+  const showAlertNoName=()=> {
+    Swal.fire({
+      //icon:'warning',
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: 'Hubo un error en la búsqueda.',
+      title: 'Buscador de Yazz', 
+      html:'<h3>Esa banda no tiene ningún show programado</p>', 
+      footer:'<p>Probá con otra banda.</p>'
+    }
+    )
+  }
 
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
@@ -28,7 +59,8 @@ function Search() {
     ); //busca el nombre dentro de la array de data
 
     if (!name) {
-      alert("Please, enter some name");
+      showAlertNoEnter();
+      return;
     }
     
     if (findProduct) {
@@ -36,7 +68,7 @@ function Search() {
       history.push(`/product/${findProduct.id}`); //despues redirige para ver el detalle
       // console.log(findProduct);
     } else if (!findProduct) {
-      alert("That Product doesnt exist");
+      showAlertNoName();
     }
     setName("");//vacia el input
     setSuggestions([]); 
