@@ -21,7 +21,6 @@ export default function ProductDetails() {
   const date = new Date(product.StartDate);
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
-
   return (
     <div className="container-details">
       <div className="global-container">
