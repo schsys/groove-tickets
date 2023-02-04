@@ -14,7 +14,7 @@ function App() {
       <Route exact path={"/"} component={LandingPage} />
       {pathname !== "/" ? <NavBar /> : null}
       <Route exact path={"/shows"} component={Shows} />
-      <Route path={"/product/:id"}>
+      <Route path="/product/:id">
         <ProductDetails />
       </Route>
       {pathname !== "/" ? <Footer /> : null}

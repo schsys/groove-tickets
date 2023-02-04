@@ -1,5 +1,5 @@
 .container-details {
-  background-image: url("./img.png");
+  background-image: url("./Background.png");
   background-color: black;
   position: absolute;
   top: auto;
@@ -15,8 +15,8 @@
   grid-template-columns: 50% 50%;
   margin-left: 2vw;
   margin-right: 2vw;
-
 }
+
 .product-container {
   margin-top: 25px;
   width: 100%;
@@ -58,6 +58,7 @@
   border: none;
   margin-right: 2%;
   margin-left: 2%;
+  cursor: pointer;
 }
 
 .product-button:hover {
@@ -75,6 +76,4 @@
   margin-bottom: 5vh;
   margin-right: 2vw;
   margin-left: 2vw;
-
 }
-

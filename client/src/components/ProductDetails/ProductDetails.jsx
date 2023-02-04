@@ -1,60 +1,22 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { getProductById } from "../../redux/actions";
+import React from "react";
+import { useEffect } from "react";
 import "./ProductDetails.css";
-// const data = {
-//   id: 1,
-//   name: "Symphony Serenade Return",
-//   Description:
-//     "Bienvenidos al concierto de música clásica del trío Symphony Serenade. Esta noche, tendremos la oportunidad de escuchar algunos de los compositores más famosos de todos los tiempos, como Beethoven, Mozart y Tchaikovsky",
-//   StartDate: "2023-03-02",
-//   EndDate: "2023-03-02",
-//   Stock: 500,
-//   Price: "1500.00",
-//   StartTime: "12:00:00",
-//   Status: "Active",
-//   Photos: [
-//     {
-//       Id: 1,
-//       Path: "https://res.cloudinary.com/dfuozesaq/image/upload/v1675357471/HenryMusic/clasica5_hb1l2j.jpg",
-//     },
-//   ],
-//   Categories: [
-//     {
-//       Id: 1,
-//       Name: "Clásica",
-//       CategoryProduct: {
-//         id: 1,
-//         categoryId: 1,
-//         productId: 1,
-//         ProductId: 1,
-//         CategoryId: 1,
-//       },
-//     },
-//   ],
-//   Artist: {
-//     Id: 1,
-//     Name: "Symphony Serenade",
-//   },
-//   Location: {
-//     Id: 1,
-//     Name: "Yazz concert club",
-//     Address: "Av. san Martin 4567",
-//     Coordinates: null,
-//   },
-// };
+import Footer from "../Footer/Footer";
+import { useSelector, useDispatch } from "react-redux";
+import { getProductById } from "../../redux/actions";
+import { useParams } from "react-router-dom";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  console.log("hola", id);
   const product = useSelector((state) => state.product);
-  console.log("Product", product);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProductById(id));
-  }, [dispatch, id]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const date = new Date(product.StartDate);
   const options = { weekday: "long", day: "numeric", month: "numeric" };
@@ -65,32 +27,68 @@ export default function ProductDetails() {
         <div className="product-container">
           <h2>{product.name};</h2>
           <span>
-            <i className="fa fa-star">5</i>
+            <i className="fa fa-star"></i>
+            <i className="fa fa-star"></i>
+            <i className="fa fa-star"></i>
+            <i className="fa fa-star"></i>
           </span>
-          <p>
-            <i className="fas fa-calendar"></i> {formattedDate}
-          </p>
-          <p>
+
+          <>
+            <p>
+              <i className="fas fa-calendar"></i> {formattedDate}
+            </p>
+          </>
+
+          <>
             <i className="fas fa-clock"></i> {product.StartTime} horas
-            <p>
-              <i className="fas fa-music"></i> Músicos: {product.Artist.Name}
-            </p>
-            {/*   <p>
-              <i className="fas fa-tag"></i> {data.Categories}
-            </p> */}
-            <p>
-              <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
-              {product.Location.Address}
-            </p>
-          </p>
-          <h2>Precio: ${product.Price}</h2>
+          </>
+
+          <>
+            {product.Artist && Object.keys(product.Artist).length > 0 ? (
+              <p>
+                <i className="fas fa-music"></i> Músico: {product.Artist.Name}
+              </p>
+            ) : (
+              <p>Músico no disponible</p>
+            )}
+          </>
+
+          <>
+            {product.Categories && product.Categories.length > 0 ? (
+              <p>
+                {" "}
+                <i className="fas fa-tag"></i> {product.Categories[0].Name}
+              </p>
+            ) : (
+              <p>No hay categorías disponibles</p>
+            )}
+          </>
+          <>
+            {product.Location && Object.keys(product.Location).length > 0 ? (
+              <p>
+                <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
+                {product.Location.Name}
+                {" -"} {product.Location.Address}
+              </p>
+            ) : (
+              <p>No hay ubicación disponible</p>
+            )}
+          </>
+          <>
+            <h2>Precio: ${product.Price}</h2>
+          </>
         </div>
+
         <div className="image-container">
-          <img
-            src={product.Photos[0].Path}
-            alt="product"
-            className="product-image"
-          />
+          {product.Photos && product.Photos.length > 0 ? (
+            <img
+              src={product.Photos[0].Path}
+              alt="product"
+              className="product-image"
+            />
+          ) : (
+            <p>No hay imágenes disponibles</p>
+          )}
         </div>
       </div>
       <button className="product-button">Comprar</button>
@@ -98,6 +96,7 @@ export default function ProductDetails() {
         <h4>Descripción:</h4>
         <p>{product.Description}</p>
       </div>
+      <Footer />
     </div>
   );
 }
