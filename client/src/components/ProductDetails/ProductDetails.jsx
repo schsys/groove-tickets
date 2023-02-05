@@ -22,9 +22,9 @@ export default function ProductDetails() {
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
   return (
-    <div className="container-details">
-      <div className="global-container">
-        <div className="product-container">
+    <div className="container_details">
+      <div className="global_container">
+        <div className="product_container">
           <h2>{product.name};</h2>
           <span>
             <i className="fa fa-star"></i>
@@ -79,20 +79,20 @@ export default function ProductDetails() {
           </>
         </div>
 
-        <div className="image-container">
+        <div className="image_container">
           {product.Photos && product.Photos.length > 0 ? (
             <img
               src={product.Photos[0].Path}
               alt="product"
-              className="product-image"
+              className="product_image"
             />
           ) : (
             <p>No hay imágenes disponibles</p>
           )}
         </div>
       </div>
-      <button className="product-button">Comprar</button>
-      <div className="product-info">
+      <button className="product_button">Comprar</button>
+      <div className="product_info">
         <h4>Descripción:</h4>
         <p>{product.Description}</p>
       </div>
