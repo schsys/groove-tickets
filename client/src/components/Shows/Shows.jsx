@@ -9,6 +9,7 @@ import { filterProducts } from "../../redux/actions";
 
 // para ver si aplica cambios en main
 
+
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -23,6 +24,7 @@ const Shows = () => {
     formattedDate = formattedDate.replace(",", "");
 
     return formattedDate;
+
   };
 
   function countCategories(arr, name) {
@@ -64,6 +66,7 @@ const Shows = () => {
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
   };
+
 
   //
 

@@ -1,51 +1,78 @@
 import React, { useState } from "react";
+import "./SearchBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { search } from "../../redux/actions";
-import "./SearchBar.css";
+import * as actions from "../../redux/actions";
+
+import Swal from 'sweetalert2';
+import Error_Search from './Error_Search.jpg'
 
 function Search() {
   const [suggestions, setSuggestions] = useState([]);
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const products = useSelector(state => state.products)
+  const filteredProducts = useSelector(state => state.products)
+
+  const showAlertNoEnter=()=> {
+    Swal.fire({
+      //icon:'warning',
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: 'Hubo un error en la búsqueda.',
+      title: 'Buscador de Yazz', 
+      html:'<h3>Por favor, ingresá un nombre</p>', 
+      footer:'<p>Probá de nuevo.</p>'
+    }
+    )
+  }
+
+  const showAlertNoName=()=> {
+    Swal.fire({
+      //icon:'warning',
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: 'Hubo un error en la búsqueda.',
+      title: 'Buscador de Yazz', 
+      html:'<h3>Esa banda no tiene ningún show programado</p>', 
+      footer:'<p>Probá con otra banda.</p>'
+    }
+    )
+  }
 
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
-    e.preventDefault();
+   // e.preventDefault();
       setName(e.target.value);
-      let filteredProducts = products.filter(
-        (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
+      let filtered = filteredProducts.filter(
+      (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
       );
-      setSuggestions(filteredProducts);
+      setSuggestions(filtered);
   }
 
   function handleSearch(e) {
     e.preventDefault();
-    let findProduct = products.find(
-      (p) => p.name.toLowerCase().includes(name.toLowerCase()) 
-    ); //busca el nombre dentro de la array de data
-
-    if (!name) {
-      alert("Please, enter some name");
+      if (!name) {
+      showAlertNoEnter();
+      return;
     }
-    
-    if (findProduct) {
-      dispatch(search(name)); //si lo encuentra se dispara la accion ####
-      history.push(`/product/${findProduct.id}`); //despues redirige para ver el detalle
-      // console.log(findProduct);
-    } else if (!findProduct) {
-      alert("That Product doesnt exist");
-    }
+   
+    dispatch(actions.search(name));
     setName("");//vacia el input
     setSuggestions([]); 
+    history.push("/shows");
+   
   }
 
-  function handleSuggestionClick(id) {
-    history.push(`/product/${id}`);
-    setName("");//vacia el input
+  function handleSuggestionClick(name) {
+    //history.push(`/product/${id}`);
+//    history.push("/shows");
+     dispatch(actions.search(name));
+     setName("");//vacia el input
     setSuggestions([]); 
+     history.push("/shows");
   }
 
   return (
@@ -55,14 +82,14 @@ function Search() {
           id="search"
           className="searchBar"
           type="text"
-          placeholder="Search by name"
+          placeholder="Buscar por nombre"
           onChange={(e) => handleInputChange(e)}
           value={name}
         />
         <div className="search_suggestion_div">
         <datalist className="suggestionsList">
           {suggestions.slice(0, 10).map(s => ( //shows just 10 suggestions
-            <option className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.id)}>
+            <option className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.name)}>
               {s.name}
             </option>
           ))}
@@ -78,3 +105,41 @@ function Search() {
 }
 
 export default Search;
+
+/*import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+const SearchBar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
+
+  const handleSearch = () => {
+    dispatch({ type: 'SEARCH_SHOWS', payload: searchTerm });
+  };
+
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <div>
+      <input type="text" value={searchTerm} onChange={handleChange} />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
+};
+
+const Shows = () => {
+  const shows = useSelector(state => state.shows);
+
+  return (
+    <div>
+      {shows.map(show => (
+        <ShowCard key={show.id} show={show} />
+      ))}
+    </div>
+  );
+};
+
+export default Shows;
+*/
