@@ -43,7 +43,7 @@ const rootReducer = (state = initialState, action) => {
         error: payload,
       };
 
-    case FILTERED_PRODUCTS:
+    case FILTER_PRODUCTS_BY_DATE:
       if (action.payload === 1) {
         return {
           ...state,
@@ -80,6 +80,7 @@ const rootReducer = (state = initialState, action) => {
           products: state.filteredProducts,
         };
       }
+      
     case FILTERED_PRODUCTS:
       return {
         ...state,
