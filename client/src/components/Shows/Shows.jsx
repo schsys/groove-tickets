@@ -7,6 +7,8 @@ import { getProducts } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import { filterProducts } from "../../redux/actions";
 
+// para ver si aplica cambios en main
+
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");

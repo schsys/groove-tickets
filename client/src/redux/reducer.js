@@ -35,7 +35,8 @@ const rootReducer = (state = initialState, action) => {
         error: payload,
       };
 
-    case SEARCH:
+      case SEARCH:     
+      console.log("search",  action.payload);
       return {
         ...state,
         products: action.payload,

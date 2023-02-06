@@ -16,19 +16,18 @@ export function setError(payload) {
 export const search = (name) => {
   return async function (dispatch) {
     try {
-      let info = await axios.get(); // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
-      console.log(info);
-      let searchRes = info.filter((e) => e.name.includes(name));
-      console.log(searchRes);
+      let info = await axios.get("http://localhost:3001/products/?name=" + name); // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
+      //let searchRes = info.filter((e) => e.name.includes(name));
+      //console.log(searchRes);
       return dispatch({
         type: "SEARCH",
-        payload: searchRes,
+        payload: info.data,
       });
     } catch (error) {
-      return "We couldnt find that product";
+      return "No pudimos encontrar ese producto";
     }
   };
-};
+}
 
 export const getProducts = () => {
   return async (dispatch) => {
