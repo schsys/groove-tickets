@@ -17,18 +17,17 @@ export const search = (name) => {
   return async function (dispatch) {
     try {
       let info = await axios.get("http://localhost:3001/products/?name=" + name); // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
-      console.log(info);
       //let searchRes = info.filter((e) => e.name.includes(name));
       //console.log(searchRes);
       return dispatch({
         type: "SEARCH",
-        payload: info,
+        payload: info.data,
       });
     } catch (error) {
       return "No pudimos encontrar ese producto";
     }
   };
-};
+}
 
 export const getProducts = () => {
   return async (dispatch) => {

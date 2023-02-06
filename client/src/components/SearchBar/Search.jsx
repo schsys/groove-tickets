@@ -12,7 +12,7 @@ function Search() {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const products = useSelector(state => state.products)
+  const filteredProducts = useSelector(state => state.products)
 
   const showAlertNoEnter=()=> {
     Swal.fire({
@@ -46,49 +46,33 @@ function Search() {
     //setea el name con lo que va escribiendo el usuario
    // e.preventDefault();
       setName(e.target.value);
-      let filteredProducts = products.filter(
+      let filtered = filteredProducts.filter(
       (p) => p.name.toLowerCase().includes(e.target.value.toLowerCase())
       );
-      setSuggestions(filteredProducts);
+      setSuggestions(filtered);
   }
 
   function handleSearch(e) {
-    //e.preventDefault();
-    // let findProduct = products.find(
-    //   (p) => p.name.toLowerCase().includes(name.toLowerCase()) 
-    // ); //busca el nombre dentro de la array de data
-
-    if (!name) {
+    e.preventDefault();
+      if (!name) {
       showAlertNoEnter();
       return;
     }
-    // let findProduct = products.find((pr) => pr.name.toLowerCase().includes(name.toLowerCase()));
-    // console.log('findProduct en search', findProduct);
-    //if (findProduct) {//si lo encuentra se dispara la accion ####
+   
     dispatch(actions.search(name));
-    //   history.push(`/product/${findProduct.id}`);
-    // } else {
-    //   showAlertNoName();
-    // }
-    setName(''); //vacia el input
-    setSuggestions([]); 
-
-    
-    // if (findProduct) {
-    //   dispatch(search(name)); //si lo encuentra se dispara la accion ####
-    //   history.push(`/product/${findProduct.id}`); //despues redirige para ver el detalle
-    //   // console.log(findProduct);
-    // } else if (!findProduct) {
-    //   showAlertNoName();
-    // }
-    // setName("");//vacia el input
-    // setSuggestions([]); 
-  }
-
-  function handleSuggestionClick(id) {
-    history.push(`/product/${id}`);
     setName("");//vacia el input
     setSuggestions([]); 
+    history.push("/shows");
+   
+  }
+
+  function handleSuggestionClick(name) {
+    //history.push(`/product/${id}`);
+//    history.push("/shows");
+     dispatch(actions.search(name));
+     setName("");//vacia el input
+    setSuggestions([]); 
+     history.push("/shows");
   }
 
   return (
@@ -105,7 +89,7 @@ function Search() {
         <div className="search_suggestion_div">
         <datalist className="suggestionsList">
           {suggestions.slice(0, 10).map(s => ( //shows just 10 suggestions
-            <option className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.id)}>
+            <option className="suggestionsList_item" key={s.id} onClick={() => handleSuggestionClick(s.name)}>
               {s.name}
             </option>
           ))}
@@ -122,3 +106,40 @@ function Search() {
 
 export default Search;
 
+/*import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+const SearchBar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
+
+  const handleSearch = () => {
+    dispatch({ type: 'SEARCH_SHOWS', payload: searchTerm });
+  };
+
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <div>
+      <input type="text" value={searchTerm} onChange={handleChange} />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
+};
+
+const Shows = () => {
+  const shows = useSelector(state => state.shows);
+
+  return (
+    <div>
+      {shows.map(show => (
+        <ShowCard key={show.id} show={show} />
+      ))}
+    </div>
+  );
+};
+
+export default Shows;
+*/

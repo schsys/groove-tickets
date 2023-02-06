@@ -24,6 +24,14 @@ const rootReducer = (state = initialState, action) => {
         allProducts: action.payload,
         filteredProducts: action.payload,
       };
+      
+      case SEARCH:     
+        console.log("search",  action.payload);
+        return {
+          ...state,
+          products: action.payload,
+        };
+      
     case GET_PRODUCT_BY_ID:
       return {
         ...state,
@@ -35,12 +43,6 @@ const rootReducer = (state = initialState, action) => {
         error: payload,
       };
 
-    case SEARCH:
-      
-      return {
-        ...state,
-        products: action.payload,
-      };
     case FILTER_PRODUCTS_BY_DATE:
       if (action.payload === 1) {
         return {
