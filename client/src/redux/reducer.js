@@ -3,7 +3,7 @@ import {
   SEARCH,
   GET_PRODUCTS,
   GET_PRODUCT_BY_ID,
-  FILTER_PRODUCTS_BY_DATE,
+  FILTERED_PRODUCTS,
 } from "./actions";
 
 const initialState = {
@@ -80,6 +80,14 @@ const rootReducer = (state = initialState, action) => {
           products: state.filteredProducts,
         };
       }
+    case FILTERED_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
+        allProducts: action.payload,
+        filteredProducts: action.payload,
+      };
+
     default:
       return { ...state };
   }

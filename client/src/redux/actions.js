@@ -4,7 +4,7 @@ export const SEARCH = "SEARCH";
 export const SET_ERROR = "SET_ERROR";
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
-export const FILTER_PRODUCTS_BY_DATE = "FILTER_PRODUCTS_BY_DATE";
+export const FILTERED_PRODUCTS = "FILTERED_PRODUCTS";
 
 export function setError(payload) {
   return {
@@ -54,9 +54,16 @@ export const getProductById = (id) => {
   };
 };
 
-export const filterProductsByDate = (day) => {
-  return {
-      type: FILTER_PRODUCTS_BY_DATE,
-      payload: day,
+export const filterProducts = (day, categoryId) => {
+  return async (dispatch) => {
+    try {
+      const filteredProducts = await axios.get(
+        `http://localhost:3001/products?days=${day}&category=${categoryId}`
+      );
+      dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
+    } catch (error) {
+      dispatch({ type: FILTERED_PRODUCTS, payload: [] });
+      console.log(error);
+    }
   };
 };
