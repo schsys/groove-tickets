@@ -43,45 +43,6 @@ const rootReducer = (state = initialState, action) => {
         error: payload,
       };
 
-
-    case FILTER_PRODUCTS_BY_DATE:
-      if (action.payload === 1) {
-        return {
-          ...state,
-          products: state.filteredProducts.filter((event) => {
-            let eventDate = new Date(event.StartDate);
-            let currentDate = new Date();
-            let difference = (eventDate - currentDate) / (1000 * 60 * 60 * 24);
-            return difference <= 1;
-          }),
-        };
-      } else if (action.payload === 7) {
-        return {
-          ...state,
-          products: state.filteredProducts.filter((event) => {
-            let eventDate = new Date(event.StartDate);
-            let currentDate = new Date();
-            let difference = (eventDate - currentDate) / (1000 * 60 * 60 * 24);
-            return difference <= 7;
-          }),
-        };
-      } else if (action.payload === 15) {
-        return {
-          ...state,
-          products: state.filteredProducts.filter((event) => {
-            let eventDate = new Date(event.StartDate);
-            let currentDate = new Date();
-            let difference = (eventDate - currentDate) / (1000 * 60 * 60 * 24);
-            return difference <= 15;
-          }),
-        };
-      } else {
-        return {
-          ...state,
-          products: state.filteredProducts,
-        };
-      }
-      
     case FILTERED_PRODUCTS:
       return {
         ...state,
