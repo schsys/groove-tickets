@@ -12,7 +12,7 @@ function Search() {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const filteredProducts = useSelector((state) => state.products);
+  const filteredProducts = useSelector((state) => state.allProducts);
 
   const showAlertNoEnter = () => {
     Swal.fire({

@@ -92,11 +92,7 @@ const Shows = () => {
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   return (
     <div className="shows__background-container">
-       {products.length > 0 ? (
-        <img src={banner} alt="banner shows" className="shows__banner-img" />
-      ) : (
-        <Loader />
-      )}
+      <img src={banner} alt="banner shows" className="shows__banner-img" />
 
       {/* FILTRADO POR FECHA*/}
       <div className="shows__filters-container">
@@ -148,46 +144,46 @@ const Shows = () => {
 
         {/*FIN FILTRADO  POR FECHAS*/}
 
-        {/* TRABAJAR FILTRADO POR CATEGORIAS */}
-
-        {products.length ? (
-          <>
-            <div className="shows__categories-title">
-              <h4>
-                {selectedCategoryId !== "" ? (
-                  <button
-                    onClick={() => {
-                      handleCategoryChange("");
-                    }}
-                  >
-                    QUITAR FILTRO (X)
-                  </button>
-                ) : (
-                  "CATEGORÍAS"
-                )}
-              </h4>
-            </div>
-            <div className="shows__categories-box">
-              {uniqueCategories.map((c) => {
-                return (
-                  <button
-                    onClick={() => {
-                      handleCategoryChange(c.id);
-                    }}
-                    className="shows__categories-buttons"
-                  >
-                    {c.name} ({countCategories(products, c.name)})
-                  </button>
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          ""
-        )}
+        {/* FILTRADO POR CATEGORIAS */}
+        <div className="shows__categories-container">
+          {products.length ? (
+            <>
+              <div className="shows__categories-title">
+                <h4>
+                  {selectedCategoryId !== "" ? (
+                    <button
+                      onClick={() => {
+                        handleCategoryChange("");
+                      }}
+                    >
+                      QUITAR FILTRO (X)
+                    </button>
+                  ) : (
+                    "CATEGORÍAS"
+                  )}
+                </h4>
+              </div>
+              <div className="shows__categories-box">
+                {uniqueCategories.map((c) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        handleCategoryChange(c.id);
+                      }}
+                      className="shows__categories-buttons"
+                    >
+                      {c.name} ({countCategories(products, c.name)})
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
       {/* FIN FILTRADO POR CATEGORIAS */}
-
       {products.length ? (
         <div className="shows__cards-container">
           {Array.isArray(products) === false ? (
@@ -259,43 +255,7 @@ const Shows = () => {
         </h1>
       )}
 
-      {products.length ? (
-        <>
-          <div className="shows__categories-title">
-            <h4>
-              {selectedCategoryId !== "" ? (
-                <button
-                  onClick={() => {
-                    handleCategoryChange("");
-                  }}
-                >
-                  QUITAR FILTRO (X)
-                </button>
-              ) : (
-                "CATEGORÍAS"
-              )}
-            </h4>
-          </div>
-          <div className="shows__categories-box">
-            {uniqueCategories.map((c) => {
-              return (
-                <button
-                  onClick={() => {
-                    handleCategoryChange(c.id);
-                  }}
-                  className="shows__categories-buttons"
-                >
-                  {c.name} ({countCategories(products, c.name)})
-                </button>
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        ""
-      )}
 
-      {/* FIN FILTRADO POR CATEGORIAS */}
       {products.length ? (
         <Pagination
           products={products}
