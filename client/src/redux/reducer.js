@@ -22,6 +22,7 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           products: state.filteredProducts.length ? state.filteredProducts : action.payload,
+          allProducts: action.payload
         };
     }
 

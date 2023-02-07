@@ -9,7 +9,6 @@ import { filterProducts } from "../../redux/actions";
 
 import Loader from "../Loader/Loader";
 
-// para ver si aplica cambios en main
 
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
@@ -25,7 +24,6 @@ const Shows = () => {
     formattedDate = formattedDate.replace(",", "");
 
     return formattedDate;
-
   };
 
   function countCategories(arr, name) {
@@ -70,6 +68,9 @@ const Shows = () => {
     dispatch(filterProducts(selectedDay, categoryId));
   };
 
+
+  //
+
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
@@ -91,62 +92,98 @@ const Shows = () => {
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   return (
     <div className="shows__background-container">
-       {products.length > 0 ? (
-        <img src={banner} alt="banner shows" className="shows__banner-img" />
-      ) : (
-        <Loader />
-      )}
+      <img src={banner} alt="banner shows" className="shows__banner-img" />
 
-      {/* TRABAJAR FILTRADO POR FECHA*/}
+      {/* FILTRADO POR FECHA*/}
+      <div className="shows__filters-container">
+        <div className="shows__filter-textcontainer">
+          <div className="shows__filter-text">
+            <h4>
+              {selectedDay === "" ? (
+                "PRÓXIMAS FUNCIONES"
+              ) : (
+                <button
+                  onClick={() => {
+                    handleDayChange(selectedDay !== "" ? "" : selectedDay);
+                  }}
+                >
+                  QUITAR FILTRO (X)
+                </button>
+              )}
+            </h4>
+          </div>
+        </div>
+        <div className="shows__filter-datescontainer">
+          <div className={"shows__filter-box"}>
+            <button
+              style={selectedDay === 1 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(1);
+              }}
+            >
+              HOY
+            </button>
+            <button
+              style={selectedDay === 7 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(7);
+              }}
+            >
+              7 DÍAS
+            </button>
+            <button
+              style={selectedDay === 30 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(30);
+              }}
+            >
+              15 DÍAS
+            </button>
+          </div>
+        </div>
 
-      <div className="shows__filter-textcontainer">
-        <div className="shows__filter-text">
-          <h4>
-            {selectedDay === "" ? (
-              "PRÓXIMAS FUNCIONES"
-            ) : (
-              <button
-                onClick={() => {
-                  handleDayChange(selectedDay !== "" ? "" : selectedDay);
-                }}
-              >
-                QUITAR FILTRO (X)
-              </button>
-            )}
-          </h4>
+        {/*FIN FILTRADO  POR FECHAS*/}
+
+        {/* FILTRADO POR CATEGORIAS */}
+        <div className="shows__categories-container">
+          {products.length ? (
+            <>
+              <div className="shows__categories-title">
+                <h4>
+                  {selectedCategoryId !== "" ? (
+                    <button
+                      onClick={() => {
+                        handleCategoryChange("");
+                      }}
+                    >
+                      QUITAR FILTRO (X)
+                    </button>
+                  ) : (
+                    "CATEGORÍAS"
+                  )}
+                </h4>
+              </div>
+              <div className="shows__categories-box">
+                {uniqueCategories.map((c) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        handleCategoryChange(c.id);
+                      }}
+                      className="shows__categories-buttons"
+                    >
+                      {c.name} ({countCategories(products, c.name)})
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      <div className="shows__filter-datescontainer">
-        <div className={"shows__filter-box"}>
-          <button
-            style={selectedDay === 1 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(1);
-            }}
-          >
-            1 DÍA
-          </button>
-          <button
-            style={selectedDay === 7 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(7);
-            }}
-          >
-            7 DÍAS
-          </button>
-          <button
-            style={selectedDay === 30 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(30);
-            }}
-          >
-            15 DÍAS
-          </button>
-        </div>
-      </div>
-
-      {/*FIN FILTRADO  POR FECHAS*/}
-
+      {/* FIN FILTRADO POR CATEGORIAS */}
       {products.length ? (
         <div className="shows__cards-container">
           {Array.isArray(products) === false ? (
@@ -217,46 +254,8 @@ const Shows = () => {
           No se encontraron shows con el fitro seleccionado
         </h1>
       )}
-      {/* TRABAJAR FILTRADO POR CATEGORIAS */}
 
-      {products.length ? (
-        <>
-          <div className="shows__categories-title">
-            <h4>
-              {selectedCategoryId !== "" ? (
-                <button
-                  onClick={() => {
-                    handleCategoryChange("");
-                  }}
-                >
-                  QUITAR FILTRO (X)
-                </button>
-              ) : (
-                "CATEGORÍAS"
-              )}
-            </h4>
-          </div>
-          <div className="shows__categories-box">
-            {uniqueCategories.map((c) => {
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => {
-                    handleCategoryChange(c.id);
-                  }}
-                  className="shows__categories-buttons"
-                >
-                  {c.name} ({countCategories(products, c.name)})
-                </button>
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        ""
-      )}
 
-      {/* FIN FILTRADO POR CATEGORIAS */}
       {products.length ? (
         <Pagination
           products={products}
