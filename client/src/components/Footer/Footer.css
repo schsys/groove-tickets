@@ -1,0 +1,58 @@
+.app_footer-background {
+  background-color: black;
+  background-image: url("../Shows/Resources/background.shows.png");
+  padding-bottom: 2vh;
+  background-size:cover;
+  background-repeat: no-repeat;
+}
+.app__footer-container {
+  display: grid;
+  grid-template-columns: 33% 33% 34%;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 95vw;
+  margin-left: 2vw;
+  margin-bottom: 2vh;
+  border: 1px solid white;
+}
+
+.app__footer-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 2vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  color: white;
+}
+
+.app__footer-text a {
+  color: white;
+  text-decoration: none;
+}
+
+.app__footer-logo {
+  height: 14vh;
+  padding: 2vw;
+}
+
+.app__footer-socialcopyright {
+  padding-left: 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app__footer-socialcontainer {
+  margin-bottom: 0.5vw;
+}
+
+.app__footer-instagram {
+  margin-right: 1vw;
+}
+
+.app__footer-copyright {
+  color: white;
+  width: 60%;
+  font-size: small;
+}

@@ -1,0 +1,122 @@
+.navbar{
+    background:rgba(0, 0, 0, 0.8);
+    height: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.navbar_menu_link{
+    margin: 0.75rem;
+    color: white;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.nav_logo{
+    margin-left: 1.5rem;
+}
+
+.navbar_logo_img{
+    margin: 0.75rem;
+    color: white;
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+}
+.nav_toggle{
+    display: none;
+}
+
+.nav_right{
+    display: flex;
+    margin-right: 1.5rem;
+    width: 45%;
+    justify-content: space-around;
+    align-content: space-between;
+}
+
+.navbar_menu_link{
+    margin: 0.75rem;
+    color: white;
+    position: relative;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+}
+
+.navbar_menu_link:hover{
+    color: #AFEF4B;
+    cursor: pointer;
+}
+
+.nav_btn_logged {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+#cart-icon_nav{
+    color: white;
+    transition: all 0.2s;
+}
+
+#cart-icon_nav:hover{
+    color: #AFEF4B;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .nav_items{
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: -webkit-fill-available;        
+        transform: translateX(-100%);
+        transition: 0.3s ease all;
+    }
+    .nav_items.open{
+        transform: translateX(0) !important
+    }
+    .nav_toggle{
+        display: flex !important;
+        flex-direction: column;                
+        margin: 0.75rem;
+    }
+    .nav_toggle span{
+        width: 1.8rem;
+        height: 0.25rem;
+        background: white;
+        margin-bottom: 0.3rem;
+        border-radius: 2px;             
+        transform-origin: 0.3rem 0px;
+        transition: all 0.2s linear;
+    }
+    .nav_toggle.open > span{
+        transform: rotate(45deg) translate(0px, 0px);
+    }
+    .nav_toggle.open > span:nth-child(2){
+        display: none;
+    }
+    .nav_toggle.open > span:nth-child(3){
+        transform: rotate(-45deg) translate(-0.3rem, 1px);
+    }
+
+    .nav_right{
+        display: flex;
+        margin-right: 1.5rem;
+        width: 45%;
+        justify-content: space-around;
+        align-content: space-between;
+    }
+}
