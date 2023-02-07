@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './LandingPage.css';
 
-import teaching from './TeachingPiano.jpg';
+// import teaching from './TeachingPiano.jpg';
 import shows from './Shows.jpg';
-import discs from './Discs.jpg';
+// import discs from './Discs.jpg';
 
 export default function LandingPage() {
   return (
