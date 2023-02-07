@@ -27,7 +27,7 @@ export const search = (name) => {
         "http://localhost:3001/products/?name=" + name
       ); // ### RUTA PARA SOLICITAR EL GET
       return dispatch({
-        type: "SEARCH",
+        type: SEARCH,
         payload: info.data,
       });
     } catch (error) {

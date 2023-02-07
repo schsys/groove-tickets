@@ -61,19 +61,21 @@ const Shows = () => {
 
   const handleDayChange = (day) => {
     setSelectedDay(day);
+    dispatch(filterProducts(day, selectedCategoryId));
   };
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    dispatch(filterProducts(selectedDay, categoryId));
   };
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(filterProducts(selectedDay, selectedCategoryId));
-  }, [selectedDay, selectedCategoryId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(filterProducts(selectedDay, selectedCategoryId));
+  // }, [selectedDay, selectedCategoryId, dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
