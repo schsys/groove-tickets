@@ -5,6 +5,13 @@ export const SET_ERROR = "SET_ERROR";
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const FILTERED_PRODUCTS = "FILTERED_PRODUCTS";
+export const CLEAR_FILTERS = "CLEAR_FILTERS";
+
+export const clearFilters = () => {
+  return (dispatch) => {
+    dispatch({ type: CLEAR_FILTERS, payload: "" });
+  };
+};
 
 export function setError(payload) {
   return {
@@ -16,9 +23,9 @@ export function setError(payload) {
 export const search = (name) => {
   return async function (dispatch) {
     try {
-      let info = await axios.get("http://localhost:3001/products/?name=" + name); // ############   ACA VA LA RUTA PARA SOLICITAR EL GET
-      //let searchRes = info.filter((e) => e.name.includes(name));
-      //console.log(searchRes);
+      let info = await axios.get(
+        "http://localhost:3001/products/?name=" + name
+      ); // ### RUTA PARA SOLICITAR EL GET
       return dispatch({
         type: "SEARCH",
         payload: info.data,
@@ -27,7 +34,7 @@ export const search = (name) => {
       return "No pudimos encontrar ese producto";
     }
   };
-}
+};
 
 export const getProducts = () => {
   return async (dispatch) => {

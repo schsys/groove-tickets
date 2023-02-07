@@ -65,6 +65,7 @@ const Shows = () => {
     setSelectedCategoryId(categoryId);
   };
 
+
   //
 
   useEffect(() => {
@@ -217,7 +218,7 @@ const Shows = () => {
               .slice(firstProduct, lastProduct)
               .map((product) => {
                 return (
-                  <div className="shows__cards-box1">
+                  <div className="shows__cards-box1" key={product.id}>
                     <img
                       src={product.Photos[0].Path}
                       alt="imagen show1"
@@ -251,6 +252,43 @@ const Shows = () => {
         </h1>
       )}
 
+      {products.length ? (
+        <>
+          <div className="shows__categories-title">
+            <h4>
+              {selectedCategoryId !== "" ? (
+                <button
+                  onClick={() => {
+                    handleCategoryChange("");
+                  }}
+                >
+                  QUITAR FILTRO (X)
+                </button>
+              ) : (
+                "CATEGORÍAS"
+              )}
+            </h4>
+          </div>
+          <div className="shows__categories-box">
+            {uniqueCategories.map((c) => {
+              return (
+                <button
+                  onClick={() => {
+                    handleCategoryChange(c.id);
+                  }}
+                  className="shows__categories-buttons"
+                >
+                  {c.name} ({countCategories(products, c.name)})
+                </button>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
+      {/* FIN FILTRADO POR CATEGORIAS */}
       {products.length ? (
         <Pagination
           products={products}
