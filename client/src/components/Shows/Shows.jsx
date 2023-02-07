@@ -7,7 +7,8 @@ import { getProducts } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import { filterProducts } from "../../redux/actions";
 
-// para ver si aplica cambios en main
+import Loader from "../Loader/Loader";
+
 
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
@@ -59,10 +60,12 @@ const Shows = () => {
 
   const handleDayChange = (day) => {
     setSelectedDay(day);
+    dispatch(filterProducts(day, selectedCategoryId));
   };
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    dispatch(filterProducts(selectedDay, categoryId));
   };
 
 
@@ -72,9 +75,9 @@ const Shows = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(filterProducts(selectedDay, selectedCategoryId));
-  }, [selectedDay, selectedCategoryId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(filterProducts(selectedDay, selectedCategoryId));
+  // }, [selectedDay, selectedCategoryId, dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -89,7 +92,11 @@ const Shows = () => {
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   return (
     <div className="shows__background-container">
-      <img src={banner} alt="banner shows" className="shows__banner-img" />
+       {products.length > 0 ? (
+        <img src={banner} alt="banner shows" className="shows__banner-img" />
+      ) : (
+        <Loader />
+      )}
 
       {/* FILTRADO POR FECHA*/}
       <div className="shows__filters-container">

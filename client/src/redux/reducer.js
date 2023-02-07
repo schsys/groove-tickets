@@ -18,33 +18,29 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case GET_PRODUCTS:
-      return {
-        ...state,
-        // products: action.payload,
-        allProducts: action.payload,
-        filteredProducts: action.payload,
-        products: state.filteredProducts.length
-          ? state.filteredProducts
-          : action.payload,
-      };
-/*     case GET_PRODUCTS: {
-      return {
-        ...state,
-        products: state.filteredProducts.length
-          ? state.filteredProducts
-          : action.payload,
-      };
-    } */
+    case GET_PRODUCTS: {
+        return {
+          ...state,
+          products: state.filteredProducts.length ? state.filteredProducts : action.payload,
+        };
+    }
 
     case SEARCH:
       return {
         ...state,
         products: action.payload,
-        filteredProducts: action.payload
+        filteredProducts: action.payload,
       };
 
-
+      case FILTERED_PRODUCTS:
+        return {
+          ...state,
+          products: action.payload,
+          //allProducts: action.payload,
+          // filteredProducts: action.payload,
+        };
+  
+  
     case CLEAR_FILTERS: {
       return {
         ...state,
@@ -57,18 +53,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         product: action.payload,
       };
+
     case SET_ERROR:
       return {
         ...state,
         error: payload,
-      };
-
-    case FILTERED_PRODUCTS:
-      return {
-        ...state,
-        products: action.payload,
-        allProducts: action.payload,
-        filteredProducts: action.payload,
       };
 
     default:
