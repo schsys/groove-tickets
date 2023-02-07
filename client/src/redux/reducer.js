@@ -21,10 +21,21 @@ const rootReducer = (state = initialState, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: action.payload,
+        // products: action.payload,
         allProducts: action.payload,
         filteredProducts: action.payload,
+        products: state.filteredProducts.length
+          ? state.filteredProducts
+          : action.payload,
       };
+/*     case GET_PRODUCTS: {
+      return {
+        ...state,
+        products: state.filteredProducts.length
+          ? state.filteredProducts
+          : action.payload,
+      };
+    } */
 
     case SEARCH:
       return {
@@ -33,14 +44,6 @@ const rootReducer = (state = initialState, action) => {
         filteredProducts: action.payload
       };
 
-    case GET_PRODUCTS: {
-      return {
-        ...state,
-        products: state.filteredProducts.length
-          ? state.filteredProducts
-          : action.payload,
-      };
-    }
 
     case CLEAR_FILTERS: {
       return {

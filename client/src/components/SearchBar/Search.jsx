@@ -27,7 +27,7 @@ function Search() {
     });
   };
 
-  const showAlertNoName = () => {
+/*   const showAlertNoName = () => {
     Swal.fire({
       //icon:'warning',
       imageUrl: Error_Search,
@@ -38,7 +38,7 @@ function Search() {
       html: "<h3>Esa banda no tiene ningún show programado</p>",
       footer: "<p>Probá con otra banda.</p>",
     });
-  };
+  }; */
 
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
