@@ -67,9 +67,6 @@ const Shows = () => {
     setSelectedCategoryId(categoryId);
   };
 
-
-  //
-
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
@@ -180,7 +177,7 @@ const Shows = () => {
               .slice(firstProduct, lastProduct)
               .map((product) => {
                 return (
-                  <div className="shows__cards-box1">
+                  <div className="shows__cards-box1" key={product.id}>
                     <img
                       src={product.Photos[0].Path}
                       alt="imagen show1"
@@ -236,6 +233,7 @@ const Shows = () => {
             {uniqueCategories.map((c) => {
               return (
                 <button
+                  key={c.id}
                   onClick={() => {
                     handleCategoryChange(c.id);
                   }}

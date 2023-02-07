@@ -4,6 +4,7 @@ import {
   GET_PRODUCTS,
   GET_PRODUCT_BY_ID,
   FILTERED_PRODUCTS,
+  CLEAR_FILTERS,
 } from "./actions";
 
 const initialState = {
@@ -24,14 +25,30 @@ const rootReducer = (state = initialState, action) => {
         allProducts: action.payload,
         filteredProducts: action.payload,
       };
-      
-      case SEARCH:     
-        console.log("search",  action.payload);
-        return {
-          ...state,
-          products: action.payload,
-        };
-      
+
+    case SEARCH:
+      return {
+        ...state,
+        products: action.payload,
+        filteredProducts: action.payload
+      };
+
+    case GET_PRODUCTS: {
+      return {
+        ...state,
+        products: state.filteredProducts.length
+          ? state.filteredProducts
+          : action.payload,
+      };
+    }
+
+    case CLEAR_FILTERS: {
+      return {
+        ...state,
+        filteredProducts: [],
+      };
+    }
+
     case GET_PRODUCT_BY_ID:
       return {
         ...state,
