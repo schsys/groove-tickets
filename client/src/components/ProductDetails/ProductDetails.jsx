@@ -29,7 +29,7 @@ export default function ProductDetails() {
         <div className="container_details">
           <div className="global_container">
             <div className="product_container">
-              <h2>{product.name};</h2>
+              <h2>{product.name}</h2>
               <span>
                 <i className="fa fa-star"></i>
                 <i className="fa fa-star"></i>
