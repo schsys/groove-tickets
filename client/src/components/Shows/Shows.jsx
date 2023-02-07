@@ -9,7 +9,6 @@ import { filterProducts } from "../../redux/actions";
 
 // para ver si aplica cambios en main
 
-
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -24,7 +23,6 @@ const Shows = () => {
     formattedDate = formattedDate.replace(",", "");
 
     return formattedDate;
-
   };
 
   function countCategories(arr, name) {
@@ -67,7 +65,6 @@ const Shows = () => {
     setSelectedCategoryId(categoryId);
   };
 
-
   //
 
   useEffect(() => {
@@ -93,55 +90,95 @@ const Shows = () => {
     <div className="shows__background-container">
       <img src={banner} alt="banner shows" className="shows__banner-img" />
 
-      {/* TRABAJAR FILTRADO POR FECHA*/}
-
-      <div className="shows__filter-textcontainer">
-        <div className="shows__filter-text">
-          <h4>
-            {selectedDay === "" ? (
-              "PRÓXIMAS FUNCIONES"
-            ) : (
-              <button
-                onClick={() => {
-                  handleDayChange(selectedDay !== "" ? "" : selectedDay);
-                }}
-              >
-                QUITAR FILTRO (X)
-              </button>
-            )}
-          </h4>
+      {/* FILTRADO POR FECHA*/}
+      <div className="shows__filters-container">
+        <div className="shows__filter-textcontainer">
+          <div className="shows__filter-text">
+            <h4>
+              {selectedDay === "" ? (
+                "PRÓXIMAS FUNCIONES"
+              ) : (
+                <button
+                  onClick={() => {
+                    handleDayChange(selectedDay !== "" ? "" : selectedDay);
+                  }}
+                >
+                  QUITAR FILTRO (X)
+                </button>
+              )}
+            </h4>
+          </div>
         </div>
-      </div>
-      <div className="shows__filter-datescontainer">
-        <div className={"shows__filter-box"}>
-          <button
-            style={selectedDay === 1 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(1);
-            }}
-          >
-            1 DÍA
-          </button>
-          <button
-            style={selectedDay === 7 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(7);
-            }}
-          >
-            7 DÍAS
-          </button>
-          <button
-            style={selectedDay === 30 ? { color: `var(--color-yellow)` } : {}}
-            onClick={() => {
-              handleDayChange(30);
-            }}
-          >
-            15 DÍAS
-          </button>
+        <div className="shows__filter-datescontainer">
+          <div className={"shows__filter-box"}>
+            <button
+              style={selectedDay === 1 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(1);
+              }}
+            >
+              HOY
+            </button>
+            <button
+              style={selectedDay === 7 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(7);
+              }}
+            >
+              7 DÍAS
+            </button>
+            <button
+              style={selectedDay === 30 ? { color: `var(--color-yellow)` } : {}}
+              onClick={() => {
+                handleDayChange(30);
+              }}
+            >
+              15 DÍAS
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/*FIN FILTRADO  POR FECHAS*/}
+        {/*FIN FILTRADO  POR FECHAS*/}
+
+        {/* TRABAJAR FILTRADO POR CATEGORIAS */}
+
+        {products.length ? (
+          <>
+            <div className="shows__categories-title">
+              <h4>
+                {selectedCategoryId !== "" ? (
+                  <button
+                    onClick={() => {
+                      handleCategoryChange("");
+                    }}
+                  >
+                    QUITAR FILTRO (X)
+                  </button>
+                ) : (
+                  "CATEGORÍAS"
+                )}
+              </h4>
+            </div>
+            <div className="shows__categories-box">
+              {uniqueCategories.map((c) => {
+                return (
+                  <button
+                    onClick={() => {
+                      handleCategoryChange(c.id);
+                    }}
+                    className="shows__categories-buttons"
+                  >
+                    {c.name} ({countCategories(products, c.name)})
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+      {/* FIN FILTRADO POR CATEGORIAS */}
 
       {products.length ? (
         <div className="shows__cards-container">
@@ -213,45 +250,7 @@ const Shows = () => {
           No se encontraron shows con el fitro seleccionado
         </h1>
       )}
-      {/* TRABAJAR FILTRADO POR CATEGORIAS */}
 
-      {products.length ? (
-        <>
-          <div className="shows__categories-title">
-            <h4>
-              {selectedCategoryId !== "" ? (
-                <button
-                  onClick={() => {
-                    handleCategoryChange("");
-                  }}
-                >
-                  QUITAR FILTRO (X)
-                </button>
-              ) : (
-                "CATEGORÍAS"
-              )}
-            </h4>
-          </div>
-          <div className="shows__categories-box">
-            {uniqueCategories.map((c) => {
-              return (
-                <button
-                  onClick={() => {
-                    handleCategoryChange(c.id);
-                  }}
-                  className="shows__categories-buttons"
-                >
-                  {c.name} ({countCategories(products, c.name)})
-                </button>
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        ""
-      )}
-
-      {/* FIN FILTRADO POR CATEGORIAS */}
       {products.length ? (
         <Pagination
           products={products}
