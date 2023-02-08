@@ -11,9 +11,10 @@ function App() {
   const { pathname } = useLocation();
   return (
     <>
-      <Route exact path={"/"} component={LandingPage} />
-      {pathname !== "/" ? <NavBar /> : null}
-      <Route exact path={"/shows"} component={Shows} />
+      {/* <Route exact path={"/"} component={LandingPage} />
+      {pathname !== "/" ? <NavBar /> : null} */}
+      <NavBar />
+      <Route exact path={"/"} component={Shows} />
       <Route path="/product/:id">
         <ProductDetails />
       </Route>

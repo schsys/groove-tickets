@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import "./Shows.css";
-import banner from "./Resources/banner.shows.fw.png";
-import Pagination, { productIndex } from "../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../redux/actions";
 import { Link } from "react-router-dom";
-import { filterProducts } from "../../redux/actions";
+import { filterProducts, getProducts } from "../../redux/actions";
+import { Pagination, productIndex } from "../Pagination/Pagination";
+import banner from "../../assets/banner.shows.fw.png";
+import "./Shows.css";
 
-import Loader from "../Loader/Loader";
-
+// import Loader from "../Loader/Loader";
 
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   const formattedDate = (StartDate) => {
     const date = new Date(StartDate + "T00:00:00");
@@ -22,23 +26,19 @@ const Shows = () => {
     let formattedDate = date.toLocaleDateString("es-ES", options);
     formattedDate = formattedDate.replace("/", ".");
     formattedDate = formattedDate.replace(",", "");
-
     return formattedDate;
   };
 
-  function countCategories(arr, name) {
+  const countCategories = (arr, name) => {
     let count = 0;
-
     arr.forEach((e) => {
       e.Categories.forEach((category) => {
-        if (category.name === name) {
-          count++;
-        }
+        if (category.name === name) count++;
       });
     });
-
     return count;
-  }
+  };
+
   const categories = [];
   products.forEach((event) => {
     event.Categories.forEach((category) => {
@@ -68,19 +68,6 @@ const Shows = () => {
     dispatch(filterProducts(selectedDay, categoryId));
   };
 
-
-  //
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(filterProducts(selectedDay, selectedCategoryId));
-  // }, [selectedDay, selectedCategoryId, dispatch]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
   const handlePrev = () => {
     setCurrentPage(currentPage - 1);
   };
@@ -89,10 +76,22 @@ const Shows = () => {
     setCurrentPage(currentPage + 1);
   };
 
-  const { lastProduct, firstProduct } = productIndex(currentPage, 6);
+  const BtnTemplate = ({ value, action, data, style }) => {
+    return (
+      <button
+        className={style}
+        onClick={() => {
+          action(data);
+        }}
+      >
+        {value}
+      </button>
+    );
+  };
+
   return (
     <div className="shows__background-container">
-      <img src={banner} alt="banner shows" className="shows__banner-img" />
+      {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
 
       {/* FILTRADO POR FECHA*/}
       <div className="shows__filters-container">
@@ -113,77 +112,56 @@ const Shows = () => {
             </h4>
           </div>
         </div>
+
         <div className="shows__filter-datescontainer">
           <div className={"shows__filter-box"}>
-            <button
-              style={selectedDay === 1 ? { color: `var(--color-yellow)` } : {}}
-              onClick={() => {
-                handleDayChange(1);
-              }}
-            >
-              HOY
-            </button>
-            <button
-              style={selectedDay === 7 ? { color: `var(--color-yellow)` } : {}}
-              onClick={() => {
-                handleDayChange(7);
-              }}
-            >
-              7 DÍAS
-            </button>
-            <button
-              style={selectedDay === 30 ? { color: `var(--color-yellow)` } : {}}
-              onClick={() => {
-                handleDayChange(30);
-              }}
-            >
-              15 DÍAS
-            </button>
+            <BtnTemplate value="HOY" data={1} action={handleDayChange} />
+            <BtnTemplate
+              value="7 D&Iacute;AS"
+              data={7}
+              action={handleDayChange}
+            />
+            <BtnTemplate
+              value="30 D&Iacute;AS"
+              data={30}
+              action={handleDayChange}
+            />
           </div>
         </div>
 
-        {/*FIN FILTRADO  POR FECHAS*/}
-
         {/* FILTRADO POR CATEGORIAS */}
         <div className="shows__categories-container">
-          {products.length ? (
+          {!products.length ? "" :  (
             <>
               <div className="shows__categories-title">
                 <h4>
                   {selectedCategoryId !== "" ? (
-                    <button
-                      onClick={() => {
-                        handleCategoryChange("");
-                      }}
-                    >
-                      QUITAR FILTRO (X)
-                    </button>
+                    <BtnTemplate action={handleCategoryChange} data="" value="QUITAR FILTRO" />
                   ) : (
                     "CATEGORÍAS"
                   )}
                 </h4>
+
               </div>
               <div className="shows__categories-box">
                 {uniqueCategories.map((c) => {
                   return (
-                    <button
-                      onClick={() => {
-                        handleCategoryChange(c.id);
-                      }}
-                      className="shows__categories-buttons"
-                    >
-                      {c.name} ({countCategories(products, c.name)})
-                    </button>
+                    <BtnTemplate
+                      value={c.name}
+                      action={handleCategoryChange}
+                      data={c.id}
+                      style="shows__categories-buttons"
+                      key={c.id}
+                    />
                   );
                 })}
               </div>
             </>
-          ) : (
-            ""
           )}
         </div>
       </div>
       {/* FIN FILTRADO POR CATEGORIAS */}
+
       {products.length ? (
         <div className="shows__cards-container">
           {Array.isArray(products) === false ? (
@@ -254,7 +232,6 @@ const Shows = () => {
           No se encontraron shows con el fitro seleccionado
         </h1>
       )}
-
 
       {products.length ? (
         <Pagination
