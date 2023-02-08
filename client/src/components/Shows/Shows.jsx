@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { filterProducts, getProducts } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
-import banner from "../../assets/banner.shows.fw.png";
+import SingleCard from "../Cards/SingleCard";
 import "./Shows.css";
-
+// import banner from "../../assets/banner.shows.fw.png";
 // import Loader from "../Loader/Loader";
 
 const Shows = () => {
@@ -19,15 +18,6 @@ const Shows = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-
-  const formattedDate = (StartDate) => {
-    const date = new Date(StartDate + "T00:00:00");
-    const options = { weekday: "long", day: "numeric", month: "numeric" };
-    let formattedDate = date.toLocaleDateString("es-ES", options);
-    formattedDate = formattedDate.replace("/", ".");
-    formattedDate = formattedDate.replace(",", "");
-    return formattedDate;
-  };
 
   const countCategories = (arr, name) => {
     let count = 0;
@@ -131,23 +121,30 @@ const Shows = () => {
 
         {/* FILTRADO POR CATEGORIAS */}
         <div className="shows__categories-container">
-          {!products.length ? "" :  (
+          {!products.length ? (
+            ""
+          ) : (
             <>
               <div className="shows__categories-title">
                 <h4>
                   {selectedCategoryId !== "" ? (
-                    <BtnTemplate action={handleCategoryChange} data="" value="QUITAR FILTRO" />
+                    <BtnTemplate
+                      action={handleCategoryChange}
+                      data=""
+                      value="QUITAR FILTRO"
+                    />
                   ) : (
                     "CATEGORÍAS"
                   )}
                 </h4>
-
               </div>
               <div className="shows__categories-box">
                 {uniqueCategories.map((c) => {
                   return (
                     <BtnTemplate
-                      value={c.name}
+                      value={
+                        c.name + " (" + countCategories(products, c.name) + ")"
+                      }
                       action={handleCategoryChange}
                       data={c.id}
                       style="shows__categories-buttons"
@@ -162,87 +159,31 @@ const Shows = () => {
       </div>
       {/* FIN FILTRADO POR CATEGORIAS */}
 
-      {products.length ? (
-        <div className="shows__cards-container">
-          {Array.isArray(products) === false ? (
-            <div className="shows__cards-box1">
-              <img
-                src={products.Photos[0].Path}
-                alt="imagen show1"
-                className="shows__cards-show1"
-              />
-              <div className="shows__cards-textContainer">
-                <h1 className="shows__cards-texth1">{products.name}</h1>
-                <h2 className="shows__cards-texth2">
-                  {formattedDate(products.StartDate).replace(/^\w/, (c) =>
-                    c.toUpperCase()
-                  )}
-                </h2>
-                <h3 className="shows__cards-texth3">
-                  {products.StartTime.slice(0, 2)}
-                </h3>
-                <Link
-                  to={`product/${products.id}`}
-                  className="shows_cards-linkInfo"
-                >
-                  +
-                </Link>
-              </div>
-            </div>
-          ) : (
-            products
-              ?.sort(
-                (a, b) =>
-                  new Date(a.StartDate + "T00:00:00") -
-                  new Date(b.StartDate + "T00:00:00")
-              )
-              .slice(firstProduct, lastProduct)
-              .map((product) => {
-                return (
-                  <div className="shows__cards-box1" key={product.id}>
-                    <img
-                      src={product.Photos[0].Path}
-                      alt="imagen show1"
-                      className="shows__cards-show1"
-                    />
-                    <div className="shows__cards-textContainer">
-                      <h1 className="shows__cards-texth1">{product.name}</h1>
-                      <h2 className="shows__cards-texth2">
-                        {formattedDate(product.StartDate).replace(/^\w/, (c) =>
-                          c.toUpperCase()
-                        )}
-                      </h2>
-                      <h3 className="shows__cards-texth3">
-                        {product.StartTime.slice(0, 2)} Horas
-                      </h3>
-                      <Link
-                        to={`product/${product.id}`}
-                        className="shows_cards-linkInfo"
-                      >
-                        +
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })
-          )}
-        </div>
-      ) : (
-        <h1 className="shows__cards-h1FilterError">
-          No se encontraron shows con el fitro seleccionado
-        </h1>
-      )}
-
-      {products.length ? (
-        <Pagination
-          products={products}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-          currentPage={currentPage}
+      <div className="shows__cards-container">
+        {products.length ? (
+          products
+            ?.sort(
+              (a, b) =>
+                new Date(a.StartDate + "T00:00:00") -
+                new Date(b.StartDate + "T00:00:00")
+            )
+            .slice(firstProduct, lastProduct)
+            .map((prod) => <SingleCard data={prod} key={prod.id} />)
+        ) : (
+          <h1 className="shows__cards-h1FilterError">
+            No se encontraron shows con el fitro seleccionado
+          </h1>
+        )}
+      </div>
+      
+      {!products.length ? <></> : (
+      <Pagination
+        products={products}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        currentPage={currentPage}
         />
-      ) : (
-        ""
-      )}
+        )} 
     </div>
   );
 };
