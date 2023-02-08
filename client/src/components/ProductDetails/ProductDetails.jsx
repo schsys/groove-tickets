@@ -18,7 +18,7 @@ export default function ProductDetails() {
   useEffect(() => {
     dispatch(getProductById(id));
   }, []);
-
+  
   return (
     <>
       {product.name ? (
@@ -40,7 +40,8 @@ export default function ProductDetails() {
               </>
 
               <>
-                <i className="fas fa-clock"></i> {product.StartTime} horas
+                <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
+                horas
               </>
 
               <>
@@ -58,7 +59,8 @@ export default function ProductDetails() {
                 {product.Categories && product.Categories.length > 0 ? (
                   <p>
                     {" "}
-                    <i className="fas fa-tag"></i> {product.Categories[0].Name}
+                    <i className="fas fa-tag"></i> Categoría:{" "}
+                    {product.Categories[0].Name}
                   </p>
                 ) : (
                   <p>No hay categorías disponibles</p>
