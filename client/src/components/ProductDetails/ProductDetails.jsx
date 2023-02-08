@@ -20,7 +20,7 @@ export default function ProductDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const date = new Date(product.StartDate);
+  const date = new Date(product.StartDate + "T00:00:00");
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
   return (
@@ -44,7 +44,8 @@ export default function ProductDetails() {
               </>
 
               <>
-                <i className="fas fa-clock"></i> {product.StartTime} horas
+                <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
+                horas
               </>
 
               <>
@@ -62,7 +63,8 @@ export default function ProductDetails() {
                 {product.Categories && product.Categories.length > 0 ? (
                   <p>
                     {" "}
-                    <i className="fas fa-tag"></i> {product.Categories[0].Name}
+                    <i className="fas fa-tag"></i> Categoría:{" "}
+                    {product.Categories[0].Name}
                   </p>
                 ) : (
                   <p>No hay categorías disponibles</p>
