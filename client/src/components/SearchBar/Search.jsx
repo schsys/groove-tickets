@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./SearchBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import * as actions from "../../redux/actions";
-
 import Swal from "sweetalert2";
-import Error_Search from "./Error_Search.jpg";
+import { search } from "../../redux/actions";
+import { FaSearch } from "react-icons/fa";
+import Error_Search from "../../assets/Error_Search.jpg";
 
 function Search() {
   const [suggestions, setSuggestions] = useState([]);
@@ -27,19 +27,6 @@ function Search() {
     });
   };
 
-/*   const showAlertNoName = () => {
-    Swal.fire({
-      //icon:'warning',
-      imageUrl: Error_Search,
-      imageHeight: 150,
-      imageWidth: 200,
-      imageAlt: "Hubo un error en la búsqueda.",
-      title: "Buscador de Yazz",
-      html: "<h3>Esa banda no tiene ningún show programado</p>",
-      footer: "<p>Probá con otra banda.</p>",
-    });
-  }; */
-
   function handleInputChange(e) {
     //setea el name con lo que va escribiendo el usuario
     // e.preventDefault();
@@ -56,16 +43,16 @@ function Search() {
       return;
     }
     setSuggestions([]);
-    dispatch(actions.search(name));
-    history.push("/shows");
+    dispatch(search(name));
+    history.push("/");
     setName(""); //vacia el input
   }
 
   function handleSuggestionClick(name) {
-    dispatch(actions.search(name));
+    dispatch(search(name));
     setName(""); //vacia el input
     setSuggestions([]);
-    history.push("/shows");
+    history.push("/");
   }
 
   return (
@@ -98,7 +85,7 @@ function Search() {
         </div>
       </div>
       <button className="btnSearch" onClick={(e) => handleSearch(e)}>
-        Buscar
+        <FaSearch />
       </button>
     </div>
   );

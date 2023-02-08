@@ -3,7 +3,7 @@
 .shows__background-container {
   width: 100vw;
   background-color: black;
-  background-image: url("./Resources/background.shows.png");
+  background-image: url("../../assets/background.shows.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -79,6 +79,10 @@
 
 .shows__filter-box button:hover {
   color: var(--color-yellow);
+}
+
+.shows__filter-box button:active {
+  color: orangered;
 }
 
 .shows__cards-container {
