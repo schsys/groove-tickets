@@ -1,12 +1,9 @@
 import React from "react";
 import "./Pagination.css";
 
-const Pagination = ({ products, handlePrev, handleNext, currentPage }) => {
-  
-  // reeemplazar 12 por products.length
+export const Pagination = ({ products, handlePrev, handleNext, currentPage }) => {
   const totalPages = Math.ceil(products.length / 6);
   
-
   return (
     <div className="shows__pagination-container">
       <div className="shows__pagination-textContainer">
@@ -26,8 +23,6 @@ const Pagination = ({ products, handlePrev, handleNext, currentPage }) => {
     </div>
   );
 };
-
-export default Pagination;
 
 export const productIndex = (page, productsXPage) => {
   const lastProduct = page * productsXPage;

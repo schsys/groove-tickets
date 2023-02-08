@@ -1,10 +1,11 @@
-import Logo from "./LogoYazz.png";
 import React, { useState } from "react";
-import "./Navbar.css";
-import { Link } from "react-router-dom";
-import Search from "../SearchBar/Search";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { clearFilters, getProducts } from "../../redux/actions";
+import { IconName } from "react-icons/fa";
+import Search from "../SearchBar/Search";
+import "./Navbar.css";
+import Logo from "../../assets/LogoYazz.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +27,8 @@ const Navbar = () => {
       </div>
       <div className={`nav_items ${isOpen && "open"}`}>
         <Link
-          to={"/shows"}
+          // to={"/shows"}
+          to={"/"}
           onClick={handleOnClickShows}
           className="navbar_menu_link"
         >
