@@ -20,7 +20,7 @@
 .product_container {
   margin-top: 25px;
   width: 100%;
-  height: 340px;
+  height: 350px;
   flex: 1;
   flex-wrap: wrap;
   float: left;
@@ -38,7 +38,7 @@
   flex-wrap: wrap;
   float: right;
   object-fit: cover;
-  height: 400px;
+  height: 410px;
 }
 
 .product_button {

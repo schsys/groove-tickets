@@ -19,7 +19,7 @@ const Navbar = () => {
     dispatch(clearFilters());
     dispatch(getProducts());
   }
-  const [count, setCount] = React.useState(1);
+
   return (
     <div className="navbar">
       <div className="nav_logo">
@@ -61,13 +61,7 @@ const Navbar = () => {
             </div>
             <div className="nav_cart_btn">
               <Link to={"/carrito"} className="navbar_menu_link">
-                <Badge
-                  color="secondary"
-                  badgeContent={count}
-                  onClick={() => {
-                    setCount(Math.max(count - 1, 0));
-                  }}
-                >
+                <Badge color="secondary">
                   <ShoppingCartIcon />
                 </Badge>
               </Link>
