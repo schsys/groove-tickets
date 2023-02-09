@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../../redux/actions";
+import { addCartProduct, getProductById, toggleShowCart } from "../../redux/actions";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -14,6 +14,7 @@ import StarIcon from "@mui/icons-material/Star";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -52,6 +53,42 @@ export default function ProductDetails() {
       alert("La cantidad máxima permitida es 10");
     }
   }
+
+    // PARA AGREGAR AL CARRITO
+  const itemsToCart = useSelector((state) => state.cart);
+  const [mount, setMount] = useState(true);
+  const showCart = useSelector((state) => state.showCart);
+  
+
+
+  useEffect(() => {
+    if (!mount) {
+      if (itemsToCart && itemsToCart.length) {
+        window.localStorage.setItem('carrito', JSON.stringify(itemsToCart));
+      } else {
+        window.localStorage.removeItem('carrito');
+        window.localStorage.removeItem('compra');
+      }
+    } else {
+      setMount(false);
+    }
+  }, [dispatch, itemsToCart, mount]);
+
+  const handleShowCart = () => {
+    dispatch(toggleShowCart(!showCart));
+    if (!showCart) {
+      setTimeout(() => {
+        dispatch(toggleShowCart(false));
+      }, 2000);
+    }
+  };
+
+  const addToCart = (id) => {
+    dispatch(addCartProduct(id));
+    handleShowCart();
+  };
+
+  //
 
   //Rating
   const labels = {
@@ -212,7 +249,8 @@ export default function ProductDetails() {
               )}
             </div>
           </div>
-          <button className="product_button">Comprar</button>
+          <button className="product_button" onClick={() => addToCart(product.id)}>Agregar al Carrito</button>
+
           <div className="product_info">
             <h4>Descripción:</h4>
             <p>{product.Description}</p>
