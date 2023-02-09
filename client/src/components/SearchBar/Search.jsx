@@ -42,10 +42,11 @@ function Search() {
       showAlertNoEnter();
       return;
     }
-    setSuggestions([]);
+
     dispatch(search(name));
     history.push("/");
     setName(""); //vacia el input
+    setSuggestions([]);
   }
 
   function handleSuggestionClick(name) {
