@@ -5,7 +5,11 @@ import {
   GET_PRODUCT_BY_ID,
   FILTERED_PRODUCTS,
   CLEAR_FILTERS,
+  ADD_TO_CART,
+  TOGGLE_SHOW_CART
 } from "./actions";
+
+import { addItem } from "./utils";
 
 const initialState = {
   error: false,
@@ -13,6 +17,8 @@ const initialState = {
   product: {},
   allProducts: [],
   filteredProducts: [],
+  cart: [],
+  showCart: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -60,6 +66,17 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         error: payload,
       };
+      case ADD_TO_CART:
+        /* payload es el id, array de products, y el array de carrito */
+        return {
+          ...state,
+          cart: addItem(action.payload, state.products, state.cart),
+        };
+        case TOGGLE_SHOW_CART:
+          return {
+            ...state,
+            showCart: action.payload,
+          };
 
     default:
       return { ...state };

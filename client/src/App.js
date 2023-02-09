@@ -8,6 +8,7 @@ import CartSummary from "./components/CartSummary/CartSummary";
 import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
 import "./App.css";
+import Cart from "../src/components/Cart/Cart.jsx"
 
 function App() {
   const { pathname } = useLocation();
@@ -23,6 +24,7 @@ function App() {
  shopping_cart
       <Route exact path={"/carrito"} component={CartSummary} />
       <Route exact path={"/micuenta"} component={Register} />
+      <Cart />
       {pathname !== "/" ? <Footer /> : null}
     </>
   );

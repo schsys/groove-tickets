@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearFilters, getProducts } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -19,6 +19,9 @@ const Navbar = () => {
     dispatch(clearFilters());
     dispatch(getProducts());
   }
+
+  const cart = useSelector((state) => state.cart);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="navbar">
