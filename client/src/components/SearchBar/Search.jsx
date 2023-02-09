@@ -55,10 +55,10 @@ function Search() {
       showAlertNoEnter();
       return;
     }
-    setSuggestions([]);
     dispatch(actions.search(name));
     history.push("/shows");
     setName(""); //vacia el input
+    setSuggestions([]);
   }
 
   function handleSuggestionClick(name) {

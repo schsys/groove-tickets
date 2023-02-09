@@ -5,6 +5,7 @@ import ProductDetails from "./components/ProductDetails/ProductDetails";
 import NavBar from "./components/NavBar/NavBar";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Footer from "./components/Footer/Footer";
+import Register from "./components/Register/Register";
 import "./App.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route path="/product/:id">
         <ProductDetails />
       </Route>
+      <Route exact path={"/micuenta"} component={Register} />
       {pathname !== "/" ? <Footer /> : null}
     </>
   );
