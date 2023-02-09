@@ -2,23 +2,76 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../redux/actions";
+import Box from "@mui/material/Box";
+import Badge from "@mui/material/Badge";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Rating from "@mui/material/Rating";
+import StarIcon from "@mui/icons-material/Star";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
 
-
 export default function ProductDetails() {
   const { id } = useParams();
   const product = useSelector((state) => state.product);
-  const date = new Date(product.StartDate);
+  const date = new Date(product.StartDate + "T00:00:00");
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProductById(id));
+    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
+  //Carrito de compras y localStorage
+  const [count, setCount] = React.useState(() => {
+    const initialCount = localStorage.getItem("count") || 0;
+    return parseInt(initialCount, 10);
+  });
+  const [availableStock, setAvailableStock] = React.useState(0);
+  useEffect(() => {
+    setAvailableStock(product.Stock);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("count", count);
+  }, [count]);
+  function handleClick() {
+    if (count < 10 && count < availableStock) {
+      setCount(count + 1);
+    } else if (count < 10 && count >= availableStock) {
+      setCount(availableStock);
+      alert("Solo tenemos disponibles " + availableStock);
+    } else {
+      alert("La cantidad máxima permitida es 10");
+    }
+  }
+
+  //Rating
+  const labels = {
+    0.5: "Inútil",
+    1: "Inútil+",
+    1.5: "Pobre",
+    2: "Pobre+",
+    2.5: "Ok",
+    3: "Ok+",
+    3.5: "Bueno",
+    4: "Bueno+",
+    4.5: "Excelente",
+    5: "Excelente+",
+  };
+  function getLabelText(value) {
+    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  }
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
+
   return (
     <>
       {product.name ? (
@@ -27,10 +80,34 @@ export default function ProductDetails() {
             <div className="product_container">
               <h2>{product.name}</h2>
               <span>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
+                <Box
+                  sx={{
+                    width: 200,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Rating
+                    name="hover-feedback"
+                    value={value}
+                    precision={0.5}
+                    getLabelText={getLabelText}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  {value !== null && (
+                    <Box sx={{ ml: 2 }}>
+                      {labels[hover !== -1 ? hover : value]}
+                    </Box>
+                  )}
+                </Box>
               </span>
 
               <>
@@ -81,6 +158,46 @@ export default function ProductDetails() {
               <>
                 <h2>Precio: ${product.Price}</h2>
               </>
+
+              <Box
+                sx={{
+                  color: "action.active",
+                  display: "flex",
+                  flexDirection: "column",
+                  "& > *": {
+                    marginBottom: 2,
+                  },
+                  "& .MuiBadge-root": {
+                    marginRight: 4,
+                  },
+                }}
+              >
+                <div>
+                  <Badge color="primary" badgeContent={count}>
+                    <ShoppingCartIcon style={{ color: "white" }} />
+                  </Badge>
+                  <ButtonGroup>
+                    <Button
+                      style={{ background: "white" }}
+                      onClick={() => {
+                        setCount(Math.max(count - 1, 0));
+                      }}
+                    >
+                      <RemoveIcon
+                        fontSize="small"
+                        style={{ background: "white" }}
+                      />
+                    </Button>
+
+                    <Button
+                      style={{ background: "white" }}
+                      onClick={handleClick}
+                    >
+                      <AddIcon fontSize="small" />
+                    </Button>
+                  </ButtonGroup>
+                </div>
+              </Box>
             </div>
 
             <div className="image_container">
