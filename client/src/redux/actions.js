@@ -77,10 +77,10 @@ export const filterProducts = (day, categoryId) => {
   };
 };
 
-export const addCartProduct = (id) => {
+export const addCartProduct = (itemQuantity) => {
   return {
     type: ADD_TO_CART,
-    payload: id,
+    payload: itemQuantity, 
   };
 }
 

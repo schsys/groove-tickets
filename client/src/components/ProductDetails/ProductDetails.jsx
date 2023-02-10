@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addCartProduct, getProductById, toggleShowCart } from "../../redux/actions";
+import {
+  addCartProduct,
+  getProductById,
+  toggleShowCart,
+} from "../../redux/actions";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -14,7 +18,6 @@ import StarIcon from "@mui/icons-material/Star";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
-
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -54,20 +57,18 @@ export default function ProductDetails() {
     }
   }
 
-    // PARA AGREGAR AL CARRITO
+  // PARA AGREGAR AL CARRITO
   const itemsToCart = useSelector((state) => state.cart);
   const [mount, setMount] = useState(true);
   const showCart = useSelector((state) => state.showCart);
-  
-
 
   useEffect(() => {
     if (!mount) {
       if (itemsToCart && itemsToCart.length) {
-        window.localStorage.setItem('carrito', JSON.stringify(itemsToCart));
+        window.localStorage.setItem("carrito", JSON.stringify(itemsToCart));
       } else {
-        window.localStorage.removeItem('carrito');
-        window.localStorage.removeItem('compra');
+        window.localStorage.removeItem("carrito");
+        window.localStorage.removeItem("compra");
       }
     } else {
       setMount(false);
@@ -108,7 +109,9 @@ export default function ProductDetails() {
   }
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
-
+ 
+  const itemQuantity = { product, count };
+  
   return (
     <>
       {product.name ? (
@@ -249,7 +252,12 @@ export default function ProductDetails() {
               )}
             </div>
           </div>
-          <button className="product_button" onClick={() => addToCart(product.id)}>Agregar al Carrito</button>
+          <button
+            className="product_button"
+            onClick={() => addToCart(itemQuantity)}
+          >
+            Agregar al Carrito
+          </button>
 
           <div className="product_info">
             <h4>Descripción:</h4>
