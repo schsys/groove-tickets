@@ -1,4 +1,5 @@
 import {GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
+//import { useSessionStorage } from "../../config/useSessionStorage";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
@@ -7,7 +8,6 @@ import GoogleLogo from "./googleLogo.png";
 
 export default function Login() {
   const history = useHistory();
-  const [checked, setChecked] = useState(false);
   const [input, setInput] = useState({
     name: "",
     lastname: "",
@@ -17,10 +17,11 @@ export default function Login() {
     phone: 0,
     terms: false,
   });
-
+  
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
+ // const [isAuthorized, setIsAuthorized] = useSessionStorage("accessToken");
   //track the authentication status
   const [authorizedUser, setAuthorizedUser] = useState(
     false || sessionStorage.getItem("accessToken")
@@ -84,6 +85,7 @@ export default function Login() {
         setAuthorizedUser(false);
         // window.location.replace("/");
         alert("Logged Out Successfully");
+        sessionStorage.removeItem("accessToken");
       })
       .catch((error) => {
         // An error happened.
@@ -96,11 +98,11 @@ export default function Login() {
       {/*SECTION TO LOGIN*/}
       <div className="login_container">
         {authorizedUser ? (
-          <>
-            <h3>Ya estás logueado</h3>
-            <p>¿Querés cerrar sesión?</p>
-            <button onClick={logoutUser}>CERRAR SESIÓN</button>
-          </>
+          <div className="login_logged_div">
+            <h3 className="login_logged_title">Ya estás logueado!</h3>
+            <p className="login_logged_text">¿Querés cerrar sesión?</p>
+            <button className="login_logged_btn" onClick={logoutUser}>CERRAR SESIÓN</button>
+          </div>
         ) : (
           <div className="login_container">
             <h2 className="login_h2">INGRESÁ</h2>

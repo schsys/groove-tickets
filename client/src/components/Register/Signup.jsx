@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { UserAuth } from '../../context/AuthContext';
 import "./Signup.css";
 
 export default function Signup() {
   const history = useHistory();
+  const { createUser } = UserAuth();
   const [checked, setChecked] = useState(false);
+  const [error, setError] = useState('')
   const [input, setInput] = useState({
     name: "",
     lastname: "",
@@ -14,6 +17,7 @@ export default function Signup() {
     phone: 0,
     terms: false,
   });
+
 
   const handleChange = (e) => {
     setInput({
@@ -30,20 +34,27 @@ export default function Signup() {
     setChecked(!checked);
   };
 
-  const handleSubmitSignup = (e) => {
+  const handleSubmitSignup = async (e) => {
     e.preventDefault();
     console.log("form register submited");
-    setInput({
-      //resetea el estado del input
-      name: "",
-      lastname: "",
-      email: "",
-      password: "",
-      repassword: "",
-      phone: 0,
-      terms: false,
-    });
-    history.push("/"); //despues redirige para ver todos los shows
+    setError('')
+    try{
+      await createUser(input.email, input.password)
+      setInput({
+        //resetea el estado del input
+        name: "",
+        lastname: "",
+        email: "",
+        password: "",
+        repassword: "",
+        phone: 0,
+        terms: false,
+      });
+      history.push("/"); //despues redirige para ver todos los shows
+    } catch (e) {
+      setError(e.message);
+      console.log(e.message)
+    }
   };
 
   return (
@@ -52,11 +63,7 @@ export default function Signup() {
       <div className="register_container">
         <h2 className="register_h2">¿TODAVÍA NO SOS USUARIO?</h2>
         <p className="signup_text">Registrate!</p>
-        <form
-          action="POST"
-          onSubmit={(e) => handleSubmitSignup(e)}
-          className="register_form"
-        >
+        <form onSubmit={handleSubmitSignup} className="register_form">
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="name">
               Nombre:

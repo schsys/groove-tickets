@@ -4,14 +4,21 @@ import { Link } from "react-router-dom";
 import { clearFilters, getProducts } from "../../redux/actions";
 import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
+
+//import { useSessionStorage } from "../../config/useSessionStorage";
+
 import "./Navbar.css";
 import Logo from "../../assets/LogoYazz.png";
 
 const Navbar = () => {
+  //const [authorizedUser] = useSessionStorage("accessToken");
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  //const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
+
+
+  //console.log('authorizedUser', authorizedUser);
 
   function handleOnClickShows() {
     dispatch(clearFilters());
@@ -48,22 +55,24 @@ const Navbar = () => {
 
       <div className="nav_right">
         <Search />
-        {loggedIn ? (
-          <div className="nav_username">{username}</div>
-        ) : (
+       {/* {authorizedUser ? ( */}
+          <div className="nav_username">
+            <p>Bienvenido </p>
+            {username}</div>
+        {/* ) : ( */}
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
               <Link to={"/micuenta"} className="navbar_menu_link">
                 INGRESAR
               </Link>
             </div>
+            </div>
+            {/* )} */}
             <div className="nav_cart_btn">
               <Link to={"/carrito"} className="navbar_menu_link">
                 <i id="cart-icon_nav" className="fa-solid fa-cart-shopping"></i>
               </Link>
             </div>
-          </div>
-        )}
       </div>
     </div>
   );
