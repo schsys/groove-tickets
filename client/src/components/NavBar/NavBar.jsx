@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearFilters, getProducts } from "../../redux/actions";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
 import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
@@ -24,6 +26,9 @@ const Navbar = () => {
     dispatch(clearFilters());
     dispatch(getProducts());
   }
+
+  const cart = useSelector((state) => state.cart);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="navbar">
@@ -70,7 +75,9 @@ const Navbar = () => {
             {/* )} */}
             <div className="nav_cart_btn">
               <Link to={"/carrito"} className="navbar_menu_link">
-                <i id="cart-icon_nav" className="fa-solid fa-cart-shopping"></i>
+                <Badge color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
               </Link>
             </div>
       </div>
