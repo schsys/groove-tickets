@@ -70,7 +70,7 @@ const rootReducer = (state = initialState, action) => {
         /* payload es el id, array de products, y el array de carrito */
         return {
           ...state,
-          cart: addItem(action.payload, state.products, state.cart),
+          cart: addItem(action.payload, state.cart),
         };
         case TOGGLE_SHOW_CART:
           return {

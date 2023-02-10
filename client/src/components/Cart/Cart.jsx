@@ -26,7 +26,7 @@ const Cart = () => {
         justifyContent={"space-between"}
       >
         <Avatar
-          src={item.Photos[0].Path}
+          src={item.Photo}
           sx={{ width: 85, height: 85, ml: 2 }}
           variant="square"
         />
@@ -51,8 +51,8 @@ const Cart = () => {
 
   return (
     <Drawer
-      // open={showCart}
-      open="true"
+      open={showCart}
+      // open="true"
 
       anchor="right"
       PaperProps={{
