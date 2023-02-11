@@ -5,14 +5,14 @@ import { FaInfoCircle } from "react-icons/fa";
 import "../Shows/Shows.css";
 
 const SingleCard = (data) => {
-  console.log("-- inicio de datos --");
-  console.log('la data completa: ', data)
-  console.log('id: ', data.data.id)
-  console.log('imagen: ', data.data.Photos[0].Path)
-  console.log('nombre: ', data.data.name)
-  console.log('fecha: ', data.data.StartDate)
-  console.log('hora: ', data.data.StartTime)
-  console.log("-- fin de datos --");
+  // console.log("-- inicio de datos --");
+  // console.log('la data completa: ', data)
+  // console.log('id: ', data.data.id)
+  // console.log('imagen: ', data.data.Photos[0].Path)
+  // console.log('nombre: ', data.data.name)
+  // console.log('fecha: ', data.data.StartDate)
+  // console.log('hora: ', data.data.StartTime)
+  // console.log("-- fin de datos --");
 
   return (
     <div className="shows__cards-box1" key={data.data.id}>

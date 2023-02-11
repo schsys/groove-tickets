@@ -9,7 +9,7 @@ export default function Signup() {
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState('')
   const [input, setInput] = useState({
-    name: "",
+    displayName: "",
     lastname: "",
     email: "",
     password: "",
@@ -43,12 +43,12 @@ export default function Signup() {
       history.push("/"); //despues redirige para ver todos los shows
       setInput({
         //resetea el estado del input
-        name: "",
+        displayName: "",
         lastname: "",
         email: "",
         password: "",
         repassword: "",
-        phone: 0,
+        phoneNumber: 0,
         terms: false,
       });
     } catch (e) {
@@ -72,8 +72,8 @@ export default function Signup() {
               className="signup_section_input"
               type="text"
               id="name"
-              name="name"
-              value={input.name}
+              name="displayName"
+              value={input.displayName}
               placeholder="Ingresá tu nombre"
               onChange={(e) => handleChange(e)}
             />
@@ -107,15 +107,15 @@ export default function Signup() {
             />
           </div>
           <div className="register_info_wraper">
-            <label className="register-form_label" htmlFor="phone">
+            <label className="register-form_label" htmlFor="phoneNumber">
               Teléfono:
             </label>
             <input
               className="signup_section_input"
               type="tel"
-              id="phone"
-              name="phone"
-              value={input.phone}
+              id="phoneNumber"
+              name="phoneNumber"
+              value={input.phoneNumber}
               placeholder="Ingresá tu teléfono"
               onChange={(e) => handleChange(e)}
             />

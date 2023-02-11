@@ -12,9 +12,11 @@ import Search from "../SearchBar/Search";
 
 import "./Navbar.css";
 import Logo from "../../assets/LogoYazz.png";
+import { UserAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
   //const [authorizedUser] = useSessionStorage("accessToken");
+  const { user } = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
@@ -72,15 +74,15 @@ const Navbar = () => {
         <Search />
 
         {/* {authorizedUser ? ( */}
-        {username ? (
+        {user ? (
           <div className="nav_username">
-            <p>Bienvenido </p>
-            {username}
+            <Link to='/micuenta' className="navbar_menu_link" >MI CUENTA</Link>
           </div>
         ) : (
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
-              <Link to={"/micuenta"} className="navbar_menu_link">
+              
+              <Link to={"/register"} className="navbar_menu_link">
                 INGRESAR
               </Link>
             </div>
