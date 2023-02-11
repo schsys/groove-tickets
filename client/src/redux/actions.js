@@ -8,6 +8,8 @@ export const FILTERED_PRODUCTS = "FILTERED_PRODUCTS";
 export const CLEAR_FILTERS = "CLEAR_FILTERS";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const TOGGLE_SHOW_CART = "TOGGLE_SHOW_CART";
+export const EDIT_CART = "EDIT_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 
 export const clearFilters = () => {
   return (dispatch) => {
@@ -107,6 +109,46 @@ export const addCartProduct = (product, quantity) => {
 
   return {
     type: ADD_TO_CART,
+    payload: getInternalTotalItems(),
+  };
+};
+
+export const editCartProduct = (productId, newQuantity) => {
+  let stringCart = localStorage.getItem("cart");
+  let cart = [];
+
+  if (stringCart) {
+    cart = JSON.parse(stringCart);
+    const cartItemIndex = cart.findIndex((e) => e.id === productId);
+    if (cartItemIndex !== -1) {
+      cart[cartItemIndex].quantity = newQuantity;
+    }
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  return {
+    type: EDIT_CART,
+    payload: getInternalTotalItems(),
+  };
+};
+
+export const removeCartProduct = (productId) => {
+  let stringCart = localStorage.getItem("cart");
+  let cart = [];
+
+  if (stringCart) {
+    cart = JSON.parse(stringCart);
+    const cartItemIndex = cart.findIndex((e) => e.id === productId);
+    if (cartItemIndex !== -1) {
+      cart.splice(cartItemIndex, 1);
+    }
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  return {
+    type: REMOVE_FROM_CART,
     payload: getInternalTotalItems(),
   };
 };

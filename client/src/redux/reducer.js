@@ -7,9 +7,11 @@ import {
   CLEAR_FILTERS,
   ADD_TO_CART,
   TOGGLE_SHOW_CART,
+  EDIT_CART,
+  REMOVE_FROM_CART,
 } from "./actions";
 
-import { addItem } from "./utils";
+// import { addItem } from "./utils";
 
 const initialState = {
   error: false,
@@ -80,7 +82,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         totalItems: action.payload,
       };
-
+    case EDIT_CART:
+      return {
+        ...state,
+        totalItems: action.payload,
+      };
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        totalItems: action.payload,
+      };
     default:
       return { ...state };
   }
