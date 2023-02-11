@@ -16,14 +16,11 @@ import Logo from "../../assets/LogoYazz.png";
 const Navbar = () => {
   //const [authorizedUser] = useSessionStorage("accessToken");
   const [isOpen, setIsOpen] = useState(false);
-  //const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
-
-
   const totalItems = useSelector((state) => state.totalItems);
-
 
   function handleOnClickShows() {
     dispatch(clearFilters());
@@ -74,35 +71,12 @@ const Navbar = () => {
       <div className="nav_right">
         <Search />
 
-       {/* {authorizedUser ? ( */}
-       {username ? (
+        {/* {authorizedUser ? ( */}
+        {username ? (
           <div className="nav_username">
             <p>Bienvenido </p>
-            {username}</div>
-
-       ) : (
-        <div className="nav_btn_logged">
-        <div className="nav_login_btns">
-          <Link to={"/micuenta"} className="navbar_menu_link">
-            INGRESAR
-          </Link>
-        </div>
-        </div>
-       )
-       }
-        {/* ) : ( */}
-         
-            {/* )} */}
-            <div className="nav_cart_btn">
-              <Link to={"/carrito"} className="navbar_menu_link">
-                <Badge color="secondary">
-                  <ShoppingCartIcon />
-                </Badge>
-              </Link>
-            </div>
-
-        {loggedIn ? (
-          <div className="nav_username">{username}</div>
+            {username}
+          </div>
         ) : (
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
@@ -110,16 +84,15 @@ const Navbar = () => {
                 INGRESAR
               </Link>
             </div>
-            <Badge
-              color="info"
-              badgeContent={totalItems}
-              onClick={handleBadgeClick}
-            >
-              <ShoppingCartIcon style={{ color: "white" }} cursor="pointer" />
-            </Badge>
           </div>
         )}
-
+        <Badge
+          color="info"
+          badgeContent={totalItems}
+          onClick={handleBadgeClick}
+        >
+          <ShoppingCartIcon style={{ color: "white" }} cursor="pointer" />
+        </Badge>
       </div>
     </div>
   );
