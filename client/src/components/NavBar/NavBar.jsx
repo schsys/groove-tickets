@@ -7,16 +7,23 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
+
+//import { useSessionStorage } from "../../config/useSessionStorage";
+
 import "./Navbar.css";
 import Logo from "../../assets/LogoYazz.png";
 
 const Navbar = () => {
+  //const [authorizedUser] = useSessionStorage("accessToken");
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  //const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
+
+
   const totalItems = useSelector((state) => state.totalItems);
+
 
   function handleOnClickShows() {
     dispatch(clearFilters());
@@ -66,6 +73,34 @@ const Navbar = () => {
 
       <div className="nav_right">
         <Search />
+
+       {/* {authorizedUser ? ( */}
+       {username ? (
+          <div className="nav_username">
+            <p>Bienvenido </p>
+            {username}</div>
+
+       ) : (
+        <div className="nav_btn_logged">
+        <div className="nav_login_btns">
+          <Link to={"/micuenta"} className="navbar_menu_link">
+            INGRESAR
+          </Link>
+        </div>
+        </div>
+       )
+       }
+        {/* ) : ( */}
+         
+            {/* )} */}
+            <div className="nav_cart_btn">
+              <Link to={"/carrito"} className="navbar_menu_link">
+                <Badge color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </Link>
+            </div>
+
         {loggedIn ? (
           <div className="nav_username">{username}</div>
         ) : (
@@ -84,6 +119,7 @@ const Navbar = () => {
             </Badge>
           </div>
         )}
+
       </div>
     </div>
   );
