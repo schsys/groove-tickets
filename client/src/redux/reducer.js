@@ -6,7 +6,7 @@ import {
   FILTERED_PRODUCTS,
   CLEAR_FILTERS,
   ADD_TO_CART,
-  TOGGLE_SHOW_CART
+  TOGGLE_SHOW_CART,
 } from "./actions";
 
 import { addItem } from "./utils";
@@ -19,18 +19,27 @@ const initialState = {
   filteredProducts: [],
   cart: [],
   showCart: false,
+  totalItems: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_PRODUCTS: {
-        return {
-          ...state,
-          products: state.filteredProducts.length ? state.filteredProducts : action.payload,
-          allProducts: action.payload
-        };
+      return {
+        ...state,
+        products: state.filteredProducts.length
+          ? state.filteredProducts
+          : action.payload,
+        allProducts: action.payload,
+      };
     }
+
+    case TOGGLE_SHOW_CART:
+      return {
+        ...state,
+        showCart: action.payload,
+      };
 
     case SEARCH:
       return {
@@ -39,15 +48,14 @@ const rootReducer = (state = initialState, action) => {
         filteredProducts: action.payload,
       };
 
-      case FILTERED_PRODUCTS:
-        return {
-          ...state,
-          products: action.payload,
-          //allProducts: action.payload,
-          // filteredProducts: action.payload,
-        };
-  
-  
+    case FILTERED_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
+        //allProducts: action.payload,
+        // filteredProducts: action.payload,
+      };
+
     case CLEAR_FILTERS: {
       return {
         ...state,
@@ -66,17 +74,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         error: payload,
       };
-      case ADD_TO_CART:
-        /* payload es el id, array de products, y el array de carrito */
-        return {
-          ...state,
-          cart: addItem(action.payload, state.cart),
-        };
-        case TOGGLE_SHOW_CART:
-          return {
-            ...state,
-            showCart: action.payload,
-          };
+
+    case ADD_TO_CART:
+      return {
+        ...state,
+        totalItems: action.payload,
+      };
 
     default:
       return { ...state };
