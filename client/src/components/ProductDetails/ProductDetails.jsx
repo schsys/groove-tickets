@@ -79,7 +79,7 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
-
+  //cart
   const addToCart = () => {
     if (quantity > 0) {
       dispatch(addCartProduct(product, quantity));
