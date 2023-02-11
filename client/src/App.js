@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
 import "./App.css";
 import Cart from "../src/components/Cart/Cart.jsx"
+import { AuthContextProvider } from "./context/AuthContext";
 
 function App() {
   const { pathname } = useLocation();
@@ -16,16 +17,19 @@ function App() {
     <>
       {/* <Route exact path={"/"} component={LandingPage} />
       {pathname !== "/" ? <NavBar /> : null} */}
-      <NavBar />
-      <Route exact path={"/"} component={Shows} />
-      <Route path="/product/:id">
-        <ProductDetails />
-      </Route>
- shopping_cart
-      <Route exact path={"/carrito"} component={CartSummary} />
-      <Route exact path={"/micuenta"} component={Register} />
-      <Cart />
-      {pathname !== "/" ? <Footer /> : null}
+      <AuthContextProvider>
+        <NavBar />
+        <Route exact path={"/"} component={Shows} />
+        <Route path="/product/:id">
+          <ProductDetails />
+        </Route>
+  shopping_cart
+        <Route exact path={"/carrito"} component={CartSummary} />
+        <Route exact path={"/micuenta"} component={Register} />
+        <Cart />
+        {pathname !== "/" ? <Footer /> : null}
+
+      </AuthContextProvider>
     </>
   );
 }

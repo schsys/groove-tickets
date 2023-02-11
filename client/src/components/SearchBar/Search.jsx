@@ -42,10 +42,7 @@ function Search() {
       showAlertNoEnter();
       return;
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> develop
     dispatch(search(name));
     history.push("/");
     setName(""); //vacia el input

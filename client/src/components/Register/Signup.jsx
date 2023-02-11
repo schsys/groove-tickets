@@ -40,6 +40,7 @@ export default function Signup() {
     setError('')
     try{
       await createUser(input.email, input.password)
+      history.push("/"); //despues redirige para ver todos los shows
       setInput({
         //resetea el estado del input
         name: "",
@@ -50,7 +51,6 @@ export default function Signup() {
         phone: 0,
         terms: false,
       });
-      history.push("/"); //despues redirige para ver todos los shows
     } catch (e) {
       setError(e.message);
       console.log(e.message)
@@ -63,7 +63,7 @@ export default function Signup() {
       <div className="register_container">
         <h2 className="register_h2">¿TODAVÍA NO SOS USUARIO?</h2>
         <p className="signup_text">Registrate!</p>
-        <form onSubmit={handleSubmitSignup} className="register_form">
+        <form onSubmit={(e) => handleSubmitSignup(e)} className="register_form">
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="name">
               Nombre:

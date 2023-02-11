@@ -61,17 +61,23 @@ const Navbar = () => {
       <div className="nav_right">
         <Search />
        {/* {authorizedUser ? ( */}
+       {username ? (
           <div className="nav_username">
             <p>Bienvenido </p>
             {username}</div>
+
+       ) : (
+        <div className="nav_btn_logged">
+        <div className="nav_login_btns">
+          <Link to={"/micuenta"} className="navbar_menu_link">
+            INGRESAR
+          </Link>
+        </div>
+        </div>
+       )
+       }
         {/* ) : ( */}
-          <div className="nav_btn_logged">
-            <div className="nav_login_btns">
-              <Link to={"/micuenta"} className="navbar_menu_link">
-                INGRESAR
-              </Link>
-            </div>
-            </div>
+         
             {/* )} */}
             <div className="nav_cart_btn">
               <Link to={"/carrito"} className="navbar_menu_link">
