@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toggleShowCart } from "../../redux/actions";
 import { Link } from "react-router-dom";
-import { clearFilters, getProducts } from "../../redux/actions";
+import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import { IconName } from "react-icons/fa";
@@ -15,10 +16,22 @@ const Navbar = () => {
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
+  const totalItems = useSelector((state) => state.totalItems);
+
   function handleOnClickShows() {
     dispatch(clearFilters());
     dispatch(getProducts());
   }
+  function handleBadgeClick() {
+    dispatch(toggleShowCart(true));
+  }
+
+  React.useEffect(() => {
+    dispatch(getTotalItems());
+    //    setAvailableStock(product.Stock);
+    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const cart = useSelector((state) => state.cart);
   const [showCart, setShowCart] = useState(false);
@@ -62,13 +75,13 @@ const Navbar = () => {
                 INGRESAR
               </Link>
             </div>
-            <div className="nav_cart_btn">
-              <Link to={"/carrito"} className="navbar_menu_link">
-                <Badge color="secondary">
-                  <ShoppingCartIcon />
-                </Badge>
-              </Link>
-            </div>
+            <Badge
+              color="info"
+              badgeContent={totalItems}
+              onClick={handleBadgeClick}
+            >
+              <ShoppingCartIcon style={{ color: "white" }} cursor="pointer" />
+            </Badge>
           </div>
         )}
       </div>

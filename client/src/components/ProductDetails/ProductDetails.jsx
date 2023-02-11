@@ -12,9 +12,9 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
+import Typography from "@mui/material/Typography";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
@@ -27,41 +27,37 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
 
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
+
+  const [availableStock] = React.useState(0);
+
+  const itemsToCart = useSelector((state) => state.cart);
+  const [mount, setMount] = useState(true);
+
+  const showCart = useSelector((state) => state.showCart);
+
+  const [quantity, setQuantity] = React.useState(1);
+
   useEffect(() => {
     dispatch(getProductById(id));
+    //    setAvailableStock(product.Stock);
     //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Carrito de compras y localStorage
-  const [count, setCount] = React.useState(() => {
-    const initialCount = localStorage.getItem("count") || 0;
-    return parseInt(initialCount, 10);
-  });
-  const [availableStock, setAvailableStock] = React.useState(0);
-  useEffect(() => {
-    setAvailableStock(product.Stock);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("count", count);
-  }, [count]);
   function handleClick() {
-    if (count < 10 && count < availableStock) {
-      setCount(count + 1);
-    } else if (count < 10 && count >= availableStock) {
-      setCount(availableStock);
-      alert("Solo tenemos disponibles " + availableStock);
+    if (quantity < 10 && quantity < product.Stock) {
+      setQuantity(quantity + 1);
+    } else if (quantity < 10 && quantity >= product.Stock) {
+      setQuantity(availableStock);
+      alert("Solo tenemos disponibles " + product.Stock);
     } else {
       alert("La cantidad máxima permitida es 10");
     }
   }
 
   // PARA AGREGAR AL CARRITO
-  const itemsToCart = useSelector((state) => state.cart);
-  const [mount, setMount] = useState(true);
-  const showCart = useSelector((state) => state.showCart);
-
   useEffect(() => {
     if (!mount) {
       if (itemsToCart && itemsToCart.length) {
@@ -84,12 +80,13 @@ export default function ProductDetails() {
     }
   };
 
-  const addToCart = (id) => {
-    dispatch(addCartProduct(id));
-    handleShowCart();
+  const addToCart = () => {
+    if (quantity > 1) {
+      dispatch(addCartProduct(product, quantity));
+      setQuantity(1);
+      handleShowCart();
+    }
   };
-
-  //
 
   //Rating
   const labels = {
@@ -104,14 +101,11 @@ export default function ProductDetails() {
     4.5: "Excelente",
     5: "Excelente+",
   };
+
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
- 
-  const itemQuantity = { product, count };
-  
+
   return (
     <>
       {product.name ? (
@@ -213,14 +207,16 @@ export default function ProductDetails() {
                 }}
               >
                 <div>
-                  <Badge color="primary" badgeContent={count}>
-                    <ShoppingCartIcon style={{ color: "white" }} />
+                  <Badge color="warning" badgeContent={quantity}>
+                    <Typography color="white" variant="body2" xs={{ pl: 0 }}>
+                      SELCCIONA LA CATIDAD Y PRESIONA AGREGAR AL CARRITO
+                    </Typography>
                   </Badge>
                   <ButtonGroup>
                     <Button
                       style={{ background: "white" }}
                       onClick={() => {
-                        setCount(Math.max(count - 1, 0));
+                        setQuantity(Math.max(quantity - 1, 0));
                       }}
                     >
                       <RemoveIcon
@@ -252,10 +248,7 @@ export default function ProductDetails() {
               )}
             </div>
           </div>
-          <button
-            className="product_button"
-            onClick={() => addToCart(itemQuantity)}
-          >
+          <button className="product_button" onClick={addToCart}>
             Agregar al Carrito
           </button>
 

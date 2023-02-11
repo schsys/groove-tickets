@@ -77,12 +77,58 @@ export const filterProducts = (day, categoryId) => {
   };
 };
 
-export const addCartProduct = (itemQuantity) => {
+export const addCartProduct = (product, quantity) => {
+  // leo del local storage
+  let stringCart = localStorage.getItem("cart");
+  let cart = [];
+  const productInsert = {
+    id: product.id,
+    name: product.name,
+    Photo: product.Photos[0].Path,
+    Price: product.Price,
+    StartDate: product.StartDate,
+    quantity: quantity,
+  };
+
+  if (!stringCart) {
+    cart.push(productInsert);
+  } else {
+    cart = JSON.parse(stringCart);
+    const cartItem = cart.find((e) => e.id === product.id);
+    if (cartItem) {
+      cartItem.quantity = cartItem.quantity + quantity;
+    } else {
+      cart.push(productInsert);
+    }
+  }
+
+  // grabo en el local storage
+  localStorage.setItem("cart", JSON.stringify(cart));
+
   return {
     type: ADD_TO_CART,
-    payload: itemQuantity, 
+    payload: getInternalTotalItems(),
   };
-}
+};
+
+export const getTotalItems = () => {
+  return {
+    type: ADD_TO_CART,
+    payload: getInternalTotalItems(),
+  };
+};
+
+const getInternalTotalItems = () => {
+  const stringCart = localStorage.getItem("cart");
+  let totalQuantity = 0;
+  if (stringCart) {
+    const cart = JSON.parse(stringCart);
+    for (const item of cart) totalQuantity = totalQuantity + item.quantity;
+  } else {
+    totalQuantity = 0;
+  }
+  return totalQuantity;
+};
 
 export const toggleShowCart = (show) => {
   return {
