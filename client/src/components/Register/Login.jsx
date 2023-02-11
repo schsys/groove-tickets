@@ -1,22 +1,32 @@
-import {GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
-//import { useSessionStorage } from "../../config/useSessionStorage";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-
+import {GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
+import { UserAuth } from "../../context/AuthContext";
+//import { useSessionStorage } from "../../config/useSessionStorage";
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
 import "./Login.css";
 import GoogleLogo from "./googleLogo.png";
 
 export default function Login() {
+  const {signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
   const history = useHistory();
+  const [error, setError] = useState('')
   const [input, setInput] = useState({
-    name: "",
-    lastname: "",
     email: "",
     password: "",
-    repassword: "",
-    phone: 0,
-    terms: false,
   });
+
+  const LogoutMessage = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Usuasio deslogueado.",
+      title: "Yazz",
+      html: "<h3>Gracias, te esperamos la próxima</p>",
+    });
+  };
   
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -27,6 +37,7 @@ export default function Login() {
     false || sessionStorage.getItem("accessToken")
   );
 
+  //Login con Google
   function signInwithGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -41,6 +52,7 @@ export default function Login() {
             sessionStorage.setItem("accessToken", tkn);
             setAuthorizedUser(true);
           });
+          history.push("/"); //despues redirige para ver todo 
         }
         console.log(user);
       })
@@ -55,6 +67,23 @@ export default function Login() {
       });
   }
 
+  //desloguear Google
+  function logoutUser() {
+    signOut(auth)
+      .then(() => {
+        // clear session storage
+        sessionStorage.clear();
+        setAuthorizedUser(false);
+        // window.location.replace("/");
+        LogoutMessage();
+        sessionStorage.removeItem("accessToken");
+      })
+      .catch((error) => {
+        // An error happened.
+        alert(error);
+      });
+  }
+
   const handleChange = (e) => {
     setInput({
       ...input,
@@ -66,32 +95,26 @@ export default function Login() {
         }))*/
   };
 
-  const handleSubmitLogin = (e) => {
+    //Login con email y passw
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    console.log("form login submited");
-    setInput({
-      //resetea el estado del input
-      email: "",
-      password: "",
-    });
-    history.push("/"); //despues redirige para ver todo
+    setError('')
+    try{
+      await signIn(input.email, input.password)
+      console.log("form login submited");
+      history.push("/"); //despues redirige para ver todo
+      setInput({
+        //resetea el estado del input
+        email: "",
+        password: "",
+      });
+    } catch(e){
+      setError(e.message)
+      console.log(e.message)
+    }
+   
   };
 
-  function logoutUser() {
-    signOut(auth)
-      .then(() => {
-        // clear session storage
-        sessionStorage.clear();
-        setAuthorizedUser(false);
-        // window.location.replace("/");
-        alert("Logged Out Successfully");
-        sessionStorage.removeItem("accessToken");
-      })
-      .catch((error) => {
-        // An error happened.
-        alert(error);
-      });
-  }
 
   return (
     <div className="login_section">
@@ -106,11 +129,9 @@ export default function Login() {
         ) : (
           <div className="login_container">
             <h2 className="login_h2">INGRESÁ</h2>
-            <form
-              action="POST"
-              onSubmit={(e) => handleSubmitLogin(e)}
-              className="login_form"
-            >
+            
+            {/* Loguearse con email y password */}
+            <form onSubmit={(e) => handleSubmitLogin(e)} className="login_form">
               <div className="login_info_wraper">
                 <label className="login-form_label" htmlFor="email">
                   email:
@@ -118,7 +139,6 @@ export default function Login() {
                 <input
                   className="login_section_input"
                   type="email"
-                  //id="email"
                   name="email"
                   value={input.email}
                   placeholder="Ingresá tu email"
@@ -132,7 +152,6 @@ export default function Login() {
                 <input
                   className="login_section_input"
                   type="password"
-                  // id="password"
                   name="password"
                   value={input.password}
                   placeholder="Ingresá tu contraseña"
@@ -148,6 +167,8 @@ export default function Login() {
             <Link to="/" className="link_recover_password">
               ¿Olvidaste tu contraseña?
             </Link>
+            
+            {/*Loguearse con Google*/}
             <div className="login_with_google">
               <h3>O ingresá con tu cuenta de Google</h3>
               <button className="login_btn_google" onClick={signInwithGoogle}>

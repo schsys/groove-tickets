@@ -7,9 +7,10 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import CartSummary from "./components/CartSummary/CartSummary";
 import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
-import "./App.css";
+import Account from "./components/Account/Account";
 import Cart from "../src/components/Cart/Cart.jsx"
 import { AuthContextProvider } from "./context/AuthContext";
+import "./App.css";
 
 function App() {
   const { pathname } = useLocation();
@@ -23,9 +24,9 @@ function App() {
         <Route path="/product/:id">
           <ProductDetails />
         </Route>
-  shopping_cart
         <Route exact path={"/carrito"} component={CartSummary} />
-        <Route exact path={"/micuenta"} component={Register} />
+        <Route exact path={"/register"} component={Register} />
+        <Route exact path={"/micuenta"} component={Account} />
         <Cart />
         {pathname !== "/" ? <Footer /> : null}
 
