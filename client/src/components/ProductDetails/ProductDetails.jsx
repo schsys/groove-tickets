@@ -79,9 +79,9 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
-
+  //cart
   const addToCart = () => {
-    if (quantity > 1) {
+    if (quantity > 0) {
       dispatch(addCartProduct(product, quantity));
       setQuantity(1);
       handleShowCart();
