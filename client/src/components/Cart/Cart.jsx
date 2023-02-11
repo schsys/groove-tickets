@@ -172,8 +172,8 @@ const Cart = () => {
         flexDirection="column"
         alignItems="end"
       >
-        <Typography variant="body1" color="black">
-          TOTAL ${totalOrder}
+        <Typography variant="h6" color="black">
+          TOTAL ${formatNumber(totalOrder)}
         </Typography>
       </Box>
 
