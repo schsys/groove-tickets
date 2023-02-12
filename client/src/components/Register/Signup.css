@@ -49,7 +49,6 @@
     color: rgb(0, 0, 0);
     font-size: 0.7rem;
     width: 100%;
-    margin-bottom: 0.6rem;
     height: 1.5rem;
 }
 
@@ -152,4 +151,10 @@
   .login_with_google_logo:hover{
     width: 2.8rem;
     height: auto;
+  }
+
+  .signup_error{
+    color: red;
+    font-size: 0.7rem;
+    font-weight: 600;
   }
