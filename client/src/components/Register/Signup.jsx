@@ -52,7 +52,7 @@ export default function Signup() {
     password: "",
     repassword: "",
     phoneNumber: 0,
-    terms: false,
+    //terms: false,
   });
   //const [user, setUser] = useState(input)
 
@@ -98,8 +98,9 @@ export default function Signup() {
         password: "",
         repassword: "",
         phoneNumber: 0,
-        terms: false,
+        //terms: false,
       });
+      setChecked (false);
     } catch (e) {
       setErrors(e.message);
       console.log(e.message)
@@ -212,15 +213,15 @@ export default function Signup() {
             <input
               className="register-input_check"
               type="checkbox"
-              id="terms"
-              name="terms"
-              value={input.terms}
+              id="checked"
+              name="checked"
+              value={checked}
               onChange={(e) => handleChangeCheck(e)}
             />
           </div>
 
           <div className="register_btn_div">
-          {Object.keys(errors).length ?
+          {Object.keys(errors).length || checked === false ?
            <button className="register_btn_notSubmit" type='submit' disabled>Completá el formulario</button> :
             <button className="register_btn_submit" type="submit">
               REGISTRATE

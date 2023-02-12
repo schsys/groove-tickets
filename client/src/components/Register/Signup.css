@@ -104,10 +104,21 @@
     width: 50%;
 }
 
+.register_btn_notSubmit{
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    appearance: none;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.4rem;
+ }
+
 .register_btn_submit{
     background-color: rgb(239, 162, 60);
     width: 100%;
-    margin: 0.6rem 0;
+    margin: 1rem 0;
     padding: 0.4rem;
     font-size: 1.2rem;
     font-weight: 600;

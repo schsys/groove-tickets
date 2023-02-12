@@ -100,20 +100,19 @@
 
 .login_btn_div {
   display: flex;
-  width: 50%;
+  flex-direction: column;
+  width: 70%;
   background-color: transparent;
   border: 1px solid white;
-  display: flex;
   justify-content: center;
   align-items: center;
-  height: 3rem;
   transition: all 0.2s;
   border: none;
 }
 
 .login_btn_submit {
   background-color: rgb(239, 162, 60);
-  width: 100%;
+  width: 80%;
   margin: 0.6rem 0;
   padding: 0.4rem;
   font-size: 1.2rem;
@@ -130,6 +129,14 @@
   color: white;
   font-size: 1.5rem;
   margin-left: 0.5rem;
+}
+
+.login_error_text{
+  font-size: 0.9rem;
+  color: red;
+  text-shadow: 1px 1px 1px rgba(245, 113, 113, 0.8);
+  width: 100%;
+  text-align: center;
 }
 
 .link_recover_password {

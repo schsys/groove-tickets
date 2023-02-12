@@ -25,6 +25,7 @@ export default function Login() {
       imageAlt: "Usuasio deslogueado.",
       title: "Yazz",
       html: "<h3>Gracias, te esperamos la próxima</p>",
+      footer: "<p>Podés seguir navegando.</p>",
     });
   };
   
@@ -95,7 +96,7 @@ export default function Login() {
         }))*/
   };
 
-    //Login con email y passw
+    //***Login con email y password***
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     setError('')
@@ -108,11 +109,18 @@ export default function Login() {
         email: "",
         password: "",
       });
-    } catch(e){
-      setError(e.message)
-      console.log(e.message)
+    } catch (error) {
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setError('El usuario no se encontró. Por favor, verificá el mail ingresado.');
+          break;
+          case 'auth/wrong-password':
+            setError('La contraseña es incorrecta.');
+            break;
+        default:
+          setError(error.message);
+      }
     }
-   
   };
 
 
@@ -162,6 +170,7 @@ export default function Login() {
                 <button className="login_btn_submit" type="submit">
                   INGRESÁ
                 </button>
+                {error && <p className="login_error_text">{error}</p>}
               </div>
             </form>
             <Link to="/" className="link_recover_password">
