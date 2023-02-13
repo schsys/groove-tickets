@@ -17,6 +17,7 @@ import {
   editCartProduct,
 } from "../../redux/actions";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
+import { useHistory } from "react-router-dom";
 
 const Cart = () => {
   let totalOrder = 0;
@@ -30,6 +31,7 @@ const Cart = () => {
 
   const [cartState, setCartState] = useState(cart);
   const [count, setCount] = useState();
+  const history = useHistory();
 
   function handleCloseOnClick() {
     dispatch(toggleShowCart(false));
@@ -72,6 +74,11 @@ const Cart = () => {
     const options = { weekday: "long", day: "numeric", month: "numeric" };
     const formattedDate = date.toLocaleDateString("es-ES", options);
     return formattedDate;
+  }
+
+  function handleComprar() {
+    history.push('/comprar');
+    handleCloseOnClick()
   }
 
   const cartContent = cart.map((item) => {
@@ -180,6 +187,7 @@ const Cart = () => {
       <Button
         sx={{ mt: 4, backgroundColor: `var(--color-orange)`, mr: 1, ml: 1 }}
         variant="contained"
+        onClick={handleComprar}
       >
         COMPRAR
       </Button>
