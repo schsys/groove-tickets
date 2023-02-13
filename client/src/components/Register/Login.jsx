@@ -1,22 +1,36 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import {GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signOut,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { auth } from "../../config/firebase-config";
 import { UserAuth } from "../../context/AuthContext";
+
+import { Modal, TextField, Button } from "@mui/material";
+import PasswordRecover from "./PasswordRecover/PaswordRecover";
 //import { useSessionStorage } from "../../config/useSessionStorage";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
-import "./Login.css";
 import GoogleLogo from "./googleLogo.png";
+import "./Login.css";
+import { Box } from "@mui/system";
 
 export default function Login() {
-  const {signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
+  const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
   const history = useHistory();
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [email, setEmail] = useState();
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
 
+  //Alert para saludar cuando se desloguea
   const LogoutMessage = () => {
     Swal.fire({
       imageUrl: Error_Search,
@@ -28,17 +42,17 @@ export default function Login() {
       footer: "<p>Podés seguir navegando.</p>",
     });
   };
-  
+
+  //***Login con Google
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
   const auth = getAuth();
- // const [isAuthorized, setIsAuthorized] = useSessionStorage("accessToken");
+  // const [isAuthorized, setIsAuthorized] = useSessionStorage("accessToken");
   //track the authentication status
   const [authorizedUser, setAuthorizedUser] = useState(
     false || sessionStorage.getItem("accessToken")
   );
 
-  //Login con Google
   function signInwithGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -53,7 +67,7 @@ export default function Login() {
             sessionStorage.setItem("accessToken", tkn);
             setAuthorizedUser(true);
           });
-          history.push("/"); //despues redirige para ver todo 
+          history.push("/"); //despues redirige para ver todo
         }
         console.log(user);
       })
@@ -68,7 +82,7 @@ export default function Login() {
       });
   }
 
-  //desloguear Google
+  //***desloguear Google
   function logoutUser() {
     signOut(auth)
       .then(() => {
@@ -96,12 +110,12 @@ export default function Login() {
         }))*/
   };
 
-    //***Login con email y password***
+  //***Login con email y password
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    setError('')
-    try{
-      await signIn(input.email, input.password)
+    setError("");
+    try {
+      await signIn(input.email, input.password);
       console.log("form login submited");
       history.push("/"); //despues redirige para ver todo
       setInput({
@@ -111,18 +125,40 @@ export default function Login() {
       });
     } catch (error) {
       switch (error.code) {
-        case 'auth/user-not-found':
-          setError('El usuario no se encontró. Por favor, verificá el mail ingresado.');
+        case "auth/user-not-found":
+          setError(
+            "El usuario no se encontró. Por favor, verificá el mail ingresado."
+          );
           break;
-          case 'auth/wrong-password':
-            setError('La contraseña es incorrecta.');
-            break;
+        case "auth/wrong-password":
+          setError("La contraseña es incorrecta.");
+          break;
         default:
           setError(error.message);
       }
     }
   };
 
+  //***Modal para reiniciar contraseña */
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleSendEmail = (e) => {
+    e.preventDefault();
+    setError("");
+    return sendPasswordResetEmail(auth, email)
+      .then(() => {
+        //setEmail(true);
+        // setInput({ email: "", password: "" });
+        console.log('Email enviado')
+      })
+  
+  };
 
   return (
     <div className="login_section">
@@ -132,12 +168,14 @@ export default function Login() {
           <div className="login_logged_div">
             <h3 className="login_logged_title">Ya estás logueado!</h3>
             <p className="login_logged_text">¿Querés cerrar sesión?</p>
-            <button className="login_logged_btn" onClick={logoutUser}>CERRAR SESIÓN</button>
+            <button className="login_logged_btn" onClick={logoutUser}>
+              CERRAR SESIÓN
+            </button>
           </div>
         ) : (
           <div className="login_container">
             <h2 className="login_h2">INGRESÁ</h2>
-            
+
             {/* Loguearse con email y password */}
             <form onSubmit={(e) => handleSubmitLogin(e)} className="login_form">
               <div className="login_info_wraper">
@@ -173,10 +211,44 @@ export default function Login() {
                 {error && <p className="login_error_text">{error}</p>}
               </div>
             </form>
-            <Link to="/" className="link_recover_password">
+            <button className="link_recover_password" onClick={handleOpenModal}>
               ¿Olvidaste tu contraseña?
-            </Link>
+            </button>
+            {/*Modal para recuperar contraseña*/}
+            <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+            >
+              <div className="modal-container">
+              <button className="reset_btn_close" onClick={handleCloseModal}>X</button>
+                <h2 className="modal-title">Recuperar contraseña</h2>
+                <p className="modal-description">
+                  Ingresa tu correo electrónico para recibir las instrucciones
+                  para recuperar tu contraseña.
+                </p>
+                <form className="reset_password_form" onSubmit={handleSendEmail}>
+                 
+                    <input
+                      className="reset_section_input"
+                      type="email"
+                      name="email"
+                      value={email}
+                      placeholder="Ingresá tu email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
             
+                  <div className="reset_btn_div">
+                    <button className="reset_btn_submit" type="submit">
+                      RECUPERAR
+                    </button>
+                    {/* {resetError && <p className="login_error_text">{resetError}</p>} */}
+                  </div>
+                </form>
+              </div>
+            </Modal>
+
             {/*Loguearse con Google*/}
             <div className="login_with_google">
               <h3>O ingresá con tu cuenta de Google</h3>
