@@ -26,6 +26,8 @@ export default function Login() {
       title: "Yazz",
       html: "<h3>Gracias, te esperamos la próxima</p>",
       footer: "<p>Podés seguir navegando.</p>",
+
+
     });
   };
   
@@ -96,7 +98,10 @@ export default function Login() {
         }))*/
   };
 
+
     //***Login con email y password***
+
+
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     setError('')
@@ -121,6 +126,12 @@ export default function Login() {
           setError(error.message);
       }
     }
+
+    } catch(e){
+      setError(e.message)
+      console.log(e.message)
+    }
+   
   };
 
 

@@ -99,6 +99,9 @@ export default function Signup() {
         repassword: "",
         phoneNumber: 0,
         //terms: false,
+
+        terms: false,
+
       });
       setChecked (false);
     } catch (e) {
