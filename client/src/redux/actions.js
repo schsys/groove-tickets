@@ -28,7 +28,8 @@ export const search = (name) => {
   return async function (dispatch) {
     try {
       let info = await axios.get(
-        "http://localhost:3001/products/?name=" + name
+        // 
+        "https://pg-henry.up.railway.app/products/?name=" + name
       ); // ### RUTA PARA SOLICITAR EL GET
       return dispatch({
         type: SEARCH,
@@ -43,7 +44,7 @@ export const search = (name) => {
 export const getProducts = () => {
   return async (dispatch) => {
     try {
-      const allProducts = await axios.get("http://localhost:3001/products");
+      const allProducts = await axios.get("https://pg-henry.up.railway.app/products");
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
       alert("algo salió mal");
@@ -56,7 +57,7 @@ export const getProductById = (id) => {
   return async (dispatch) => {
     try {
       const productById = await axios.get(
-        `http://localhost:3001/products/${id}`
+        `https://pg-henry.up.railway.app/products/${id}`
       );
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productById.data });
     } catch (error) {
@@ -69,7 +70,7 @@ export const filterProducts = (day, categoryId) => {
   return async (dispatch) => {
     try {
       const filteredProducts = await axios.get(
-        `http://localhost:3001/products?days=${day}&category=${categoryId}`
+        `https://pg-henry.up.railway.app/products?days=${day}&category=${categoryId}`
       );
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
