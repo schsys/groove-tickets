@@ -1,21 +1,46 @@
-import Logo from "./LogoYazz.png";
 import React, { useState } from "react";
-import "./Navbar.css";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleShowCart } from "../../redux/actions";
 import { Link } from "react-router-dom";
+import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
+import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
-import { useDispatch } from "react-redux";
-import { clearFilters, getProducts } from "../../redux/actions";
+
+//import { useSessionStorage } from "../../config/useSessionStorage";
+
+import "./Navbar.css";
+import Logo from "../../assets/LogoYazz.png";
+import { UserAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
+  //const [authorizedUser] = useSessionStorage("accessToken");
+  const { user } = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
+  const totalItems = useSelector((state) => state.totalItems);
+
   function handleOnClickShows() {
     dispatch(clearFilters());
     dispatch(getProducts());
   }
+  function handleBadgeClick() {
+    dispatch(toggleShowCart(true));
+  }
+
+  React.useEffect(() => {
+    dispatch(getTotalItems());
+    //    setAvailableStock(product.Stock);
+    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const cart = useSelector((state) => state.cart);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="navbar">
@@ -26,7 +51,8 @@ const Navbar = () => {
       </div>
       <div className={`nav_items ${isOpen && "open"}`}>
         <Link
-          to={"/shows"}
+          // to={"/shows"}
+          to={"/"}
           onClick={handleOnClickShows}
           className="navbar_menu_link"
         >
@@ -46,22 +72,29 @@ const Navbar = () => {
 
       <div className="nav_right">
         <Search />
-        {loggedIn ? (
-          <div className="nav_username">{username}</div>
+
+        {/* {authorizedUser ? ( */}
+        {user ? (
+          <div className="nav_username">
+            <Link to='/micuenta' className="navbar_menu_link" >MI CUENTA</Link>
+          </div>
         ) : (
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
-              <Link to={"/micuenta"} className="navbar_menu_link">
+              
+              <Link to={"/register"} className="navbar_menu_link">
                 INGRESAR
-              </Link>
-            </div>
-            <div className="nav_cart_btn">
-              <Link to={"/carrito"} className="navbar_menu_link">
-                <i id="cart-icon_nav" className="fa-solid fa-cart-shopping"></i>
               </Link>
             </div>
           </div>
         )}
+        <Badge
+          color="info"
+          badgeContent={totalItems}
+          onClick={handleBadgeClick}
+        >
+          <ShoppingCartIcon style={{ color: "white" }} cursor="pointer" />
+        </Badge>
       </div>
     </div>
   );

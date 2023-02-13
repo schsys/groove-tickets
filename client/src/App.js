@@ -4,20 +4,33 @@ import Shows from "./components/Shows/Shows";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import NavBar from "./components/NavBar/NavBar";
 import LandingPage from "./components/LandingPage/LandingPage";
+import CartSummary from "./components/CartSummary/CartSummary";
 import Footer from "./components/Footer/Footer";
+import Register from "./components/Register/Register";
+import Account from "./components/Account/Account";
+import Cart from "../src/components/Cart/Cart.jsx"
+import { AuthContextProvider } from "./context/AuthContext";
 import "./App.css";
 
 function App() {
   const { pathname } = useLocation();
   return (
     <>
-      <Route exact path={"/"} component={LandingPage} />
-      {pathname !== "/" ? <NavBar /> : null}
-      <Route exact path={"/shows"} component={Shows} />
-      <Route path="/product/:id">
-        <ProductDetails />
-      </Route>
-      {pathname !== "/" ? <Footer /> : null}
+      {/* <Route exact path={"/"} component={LandingPage} />
+      {pathname !== "/" ? <NavBar /> : null} */}
+      <AuthContextProvider>
+        <NavBar />
+        <Route exact path={"/"} component={Shows} />
+        <Route path="/product/:id">
+          <ProductDetails />
+        </Route>
+        <Route exact path={"/carrito"} component={CartSummary} />
+        <Route exact path={"/register"} component={Register} />
+        <Route exact path={"/micuenta"} component={Account} />
+        <Cart />
+        {pathname !== "/" ? <Footer /> : null}
+
+      </AuthContextProvider>
     </>
   );
 }

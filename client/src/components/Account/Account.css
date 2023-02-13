@@ -1,0 +1,60 @@
+.account_page_container{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    background-image: url('../../assets/bgRegister1.png');
+    background-size: cover;
+    width: 100%;
+    height: 90.5vh;
+   justify-content:flex-start;
+}
+
+.account_wrapper{
+    width: 90%;
+    margin-left: 2rem;
+}
+
+.account_title, .account_info_bold, 
+.account_info_text, .account_logout_ask{
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
+}
+
+.account_title{
+    margin: 2rem 0;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.account_info_div{
+    display: flex;
+    place-items: center;
+}
+
+.account_info_bold{ 
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+}
+
+.account_info_text{
+    font-size: 1.2rem;
+}
+  
+  .login_logged_btn {
+    background-color: rgb(239, 162, 60);
+    width: 30%;
+    margin: 0.6rem 0;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+  }
+  
+  .login_logged_btn:hover {
+    background-color: #704782;
+    cursor: pointer;
+  }
+
+  .account_logout_ask{
+    margin-bottom: 0.5rem; 
+  }

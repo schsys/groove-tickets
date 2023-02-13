@@ -1,6 +1,6 @@
 .app_footer-background {
   background-color: black;
-  background-image: url("../Shows/Resources/background.shows.png");
+  background-image: url("../../assets/background.shows.png");
   padding-bottom: 2vh;
   background-size:cover;
   background-repeat: no-repeat;
