@@ -24,9 +24,24 @@ export const AuthContextProvider = ({ children }) => {
       return signOut(auth)
   }
 
+  function resetPassword(email) {
+    alert('')
+    return auth.sendPasswordResetEmail(email).then((a) => {
+      alert(a)
+    })
+  }
+
+  function updateEmail(email) {
+    return user.updateEmail(email) //segun stackoverflow es con currentUser
+  }
+
+  function updatePassword(password) {
+    return user.updatePassword(password)//segun stackoverflow es con currentUser
+  }
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
     });
     return () => {
       unsubscribe();
