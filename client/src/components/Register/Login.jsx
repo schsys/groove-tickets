@@ -43,6 +43,18 @@ export default function Login() {
     });
   };
 
+  const EmailSent = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Usuasio deslogueado.",
+      title: "Yazz",
+      html: "<h3>Ya te enviamos el mail</p>",
+      footer: "<p>Revisá tu casilla.</p>",
+    });
+  };
+
   //***Login con Google
   const provider = new GoogleAuthProvider();
   provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -155,7 +167,7 @@ export default function Login() {
       .then(() => {
         //setEmail(true);
         // setInput({ email: "", password: "" });
-        console.log('Email enviado')
+        EmailSent()
       })
   
   };
