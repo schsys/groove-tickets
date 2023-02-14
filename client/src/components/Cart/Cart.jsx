@@ -15,6 +15,7 @@ import {
   toggleShowCart,
   removeCartProduct,
   editCartProduct,
+  emptyCart,
 } from "../../redux/actions";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
@@ -79,6 +80,11 @@ const Cart = () => {
   function handleComprar() {
     history.push('/comprar');
     handleCloseOnClick()
+  }
+
+  function handleEmptyCart() {
+    dispatch(emptyCart());
+    setCartState([])
   }
 
   const cartContent = cart.map((item) => {
@@ -190,6 +196,18 @@ const Cart = () => {
         onClick={handleComprar}
       >
         COMPRAR
+      </Button>
+      <Button
+        sx={{
+          mt: 1,
+          backgroundColor: `var(--color-violet)`,
+          mr: 1,
+          ml: 1,
+          color: "white",
+        }}
+        onClick={() => handleEmptyCart()}
+      >
+        Vaciar Carrito
       </Button>
 
       <Button onClick={handleCloseOnClick}>Cerrar</Button>

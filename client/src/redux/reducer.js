@@ -9,6 +9,7 @@ import {
   TOGGLE_SHOW_CART,
   EDIT_CART,
   REMOVE_FROM_CART,
+  EMPTY_CART,
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -91,6 +92,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         totalItems: action.payload,
+      };      
+    case EMPTY_CART:
+      return {
+        ...state,
+        totalItems: action.payload
       };
     default:
       return { ...state };
