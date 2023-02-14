@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
 import axios from "axios";
+
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
+
 import "./Signup.css";
 
 //FUNCION VALIDADORA
@@ -10,13 +14,13 @@ function validate(input){  //va a recibir el estado input con los cambios detect
   let errors = {};  //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
   if(!input.displayName){  //si imput no tiene una prop displayName                             
       errors.displayName = 'Necesitás ingresar un nombre';//al obj errors le agrego una prop displayName q tiene un mensaje como valor
-  }else if(!/^[A-z]+$/.test(input.displayName)){  //regex solo acepta letras
+  }else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.displayName)){  //regex solo acepta letras
     errors.displayName = 'Solo se permiten letras'
 } else if(input.displayName.length < 2){
   errors.displayName = 'El nombre debe tener al menos 2 letras';
 } else if(!input.lastname){
     errors.lastname = 'Necesitás ingresar un apellido';
-}else if(!/^[A-z]+$/.test(input.lastname)){ 
+}else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.lastname)){ 
     errors.lastname = 'Solo se permiten letras'
 }else if(input.lastname.length < 2){
   errors.lastname = 'El apellido debe tener al menos 2 letras';
@@ -55,19 +59,18 @@ export default function Signup() {
     phoneNumber: 0,
     //terms: false,
   });
-  //const [user, setUser] = useState(input)
-
-  // const getUserData = (e) => {
-  //   const {name, value} = e.target;
-  //   setUser({...user, [name]:value})
-  // }
-
-  // const saveUserData = async (e) => {
-  //   e.preventDefault();
-  //   console.log('user en Signup', user);
-  //   setUser({...input})
-  // }
-
+    //Alert para saludar cuando se desloguea
+    const EmailUsed = () => {
+      Swal.fire({
+        imageUrl: Error_Search,
+        imageHeight: 150,
+        imageWidth: 200,
+        imageAlt: "Email usado.",
+        title: "Yazz",
+        html: "<h3>Ese email ya está registrado</p>",
+        footer: "<p>Probá con otro email.</p>",
+      });
+    };
 
   const handleChange = (e) => {
     setInput({
@@ -91,6 +94,7 @@ export default function Signup() {
     try{
       await createUser(input.email, input.password)
       const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      console.log('dbExistUser en signup', dbExistUser.data)
       if(!dbExistUser.data){
         await axios.post('http://localhost:3001/admin/users', {userName:input.email, role:"User"})
       }
@@ -106,11 +110,19 @@ export default function Signup() {
         //terms: false,
       });
       setChecked (false);
-    } catch (e) {
-      setErrors(e.message);
-      console.log(e.message)
-    }
-  };
+    } catch (errors) {
+      switch(errors.code) {
+        case "auth/email-already-in-use":
+          setErrors("El mail ya está registrado. Necesitás usar otro mail.");
+          EmailUsed()
+          break;
+          default:
+            setErrors (errors.message)
+      }
+      console.log(errors.message)
+      }
+  }
+
 
   return (
     <div className="register_section">
@@ -151,7 +163,7 @@ export default function Signup() {
           </div>
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="email">
-              email:
+              Email:
             </label>
             <input
               className="signup_section_input"
@@ -196,7 +208,7 @@ export default function Signup() {
           </div>
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="repassword">
-              Contraseña:
+              Repetir contraseña:
             </label>
             <input
               className="signup_section_input"
