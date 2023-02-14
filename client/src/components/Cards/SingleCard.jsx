@@ -4,13 +4,26 @@ import { addCartProduct } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { formattedDate } from "../utils/formatedDate";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
-
 import "../Shows/Shows.css";
 
+
+
+
 const SingleCard = (data) => {
+  const [count, setCount] = React.useState(0);
+  
+  const dispatch = useDispatch();
+    const addToCartFromShows = () => {
+      if (count < 10) {
+        setCount(count + 1);
+        dispatch(addCartProduct(data.data, 1));
+      } else {
+        alert("La cantidad máxima permitida es 10");
+      }
+    };
 
+    /*Hover effect*/
   const cardRef = useRef(null);
-
   useEffect(() => {
     const card = cardRef.current;
     const THRESHOLD = 15;
