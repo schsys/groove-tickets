@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   addCartProduct,
   getProductById,
@@ -110,9 +110,13 @@ export default function ProductDetails() {
     <>
       {product.name ? (
         <div className="container_details">
+          <Link to="/" className="back_button">
+            Atrás
+          </Link>
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
+
               <>
                 <Box
                   sx={{
