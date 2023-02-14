@@ -19,6 +19,11 @@ const Shows = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log('useEffect() cambia products');
+    setCurrentPage(1);
+  }, [products]);
+
   const countCategories = (arr, name) => {
     let count = 0;
     arr.forEach((e) => {
@@ -81,6 +86,7 @@ const Shows = () => {
     );
   };
 
+  console.log('Shows currentPage: ', currentPage);
   return (
     <div className="shows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
