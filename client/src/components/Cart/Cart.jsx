@@ -78,7 +78,11 @@ const Cart = () => {
   }
 
   function handleComprar() {
-    history.push('/comprar');
+    if(cart.length === 0) {
+      alert("Tu carrito esta vacío")
+      return;
+    }
+      history.push('/comprar');
     handleCloseOnClick()
   }
 

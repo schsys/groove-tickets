@@ -16,12 +16,19 @@ export const AuthContextProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-   const signIn = (email, password) =>  {
+  const signIn = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password)
-   }
+  }
 
   const logout = () => {
-      return signOut(auth)
+    return signOut(auth)
+      .then(() => {
+        sessionStorage.removeItem("accessToken");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
   }
 
   function resetPassword(email) {

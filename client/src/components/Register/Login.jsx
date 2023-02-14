@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -7,17 +7,16 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { auth } from "../../config/firebase-config";
+//import { auth } from "../../config/firebase-config";
 import { UserAuth } from "../../context/AuthContext";
 
-import { Modal, TextField, Button } from "@mui/material";
-import PasswordRecover from "./PasswordRecover/PaswordRecover";
+import { Modal } from "@mui/material";
 //import { useSessionStorage } from "../../config/useSessionStorage";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 import GoogleLogo from "./googleLogo.png";
+import axios from "axios";
 import "./Login.css";
-import { Box } from "@mui/system";
 
 export default function Login() {
   const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
@@ -74,7 +73,31 @@ export default function Login() {
         // The signed-in user info.
         const user = result.user;
         if (user) {
-          user.getIdToken().then((tkn) => {
+          user.getIdToken().then( async (tkn) => {
+            // Save data in db
+            const dbExistUser = await axios.get(`http://localhost:3001/user?userName=${user.email}`)
+            console.log('dbExistUser en login', dbExistUser.data)
+            if (!dbExistUser.data) {
+              const newUser = await axios.post(
+                'http://localhost:3001/admin/users',
+                {
+                  userName: user.email,
+                  role: "User",
+                  status: "Active"
+                }
+              );
+              console.log('newUser: ', newUser);
+              const newCustomer = await axios.post('http://localhost:3001/admin/customers',
+                {
+                  userId: newUser.data.id,
+                  name: user.displayName,
+                  email: user.email,
+                  telephone: '',
+                  document: 123456
+                }
+              )
+            }
+
             // set access token in session storage
             sessionStorage.setItem("accessToken", tkn);
             setAuthorizedUser(true);
@@ -169,7 +192,7 @@ export default function Login() {
         // setInput({ email: "", password: "" });
         EmailSent()
       })
-  
+
   };
 
   return (
@@ -234,23 +257,23 @@ export default function Login() {
               aria-describedby="modal-description"
             >
               <div className="modal-container">
-              <button className="reset_btn_close" onClick={handleCloseModal}>X</button>
+                <button className="reset_btn_close" onClick={handleCloseModal}>X</button>
                 <h2 className="modal-title">Recuperar contraseña</h2>
                 <p className="modal-description">
                   Ingresa tu correo electrónico para recibir las instrucciones
                   para recuperar tu contraseña.
                 </p>
                 <form className="reset_password_form" onSubmit={handleSendEmail}>
-                 
-                    <input
-                      className="reset_section_input"
-                      type="email"
-                      name="email"
-                      value={email}
-                      placeholder="Ingresá tu email"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-            
+
+                  <input
+                    className="reset_section_input"
+                    type="email"
+                    name="email"
+                    value={email}
+                    placeholder="Ingresá tu email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+
                   <div className="reset_btn_div">
                     <button className="reset_btn_submit" type="submit">
                       RECUPERAR

@@ -20,7 +20,7 @@
 .product_container {
   margin-top: 25px;
   width: 100%;
-  height: 350px;
+  height: 340px;
   flex: 1;
   flex-wrap: wrap;
   float: left;
@@ -30,6 +30,9 @@
   color: #ffffff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.product_container h2 {
+  margin-top: -2%;
+}
 
 .product_image {
   margin-top: 25px;
@@ -38,7 +41,30 @@
   flex-wrap: wrap;
   float: right;
   object-fit: cover;
-  height: 410px;
+  height: 400px;
+}
+
+.back_button {
+  display: block;
+  width: 10%;
+  padding: 3px;
+  background: #efa13c;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-style: normal;
+  border: none;
+  margin-top: 0.5%;
+  margin-bottom: -1.55%;
+  margin-left: 2%;
+  cursor: pointer;
+}
+.back_button:hover {
+  background-color: #72cb10;
 }
 
 .product_button {
@@ -60,7 +86,6 @@
   margin-left: 2%;
   cursor: pointer;
 }
-
 .product_button:hover {
   background-color: #72cb10;
 }
@@ -72,10 +97,14 @@
   text-align: left;
   background-color: rgba(49, 103, 144, 0.8);
   color: #ffffff;
-  height: 200px;
-  margin-bottom: 5vh;
+  height: 20%;
+  margin-bottom: 2vh;
   margin-right: 2vw;
   margin-left: 2vw;
+}
+
+.product_info h4 {
+  margin-top: -1.1%;
 }
 
 /*-----Responsive hasta 767px -----*/
@@ -134,6 +163,29 @@
     margin-left: 2vw;
     font-size: 0.8em;
   }
+
+  .back_button {
+    display: block;
+    width: 10%;
+    padding: 3px;
+    background: #efa13c;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    border: none;
+    margin-top: 0.5%;
+    margin-bottom: -3.3%;
+    margin-left: 2%;
+    cursor: pointer;
+  }
+  .back_button:hover {
+    background-color: #72cb10;
+  }
 }
 
 /*-----Responsive hasta 479px -----*/
@@ -191,5 +243,28 @@
     margin-right: 2vw;
     margin-left: 2vw;
     font-size: 0.7em;
+  }
+
+  .back_button {
+    display: block;
+    width: 10%;
+    padding: 3px;
+    background: #efa13c;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    border: none;
+    margin-top: 0.5%;
+    margin-bottom: -5.5%;
+    margin-left: 2%;
+    cursor: pointer;
+  }
+  .back_button:hover {
+    background-color: #72cb10;
   }
 }
