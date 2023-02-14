@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import Swal from "sweetalert2";
@@ -8,6 +8,14 @@ import "./Account.css";
 export default function Account() {
   const { user, logout } = UserAuth();
   const history = useHistory();
+
+  useEffect(() => {
+    // Check user
+    if (user === null) {
+      history.push("/register");
+    }
+
+  }, [history, user]);
 
   const LogoutMessage = () => {
     Swal.fire({
@@ -37,11 +45,11 @@ export default function Account() {
         <h1 className="account_title">Bienvenido a tu cuenta</h1>
         <div className="account_info_div">
           <b className="account_info_bold">Nombre:</b>
-          <p className="account_info_text">{user.displayName}</p>
+          <p className="account_info_text">{user?.displayName}</p>
         </div>
         <div className="account_info_div">
           <b className="account_info_bold">email:</b>
-          <p className="account_info_text">{user.email}</p>
+          <p className="account_info_text">{user?.email}</p>
         </div>
         <div>
           <h4 className="account_logout_ask">¿Querés cerrar sesión?</h4>

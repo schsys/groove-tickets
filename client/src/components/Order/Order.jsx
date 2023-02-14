@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Card, CardContent, Box, Grid, Typography, Button } from '@mui/material';
 
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useHistory } from "react-router-dom";
+import { UserAuth } from "../../context/AuthContext";
 
 import { getCustomer, postOrder } from './api';
 
@@ -46,8 +46,8 @@ export const Order = () => {
     }, []);
 
     // Logged user
-    const auth = getAuth();
-    const [user, loadingUser] = useAuthState(auth);
+    const { user } = UserAuth();
+    const history = useHistory();
 
     const [customer, setCustomer] = useState({
         item: {},
@@ -57,7 +57,7 @@ export const Order = () => {
 
     useEffect(() => {
         console.log('Order useEffect() to fetch customer');
-        console.log('logged user: ', user, loadingUser);
+        console.log('logged user: ', user);
 
         async function fetchCustomer(userName) {
             try {
@@ -94,10 +94,13 @@ export const Order = () => {
             }
         }
 
-        if (!loadingUser && user) {
+        // Check user
+        if (user === null) {
+            history.push("/register");
+        } else {
             fetchCustomer(user.email);
         }
-    }, [user, loadingUser]);
+    }, [user, history]);
 
     const clearCart = () => {
         localStorage.setItem("cart", "");
@@ -164,26 +167,21 @@ export const Order = () => {
     }
 
     const isLoading = () =>
-        loadingUser ||
         customer.fetchStatus === 'loading' ||
         cartItems.fetchStatus === 'loading';
-
-    const userIsGuest = () =>
-        !loadingUser &&
-        !user;
 
     const isCartEmpty = () =>
         cartItems.fetchStatus !== 'loading' &&
         cartItems.items.length === 0;
 
-    return <>
-        {isLoading() &&
+    if (isLoading() || Object.keys(user).length === 0) {
+        return <>
             <p>Loading...</p>
-        }
-        {userIsGuest() &&
-            <Redirect to="/register" />
-        }
-        {isCartEmpty() &&
+        </>
+    }
+
+    if (isCartEmpty()) {
+        return <>
             <Box maxWidth="90%" margin="1em auto">
                 <Card>
                     <CardContent>
@@ -192,7 +190,10 @@ export const Order = () => {
                     </CardContent>
                 </Card>
             </Box>
-        }
+        </>
+    }
+
+    return <>
         <Box maxWidth="90%" margin="1em auto">
             <Card>
                 <CardContent>
