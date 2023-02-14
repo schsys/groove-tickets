@@ -10,6 +10,7 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const TOGGLE_SHOW_CART = "TOGGLE_SHOW_CART";
 export const EDIT_CART = "EDIT_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const EMPTY_CART = "EMPTY_CART";
 
 export const clearFilters = () => {
   return (dispatch) => {
@@ -154,6 +155,14 @@ export const removeCartProduct = (productId) => {
   };
 };
 
+export const emptyCart = () => {
+  localStorage.setItem("cart", JSON.stringify([]));
+  return {
+    type: EMPTY_CART,
+    payload: getInternalTotalItems(),
+  }
+}
+
 export const getTotalItems = () => {
   return {
     type: ADD_TO_CART,
@@ -179,3 +188,4 @@ export const toggleShowCart = (show) => {
     payload: show,
   };
 };
+

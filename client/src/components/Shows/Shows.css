@@ -90,19 +90,57 @@
   grid-template-columns: auto auto auto;
   margin-top: 2vh;
   margin-bottom: 5vh;
-  margin-left:6vw;
+  margin-left: 6vw;
 }
 
 .shows__cards-box1 {
   width: 25vw;
   background-color: var(--color-blue);
-  margin-bottom: 2vh;
+  margin-bottom: 1rem;
+  transition: 0.2s all;
 }
+
+
+/*hover effect*/
+
+.shows__cards-box1:hover{
+  border: 2px solid var(--color-green);
+  transition: transform 0.1s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.shows__cards-box1:hover .shows__cards-link{
+  transform: translateZ(12px);
+}
+
+.shows__cards-box1::before {
+  content: "";
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.shows__cards-link{
+  text-decoration: none;
+  z-index: 10;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+
+
+/*hasta aca*/
 
 .shows__cards-show1 {
   margin-bottom: 0vh;
   width: 25vw;
-  height: 20vw;
+  height: 18vw;
   object-fit: cover;
 }
 
@@ -111,12 +149,12 @@
   color: white;
   padding-left: 1vw;
   margin-top: 0vh;
-  height: 16vw;
+  height: 15vw;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .shows__cards-texth1 {
-  font-size: 2vw;
+  font-size: 1.8vw;
   margin-bottom: 0vh;
   margin-top: 0vh;
   padding-bottom: 0vh;
@@ -132,24 +170,39 @@
 .shows__cards-texth3 {
   color: var(--color-green);
   font-size: 1.4vw;
-  margin-top: 1vh;
+  margin-top: 0.5vh;
 }
 
 .shows_cards-linkInfo {
   position: absolute;
   bottom: 0;
   right: 1vw;
-  font-size: 4vw;
+  font-size: 3.6vw;
   font-weight: 1000;
   text-decoration: none;
   color: white;
   /* alternativa de animacion */
   animation: pulse 1s ease-in-out infinite;
 }
-
 .shows_cards-linkInfo:hover {
   color: var(--color-yellow);
 }
+.shows_cards-cart {
+  position: absolute;
+  bottom: 1vmax;
+  left: 1vw;
+  font-size: 4vw;
+  font-weight: 1000;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.shows_cards-cart:hover {
+  color: var(--color-yellow);
+}
+
 .shows__cards-h1FilterError {
   color: white;
   margin-bottom: 0vh;
@@ -259,6 +312,10 @@
   }
 
   .shows_cards-linkInfo {
+    font-size: 9vw;
+  }
+
+  .shows_cards-cart {
     font-size: 9vw;
   }
   .shows__cards-textContainer {
