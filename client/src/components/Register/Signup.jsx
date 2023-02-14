@@ -1,4 +1,4 @@
-import { async } from "@firebase/util";
+// import { async } from "@firebase/util";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
@@ -10,37 +10,37 @@ import Error_Search from "../../assets/Error_Search.jpg";
 import "./Signup.css";
 
 //FUNCION VALIDADORA
-function validate(input){  //va a recibir el estado input con los cambios detectados por los handlers
+function validate(input) {  //va a recibir el estado input con los cambios detectados por los handlers
   let errors = {};  //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
-  if(!input.displayName){  //si imput no tiene una prop displayName                             
-      errors.displayName = 'Necesitás ingresar un nombre';//al obj errors le agrego una prop displayName q tiene un mensaje como valor
-  }else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.displayName)){  //regex solo acepta letras
+  if (!input.displayName) {  //si imput no tiene una prop displayName                             
+    errors.displayName = 'Necesitás ingresar un nombre';//al obj errors le agrego una prop displayName q tiene un mensaje como valor
+  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.displayName)) {  //regex solo acepta letras
     errors.displayName = 'Solo se permiten letras'
-} else if(input.displayName.length < 2){
-  errors.displayName = 'El nombre debe tener al menos 2 letras';
-} else if(!input.lastname){
+  } else if (input.displayName.length < 2) {
+    errors.displayName = 'El nombre debe tener al menos 2 letras';
+  } else if (!input.lastname) {
     errors.lastname = 'Necesitás ingresar un apellido';
-}else if(!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.lastname)){ 
+  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.lastname)) {
     errors.lastname = 'Solo se permiten letras'
-}else if(input.lastname.length < 2){
-  errors.lastname = 'El apellido debe tener al menos 2 letras';
-}else if(!input.email){
+  } else if (input.lastname.length < 2) {
+    errors.lastname = 'El apellido debe tener al menos 2 letras';
+  } else if (!input.email) {
     errors.email = 'Necesitás ingresar un mail'
-}else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)){ 
+  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) {
     errors.email = 'Tiene que ser un mail válido'
-}else if(!input.phoneNumber){
+  } else if (!input.phoneNumber) {
     errors.phoneNumber = 'Necesitás ingrear un teléfono'
-}else if(!/^((\(?\d{2,5}\)?)?(\d|-| )?(15((\d|-| ){6,13})))$/.test(input.phoneNumber)){ 
+  } else if (!/^((\(?\d{2,5}\)?)?(\d|-| )?(15((\d|-| ){6,13})))$/.test(input.phoneNumber)) {
     errors.phoneNumber = 'Tiene que ser un número válido'
-}else if(!input.password){
+  } else if (!input.password) {
     errors.password = 'Necesitás ingresar una contraseña'
-}else if(!/^(?=.*\d).{6,8}$$/.test(input.password)){ 
+  } else if (!/^(?=.*\d).{6,8}$$/.test(input.password)) {
     errors.password = 'Para ser segura tiene que tener entre 6 y 8 caracteres. Y debe incluir al menos un número.'
-} else if(!input.repassword){
-  errors.password = 'Necesitás repetir tu contraseña'
-}else if(input.repassword !== input.password){ 
-  errors.password = 'Tenés que ingresar lo mismo que en contraseña'
-}  
+  } else if (!input.repassword) {
+    errors.password = 'Necesitás repetir tu contraseña'
+  } else if (input.repassword !== input.password) {
+    errors.password = 'Tenés que ingresar lo mismo que en contraseña'
+  }
   return errors;  //se retorna el obj errors con la prop y el string correspondiente. ej: let errors ={name: 'a name is required'}
 }
 
@@ -49,7 +49,7 @@ export default function Signup() {
   const history = useHistory();
   const { createUser } = UserAuth();
   const [checked, setChecked] = useState(false);
-  const [errors, setErrors] = useState({e:''}); 
+  const [errors, setErrors] = useState({ e: '' });
   const [input, setInput] = useState({
     displayName: "",
     lastname: "",
@@ -59,18 +59,18 @@ export default function Signup() {
     phoneNumber: 0,
     //terms: false,
   });
-    //Alert para saludar cuando se desloguea
-    const EmailUsed = () => {
-      Swal.fire({
-        imageUrl: Error_Search,
-        imageHeight: 150,
-        imageWidth: 200,
-        imageAlt: "Email usado.",
-        title: "Yazz",
-        html: "<h3>Ese email ya está registrado</p>",
-        footer: "<p>Probá con otro email.</p>",
-      });
-    };
+  //Alert para saludar cuando se desloguea
+  const EmailUsed = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Email usado.",
+      title: "Yazz",
+      html: "<h3>Ese email ya está registrado</p>",
+      footer: "<p>Probá con otro email.</p>",
+    });
+  };
 
   const handleChange = (e) => {
     setInput({
@@ -78,9 +78,9 @@ export default function Signup() {
       [e.target.name]: e.target.value,
     });
     setErrors(validate({
-          ...input,
-          [e.target.name]: e.target.value,
-        }))
+      ...input,
+      [e.target.name]: e.target.value,
+    }))
   };
 
   const handleChangeCheck = () => {
@@ -91,12 +91,30 @@ export default function Signup() {
     e.preventDefault();
     console.log("form register submited");
     setErrors('')
-    try{
+    try {
       await createUser(input.email, input.password)
-      const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      // const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      const dbExistUser = await axios.get(`http://localhost:3001/user?userName=${input.email}`)
       console.log('dbExistUser en signup', dbExistUser.data)
-      if(!dbExistUser.data){
-        await axios.post('http://localhost:3001/admin/users', {userName:input.email, role:"User"})
+      if (!dbExistUser.data) {
+        const newUser = await axios.post(
+          'http://localhost:3001/admin/users',
+          {
+            userName: input.email,
+            role: "User",
+            status: "Active"
+          }
+        );
+        console.log('newUser: ', newUser);
+        const newCustomer = await axios.post('http://localhost:3001/admin/customers',
+          {
+            userId: newUser.data.id,
+            name: input.displayName + " " + input.lastname,
+            email: input.email,
+            telephone: input.phoneNumber,
+            document: 123456
+          }
+        )
       }
       history.push("/"); //despues redirige para ver todos los shows
       setInput({
@@ -109,18 +127,18 @@ export default function Signup() {
         phoneNumber: 0,
         //terms: false,
       });
-      setChecked (false);
+      setChecked(false);
     } catch (errors) {
-      switch(errors.code) {
+      switch (errors.code) {
         case "auth/email-already-in-use":
           setErrors("El mail ya está registrado. Necesitás usar otro mail.");
           EmailUsed()
           break;
-          default:
-            setErrors (errors.message)
+        default:
+          setErrors(errors.message)
       }
       console.log(errors.message)
-      }
+    }
   }
 
 
@@ -238,11 +256,11 @@ export default function Signup() {
           </div>
 
           <div className="register_btn_div">
-          {Object.keys(errors).length || checked === false ?
-           <button className="register_btn_notSubmit" type='submit' disabled>Completá el formulario</button> :
-            <button className="register_btn_submit" type="submit">
-              REGISTRATE
-            </button>}
+            {Object.keys(errors).length || checked === false ?
+              <button className="register_btn_notSubmit" type='submit' disabled>Completá el formulario</button> :
+              <button className="register_btn_submit" type="submit">
+                REGISTRATE
+              </button>}
           </div>
         </form>
       </div>

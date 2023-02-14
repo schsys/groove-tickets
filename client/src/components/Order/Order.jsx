@@ -180,7 +180,7 @@ export const Order = () => {
   const isCartEmpty = () =>
     cartItems.fetchStatus !== "loading" && cartItems.items.length === 0;
 
-  if (isLoading() || Object.keys(user).length === 0) {
+  if (isLoading()) {
     return (
       <>
         <p>Loading...</p>
