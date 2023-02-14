@@ -13,4 +13,6 @@ export default function Error404() {
             <img className="error_Img"  src={errorImg} alt='Page not found'/>
         </div>
       )
+
+      
 }
