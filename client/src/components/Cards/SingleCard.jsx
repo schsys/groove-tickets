@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { addCartProduct } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 import { formattedDate } from "../utils/formatedDate";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
+
 import "../Shows/Shows.css";
 
 const SingleCard = (data) => {
@@ -13,6 +16,16 @@ const SingleCard = (data) => {
   // console.log('fecha: ', data.data.StartDate)
   // console.log('hora: ', data.data.StartTime)
   // console.log("-- fin de datos --");
+  const [count, setCount] = React.useState(0);
+  const dispatch = useDispatch();
+  const addToCartFromShows = () => {
+    if (count < 10) {
+      setCount(count + 1);
+      dispatch(addCartProduct(data.data, 1));
+    } else {
+      alert("La cantidad máxima permitida es 10");
+    }
+  };
 
   return (
     <div className="shows__cards-box1" key={data.data.id}>
@@ -31,6 +44,10 @@ const SingleCard = (data) => {
         <h3 className="shows__cards-texth3">
           {data.data.StartTime.slice(0, 2)} Horas
         </h3>
+        <FaShoppingCart
+          className="shows_cards-cart"
+          onClick={addToCartFromShows}
+        />
         <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
           <FaInfoCircle />
         </Link>
