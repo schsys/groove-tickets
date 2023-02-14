@@ -17,6 +17,7 @@ export default function Account() {
       imageAlt: "Usuasio deslogueado.",
       title: "Yazz",
       html: "<h3>Gracias, te esperamos la próxima</p>",
+      footer: "<p>Podés seguir navegando.</p>",
     });
   };
 

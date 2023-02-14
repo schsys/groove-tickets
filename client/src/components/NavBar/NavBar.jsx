@@ -14,7 +14,7 @@ import "./Navbar.css";
 import Logo from "../../assets/LogoYazz.png";
 import { UserAuth } from "../../context/AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ isCartDisabled = false }) => {
   //const [authorizedUser] = useSessionStorage("accessToken");
   const { user } = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,9 @@ const Navbar = () => {
     dispatch(getProducts());
   }
   function handleBadgeClick() {
-    dispatch(toggleShowCart(true));
+    if (!isCartDisabled) {
+      dispatch(toggleShowCart(true));
+    }
   }
 
   React.useEffect(() => {
@@ -93,7 +95,7 @@ const Navbar = () => {
           badgeContent={totalItems}
           onClick={handleBadgeClick}
         >
-          <ShoppingCartIcon style={{ color: "white" }} cursor="pointer" />
+          <ShoppingCartIcon style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
         </Badge>
       </div>
     </div>
