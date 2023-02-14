@@ -100,13 +100,42 @@
   transition: 0.2s all;
 }
 
+
+/*hover effect*/
+
 .shows__cards-box1:hover{
   border: 2px solid var(--color-green);
+  transition: transform 0.1s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.shows__cards-box1:hover .shows__cards-link{
+  transform: translateZ(12px);
+}
+
+.shows__cards-box1::before {
+  content: "";
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
 .shows__cards-link{
   text-decoration: none;
+  z-index: 10;
+  position: relative;
+  transition: transform 0.3s ease;
 }
+
+
+
+/*hasta aca*/
 
 .shows__cards-show1 {
   margin-bottom: 0vh;
