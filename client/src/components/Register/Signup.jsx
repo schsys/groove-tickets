@@ -5,6 +5,8 @@ import { UserAuth } from '../../context/AuthContext';
 import axios from "axios";
 import "./Signup.css";
 
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
 //FUNCION VALIDADORA
 function validate(input){  //va a recibir el estado input con los cambios detectados por los handlers
   let errors = {};  //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
@@ -90,9 +92,11 @@ export default function Signup() {
     setErrors('')
     try{
       await createUser(input.email, input.password)
-      const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      // const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      const dbExistUser = await axios.get(`/admin/users/user/${input.email}`)
       if(!dbExistUser.data){
-        await axios.post('http://localhost:3001/admin/users', {userName:input.email, role:"User"})
+        // await axios.post('http://localhost:3001/admin/users', {userName:input.email, role:"User"})
+        await axios.post('/admin/users', {userName:input.email, role:"User"})
       }
       history.push("/"); //despues redirige para ver todos los shows
       setInput({

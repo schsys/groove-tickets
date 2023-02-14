@@ -1,5 +1,7 @@
 import axios from "axios";
 
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
 export const SEARCH = "SEARCH";
 export const SET_ERROR = "SET_ERROR";
 export const GET_PRODUCTS = "GET_PRODUCTS";
@@ -28,8 +30,11 @@ export function setError(payload) {
 export const search = (name) => {
   return async function (dispatch) {
     try {
+      // let info = await axios.get(
+      //   "http://localhost:3001/products/?name=" + name
+      // ); // ### RUTA PARA SOLICITAR EL GET
       let info = await axios.get(
-        "http://localhost:3001/products/?name=" + name
+        "/products/?name=" + name
       ); // ### RUTA PARA SOLICITAR EL GET
       return dispatch({
         type: SEARCH,
@@ -44,7 +49,8 @@ export const search = (name) => {
 export const getProducts = () => {
   return async (dispatch) => {
     try {
-      const allProducts = await axios.get("http://localhost:3001/products");
+      // const allProducts = await axios.get("http://localhost:3001/products");
+      const allProducts = await axios.get("/products");
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
       alert("algo salió mal");
@@ -56,8 +62,11 @@ export const getProducts = () => {
 export const getProductById = (id) => {
   return async (dispatch) => {
     try {
+      // const productById = await axios.get(
+      //   `http://localhost:3001/products/${id}`
+      // );
       const productById = await axios.get(
-        `http://localhost:3001/products/${id}`
+        `/products/${id}`
       );
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productById.data });
     } catch (error) {
@@ -69,8 +78,11 @@ export const getProductById = (id) => {
 export const filterProducts = (day, categoryId) => {
   return async (dispatch) => {
     try {
+      // const filteredProducts = await axios.get(
+      //   `http://localhost:3001/products?days=${day}&category=${categoryId}`
+      // );
       const filteredProducts = await axios.get(
-        `http://localhost:3001/products?days=${day}&category=${categoryId}`
+        `/products?days=${day}&category=${categoryId}`
       );
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
