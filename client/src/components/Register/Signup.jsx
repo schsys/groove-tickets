@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
+import axios from "axios";
 import "./Signup.css";
 
 //FUNCION VALIDADORA
@@ -89,6 +90,10 @@ export default function Signup() {
     setErrors('')
     try{
       await createUser(input.email, input.password)
+      const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
+      if(!dbExistUser.data){
+        await axios.post('http://localhost:3001/admin/users', {userName:input.email, role:"User"})
+      }
       history.push("/"); //despues redirige para ver todos los shows
       setInput({
         //resetea el estado del input

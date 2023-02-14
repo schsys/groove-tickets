@@ -1,10 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { addCartProduct } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 import { formattedDate } from "../utils/formatedDate";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
+
 import "../Shows/Shows.css";
 
 const SingleCard = (data) => {
+
   const cardRef = useRef(null);
 
   useEffect(() => {
@@ -54,6 +58,10 @@ const SingleCard = (data) => {
           <h3 className="shows__cards-texth3">
             {data.data.StartTime.slice(0, 2)} Horas
           </h3>
+          <FaShoppingCart
+          className="shows_cards-cart"
+          onClick={addToCartFromShows}
+        />
           <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
             <FaInfoCircle />
           </Link>
@@ -65,29 +73,3 @@ const SingleCard = (data) => {
 
 export default SingleCard;
 
-
-
-  /*Codigo para dar efecto 3D*/
-  // {
-  //   const card = document.querySelector(".shows__cards-box1");
-  //   const THRESHOLD = 15;
-   
-  //  function handleHover(e) {
-  //    const { clientX, clientY, currentTarget } = e;
-  //    const { clientWidth, clientHeight, offsetLeft, offsetTop } = currentTarget;
-   
-  //    const horizontal = (clientX - offsetLeft) / clientWidth;
-  //    const vertical = (clientY - offsetTop) / clientHeight;
-  //    const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
-  //    const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
-  //    card.style.transform =
-  //      `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
-  //  }
-   
-  //  function resetStyles(e) {
-  //    card.style.transform =
-  //      `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
-  //  }
-  //  card.addEventListener("mousemove", handleHover);
-  //  card.addEventListener("mouseleave", resetStyles);
-  // } 

@@ -90,7 +90,7 @@
   grid-template-columns: auto auto auto;
   margin-top: 2vh;
   margin-bottom: 5vh;
-  margin-left:6vw;
+  margin-left: 6vw;
 }
 
 .shows__cards-box1 {
@@ -184,10 +184,25 @@
   /* alternativa de animacion */
   animation: pulse 1s ease-in-out infinite;
 }
-
 .shows_cards-linkInfo:hover {
   color: var(--color-yellow);
 }
+.shows_cards-cart {
+  position: absolute;
+  bottom: 1vmax;
+  left: 1vw;
+  font-size: 4vw;
+  font-weight: 1000;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.shows_cards-cart:hover {
+  color: var(--color-yellow);
+}
+
 .shows__cards-h1FilterError {
   color: white;
   margin-bottom: 0vh;
@@ -297,6 +312,10 @@
   }
 
   .shows_cards-linkInfo {
+    font-size: 9vw;
+  }
+
+  .shows_cards-cart {
     font-size: 9vw;
   }
   .shows__cards-textContainer {

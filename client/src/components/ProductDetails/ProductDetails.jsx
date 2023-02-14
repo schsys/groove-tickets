@@ -113,7 +113,7 @@ export default function ProductDetails() {
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-              <span>
+              <>
                 <Box
                   sx={{
                     width: 200,
@@ -142,7 +142,7 @@ export default function ProductDetails() {
                     </Box>
                   )}
                 </Box>
-              </span>
+              </>
 
               <>
                 <p>
@@ -207,31 +207,31 @@ export default function ProductDetails() {
                 }}
               >
                 <div>
-                  <Badge color="warning" badgeContent={quantity}>
-                    <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                      SELCCIONA LA CATIDAD Y PRESIONA AGREGAR AL CARRITO
-                    </Typography>
-                  </Badge>
-                  <ButtonGroup>
-                    <Button
-                      style={{ background: "white" }}
-                      onClick={() => {
-                        setQuantity(Math.max(quantity - 1, 0));
-                      }}
-                    >
-                      <RemoveIcon
-                        fontSize="small"
-                        style={{ background: "white" }}
-                      />
-                    </Button>
+                  <Typography color="white" variant="body2" xs={{ pl: 0 }}>
+                    SELCCIONA LA CATIDAD Y PRESIONA AGREGAR AL CARRITO{" "}
+                    <Badge color="warning" badgeContent={quantity}>
+                      <ButtonGroup>
+                        <Button
+                          style={{ background: "white" }}
+                          onClick={() => {
+                            setQuantity(Math.max(quantity - 1, 1));
+                          }}
+                        >
+                          <RemoveIcon
+                            fontSize="small"
+                            style={{ background: "white" }}
+                          />
+                        </Button>
 
-                    <Button
-                      style={{ background: "white" }}
-                      onClick={handleClick}
-                    >
-                      <AddIcon fontSize="small" />
-                    </Button>
-                  </ButtonGroup>
+                        <Button
+                          style={{ background: "white" }}
+                          onClick={handleClick}
+                        >
+                          <AddIcon fontSize="small" />
+                        </Button>
+                      </ButtonGroup>
+                    </Badge>
+                  </Typography>
                 </div>
               </Box>
             </div>
