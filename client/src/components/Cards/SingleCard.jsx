@@ -8,6 +8,16 @@ import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
 
 const SingleCard = (data) => {
+  const [count, setCount] = React.useState(0);
+  const dispatch = useDispatch();
+  const addToCartFromShows = () => {
+    if (count < 10) {
+      setCount(count + 1);
+      dispatch(addCartProduct(data.data, 1));
+    } else {
+      alert("La cantidad máxima permitida es 10");
+    }
+  };
 
   const cardRef = useRef(null);
 
@@ -17,7 +27,8 @@ const SingleCard = (data) => {
 
     function handleHover(e) {
       const { clientX, clientY, currentTarget } = e;
-      const { clientWidth, clientHeight, offsetLeft, offsetTop } = currentTarget;
+      const { clientWidth, clientHeight, offsetLeft, offsetTop } =
+        currentTarget;
 
       const horizontal = (clientX - offsetLeft) / clientWidth;
       const vertical = (clientY - offsetTop) / clientHeight;
@@ -39,7 +50,6 @@ const SingleCard = (data) => {
     };
   }, [cardRef]);
 
-
   return (
     <div className="shows__cards-box1" ref={cardRef} key={data.data.id}>
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
@@ -59,9 +69,9 @@ const SingleCard = (data) => {
             {data.data.StartTime.slice(0, 2)} Horas
           </h3>
           <FaShoppingCart
-          className="shows_cards-cart"
-          onClick={addToCartFromShows}
-        />
+            className="shows_cards-cart"
+            onClick={addToCartFromShows}
+          />
           <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
             <FaInfoCircle />
           </Link>
@@ -72,4 +82,3 @@ const SingleCard = (data) => {
 };
 
 export default SingleCard;
-
