@@ -51,11 +51,13 @@ const Shows = () => {
   const handleDayChange = (day) => {
     setSelectedDay(day);
     dispatch(filterProducts(day, selectedCategoryId));
+    setCurrentPage(1);
   };
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
     dispatch(filterProducts(selectedDay, categoryId));
+    setCurrentPage(1);
   };
 
   const handlePrev = () => {
