@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -7,17 +7,15 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { auth } from "../../config/firebase-config";
+//import { auth } from "../../config/firebase-config";
 import { UserAuth } from "../../context/AuthContext";
 
-import { Modal, TextField, Button } from "@mui/material";
-import PasswordRecover from "./PasswordRecover/PaswordRecover";
+import { Modal } from "@mui/material";
 //import { useSessionStorage } from "../../config/useSessionStorage";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 import GoogleLogo from "./googleLogo.png";
 import "./Login.css";
-import { Box } from "@mui/system";
 
 export default function Login() {
   const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
