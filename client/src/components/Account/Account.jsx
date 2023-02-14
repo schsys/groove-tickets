@@ -1,21 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
+import { getCustomer } from '../Order/api';
 import "./Account.css";
 
 export default function Account() {
   const { user, logout } = UserAuth();
   const history = useHistory();
 
+  const [customer, setCustomer] = useState({
+    item: {},
+    fetchStatus: 'loading',
+    error: null
+  });
+
   useEffect(() => {
+    console.log('Order useEffect() to fetch customer');
+    console.log('logged user: ', user);
+
+    async function fetchCustomer(userName) {
+      try {
+        const response = await getCustomer(userName);
+        console.log("getCustomer", response);
+
+        if (response.ok) {
+          setCustomer(customer => ({
+            ...customer,
+            fetchStatus: 'succeeded',
+            item: {
+              ...response.data
+            }
+          }));
+        } else {
+          // console.log('response: ', response);
+          setCustomer(customer => ({
+            ...customer,
+            fetchStatus: 'failed',
+            item: {},
+            error: response.error
+          }));
+        }
+      } catch (error) {
+        setCustomer(customer => ({
+          ...customer,
+          fetchStatus: 'failed',
+          item: {},
+          error: {
+            message: 'Error processing last action',
+            status: error.response && error.response.status
+          }
+        }));
+      }
+    }
+
     // Check user
     if (user === null) {
       history.push("/register");
+    } else {
+      fetchCustomer(user.email);
     }
-
-  }, [history, user]);
+  }, [user, history]);
 
   const LogoutMessage = () => {
     Swal.fire({
@@ -50,6 +96,10 @@ export default function Account() {
         <div className="account_info_div">
           <b className="account_info_bold">email:</b>
           <p className="account_info_text">{user?.email}</p>
+        </div>
+        <div className="account_info_div">
+          <b className="account_info_bold">teléfono:</b>
+          <p className="account_info_text">{customer?.item?.telephone}</p>
         </div>
         <div>
           <h4 className="account_logout_ask">¿Querés cerrar sesión?</h4>
