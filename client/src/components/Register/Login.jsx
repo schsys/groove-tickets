@@ -17,6 +17,7 @@ import Error_Search from "../../assets/Error_Search.jpg";
 import GoogleLogo from "./googleLogo.png";
 import axios from "axios";
 import "./Login.css";
+const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export default function Login() {
   const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
@@ -69,17 +70,17 @@ export default function Login() {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        // const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
         if (user) {
           user.getIdToken().then( async (tkn) => {
             // Save data in db
-            const dbExistUser = await axios.get(`http://localhost:3001/user?userName=${user.email}`)
+            const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
             console.log('dbExistUser en login', dbExistUser.data)
             if (!dbExistUser.data) {
               const newUser = await axios.post(
-                'http://localhost:3001/admin/users',
+                `${apiUrl}/admin/users`,
                 {
                   userName: user.email,
                   role: "User",
@@ -87,7 +88,7 @@ export default function Login() {
                 }
               );
               console.log('newUser: ', newUser);
-              const newCustomer = await axios.post('http://localhost:3001/admin/customers',
+              /* const newCustomer = await axios.post(`${apiUrl}/admin/customers`,
                 {
                   userId: newUser.data.id,
                   name: user.displayName,
@@ -95,7 +96,7 @@ export default function Login() {
                   telephone: '',
                   document: 123456
                 }
-              )
+              ) */
             }
 
             // set access token in session storage
@@ -107,13 +108,25 @@ export default function Login() {
         console.log(user);
       })
       .catch((error) => {
-        // Handle Errors here.
+        const errorLog = {
+          code : error.code,
+          message : error.message,
+          email : error.customData.email,
+          credential : GoogleAuthProvider.credentialFromError(error),
+        }
+        
+        console.log(`Ha ocurrido un error con el codigo ${errorLog.code}`)
+        console.log(`Ha sucedido al utilizar el email ${errorLog.email}`)
+        console.log(`El error se refiere a`)
+        console.log(errorLog.message)
+
+        /* // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        const credential = GoogleAuthProvider.credentialFromError(error); */
       });
   }
 

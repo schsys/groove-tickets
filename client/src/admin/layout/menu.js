@@ -1,9 +1,9 @@
 import * as React from "react";
 import { DashboardMenuItem, MenuItemLink } from "react-admin";
 import BookIcon from "@mui/icons-material/Book";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+// import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import PeopleIcon from "@mui/icons-material/People";
-import LabelIcon from "@mui/icons-material/Label";
+// import LabelIcon from "@mui/icons-material/Label";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CategoryIcon from '@mui/icons-material/Category';

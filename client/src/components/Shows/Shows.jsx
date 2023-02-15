@@ -155,7 +155,7 @@ const Shows = () => {
                       }
                       action={handleCategoryChange}
                       data={c.id}
-                      style="shows__categories-buttons"
+                      style={shows__categories-buttons}
                       key={c.id}
                     />
                   );

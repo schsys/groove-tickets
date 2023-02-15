@@ -1,7 +1,8 @@
 import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 
-const apiUrl = 'http://localhost:3001/admin';
+const baseUrl = process.env.REACT_APP_BASE_URL;
+const apiUrl = baseUrl+'/admin';
 const httpClient = fetchUtils.fetchJson;
 
 export const dataProvider = {
