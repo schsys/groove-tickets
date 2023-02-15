@@ -26,7 +26,7 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
     errors.lastname = 'El apellido debe tener al menos 2 letras';
   } else if (!input.email) {
     errors.email = 'Necesitás ingresar un mail'
-  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) { // eslint-disable-next-line to the line before.
+  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) { // eslint-disable-next-line
     errors.email = 'Tiene que ser un mail válido'
   } else if (!input.phoneNumber) {
     errors.phoneNumber = 'Necesitás ingrear un teléfono'
@@ -106,7 +106,7 @@ export default function Signup() {
           }
         );
         console.log('newUser: ', newUser);
-        const newCustomer = await axios.post(`${apiUrl}/admin/customers`, // eslint-disable-next-line to the line before.
+        const newCustomer = await axios.post(`${apiUrl}/admin/customers`, // eslint-disable-next-line
           {
             userId: newUser.data.id,
             name: input.displayName + " " + input.lastname,
