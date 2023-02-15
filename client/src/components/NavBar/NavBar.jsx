@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import { IconName } from "react-icons/fa";
+// import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
 //import { useSessionStorage } from "../../config/useSessionStorage";
@@ -18,8 +18,8 @@ const Navbar = ({ isCartDisabled = false }) => {
   //const [authorizedUser] = useSessionStorage("accessToken");
   const { user } = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
   const totalItems = useSelector((state) => state.totalItems);
@@ -41,8 +41,8 @@ const Navbar = ({ isCartDisabled = false }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const cart = useSelector((state) => state.cart);
-  const [showCart, setShowCart] = useState(false);
+  // const cart = useSelector((state) => state.cart);
+  // const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="navbar">

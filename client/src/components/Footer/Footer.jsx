@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="app_footer-background">
       <div className="app__footer-container">
-      <a href="https://www.instagram.com" target="_blank">
+      <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
         <img src={yazzLogo} alt="logo Yazz" className="app__footer-logo" />
         </a>
         <div className="app__footer-text">
@@ -20,14 +20,14 @@ const Footer = () => {
         </div>
         <div className="app__footer-socialcopyright">
           <div className="app__footer-socialcontainer">
-            <a href="https://www.instagram.com" target="_blank">
+            <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
               <img
                 src={instagramLogo}
                 alt="instagram link logo"
                 className="app__footer-instagram"
               />
             </a>
-            <a href="https://www.facebook.com" target="_blank">
+            <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
               <img src={facebookLogo} alt="facebook link logo" />
             </a>
           </div>
