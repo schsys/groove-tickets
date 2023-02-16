@@ -7,10 +7,16 @@ import {
 } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
 
-const UserContext = createContext();
+// https://stackoverflow.com/questions/60946584/react-use-context-cannot-destructure-property-currentchatbotinedit-of-object
+const UserContext = createContext("");
+
+export const UserAuth = () => {
+  return useContext(UserContext);
+};
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -31,24 +37,27 @@ export const AuthContextProvider = ({ children }) => {
       });
   }
 
-  function resetPassword(email) {
-    alert('')
-    return auth.sendPasswordResetEmail(email).then((a) => {
-      alert(a)
-    })
-  }
+  // function resetPassword(email) {
+  //   alert('')
+  //   return auth.sendPasswordResetEmail(email).then((a) => {
+  //     alert(a)
+  //   })
+  // }
 
-  function updateEmail(email) {
-    return user.updateEmail(email) //segun stackoverflow es con currentUser
-  }
+  // function updateEmail(email) {
+  //   return user.updateEmail(email) //segun stackoverflow es con currentUser
+  // }
 
-  function updatePassword(password) {
-    return user.updatePassword(password)//segun stackoverflow es con currentUser
-  }
+  // function updatePassword(password) {
+  //   return user.updatePassword(password)//segun stackoverflow es con currentUser
+  // }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      console.log('AuthContextProvider.onAuthStateChanged(), user: ', firebaseUser);
+      
+      setUser(firebaseUser);
+      setIsLoading(false);
     });
     return () => {
       unsubscribe();
@@ -56,12 +65,8 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ createUser, user, logout, signIn }}>
+    <UserContext.Provider value={{ createUser, user, isLoading, logout, signIn }}>
       {children}
     </UserContext.Provider>
   );
-};
-
-export const UserAuth = () => {
-  return useContext(UserContext);
 };
