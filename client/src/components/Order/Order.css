@@ -1,0 +1,114 @@
+.cartSummary-Container {
+  display: flex;
+  background-image: url(./Resources/_____02.png);
+  background-color: black;
+  flex-direction: column;
+}
+.cartSummary__summary-Container {
+  background-color: var(--color-violet);
+  width: 95%;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  margin-bottom: 2vh;
+}
+.cartSummary__summary-header {
+  color: white;
+  margin-left: 2vw;
+  padding-top: 2vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid white;
+}
+.cartSummary__show-Container {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-right: 2vw;
+  margin-left: 2vw;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+}
+.cartSummary__show-image {
+  height: 10vh;
+  margin-left: 2vw;
+  margin-bottom: 2vh;
+  border: 1px solid var(--color-gray);
+}
+
+.cartSummary__show-nameDate {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cartSummary__show-totalOrder {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  /* font-size: 2vw; */
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding-right: 2vw;
+}
+
+.cartSummary__show-processOrder {
+  background-color: var(--color-orange);
+  border: none;
+  width: 100%;
+  height: 5vh;
+  font-size: 1.5vw;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 2vh;
+}
+
+.cartSummary__show-processOrder:hover {
+  background-color: #72cb10;
+}
+
+.cartSummary__user-infoContainer {
+  margin-top: 2vh;
+  background-color: var(--color-blue);
+  margin-left: 2vw;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+.cartSummary__user-header {
+  color: white;
+  margin-left: 2vw;
+  padding-top: 2vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid white;
+}
+.cartSummary__user-headerInfo {
+  color: white;
+  margin-left: 2vw;
+  padding-top: 2vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid white;
+}
+.cartSummary__user-info {
+  color: white;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-left: 2vw;
+  font-size: 1.5vw;
+}
+
+.cartSummary__user-editInfo {
+  margin-left: 1vw;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  justify-content: flex-end;
+}
+.cartSummary__user-editInfo:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
+}
+.cartSummary__show-processOrderButton {
+  color: white;
+  font-size: 2vw;
+  text-decoration: none;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
