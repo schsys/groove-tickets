@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  Box,
-  Grid,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Redirect, NavLink, Link } from "react-router-dom";
+import { Card, CardContent, Box /* Typography, Button */ } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
-import { useHistory } from "react-router-dom";
-import { UserAuth } from "../../context/AuthContext";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import { getCustomer, postOrder } from "./api";
 
-import { OrderDetail } from "./OrderDetail";
-import { OrderTotals } from "./OrderTotals";
-
-import "./EmptyCart.css";
+/* import { OrderDetail } from "./OrderDetail";
+import { OrderTotals } from "./OrderTotals"; */
+import "./Order.css";
 
 export const Order = () => {
   // Order data
-  const [order, setOrder] = useState({
+  const [, /* order */ setOrder] = useState({
     item: {},
     status: "idle",
     error: null,
@@ -55,8 +48,8 @@ export const Order = () => {
   }, []);
 
   // Logged user
-  const { user } = UserAuth();
-  const history = useHistory();
+  const auth = getAuth();
+  const [user, loadingUser] = useAuthState(auth);
 
   const [customer, setCustomer] = useState({
     item: {},
@@ -66,7 +59,7 @@ export const Order = () => {
 
   useEffect(() => {
     console.log("Order useEffect() to fetch customer");
-    console.log("logged user: ", user);
+    console.log("logged user: ", user, loadingUser);
 
     async function fetchCustomer(userName) {
       try {
@@ -103,13 +96,10 @@ export const Order = () => {
       }
     }
 
-    // Check user
-    if (user === null) {
-      history.push("/register");
-    } else {
+    if (!loadingUser && user) {
       fetchCustomer(user.email);
     }
-  }, [user, history]);
+  }, [user, loadingUser]);
 
   const clearCart = () => {
     localStorage.setItem("cart", "");
@@ -173,136 +163,101 @@ export const Order = () => {
       }));
     }
   };
-
+  console.log("Cartitems", cartItems);
   const isLoading = () =>
-    customer.fetchStatus === "loading" || cartItems.fetchStatus === "loading";
+    loadingUser ||
+    customer.fetchStatus === "loading" ||
+    cartItems.fetchStatus === "loading";
+
+  const userIsGuest = () => !loadingUser && !user;
 
   const isCartEmpty = () =>
     cartItems.fetchStatus !== "loading" && cartItems.items.length === 0;
 
-  if (isLoading()) {
-    return (
-      <>
-        <p>Loading...</p>
-      </>
-    );
+  function formatNumber(number) {
+    return new Intl.NumberFormat("es-ES", {
+      style: "decimal",
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }).format(number);
   }
 
-  if (isCartEmpty()) {
-    return (
-      <div className="emptyCart_container">
-        <div className="emptyCart_info_div">
-          <p className="emptyCart_text">El carrito está vacío!</p>
-          <NavLink className="emptyCart_link" to="/">Ver shows</NavLink>
+  function formatDate(prevDate) {
+    const date = new Date(prevDate + "T00:00:00");
+    const options = { weekday: "long", day: "numeric", month: "numeric" };
+    const formattedDate = date.toLocaleDateString("es-ES", options);
+    return formattedDate;
+  }
+
+  return (
+    <div className="cartSummary-Container">
+      {isLoading() && <p>Loading...</p>}
+      {userIsGuest() && <Redirect to="/register" />}
+      {isCartEmpty() && (
+        <Box maxWidth="90%" margin="1em auto">
+          <Card>
+            <CardContent>
+              <p>El carrito está vacío!</p>
+              <NavLink to="/">Ver shows</NavLink>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
+      <div className="cartSummary__user-infoContainer">
+        <h2 className="cartSummary__user-header">
+          TUS DATOS
+          <button className="cartSummary__user-editInfo">
+            <EditIcon />
+          </button>
+        </h2>
+
+        <div className="cartSummary__user-info">
+          <h3>Nombre: {customer.item.name}</h3>
+          <h3>Email: {customer.item.email}</h3>
+          <h3>Dirección: {customer.item.address}</h3>
+          <h3>
+            Ciudad: {customer.item.city}, {customer.item.state}{" "}
+            {customer.item.zip}{" "}
+          </h3>
         </div>
       </div>
-    );
-  }
+      <div className="cartSummary__summary-Container">
+        <h2 className="cartSummary__summary-header">TU CUENTA</h2>
 
-  return (
-    <>
-      <Box maxWidth="90%" margin="1em auto">
-        <Card>
-          <CardContent>
-            <Content
-              customer={customer}
-              cartItems={cartItems.items}
-              totalAmount={cartItems.totalAmount}
-            />
-            <Spacer />
-            {order.status === "idle" && (
-              <Button color="primary" type="button" onClick={handlePayment}>
-                PAGAR
-              </Button>
-            )}
-            {order.status === "processing" && <p>Procesando...</p>}
-            {order.status === "succeeded" && (
-              <>
-                <p>El pedido se ha procesado correctamente!</p>
-                <NavLink to="/">Seguir viendo más shows</NavLink>
-              </>
-            )}
-            {order.status === "failed" && (
-              <>
-                <p>
-                  Error al procesar el pedido! Por favor consulte con el
-                  administrador del sitio
-                </p>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </Box>
-    </>
-  );
-};
-
-const Spacer = () => <Box m={1}>&nbsp;</Box>;
-
-const CustomerDetails = ({ customer }) => {
-  if (customer.fetchStatus === "succeeded") {
-    return (
-      <div>
-        <Typography>{customer.item.name}</Typography>
-        <Typography>{customer.item.email}</Typography>
+        {cartItems.items.map((item) => {
+          //   totalOrder = totalOrder + item.Price * item.quantity;
+          return (
+            <div className="cartSummary__show-Container">
+              <img
+                src={item && item.Photo}
+                alt="showImage"
+                className="cartSummary__show-image"
+              />
+              <div className="cartSummary__show-nameDate">
+                {item && item.name}
+                <div>{item && formatDate(item.StartDate)}</div>
+              </div>
+              <div>{item && item.quantity}</div>
+              <div>${item && formatNumber(item.Price)}</div>
+              <div>
+                $
+                {item && item.Price && formatNumber(item.Price * item.quantity)}
+              </div>
+            </div>
+          );
+        })}
+        <div className="cartSummary__show-totalOrder">
+          <h4>TOTAL ${formatNumber(cartItems.totalAmount)}</h4>
+        </div>
+        <button className="cartSummary__show-processOrder">
+          <Link
+            onClick={handlePayment}
+            className="cartSummary__show-processOrderButton"
+          >
+            PAGAR
+          </Link>
+        </button>
       </div>
-    );
-  }
-};
-
-const CustomerAddress = ({ customer }) => {
-  if (customer.fetchStatus === "succeeded") {
-    return (
-      <div>
-        {/* <Typography>
-                    {record?.name}
-                </Typography> */}
-        <Typography>{customer.item.address}</Typography>
-        <Typography>
-          {customer.item.city}, {customer.item.state} {customer.item.zip}
-        </Typography>
-      </div>
-    );
-  }
-};
-
-const Content = ({ customer, cartItems, totalAmount }) => {
-  return (
-    <>
-      <Grid container spacing={1} padding="0.5em">
-        <Grid item xs={12} sm={12} md={6}>
-          <Typography variant="h6" gutterBottom>
-            Resumen del pedido
-          </Typography>
-          <Spacer />
-          <Typography variant="h6" gutterBottom>
-            Información de facturación
-          </Typography>
-          <CustomerDetails customer={customer} />
-          <Spacer />
-
-          <Typography variant="h6" gutterBottom>
-            Dirección
-          </Typography>
-          <CustomerAddress customer={customer} />
-        </Grid>
-      </Grid>
-      <Spacer />
-
-      <Typography variant="h6" gutterBottom padding="0.5em">
-        Items
-      </Typography>
-      <div>
-        <OrderDetail cartItems={cartItems} />
-      </div>
-      <Spacer />
-
-      <Typography variant="h6" gutterBottom padding="0.5em">
-        Totales
-      </Typography>
-      <div>
-        <OrderTotals totalAmount={totalAmount} />
-      </div>
-    </>
+    </div>
   );
 };
