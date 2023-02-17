@@ -3,7 +3,7 @@
   align-items: flex-start;
   justify-content: space-around;
   width: 40%;
-  margin-top: 3rem;
+  margin-top: 0rem;
 }
 
 .login_container {
@@ -35,7 +35,7 @@
 }
 
 .login_h2 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .login_info_wraper {
@@ -184,11 +184,6 @@
   cursor: pointer;
 }
 
-.login_with_google h3 {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
 .login_with_google_logo {
   width: 2.5rem;
   height: auto;
@@ -247,7 +242,7 @@
 }
 
 .modal-description{
-  font-size: 1.2;
+  font-size: 1.2rem;
   text-align: center;
 }
 
@@ -285,4 +280,56 @@
 .reset_btn_close:hover{
   background-color: #704782;
   rotate: 180deg;
+}
+
+ /*Entre 550 y 750*/
+ @media screen and (max-width: 750px) {
+  .login_section {
+    display: flex;
+    width: 100%;
+  }
+
+  .login_container{
+    width: 60%;
+}  
+
+.login_h2{
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+.login_btn_div, .reset_btn_div {
+  width: 90%;
+}
+
+.login_with_google{
+  padding-bottom: 1rem;
+}
+.login_btn_google {
+  margin-top: 0.4rem;
+  height: 2.5rem;
+}
+
+.login_with_google_logo {
+  width: 2rem;
+  height: auto;
+}
+.login_btn_text{
+  font-size: 1.2rem;  
+}
+ }
+
+ /*Menos de 550*/
+@media screen and (max-width: 550px) {
+  .login_container{
+      width: 90%;
+  }
+
+  .login_info_wraper{
+    width: 70%;
+}
+
+.login-form_label {
+  font-size: 0.8rem; 
+}
 }

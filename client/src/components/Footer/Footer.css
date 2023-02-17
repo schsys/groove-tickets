@@ -4,6 +4,7 @@
   padding-bottom: 2vh;
   background-size:cover;
   background-repeat: no-repeat;
+  margin-top: auto;
 }
 .app__footer-container {
   display: grid;
