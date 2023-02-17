@@ -110,14 +110,15 @@ export default function ProductDetails() {
     <>
       {product.name ? (
         <div className="container_details">
-          <Link to="/" className="back_button">
-            Atrás
-          </Link>
+          <div className="back_button_div">
+            <Link to="/" className="back_button">
+              Atrás
+            </Link>
+          </div>
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-
-              <>
+              <div className="detail_rating_containter">
                 <Box
                   sx={{
                     width: 200,
@@ -146,23 +147,20 @@ export default function ProductDetails() {
                     </Box>
                   )}
                 </Box>
-              </>
-
+              </div>
               <>
                 <p>
                   <i className="fas fa-calendar"></i> {formattedDate}
                 </p>
               </>
-
-              <>
+              <p>
                 <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
                 horas
-              </>
-
+              </p>
               <>
                 {product.Artist && Object.keys(product.Artist).length > 0 ? (
                   <p>
-                    <i className="fas fa-music"></i> Músico:{" "}
+                    <i className="fas fa-music"></i> Artistas:{" "}
                     {product.Artist.Name}
                   </p>
                 ) : (
@@ -212,7 +210,7 @@ export default function ProductDetails() {
               >
                 <div>
                   <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                    SELCCIONA LA CATIDAD Y PRESIONA AGREGAR AL CARRITO{" "}
+                    SELCCIONA LA CANTIDAD Y PRESIONA AGREGAR AL CARRITO{" "}
                     <Badge color="warning" badgeContent={quantity}>
                       <ButtonGroup>
                         <Button
@@ -236,6 +234,11 @@ export default function ProductDetails() {
                       </ButtonGroup>
                     </Badge>
                   </Typography>
+                  <div className="product_button_div">
+                    <button className="product_button" onClick={addToCart}>
+                      Agregar al Carrito
+                    </button>
+                  </div>
                 </div>
               </Box>
             </div>
@@ -252,12 +255,14 @@ export default function ProductDetails() {
               )}
             </div>
           </div>
-          <button className="product_button" onClick={addToCart}>
-            Agregar al Carrito
-          </button>
 
           <div className="product_info">
             <h4>Descripción:</h4>
+            <p>{product.Description}</p>
+          </div>
+
+          <div className="detail_reviews_div">
+            <h4>Esto opinan los que conocen la banda:</h4>
             <p>{product.Description}</p>
           </div>
           <Footer />
