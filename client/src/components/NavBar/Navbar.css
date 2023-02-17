@@ -72,7 +72,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     .nav_items{
         position: absolute;
         top: 60px;

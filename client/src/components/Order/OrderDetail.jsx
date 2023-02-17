@@ -13,6 +13,7 @@ import formatCurrencyNumber from './format-currency';
 export const OrderDetail = ({ cartItems }) => {
 
     return (
+        
         <Table>
             <TableHead>
                 <TableRow>

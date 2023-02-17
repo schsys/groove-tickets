@@ -8,9 +8,10 @@ const Footer = () => {
   return (
     <div className="app_footer-background">
       <div className="app__footer-container">
-      <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
-        <img src={yazzLogo} alt="logo Yazz" className="app__footer-logo" />
+        <a className="footer_logo_div" href="/" target="_blank" rel="noreferrer">
+          <img src={yazzLogo} alt="logo Yazz" className="app__footer-logo" />
         </a>
+        
         <div className="app__footer-text">
           <a href="/terminosycondiciones">Términos y Condiciones</a>
           <a href="/preguntasfrecuentes">Preguntas Frecuentes</a>
@@ -20,7 +21,11 @@ const Footer = () => {
         </div>
         <div className="app__footer-socialcopyright">
           <div className="app__footer-socialcontainer">
-            <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noreferrer"
+            >
               <img
                 src={instagramLogo}
                 alt="instagram link logo"
@@ -28,13 +33,17 @@ const Footer = () => {
               />
             </a>
             <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
-              <img src={facebookLogo} alt="facebook link logo" />
+              <img
+                src={facebookLogo}
+                className="app__footer-instagram"
+                alt="facebook link logo"
+              />
             </a>
           </div>
-          <div className="app__footer-copyright">
-            Yazz.com © 2002 - 2023 Reservados todos los derechos
-          </div>
         </div>
+      </div>
+      <div className="app__footer-copyright">
+        Yazz.com © 2002 - 2023 Reservados todos los derechos
       </div>
     </div>
   );
