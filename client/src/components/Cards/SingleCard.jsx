@@ -6,9 +6,6 @@ import { formattedDate } from "../utils/formatedDate";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
 
-
-
-
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
 
@@ -22,8 +19,7 @@ const SingleCard = (data) => {
     }
   };
 
-
-    /*Hover effect*/
+  /*Hover effect*/
   // const cardRef = useRef(null);
   // useEffect(() => {
   //   const card = cardRef.current;
@@ -55,9 +51,11 @@ const SingleCard = (data) => {
   // }, [cardRef]);
 
   return (
-    <div className="shows__cards-box1"
-    //  ref={cardRef} 
-     key={data.data.id}>
+    <div
+      className="shows__cards-box1"
+      //  ref={cardRef}
+      key={data.data.id}
+    >
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <img
           src={data.data.Photos[0].Path}
@@ -78,9 +76,14 @@ const SingleCard = (data) => {
             className="shows_cards-cart"
             onClick={addToCartFromShows}
           />
-          <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
-            <FaInfoCircle />
-          </Link>
+          <>
+            <Link
+              to={`product/${data.data.id}`}
+              className="shows_cards-linkInfo"
+            >
+              <FaInfoCircle />
+            </Link>
+          </>
         </div>
       </Link>
     </div>

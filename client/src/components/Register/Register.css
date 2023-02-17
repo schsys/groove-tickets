@@ -3,10 +3,12 @@
         display: flex;
         flex-direction: row;
         background-color: black;
-        background-image: url('../../assets/bgRegister1.png');
+        background-image: url('../../assets/registerBG3.png');
+        background-position: center center;
         background-size: cover;
+        background-repeat: no-repeat;
         width: 100%;
-        /* height: 100vh; */
+        height: 90.5vh;
         flex: 1;
         align-items: self-start;
         justify-content: space-between;
