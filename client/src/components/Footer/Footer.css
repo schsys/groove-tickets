@@ -1,16 +1,15 @@
 .app_footer-background {
-  background-color: black;
+  background:rgba(0, 0, 0, 0.8);
   padding-bottom: 2vh;
   background-size: cover;
   background-repeat: no-repeat;
   margin-top: auto;
-  margin-bottom: 2vh;
+
   border: 1px solid white;
 }
 .app__footer-container {
   display: grid;
   grid-template-columns: 33% 33% 34%;
-  background-color: rgba(0, 0, 0, 0.8);
   align-items: center;
 }
 
