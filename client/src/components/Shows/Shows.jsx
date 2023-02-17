@@ -59,6 +59,7 @@ const Shows = () => {
     setCurrentPage(1);
   };
 
+
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
     dispatch(filterProducts(selectedDay, categoryId));
@@ -114,7 +115,7 @@ const Shows = () => {
 
             <div className="shows__filter-datescontainer">
               <div className={"shows__filter-box"}>
-                {/* <BtnTemplate value="HOY" data={1} action={handleDayChange} />
+                <BtnTemplate value="HOY" data={1} action={handleDayChange} />
             <BtnTemplate
               value="7 D&Iacute;AS"
               data={7}
@@ -124,12 +125,12 @@ const Shows = () => {
               value="30 D&Iacute;AS"
               data={30}
               action={handleDayChange}
-            /> */}
+            />
 
-                <select
+                {/* <select
                   className="filter_date_select"
                   value="default"
-                 onClick={handleDayChange()}
+                  onChange={(event) => handleDayChange(event.target.value)}
                 >
                   <option value="default" disabled hidden>
                     Elegí una fecha
@@ -143,9 +144,9 @@ const Shows = () => {
                   <option value={30}>
                     Próximos 30 días
                   </option>
-                </select>
+                </select>*/}
               </div>
-            </div>
+            </div> 
 
             {/* FILTRADO POR CATEGORIAS */}
             <div className="shows__categories-container">
