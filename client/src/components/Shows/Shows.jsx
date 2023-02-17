@@ -5,7 +5,7 @@ import { Pagination, productIndex } from "../Pagination/Pagination";
 import SingleCard from "../Cards/SingleCard";
 import "./Shows.css";
 // import banner from "../../assets/banner.shows.fw.png";
-// import Loader from "../Loader/Loader";
+import Loader from "../Loader/Loader";
 
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
@@ -88,7 +88,8 @@ const Shows = () => {
   return (
     <div className="shows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
-
+      {products.length ? (
+      <>
       {/* FILTRADO POR FECHA*/}
       <div className="shows__filters-container">
         <div className="shows__filter-textcontainer">
@@ -190,6 +191,13 @@ const Shows = () => {
         currentPage={currentPage}
         />
         )} 
+      </>
+      ) : (
+        <>
+        <Loader />
+        </>
+      ) 
+    }   
     </div>
   );
 };
