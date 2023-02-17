@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -16,37 +16,64 @@ import {
   removeCartProduct,
   editCartProduct,
   emptyCart,
+  getCreatedOrderByUser
 } from "../../redux/actions";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
+import { UserAuth } from "../../context/AuthContext";
+import axios from "axios";
 
 const Cart = () => {
   let totalOrder = 0;
   const showCart = useSelector((state) => state.showCart);
   //const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
-  let cart = [];
-  const stringCart = localStorage.getItem("cart");
-  if (stringCart) cart = JSON.parse(stringCart);
-
-  const [cartState, setCartState] = useState(cart);
+  const { user } = UserAuth();
   const [count, setCount] = useState();
   const history = useHistory();
+  const [cartState, setCartState] = useState([]);
+  const [cart, setCart] = useState([]);
+  const totalItems = useSelector(state => state.totalItems);
+
+  useEffect(() => {
+      getCreatedOrderByUser(user)
+        .then(order => {
+          if (order.hasOwnProperty('error')) alert(order.error);
+
+          if (order.OrderItems && order.OrderItems.length) {
+            setCart(order.OrderItems.map(item => 
+              ({
+                id: item.ProductId,
+                name: item.Product.Name,
+                photo: item.Product.Photos && item.Product.Photos.length && item.Product.Photos[0].Path,
+                startDate: item.Product.StartDate,
+                quantity: item.Quantity,
+                price: item.UnitPrice,
+              })));
+          }
+        })
+        .catch(error => {
+          setCart([]);
+          console.log(error)
+        })
+
+    console.log('cart', cart);
+    setCartState(cart);
+  }, [user, totalItems]);
 
   function handleCloseOnClick() {
     dispatch(toggleShowCart(false));
   }
 
   function handleRemove(id) {
-    dispatch(removeCartProduct(id));
+    dispatch(removeCartProduct(id, user));
     setCartState(cartState.filter((item) => item.id !== id));
   }
 
   function handleMinus(id, quantity) {
     if (quantity === 1) handleRemove(id);
     quantity -= 1;
-    dispatch(editCartProduct(id, quantity));
+    dispatch(editCartProduct(id, quantity, user));
     setCount(
       cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
     );
@@ -56,7 +83,7 @@ const Cart = () => {
     // por si se quiere maximo de 10 por persona
     if (quantity === 10) return;
     quantity += 1;
-    dispatch(editCartProduct(id, quantity));
+    dispatch(editCartProduct(id, quantity, user));
     setCount(
       cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
     );
@@ -92,7 +119,7 @@ const Cart = () => {
   }
 
   const cartContent = cart.map((item) => {
-    totalOrder = totalOrder + item.Price * item.quantity;
+    totalOrder = totalOrder + item.price * item.quantity;
 
     return (
       <Box key={item.id}>
@@ -103,7 +130,7 @@ const Cart = () => {
           justifyContent={"space-between"}
         >
           <Avatar
-            src={item && item.Photo}
+            src={item && item.photo}
             sx={{ width: 80, height: 80 }}
             variant="square"
           />
@@ -118,7 +145,7 @@ const Cart = () => {
             </Typography>
 
             <Typography variant="body1" sx={{ pl: 1 }}>
-              {item && formatDate(item.StartDate)}
+              {item && formatDate(item.startDate)}
             </Typography>
           </Box>
 
@@ -138,7 +165,7 @@ const Cart = () => {
           </Typography>
 
           <Typography variant="body1" justifyContent={"end"} sx={{ pr: 2 }}>
-            ${item && formatNumber(item.Price)}
+            ${item && formatNumber(item.price)}
           </Typography>
 
           <Typography variant="body1" justifyContent={"end"} sx={{ pr: 2 }}>
@@ -152,6 +179,7 @@ const Cart = () => {
       </Box>
     );
   });
+
   return (
     <Drawer
       open={showCart}

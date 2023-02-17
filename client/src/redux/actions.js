@@ -81,106 +81,171 @@ export const filterProducts = (day, categoryId) => {
   };
 };
 
-export const addCartProduct = (product, quantity) => {
-  // leo del local storage
-  let stringCart = localStorage.getItem("cart");
-  let cart = [];
-  const productInsert = {
-    id: product.id,
-    name: product.name,
-    Photo: product.Photos[0].Path,
-    Price: product.Price,
-    StartDate: product.StartDate,
-    quantity: quantity,
-  };
+export const addCartProduct = (product, quantity, user, orderId) => {
+  return async (dispatch) => {
+    try {
+      // leo del local storage
+      const productInsert = {
+        id: product.id,
+        name: product.name,
+        photo: product.Photos[0].Path,
+        price: product.Price,
+        startDate: product.StartDate,
+        quantity: quantity,
+      };
 
-  if (!stringCart) {
-    cart.push(productInsert);
-  } else {
-    cart = JSON.parse(stringCart);
-    const cartItem = cart.find((e) => e.id === product.id);
-    if (cartItem) {
-      cartItem.quantity = cartItem.quantity + quantity;
-    } else {
-      cart.push(productInsert);
+      let stringCart = localStorage.getItem("cart");
+      let cart = [];
+      if (!stringCart) {
+        cart.push(productInsert);
+      } else {
+        cart = JSON.parse(stringCart);
+        const cartItem = cart.find((e) => e.id === product.id);
+        if (cartItem) {
+          cartItem.quantity = cartItem.quantity + quantity;
+        } else {
+          cart.push(productInsert);
+        }
+      }
+
+      // grabo en el local storage
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      dispatch({
+        type: ADD_TO_CART,
+        payload: await getInternalTotalItems(user),
+      });
+    }catch(error) {
+      console.log(error);
     }
   }
-
-  // grabo en el local storage
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  return {
-    type: ADD_TO_CART,
-    payload: getInternalTotalItems(),
-  };
 };
 
-export const editCartProduct = (productId, newQuantity) => {
-  let stringCart = localStorage.getItem("cart");
-  let cart = [];
+export const editCartProduct = (productId, newQuantity, user) => {
+  return async (dispatch) => {
+    try {
+      let stringCart = localStorage.getItem("cart");
+      let cart = [];
 
-  if (stringCart) {
-    cart = JSON.parse(stringCart);
-    const cartItemIndex = cart.findIndex((e) => e.id === productId);
-    if (cartItemIndex !== -1) {
-      cart[cartItemIndex].quantity = newQuantity;
+      if (stringCart) {
+        cart = JSON.parse(stringCart);
+        const cartItemIndex = cart.findIndex((e) => e.id === productId);
+        if (cartItemIndex !== -1) {
+          cart[cartItemIndex].quantity = newQuantity;
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      dispatch({
+        type: EDIT_CART,
+        payload: await getInternalTotalItems(user),
+      });
+    } catch(error) {
+        console.log(error)
     }
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  return {
-    type: EDIT_CART,
-    payload: getInternalTotalItems(),
-  };
 };
 
-export const removeCartProduct = (productId) => {
-  let stringCart = localStorage.getItem("cart");
-  let cart = [];
+export const removeCartProduct = (productId, user) => {
+  return async (dispatch) => {
+    try {
+      let stringCart = localStorage.getItem("cart");
+      let cart = [];
 
-  if (stringCart) {
-    cart = JSON.parse(stringCart);
-    const cartItemIndex = cart.findIndex((e) => e.id === productId);
-    if (cartItemIndex !== -1) {
-      cart.splice(cartItemIndex, 1);
+      if (stringCart) {
+        cart = JSON.parse(stringCart);
+        const cartItemIndex = cart.findIndex((e) => e.id === productId);
+        if (cartItemIndex !== -1) {
+          cart.splice(cartItemIndex, 1);
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      dispatch({
+        type: REMOVE_FROM_CART,
+        payload: await getInternalTotalItems(user),
+      });
+    }catch(error) {
+      console.log(error);
     }
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  return {
-    type: REMOVE_FROM_CART,
-    payload: getInternalTotalItems(),
-  };
 };
 
-export const emptyCart = () => {
-  localStorage.setItem("cart", JSON.stringify([]));
-  return {
-    type: EMPTY_CART,
-    payload: getInternalTotalItems(),
+export const emptyCart = (user) => {
+  return async (dispatch) => {
+    try {
+      localStorage.setItem("cart", JSON.stringify([]));
+      dispatch({
+        type: EMPTY_CART,
+        payload: await getInternalTotalItems(user),
+      });
+    }catch(error) {
+      console.log(error)
+    }
   }
 }
 
-export const getTotalItems = () => {
-  return {
-    type: ADD_TO_CART,
-    payload: getInternalTotalItems(),
+export const getTotalItems = (user) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ 
+        type: ADD_TO_CART,
+        payload: await getInternalTotalItems(user) 
+      })
+    }catch(error) {
+      console.log(error)
+    }
   };
 };
 
-const getInternalTotalItems = () => {
-  const stringCart = localStorage.getItem("cart");
+const getInternalTotalItems = async(user) => {
   let totalQuantity = 0;
-  if (stringCart) {
-    const cart = JSON.parse(stringCart);
-    for (const item of cart) totalQuantity = totalQuantity + item.quantity;
-  } else {
-    totalQuantity = 0;
+  const order = await getCreatedOrderByUser(user);
+  console.log('getInternalTotalItems', order);
+  console.log('getInternalTotalItems', order.OrderItems);
+  if (order) {
+    for (const item of order.OrderItems)
+        totalQuantity = totalQuantity + item.Quantity; 
   }
   return totalQuantity;
 };
+
+export const getCreatedOrderByUser = async(user) => {
+  try {
+    if (user && user.hasOwnProperty('email')) {
+      const order = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
+      return order.data;
+    }else{
+      const stringCart = localStorage.getItem("cart");
+      const order = {};
+      order.Id = 0;
+      order.CustomerId = 0;
+      order.TotalAmount = 0;
+      order.OrderItems = [];
+      if (stringCart) {
+         const items = JSON.parse(stringCart);
+         order.OrderItems = items.map( item => ({
+           ProductId :  item.id,
+           StartDate: item.startDate,
+           Quantity: item.quantity,
+           UnitPrice: item.price,
+           Product: {
+             Name: item.name,
+             Photos: [{id: 1, Path: item.photo}],
+            } 
+         }));
+
+        console.log(order); 
+        return order;
+      }
+    }
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
 
 export const toggleShowCart = (show) => {
   return {
