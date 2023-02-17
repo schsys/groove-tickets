@@ -282,7 +282,7 @@
   rotate: 180deg;
 }
 
- /*Entre 550 y 750*/
+ /*Entre 750 y 550*/
  @media screen and (max-width: 750px) {
   .login_section {
     display: flex;

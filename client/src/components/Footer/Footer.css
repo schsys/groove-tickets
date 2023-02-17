@@ -1,19 +1,17 @@
 .app_footer-background {
   background-color: black;
-  background-image: url("../../assets/background.shows.png");
   padding-bottom: 2vh;
-  background-size:cover;
+  background-size: cover;
   background-repeat: no-repeat;
   margin-top: auto;
+  margin-bottom: 2vh;
+  border: 1px solid white;
 }
 .app__footer-container {
   display: grid;
   grid-template-columns: 33% 33% 34%;
   background-color: rgba(0, 0, 0, 0.8);
-  width: 95vw;
-  margin-left: 2vw;
-  margin-bottom: 2vh;
-  border: 1px solid white;
+  align-items: center;
 }
 
 .app__footer-text {
@@ -30,11 +28,24 @@
 .app__footer-text a {
   color: white;
   text-decoration: none;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.app__footer-text a:hover{
+  color: var(--color-orange);
+}
+
+
+.footer_logo_div{
+  width: 3.5rem;
+  height: 5rem;
+  margin-left: 1rem;
 }
 
 .app__footer-logo {
-  height: 14vh;
-  padding: 2vw;
+  height: 5rem;
+  padding: 0 1.5rem;
 }
 
 .app__footer-socialcopyright {
@@ -45,15 +56,66 @@
 }
 
 .app__footer-socialcontainer {
-  margin-bottom: 0.5vw;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: end;
 }
 
 .app__footer-instagram {
-  margin-right: 1vw;
+  height: 2.5rem;
+  width: auto;
+  margin-right: 1rem;
 }
 
 .app__footer-copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
   color: white;
-  width: 60%;
+  width: 100%;
+  text-align: center;
   font-size: small;
+}
+
+/*Entre 900 y 750*/
+@media screen and (max-width: 900px) {
+  .footer_logo_div{
+    width: 3.5rem;
+    height: 3rem;
+    margin-left: 1rem;
+  }  
+  .app__footer-logo {
+    height: 3rem;
+  }
+
+  .app__footer-text {
+    font-size: 0.8rem;
+  }
+
+  .app__footer-socialcontainer{
+    display: flex;
+  }
+
+  .app__footer-instagram {
+    height: 2rem;
+  }
+}
+
+/*Menos de 550*/
+@media screen and (max-width: 550px) {
+  .app__footer-text a{
+    font-size: 0.6rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .app__footer-copyright{
+    font-size: 0.6rem;
+  }
+  .app__footer-socialcontainer{
+    margin-right: 0;
+  }
+  .footer_logo_div{
+    margin-left: 0;
+  }
 }
