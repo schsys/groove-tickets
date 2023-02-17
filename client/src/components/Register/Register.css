@@ -28,7 +28,7 @@
 /*menos de 750 */
 @media screen and (max-width: 750px) {
     .register_page_container{
-        flex-direction: column-reverse;
+        flex-direction: column-reverse; 
     }
     .sections_separation_div{
         display: none;

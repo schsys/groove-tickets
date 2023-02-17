@@ -129,19 +129,18 @@ const Shows = () => {
                 <select
                   className="filter_date_select"
                   value="default"
-                  onChange={(e) => handleDayChange(e)}
+                 onClick={handleDayChange()}
                 >
                   <option value="default" disabled hidden>
                     Elegí una fecha
                   </option>
-                  <option value="All">Todas</option>
-                  <option value="HOY" data={1}>
+                  <option value={1}>
                     Hoy
                   </option>
-                  <option value="7 D&Iacute;AS" data={7}>
+                  <option value={7}>
                     Próximos 7 días
                   </option>
-                  <option value="30 D&Iacute;AS" data={30}>
+                  <option value={30}>
                     Próximos 30 días
                   </option>
                 </select>
