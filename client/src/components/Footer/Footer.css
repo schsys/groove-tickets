@@ -58,7 +58,7 @@
 .app__footer-socialcontainer {
   margin-right: 1rem;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .app__footer-instagram {

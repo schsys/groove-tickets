@@ -1,11 +1,12 @@
 /* para aplicar cambios en main */
 
 .shows__background-container {
-  width: 100vw;
+  width: 100%;
   background-color: black;
   background-image: url("../../assets/background.shows.png");
   background-size: cover;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
 
 .shows__banner-img {
