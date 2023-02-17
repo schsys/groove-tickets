@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Redirect, NavLink, Link } from "react-router-dom";
 import { Card, CardContent, Box /* Typography, Button */ } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
+import moment from "moment-timezone";
 
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -21,30 +23,55 @@ export const Order = () => {
   });
 
   // Items in the cart
-  const [cartItems, setCartItems] = useState({
+  const [orderItems, setorderItems] = useState({
     items: [],
     totalAmount: 0,
     fetchStatus: "loading",
   });
 
   useEffect(() => {
-    let stringCart = localStorage.getItem("cart");
-    console.log("cart: ", JSON.parse(stringCart));
+    async function fetchOrder() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/admin/orders/2"
+        );
+        const items = response.data.OrderItems.map((item) => {
+          const { Product, quantity } = item;
+          const { Photos, name, price, unitPrice, startDate } = Product;
+          const formattedStartDate = moment.tz(
+            startDate,
+            "America/Argentina/Buenos_Aires"
+          );
 
-    if (stringCart) {
-      const items = JSON.parse(stringCart);
-      const totalAmount = items.reduce(
-        (acc, cur) => acc + Number(cur.Price) * cur.quantity,
-        0
-      );
-
-      setCartItems((cartItems) => ({
-        ...cartItems,
-        items,
-        totalAmount,
-        fetchStatus: "succeeded",
-      }));
+          return {
+            name,
+            Photos,
+            startDate: formattedStartDate,
+            price,
+            quantity,
+            unitPrice,
+          };
+        });
+        const totalAmount = items.reduce(
+          (acc, cur) => acc + Number(cur.price) * cur.quantity,
+          0
+        );
+        setorderItems({
+          items,
+          totalAmount,
+          fetchStatus: "succeeded",
+        });
+      } catch (error) {
+        console.error(error);
+        setorderItems({
+          items: [],
+          totalAmount: 0,
+          fetchStatus: "failed",
+        });
+      }
     }
+
+    fetchOrder();
   }, []);
 
   // Logged user
@@ -120,8 +147,8 @@ export const Order = () => {
 
     const data = {
       customerId: customer.item.id,
-      totalAmount: cartItems.totalAmount,
-      items: cartItems.items.map((item) => ({
+      totalAmount: orderItems.totalAmount,
+      items: orderItems.items.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
         unitPrice: Number(item.Price),
@@ -163,16 +190,16 @@ export const Order = () => {
       }));
     }
   };
-  console.log("Cartitems", cartItems);
+  console.log("Cartitems", orderItems);
   const isLoading = () =>
     loadingUser ||
     customer.fetchStatus === "loading" ||
-    cartItems.fetchStatus === "loading";
+    orderItems.fetchStatus === "loading";
 
   const userIsGuest = () => !loadingUser && !user;
 
-  const isCartEmpty = () =>
-    cartItems.fetchStatus !== "loading" && cartItems.items.length === 0;
+  /*   const isCartEmpty = () =>
+    orderItems.fetchStatus !== "loading" && orderItems.items.length === 0; */
 
   function formatNumber(number) {
     return new Intl.NumberFormat("es-ES", {
@@ -182,27 +209,11 @@ export const Order = () => {
     }).format(number);
   }
 
-  function formatDate(prevDate) {
-    const date = new Date(prevDate + "T00:00:00");
-    const options = { weekday: "long", day: "numeric", month: "numeric" };
-    const formattedDate = date.toLocaleDateString("es-ES", options);
-    return formattedDate;
-  }
-
   return (
     <div className="cartSummary-Container">
       {isLoading() && <p>Loading...</p>}
       {userIsGuest() && <Redirect to="/register" />}
-      {isCartEmpty() && (
-        <Box maxWidth="90%" margin="1em auto">
-          <Card>
-            <CardContent>
-              <p>El carrito está vacío!</p>
-              <NavLink to="/">Ver shows</NavLink>
-            </CardContent>
-          </Card>
-        </Box>
-      )}
+
       <div className="cartSummary__user-infoContainer">
         <h2 className="cartSummary__user-header">
           TUS DATOS
@@ -212,7 +223,7 @@ export const Order = () => {
         </h2>
 
         <div className="cartSummary__user-info">
-          <h3>Nombre: {customer.item.name}</h3>
+          <h3>Nombre: {customer.name}</h3>
           <h3>Email: {customer.item.email}</h3>
           <h3>Dirección: {customer.item.address}</h3>
           <h3>
@@ -223,31 +234,30 @@ export const Order = () => {
       </div>
       <div className="cartSummary__summary-Container">
         <h2 className="cartSummary__summary-header">TU CUENTA</h2>
-
-        {cartItems.items.map((item) => {
+        {orderItems.items.map((item) => {
           //   totalOrder = totalOrder + item.Price * item.quantity;
           return (
             <div className="cartSummary__show-Container">
               <img
-                src={item && item.Photo}
+                src={item && item.Photos[0].path}
                 alt="showImage"
                 className="cartSummary__show-image"
               />
               <div className="cartSummary__show-nameDate">
                 {item && item.name}
-                <div>{item && formatDate(item.StartDate)}</div>
+                <div>{item && item.startDate.format("DD/MM/YYYY")}</div>
               </div>
               <div>{item && item.quantity}</div>
-              <div>${item && formatNumber(item.Price)}</div>
+              <div>${item && formatNumber(item.price)}</div>
               <div>
                 $
-                {item && item.Price && formatNumber(item.Price * item.quantity)}
+                {item && item.price && formatNumber(item.price * item.quantity)}
               </div>
             </div>
           );
         })}
         <div className="cartSummary__show-totalOrder">
-          <h4>TOTAL ${formatNumber(cartItems.totalAmount)}</h4>
+          <h4>TOTAL ${formatNumber(orderItems.totalAmount)}</h4>
         </div>
         <button className="cartSummary__show-processOrder">
           <Link
