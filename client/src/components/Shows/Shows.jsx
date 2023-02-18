@@ -6,6 +6,7 @@ import SingleCard from "../Cards/SingleCard";
 import "./Shows.css";
 // import banner from "../../assets/banner.shows.fw.png";
 import Loader from "../Loader/Loader";
+import Filters from "../Filters/Filters";
 
 const Shows = () => {
   const [selectedDay, setSelectedDay] = useState("");
@@ -19,54 +20,7 @@ const Shows = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-
-    console.log("useEffect() cambia products");
-
-    setCurrentPage(1);
-  }, [products]);
-
-  const countCategories = (arr, name) => {
-    let count = 0;
-    arr.forEach((e) => {
-      e.Categories.forEach((category) => {
-        if (category.name === name) count++;
-      });
-    });
-    return count;
-  };
-
-  const categories = [];
-  products.forEach((event) => {
-    event.Categories.forEach((category) => {
-      categories.push({
-        id: category.id,
-        name: category.name,
-      });
-    });
-  });
-
-  const uniqueCategories = [
-    ...new Set(categories.map((category) => category.name)),
-  ].map((name) => {
-    return {
-      id: categories.find((category) => category.name === name).id,
-      name: name,
-    };
-  });
-
-  const handleDayChange = (day) => {
-    setSelectedDay(day);
-    dispatch(filterProducts(day, selectedCategoryId));
-    setCurrentPage(1);
-  };
-
-
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategoryId(categoryId);
-    dispatch(filterProducts(selectedDay, categoryId));
-    setCurrentPage(1);
-  };
+ 
 
   const handlePrev = () => {
     setCurrentPage(currentPage - 1);
@@ -75,20 +29,6 @@ const Shows = () => {
   const handleNext = () => {
     setCurrentPage(currentPage + 1);
   };
-
-  const BtnTemplate = ({ value, action, data, style }) => {
-    return (
-      <button
-        className={style}
-        onClick={() => {
-          action(data);
-        }}
-      >
-        {value}
-      </button>
-    );
-  };
-
 
   console.log("Shows currentPage: ", currentPage);
 
@@ -99,101 +39,12 @@ const Shows = () => {
         <>
           {/* FILTRADO POR FECHA*/}
           <div className="shows__filters-container">
-            <div className="shows__filter-textcontainer">
-              <div className="shows__filter-text">
-                <h4>
-                  {selectedDay === "" ? (
-                    "PRÓXIMAS FUNCIONES"
-                  ) : (
-                    <button
-                      onClick={() => {
-                        handleDayChange(selectedDay !== "" ? "" : selectedDay);
-                      }}
-                    >
-                      QUITAR FILTRO (X)
-                    </button>
-                  )}
-                </h4>
-              </div>
-            </div>
+            <Filters />
+           
 
-            <div className="shows__filter-datescontainer">
-              <div className={"shows__filter-box"}>
-                <BtnTemplate value="HOY" data={1} action={handleDayChange} />
-            <BtnTemplate
-              value="7 D&Iacute;AS"
-              data={7}
-              action={handleDayChange}
-            />
-            <BtnTemplate
-              value="30 D&Iacute;AS"
-              data={30}
-              action={handleDayChange}
-            />
-
-                {/* <select
-                  className="filter_date_select"
-                  value="default"
-                  onChange={(event) => handleDayChange(event.target.value)}
-                >
-                  <option value="default" disabled hidden>
-                    Elegí una fecha
-                  </option>
-                  <option value={1}>
-                    Hoy
-                  </option>
-                  <option value={7}>
-                    Próximos 7 días
-                  </option>
-                  <option value={30}>
-                    Próximos 30 días
-                  </option>
-                </select>*/}
-              </div>
-            </div> 
-
-            {/* FILTRADO POR CATEGORIAS */}
-            <div className="shows__categories-container">
-              {!products.length ? (
-                ""
-              ) : (
-                <>
-                  <div className="shows__categories-title">
-                    <h4>
-                      {selectedCategoryId !== "" ? (
-                        <BtnTemplate
-                          action={handleCategoryChange}
-                          data=""
-                          value="QUITAR FILTRO"
-                        />
-                      ) : (
-                        "CATEGORÍAS"
-                      )}
-                    </h4>
-                  </div>
-                  <div className="shows__categories-box">
-                    {uniqueCategories.map((c) => {
-                      return (
-                        <BtnTemplate
-                          value={
-                            c.name +
-                            " (" +
-                            countCategories(products, c.name) +
-                            ")"
-                          }
-                          action={handleCategoryChange}
-                          data={c.id}
-                          style="shows__categories-buttons"
-                          key={c.id}
-                        />
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
+           
           </div>
-          {/* FIN FILTRADO POR CATEGORIAS */}
+          {/* FIN FILTRADO*/}
 
           <div className="shows__cards-container">
             {products.length ? (
