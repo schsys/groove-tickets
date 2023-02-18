@@ -1,12 +1,12 @@
 .app_footer-background {
-  background:rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   padding-bottom: 2vh;
   background-size: cover;
   background-repeat: no-repeat;
   margin-top: auto;
-
   border: 1px solid white;
 }
+
 .app__footer-container {
   display: grid;
   grid-template-columns: 33% 33% 34%;
@@ -31,12 +31,11 @@
   margin-bottom: 0.3rem;
 }
 
-.app__footer-text a:hover{
-  color: var(--color-orange);
+.app__footer-text a:hover {
+  color: var(--color-green);
 }
 
-
-.footer_logo_div{
+.footer_logo_div {
   width: 3.5rem;
   height: 5rem;
   margin-left: 1rem;
@@ -45,6 +44,11 @@
 .app__footer-logo {
   height: 5rem;
   padding: 0 1.5rem;
+  transition: 0.2s all;
+}
+
+.app__footer-logo:hover {
+  scale: 1.05;
 }
 
 .app__footer-socialcopyright {
@@ -64,6 +68,13 @@
   height: 2.5rem;
   width: auto;
   margin-right: 1rem;
+  transition: 0.2s all;
+  color: white;
+}
+
+.app__footer-instagram:hover {
+  scale: 1.1;
+  color: var(--color-green);
 }
 
 .app__footer-copyright {
@@ -79,11 +90,11 @@
 
 /*Entre 900 y 750*/
 @media screen and (max-width: 900px) {
-  .footer_logo_div{
+  .footer_logo_div {
     width: 3.5rem;
     height: 3rem;
     margin-left: 1rem;
-  }  
+  }
   .app__footer-logo {
     height: 3rem;
   }
@@ -92,7 +103,7 @@
     font-size: 0.8rem;
   }
 
-  .app__footer-socialcontainer{
+  .app__footer-socialcontainer {
     display: flex;
   }
 
@@ -103,18 +114,18 @@
 
 /*Menos de 550*/
 @media screen and (max-width: 550px) {
-  .app__footer-text a{
+  .app__footer-text a {
     font-size: 0.6rem;
     margin-bottom: 0.2rem;
   }
 
-  .app__footer-copyright{
+  .app__footer-copyright {
     font-size: 0.6rem;
   }
-  .app__footer-socialcontainer{
+  .app__footer-socialcontainer {
     margin-right: 0;
   }
-  .footer_logo_div{
+  .footer_logo_div {
     margin-left: 0;
   }
 }
