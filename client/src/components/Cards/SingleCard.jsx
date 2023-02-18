@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { addEditCartProduct } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import { formattedDate } from "../utils/formatedDate";
+import { formatDate } from "../utils/formatedDate";
+import { formatTime } from "../utils/formatTime";
+import { formatPrice } from "../utils/formatPrice";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
 import { UserAuth } from "../../context/AuthContext";
@@ -22,7 +24,7 @@ const SingleCard = (data) => {
   };
 
 
-    /*Hover effect*/
+  /*Hover effect*/
   // const cardRef = useRef(null);
   // useEffect(() => {
   //   const card = cardRef.current;
@@ -55,8 +57,8 @@ const SingleCard = (data) => {
 
   return (
     <div className="shows__cards-box1"
-    //  ref={cardRef} 
-     key={data.data.id}>
+      //  ref={cardRef} 
+      key={data.data.id}>
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <img
           src={data.data.Photos[0].Path}
@@ -67,12 +69,15 @@ const SingleCard = (data) => {
       <div className="shows__cards-textContainer">
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
         <h2 className="shows__cards-texth2">
-          {formattedDate(data.data.StartDate).replace(/^\w/, (c) =>
+          {formatDate(data.data.StartDate).replace(/^\w/, (c) =>
             c.toUpperCase()
           )}
         </h2>
         <h3 className="shows__cards-texth3">
-          {data.data.StartTime.slice(0, 2)} Horas
+          {formatTime(data.data.StartTime)} Horas
+        </h3>
+        <h3 className="shows__cards-texth3">
+          {formatPrice(data.data.Price)}
         </h3>
         <FaShoppingCart
           className="shows_cards-cart"
