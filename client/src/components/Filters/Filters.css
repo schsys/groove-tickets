@@ -60,7 +60,6 @@
     justify-content: center;
     align-items: center;
     font-size: 1rem;
-
   }
   
   .shows__filter-box button:hover {
@@ -70,4 +69,13 @@
   
   .shows__filter-box button:active {
     color: orangered;
+  }
+
+  .showFilter{
+    color: white;
+    text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.5rem 0;
   }

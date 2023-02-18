@@ -6,6 +6,7 @@ import "./Filters.css";
 export default function Filters() {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectValue, setSelectValue] = React.useState(""); //uso estos estados locales para mostrar al usuario los filtros q eligio
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +47,7 @@ export default function Filters() {
 
   const handleDayChange = (day) => {
     setSelectedDay(day);
+    setSelectValue(day); //para mostrarle a usuario lo que eligio
     dispatch(filterProducts(day, selectedCategoryId));
     setCurrentPage(1);
   };
@@ -106,6 +108,7 @@ export default function Filters() {
             />
           </div>
         </div>
+        {selectValue && <h3 className="showFilter"> Shows de los próximos {selectValue} días</h3>}
 
         {/* FILTRADO POR CATEGORIAS */}
         <div className="shows__categories-container">

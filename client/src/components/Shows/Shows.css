@@ -24,7 +24,8 @@
   grid-template-columns: auto auto auto;
   margin-top: 2vh;
   margin-bottom: 5vh;
-  margin-left: 6vw;
+  justify-items: center;
+  width: 100%;
 }
 
 .shows__cards-box1 {
@@ -37,7 +38,7 @@
 .shows__cards-show1 {
   margin-bottom: 0vh;
   width: 25vw;
-  height: 18vw;
+  height: 16.5vw;
   object-fit: cover;
 }
 
@@ -88,7 +89,7 @@ hasta aca */
   position: relative;
   color: white;
   padding-left: 1vw;
-  height: 15rem;
+  height: 14rem;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -109,15 +110,21 @@ hasta aca */
 
 .shows__cards-texth3 {
   color: var(--color-orange);
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+  font-size: 1rem;
+  margin: 0rem 0 0.6rem 0;
+}
+
+.shows__cards-textPrice {
+  color: var(--color-orange);
+  font-size: 1.5rem;
+  margin-top: 0.4rem;
 }
 
 .shows_cards-linkInfo {
   position: absolute;
   bottom: 0;
   right: 1vw;
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 1000;
   text-decoration: none;
   color: white;
@@ -131,7 +138,7 @@ hasta aca */
   position: absolute;
   bottom: 1vmax;
   left: 1vw;
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 1000;
   text-decoration: none;
   color: white;
@@ -147,10 +154,12 @@ hasta aca */
   color: white;
   margin-bottom: 0vh;
   padding-bottom: 0vh;
-  padding-left: 2vw;
   margin-top: 5vh;
-  height: 16vw;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-left: 5rem;
+  height: 50vw;
+  text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
+  text-align: center;
+  width: 100%;
 }
 @keyframes pulse {
   0% {
@@ -163,11 +172,19 @@ hasta aca */
     transform: scale(1);
   }
 }
+
+.shows__filters-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .shows__categories-container {
   display: flex;
   flex-direction: row;
-  width: 95vw;
-  margin-left: 2.5vw;
+  max-width: 82.5%;
+
 }
 .shows__categories-title {
   color: white;
