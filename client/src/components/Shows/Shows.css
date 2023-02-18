@@ -40,6 +40,7 @@
   width: 25vw;
   height: 16.5vw;
   object-fit: cover;
+  transition: 0.2 all;
 }
 
 .shows__cards-box1:hover{
@@ -232,11 +233,12 @@ hasta aca */
   align-items: center;
   font-size: medium;
   border: none;
-  cursor: pointer;
+  transition: 0.2s all;
 }
 
 .shows__categories-buttons:hover {
   color: var(--color-rose);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 992px) {
