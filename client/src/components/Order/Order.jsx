@@ -27,24 +27,9 @@ export const Order = () => {
     fetchStatus: "loading",
   });
 
+
   useEffect(() => {
-    let stringCart = localStorage.getItem("cart");
-    console.log("cart: ", JSON.parse(stringCart));
 
-    if (stringCart) {
-      const items = JSON.parse(stringCart);
-      const totalAmount = items.reduce(
-        (acc, cur) => acc + Number(cur.Price) * cur.quantity,
-        0
-      );
-
-      setCartItems((cartItems) => ({
-        ...cartItems,
-        items,
-        totalAmount,
-        fetchStatus: "succeeded",
-      }));
-    }
   }, []);
 
   // Logged user
