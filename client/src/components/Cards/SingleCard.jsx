@@ -81,7 +81,7 @@ const SingleCard = (data) => {
         <h3 className="shows__cards-texth3">
           {formatTime(data.data.StartTime)} Horas
         </h3>
-        <h3 className="shows__cards-texth3">
+        <h3 className="shows__cards-textPrice">
           {formatPrice(data.data.Price)}
         </h3>
         <FaShoppingCart
