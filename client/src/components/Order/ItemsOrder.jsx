@@ -17,7 +17,7 @@ export const ItemsOrder = () => {
     async function fetchOrder() {
       try {
         const response = await axios.get(
-          "http://localhost:3001/admin/orders/:id"
+          "http://localhost:3001/admin/orders/1"
         );
         const items = response.data.OrderItems.map((item) => {
           const { Product, quantity } = item;

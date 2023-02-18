@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import moment from "moment-timezone";
 import {
   FaUserAlt,
   FaMailBulk,
@@ -17,60 +16,6 @@ import "./Order.css";
 import { ItemsOrder } from "./ItemsOrder";
 
 export const Order = () => {
-  /*------------------------------Datos de los items de la orden----------------------------*/
-  const [setorderItems] = useState({
-    items: [],
-    totalAmount: 0,
-    fetchStatus: "loading",
-  });
-
-  useEffect(() => {
-    async function fetchOrder() {
-      try {
-        const response = await axios.get(
-          "http://localhost:3001/admin/orders/2"
-        );
-        const items = response.data.OrderItems.map((item) => {
-          const { Product, quantity } = item;
-          const { Photos, name, price, unitPrice, startDate } = Product;
-          const formattedStartDate = moment.tz(
-            startDate,
-            "America/Argentina/Buenos_Aires"
-          );
-
-          return {
-            name,
-            Photos,
-            startDate: formattedStartDate,
-            price,
-            quantity,
-            unitPrice,
-          };
-        });
-        const totalAmount = items.reduce(
-          (acc, cur) => acc + Number(cur.price) * cur.quantity,
-          0
-        );
-        setorderItems({
-          items,
-          totalAmount,
-          fetchStatus: "succeeded",
-        });
-      } catch (error) {
-        console.error(error);
-        setorderItems({
-          items: [],
-          totalAmount: 0,
-          fetchStatus: "failed",
-        });
-      }
-    }
-
-    fetchOrder();
-    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Logged user
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
@@ -104,7 +49,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        "http://localhost:3001/admin/customers/:id",
+        "http://localhost:3001/admin/customers/1",
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
@@ -134,7 +79,7 @@ export const Order = () => {
     async function fetchCustomer() {
       try {
         const response = await await axios.get(
-          "http://localhost:3001/admin/orders/:id"
+          "http://localhost:3001/admin/orders/1"
         );
         const customerInfo = {
           name: response.data.Customer.name,
