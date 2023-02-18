@@ -1,22 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { addCartProduct } from "../../redux/actions";
+import { addEditCartProduct } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { formattedDate } from "../utils/formatedDate";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
-
-
-
+import { UserAuth } from "../../context/AuthContext";
 
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
-
   const dispatch = useDispatch();
+  const { user } = UserAuth();
+
   const addToCartFromShows = () => {
     if (count < 10) {
       setCount(count + 1);
-      dispatch(addCartProduct(data.data, 1));
+      dispatch(addEditCartProduct(data.data.id, 1, user));
     } else {
       alert("La cantidad máxima permitida es 10");
     }
@@ -64,25 +63,25 @@ const SingleCard = (data) => {
           alt="imagen show1"
           className="shows__cards-show1"
         />
-        <div className="shows__cards-textContainer">
-          <h1 className="shows__cards-texth1">{data.data.name}</h1>
-          <h2 className="shows__cards-texth2">
-            {formattedDate(data.data.StartDate).replace(/^\w/, (c) =>
-              c.toUpperCase()
-            )}
-          </h2>
-          <h3 className="shows__cards-texth3">
-            {data.data.StartTime.slice(0, 2)} Horas
-          </h3>
-          <FaShoppingCart
-            className="shows_cards-cart"
-            onClick={addToCartFromShows}
-          />
-          <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
-            <FaInfoCircle />
-          </Link>
-        </div>
       </Link>
+      <div className="shows__cards-textContainer">
+        <h1 className="shows__cards-texth1">{data.data.name}</h1>
+        <h2 className="shows__cards-texth2">
+          {formattedDate(data.data.StartDate).replace(/^\w/, (c) =>
+            c.toUpperCase()
+          )}
+        </h2>
+        <h3 className="shows__cards-texth3">
+          {data.data.StartTime.slice(0, 2)} Horas
+        </h3>
+        <FaShoppingCart
+          className="shows_cards-cart"
+          onClick={addToCartFromShows}
+        />
+        <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
+          <FaInfoCircle />
+        </Link>
+      </div>
     </div>
   );
 };

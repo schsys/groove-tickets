@@ -14,7 +14,7 @@ import "./Cart.css";
 import {
   toggleShowCart,
   removeCartProduct,
-  editCartProduct,
+  addEditCartProduct,
   emptyCart,
   getCreatedOrderByUser
 } from "../../redux/actions";
@@ -33,31 +33,36 @@ const Cart = () => {
   const history = useHistory();
   const [cartState, setCartState] = useState([]);
   const [cart, setCart] = useState([]);
+  const [orderId, setOrderId] = useState(0);
   const totalItems = useSelector(state => state.totalItems);
 
   useEffect(() => {
       getCreatedOrderByUser(user)
         .then(order => {
-          if (order.hasOwnProperty('error')) alert(order.error);
-
-          if (order.OrderItems && order.OrderItems.length) {
-            setCart(order.OrderItems.map(item => 
-              ({
-                id: item.ProductId,
-                name: item.Product.Name,
-                photo: item.Product.Photos && item.Product.Photos.length && item.Product.Photos[0].Path,
-                startDate: item.Product.StartDate,
-                quantity: item.Quantity,
-                price: item.UnitPrice,
-              })));
+          if (order.hasOwnProperty('error')) { 
+            setOrderId(orderId);
+            setCart([]);
+            alert(order.error);
+          } else {
+            setOrderId(order.Id);
+            if (order.OrderItems && order.OrderItems.length) {
+              setCart(order.OrderItems.map(item => 
+                ({
+                  id: item.ProductId,
+                  name: item.Product.Name,
+                  photo: item.Product.Photos && item.Product.Photos.length && item.Product.Photos[0].Path,
+                  startDate: item.Product.StartDate,
+                  quantity: item.Quantity,
+                  price: item.UnitPrice,
+                })));
+            }
           }
         })
         .catch(error => {
           setCart([]);
-          console.log(error)
+          alert(error.message)
         })
 
-    console.log('cart', cart);
     setCartState(cart);
   }, [user, totalItems]);
 
@@ -66,14 +71,14 @@ const Cart = () => {
   }
 
   function handleRemove(id) {
-    dispatch(removeCartProduct(id, user));
+    dispatch(removeCartProduct(id, user, orderId));
     setCartState(cartState.filter((item) => item.id !== id));
   }
 
   function handleMinus(id, quantity) {
     if (quantity === 1) handleRemove(id);
     quantity -= 1;
-    dispatch(editCartProduct(id, quantity, user));
+    dispatch(addEditCartProduct(id, -1, user, orderId));
     setCount(
       cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
     );
@@ -83,7 +88,7 @@ const Cart = () => {
     // por si se quiere maximo de 10 por persona
     if (quantity === 10) return;
     quantity += 1;
-    dispatch(editCartProduct(id, quantity, user));
+    dispatch(addEditCartProduct(id, 1, user, orderId));
     setCount(
       cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
     );
