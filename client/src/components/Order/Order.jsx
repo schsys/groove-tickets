@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import moment from "moment-timezone";
@@ -14,57 +13,12 @@ import {
 } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { postOrder } from "./api";
-
-/* import { OrderDetail } from "./OrderDetail";
-import { OrderTotals } from "./OrderTotals"; */
 import "./Order.css";
+import { ItemsOrder } from "./ItemsOrder";
 
 export const Order = () => {
-  // Order data
-  const [, /* order */ setOrder] = useState({
-    item: {},
-    status: "idle",
-    error: null,
-  });
-
-  /*--------------------Actualizar cantidad del item quantity----------------------------*/
-  const [showUpdateButton, setShowUpdateButton] = useState(false);
-  const [newQuantity, setNewQuantity] = useState(null);
-  const handleQuantityChange = (e) => {
-    setNewQuantity(e.target.value);
-    setShowUpdateButton(true);
-  };
-  const updateItemQuantity = (index, newQuantity) => {
-    const newItems = [...orderItems.items];
-    newItems[index].quantity = newQuantity;
-    const newTotalAmount = newItems.reduce(
-      (acc, cur) => acc + Number(cur.price) * cur.quantity,
-      0
-    );
-    setorderItems({
-      ...orderItems,
-      items: newItems,
-      totalAmount: newTotalAmount,
-    });
-    setShowUpdateButton(false);
-    sendOrder();
-  };
-  const sendOrder = async () => {
-    try {
-      const response = await axios.put("http://localhost:3001/admin/orders/1", {
-        OrderItems: orderItems.items.map((item) => ({
-          ProductId: item.ProductId,
-          quantity: item.quantity,
-        })),
-      });
-      window.alert("Orden actualizada con pexito:", response.data);
-    } catch (error) {
-      window.alert("Error al actualizar la orden: " + error);
-    }
-  };
   /*------------------------------Datos de los items de la orden----------------------------*/
-  const [orderItems, setorderItems] = useState({
+  const [setorderItems] = useState({
     items: [],
     totalAmount: 0,
     fetchStatus: "loading",
@@ -113,6 +67,8 @@ export const Order = () => {
     }
 
     fetchOrder();
+    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Logged user
@@ -127,7 +83,6 @@ export const Order = () => {
   });
   /*----------------------------Modificación de datos----------------------------------*/
   const [editing, setEditing] = useState(false);
-  console.log("Angeeeeel", editing);
   function handleEditClick() {
     setEditing(true);
     setCustomer((customer) => ({
@@ -149,7 +104,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        "http://localhost:3001/admin/customers/1",
+        "http://localhost:3001/admin/customers/:id",
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
@@ -176,10 +131,10 @@ export const Order = () => {
   }
   /*----------------------------Datos de usuario----------------------------------*/
   useEffect(() => {
-    async function fetchCustomer(userName) {
+    async function fetchCustomer() {
       try {
         const response = await await axios.get(
-          "http://localhost:3001/admin/orders/1"
+          "http://localhost:3001/admin/orders/:id"
         );
         const customerInfo = {
           name: response.data.Customer.name,
@@ -214,91 +169,8 @@ export const Order = () => {
     }
   }, [user, loadingUser]);
 
-  const clearCart = () => {
-    localStorage.setItem("cart", "");
-  };
-
-  const handlePayment = async () => {
-    // handle payment
-    // MercadoPago...
-
-    // handle saving order
-    // customerId, shippingDate, totalAmount, items
-    // item: productId, quantity, unitPrice, totalAmount
-    // Save Order
-    setOrder((order) => ({
-      ...order,
-      status: "processing",
-    }));
-
-    const data = {
-      customerId: customer.item.id,
-      totalAmount: orderItems.totalAmount,
-      items: orderItems.items.map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-        unitPrice: Number(item.Price),
-        totalAmount: Number(item.Price) * item.quantity,
-      })),
-    };
-    console.log("order data: ", data);
-
-    try {
-      const response = await postOrder(data);
-
-      if (response.ok) {
-        clearCart();
-
-        setOrder((order) => ({
-          ...order,
-          status: "succeeded",
-          item: {
-            ...response.data,
-          },
-        }));
-      } else {
-        setOrder((order) => ({
-          ...order,
-          status: "failed",
-          item: {},
-          error: response.error,
-        }));
-      }
-    } catch (error) {
-      setOrder((order) => ({
-        ...order,
-        status: "failed",
-        item: {},
-        error: {
-          message: "Error processing last action",
-          status: error.response && error.response.status,
-        },
-      }));
-    }
-  };
-  console.log("Cartitems", orderItems);
-  const isLoading = () =>
-    loadingUser ||
-    customer.fetchStatus === "loading" ||
-    orderItems.fetchStatus === "loading";
-
-  const userIsGuest = () => !loadingUser && !user;
-
-  /*   const isCartEmpty = () =>
-    orderItems.fetchStatus !== "loading" && orderItems.items.length === 0; */
-
-  function formatNumber(number) {
-    return new Intl.NumberFormat("es-ES", {
-      style: "decimal",
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    }).format(number);
-  }
   return (
     <div className="cartSummary-Container">
-      {isLoading() && <p>Loading...</p>}
-      {userIsGuest() && <Redirect to="/register" />}
-
       <div className="cartSummary__user-infoContainer">
         <h2 className="cartSummary__user-header">
           TUS DATOS
@@ -628,70 +500,8 @@ export const Order = () => {
           </h3>
         </div>
       </div>
-      <div className="cartSummary__summary-Container">
-        <h2 className="cartSummary__summary-header">TU CUENTA</h2>
-        {orderItems.items.map((item) => {
-          //   totalOrder = totalOrder + item.Price * item.quantity;
-          return (
-            <div className="cartSummary__show-Container">
-              <img
-                src={item && item.Photos[0].path}
-                alt="showImage"
-                className="cartSummary__show-image"
-              />
-              <div className="cartSummary__show-nameDate">
-                {item && item.name}
-                <div>{item && item.startDate.format("DD/MM/YYYY")}</div>
-              </div>
-              <div>
-                {orderItems.items.map((item, index) => (
-                  <div key={index}>
-                    <div>
-                      <select
-                        value={newQuantity || item.quantity}
-                        onChange={handleQuantityChange}
-                      >
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </select>
-                      {showUpdateButton && (
-                        <button
-                          onClick={() =>
-                            updateItemQuantity(
-                              index,
-                              newQuantity || item.quantity
-                            )
-                          }
-                        >
-                          Actualizar cantidad
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div>${item && formatNumber(item.price)}</div>
-              <div>
-                $
-                {item && item.price && formatNumber(item.price * item.quantity)}
-              </div>
-            </div>
-          );
-        })}
-        <div className="cartSummary__show-totalOrder">
-          <h4>TOTAL ${formatNumber(orderItems.totalAmount)}</h4>
-        </div>
-        <button className="cartSummary__show-processOrder">
-          <Link
-            onClick={handlePayment}
-            className="cartSummary__show-processOrderButton"
-          >
-            PAGAR
-          </Link>
-        </button>
+      <div>
+        <ItemsOrder />
       </div>
     </div>
   );
