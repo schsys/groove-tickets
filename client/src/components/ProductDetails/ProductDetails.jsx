@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-  addCartProduct,
+  addEditCartProduct,
   getProductById,
   toggleShowCart,
 } from "../../redux/actions";
@@ -18,6 +18,7 @@ import Typography from "@mui/material/Typography";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
+import { UserAuth } from "../../context/AuthContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -26,14 +27,15 @@ export default function ProductDetails() {
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
+  const { user } = UserAuth();
 
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
   const [availableStock] = React.useState(0);
 
-  const itemsToCart = useSelector((state) => state.cart);
-  const [mount, setMount] = useState(true);
+  //const itemsToCart = useSelector((state) => state.cart);
+  //const [mount, setMount] = useState(true);
 
   const showCart = useSelector((state) => state.showCart);
 
@@ -58,18 +60,18 @@ export default function ProductDetails() {
   }
 
   // PARA AGREGAR AL CARRITO
-  useEffect(() => {
-    if (!mount) {
-      if (itemsToCart && itemsToCart.length) {
-        window.localStorage.setItem("carrito", JSON.stringify(itemsToCart));
-      } else {
-        window.localStorage.removeItem("carrito");
-        window.localStorage.removeItem("compra");
-      }
-    } else {
-      setMount(false);
-    }
-  }, [dispatch, itemsToCart, mount]);
+  // useEffect(() => {
+  //   if (!mount) {
+  //     if (itemsToCart && itemsToCart.length) {
+  //       window.localStorage.setItem("carrito", JSON.stringify(itemsToCart));
+  //     } else {
+  //       window.localStorage.removeItem("carrito");
+  //       window.localStorage.removeItem("compra");
+  //     }
+  //   } else {
+  //     setMount(false);
+  //   }
+  // }, [dispatch, itemsToCart, mount]);
 
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
@@ -79,10 +81,11 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
+  
   //cart
   const addToCart = () => {
     if (quantity > 0) {
-      dispatch(addCartProduct(product, quantity));
+      dispatch(addEditCartProduct(product.id, quantity, user));
       setQuantity(1);
       handleShowCart();
     }
