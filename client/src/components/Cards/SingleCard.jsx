@@ -7,7 +7,9 @@ import { formatTime } from "../utils/formatTime";
 import { formatPrice } from "../utils/formatPrice";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
+
 import { UserAuth } from "../../context/AuthContext";
+
 
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
@@ -56,15 +58,18 @@ const SingleCard = (data) => {
   // }, [cardRef]);
 
   return (
+
     <div className="shows__cards-box1"
       //  ref={cardRef} 
       key={data.data.id}>
+
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <img
           src={data.data.Photos[0].Path}
           alt="imagen show1"
           className="shows__cards-show1"
         />
+
       </Link>
       <div className="shows__cards-textContainer">
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
