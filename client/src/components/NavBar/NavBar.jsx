@@ -95,7 +95,7 @@ const Navbar = ({ isCartDisabled = false }) => {
           badgeContent={totalItems}
           onClick={handleBadgeClick}
         >
-          <ShoppingCartIcon style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
+          <ShoppingCartIcon className="navbar_cart" style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
         </Badge>
       </div>
     </div>
