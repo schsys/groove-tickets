@@ -13,7 +13,9 @@ const Shows = () => {
   //const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
+  const [loading, setLoading] = useState(false);
   const products = useSelector((state) => state.products);
+  const filtered = useSelector((state) => state.filteredProducts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +35,9 @@ const Shows = () => {
   return (
     <div className="shows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
-      {products.length ? (
+      {!products.length ? (
+        <Loader />
+      ) : (
         <>
           {/* FILTRADO*/}
           <div className="shows__filters-container">
@@ -42,7 +46,11 @@ const Shows = () => {
           {/* FIN FILTRADO*/}
 
           <div className="shows__cards-container">
-            {products.length ? (
+            {!products.length ? (
+              <h2 className="shows__cards-h1FilterError">
+                No hay shows disponibles con los filtros seleccionados.
+              </h2>
+            ) : (
               products
                 ?.sort(
                   (a, b) =>
@@ -51,27 +59,17 @@ const Shows = () => {
                 )
                 .slice(firstProduct, lastProduct)
                 .map((prod) => <SingleCard data={prod} key={prod.id} />)
-            ) : (
-              <h2 className="shows__cards-h1FilterError">
-                No se encontraron shows con el fitro seleccionado
-              </h2>
             )}
           </div>
 
-          {/* {!products.length ? (
-            <></>
-          ) : ( */}
+          {products.length > 0 && (
             <Pagination
               products={products}
               handlePrev={handlePrev}
               handleNext={handleNext}
               currentPage={currentPage}
             />
-          {/* )} */}
-        </>
-      ) : (
-        <>
-          <Loader />
+          )}
         </>
       )}
     </div>

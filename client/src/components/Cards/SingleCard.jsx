@@ -10,7 +10,6 @@ import "../Shows/Shows.css";
 
 import { UserAuth } from "../../context/AuthContext";
 
-
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ const SingleCard = (data) => {
       alert("La cantidad máxima permitida es 10");
     }
   };
-
 
   /*Hover effect*/
   // const cardRef = useRef(null);
@@ -58,18 +56,17 @@ const SingleCard = (data) => {
   // }, [cardRef]);
 
   return (
-
-    <div className="shows__cards-box1"
-      //  ref={cardRef} 
-      key={data.data.id}>
-
+    <div
+      className="shows__cards-box1"
+      //  ref={cardRef}
+      key={data.data.id}
+    >
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <img
           src={data.data.Photos[0].Path}
           alt="imagen show1"
           className="shows__cards-show1"
         />
-
       </Link>
       <div className="shows__cards-textContainer">
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
@@ -84,13 +81,15 @@ const SingleCard = (data) => {
         <h3 className="shows__cards-textPrice">
           {formatPrice(data.data.Price)}
         </h3>
-        <FaShoppingCart
-          className="shows_cards-cart"
-          onClick={addToCartFromShows}
-        />
-        <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
-          <FaInfoCircle />
-        </Link>
+        <div className="shows_icons">
+          <FaShoppingCart
+            className="shows_cards-cart"
+            onClick={addToCartFromShows}
+          />
+          <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
+            <FaInfoCircle />
+          </Link>
+        </div>
       </div>
     </div>
   );
