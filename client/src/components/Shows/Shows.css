@@ -1,5 +1,3 @@
-/* para aplicar cambios en main */
-
 .shows__background-container {
   width: 100%;
   background-color: black;
@@ -18,18 +16,19 @@
   border: 2px solid var(--color-gray);
 }
 
-
 .shows__cards-container {
   display: grid;
-  grid-template-columns: auto auto auto;
-  margin-top: 2vh;
-  margin-bottom: 5vh;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 16px;
+  margin-top: 1rem;
   justify-items: center;
   width: 100%;
 }
 
 .shows__cards-box1 {
-  width: 25vw;
+  width: 80%;
   background-color: var(--color-blue);
   margin-bottom: 1rem;
   transition: 0.2s all;
@@ -37,17 +36,16 @@
 
 .shows__cards-show1 {
   margin-bottom: 0vh;
-  width: 25vw;
+  width: 100%;
   height: 16.5vw;
   object-fit: cover;
   transition: 0.2 all;
 }
 
-.shows__cards-box1:hover{
+.shows__cards-box1:hover {
   transform: scale(1.05);
   border: 2px solid var(--color-orange);
 }
-
 
 /*hover effect*/
 /* 
@@ -82,12 +80,15 @@
 }
 hasta aca */
 
-.shows__cards-link{
+.shows__cards-link {
   text-decoration: none;
 }
 
 .shows__cards-textContainer {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   color: white;
   padding-left: 1vw;
   height: 14rem;
@@ -95,10 +96,9 @@ hasta aca */
 }
 
 .shows__cards-texth1 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 0vh;
-  margin-top: 0vh;
-  padding-bottom: 0vh;
+  padding-top: 0.4rem;
 }
 
 .shows__cards-texth2 {
@@ -121,10 +121,14 @@ hasta aca */
   margin-top: 0.4rem;
 }
 
+.shows_icons {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-bottom: 0;
+}
+
 .shows_cards-linkInfo {
-  position: absolute;
-  bottom: 0;
-  right: 1vw;
   font-size: 2.8rem;
   font-weight: 1000;
   text-decoration: none;
@@ -136,9 +140,6 @@ hasta aca */
   color: var(--color-rose);
 }
 .shows_cards-cart {
-  position: absolute;
-  bottom: 1vmax;
-  left: 1vw;
   font-size: 2.8rem;
   font-weight: 1000;
   text-decoration: none;
@@ -174,7 +175,7 @@ hasta aca */
   }
 }
 
-.shows__filters-container{
+.shows__filters-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -185,7 +186,6 @@ hasta aca */
   display: flex;
   flex-direction: row;
   max-width: 82.5%;
-
 }
 .shows__categories-title {
   color: white;
@@ -241,43 +241,107 @@ hasta aca */
   cursor: pointer;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 900px) {
   .shows__cards-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .shows__cards-box1 {
-    width: 80vw;
+    width: 80%;
+    height: 75vh;
   }
 
   .shows__cards-show1 {
-    width: 80vw;
-    height: 50vh;
+    width: 100%;
+    height: 42%;
   }
+  
+  .shows__cards-textContainer {
+    position: relative;
+    height: 58%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+    color: white;
+    padding-left: 1vw;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
   .shows__cards-texth1 {
-    font-size: 4vw;
-    padding-bottom: 1vh;
+    font-size: 1.6rem;
+    padding-bottom: 0.6rem;
   }
 
   .shows__cards-texth2 {
-    font-size: 3vw;
+    font-size: 1.3rem;
   }
 
   .shows__cards-texth3 {
-    font-size: 2.6vw;
+    font-size: 1.1rem;
+  }
+  .shows__cards-textPrice {
+    font-size: 1.5rem;
+    margin-top: 0.4rem;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .shows__cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .shows__cards-box1 {
+    width: 75%;
+    height: 70vh;
+  }
+
+  .shows__cards-textContainer {
+    position: relative;
+    height: 58%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+    color: white;
+    padding-left: 1vw;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .shows__cards-textContainer {
+   
+    justify-content:flex-start;
+    color: white;
+    padding-left: 1vw;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .shows__cards-box1 {
+    height: 68vh;
+  }
+  .shows__cards-texth1 {
+    font-size: 1.4rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .shows__cards-texth2 {
+    font-size: 1.2rem;
+  }
+
+  .shows__cards-texth3 {
+    font-size: 1.1rem;
+  }
+  .shows__cards-textPrice {
+    font-size: 1.4rem;
+    margin-top: 0.2rem;
   }
 
   .shows_cards-linkInfo {
-    font-size: 9vw;
+    font-size: 2rem;
   }
-
+  
   .shows_cards-cart {
-    font-size: 9vw;
-  }
-  .shows__cards-textContainer {
-    height: 20vh;
+    font-size: 2rem;
   }
 }
