@@ -16,11 +16,11 @@
   overflow: hidden;
   flex: 1;
 }
+
 .global_container {
   display: grid;
   width: 85%;
-  grid-template-columns: 55% 45%;
-  
+  grid-template-columns: 55% 45%; 
 }
 
 .product_container {
@@ -36,8 +36,12 @@
   color: #ffffff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.product_container h2 {
+.product_container h2, .detail_price_h2 {
   margin: 0rem 0 0 1.2rem;
+}
+
+.detail_price_h2{
+  color: var(--color-orange);
 }
 
 .product_container p{
@@ -96,16 +100,17 @@ height: auto;
   display: flex;
   justify-content: center;
   margin-top: 0.5rem;
+  width: 100%;
 }
 
 .product_button {
   display: block;
-  width: 35%;
-  padding: 0.3rem;
+  width: 45%;
+  padding: 0.4rem;
   background: var(--color-orange);
   color: white;
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -119,7 +124,7 @@ height: auto;
   cursor: pointer;
 }
 
-.product_info {
+.product_info, .detail_reviews_div {
   width: 85%;
   padding: 2rem 0;
   text-align: left;
@@ -129,196 +134,128 @@ height: auto;
   border: 1px solid white;
 }
 
-.product_info h4 {
+.product_info h4, .detail_reviews_div h4 {
   margin: -0.5rem 0 0 1.2rem;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.product_info p{
+.product_info p, .detail_reviews_div p{
   margin-left: 1.2rem;
   font-size: 1rem;
 }
 
-.detail_reviews_div {
-  width: 85%;
-  padding: 2rem 0;
-  text-align: left;
-  background-color: rgba(49, 103, 144, 0.8);
-  color: #ffffff;
-  height: auto;
-  border: 1px solid white;
+.detail_cart_explanation{
+  margin: 0.5rem 0 0.8rem 0 !important;
 }
 
-.detail_reviews_div h4 {
-  margin: -0.5rem 0 0 1.2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
+.product_info p, .detail_reviews_div p{
+  width: 93%;
+  text-align: justify;
 }
 
-.detail_reviews_div p{
-  margin-left: 1.2rem;
-  font-size: 1rem;
-}
-
-/*-----Responsive hasta 767px -----*/
-@media (max-width: 767px) {
+/*-----Responsive hasta 900px -----*/
+@media screen and (max-width: 900px) {
   .product_container {
-    height: auto;
+    margin-top: 2rem;
     width: 100%;
-    margin: 25px auto;
-    padding: 18px;
-    text-align: center;
-    font-size: 0.9em;
-    height: 337px;
-    margin-bottom: 0;
+    height: auto;
+    flex: 1;
+    flex-wrap: wrap;
+    /* float: left; */
+    text-align: left;
+    padding: 1.2rem 0 0rem 0;
+    background-color: rgba(49, 103, 144, 0.8);
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
-  .product_image {
-    margin-top: 25px;
+  .back_button_div{
+    margin: 0.5rem 0 -0.2rem 10%;
+  }
+
+  .global_container {
     width: 90%;
-    flex: 1;
-    flex-wrap: wrap;
-    float: right;
-    object-fit: cover;
-    height: 373px;
-    margin-bottom: 0;
   }
 
   .product_button {
     clear: both;
     display: block;
-    width: 96%;
-    padding: 8px;
+    width: 65%;
+    padding: 0.5rem;
     background: var(--color-orange);
     color: white;
-    text-transform: uppercase;
-    font-size: 1.3em;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    border: none;
-    margin-right: 2%;
-    margin-left: 2%;
-    cursor: pointer;
+    font-size: 1em;
   }
 
-  .product_info {
-    /* display: block; */
-    /* width: 97.35%; */
-    padding: 20px;
-    text-align: left;
-    background-color: rgba(49, 103, 144, 0.8);
-    color: #ffffff;
-    height: 100px;
-    margin-bottom: 3vh;
-    margin-right: 2vw;
-    margin-left: 2vw;
-    font-size: 0.8em;
+  .product_info, .detail_reviews_div {
+    width: 90%;
   }
-
-  .back_button {
-    display: block;
-    width: 10%;
-    padding: 3px;
-    background: var(--color-orange);
-    color: white;
-    text-transform: uppercase;
-    font-size: 0.7em;
+  
+  .product_info h4, .detail_reviews_div h4 {
+    margin: -0.5rem 0 0 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-style: normal;
-    border: none;
-    margin-top: 0.5%;
-    margin-bottom: -3.3%;
-    margin-left: 2%;
-    cursor: pointer;
   }
-  .back_button:hover {
-    background-color: #72cb10;
+  
+  .product_info p, .detail_reviews_div p{
+    margin-left: 1.2rem;
+    font-size: 0.9rem;
   }
 }
 
-/*-----Responsive hasta 479px -----*/
-@media (max-width: 479px) {
+/*-----Responsive hasta 750px -----*/
+@media screen and (max-width: 750px) {
   .product_container {
-    height: auto;
-    width: 100%;
-    margin: 25px auto;
-    padding: 10px;
-    text-align: center;
-    font-size: 0.7em;
-    height: 320px;
-    margin-bottom: 0;
+    margin-top: 0rem;
   }
 
-  .product_image {
-    margin-top: 25px;
-    width: 91.1%;
-    flex: 1;
-    flex-wrap: wrap;
-    float: right;
-    object-fit: cover;
-    height: 340px;
-    margin-bottom: 0;
+  .back_button {
+    width: 12%;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    margin: 0.5rem 0 -0.2rem 0;
+  }
+
+  .global_container {
+    width: 90%;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .product_button {
     clear: both;
     display: block;
-    width: 96%;
-    padding: 5px;
+    width: 50%;
+    padding: 0.5rem;
     background: var(--color-orange);
     color: white;
-    text-transform: uppercase;
     font-size: 1em;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    border: none;
-    margin-right: 2%;
-    margin-left: 2%;
-    cursor: pointer;
   }
+  .image_container{
+    margin-top: 1rem;
+    }
+}
 
-  .product_info {
-    /* display: block; */
-    /* width: 97.35%; */
-    padding: 10px;
-    text-align: left;
-    background-color: rgba(49, 103, 144, 0.8);
-    color: #ffffff;
-    height: 100px;
-    margin-bottom: 3vh;
-    margin-right: 2vw;
-    margin-left: 2vw;
-    font-size: 0.7em;
-  }
-
+@media screen and (max-width: 550px) {
   .back_button {
-    display: block;
-    width: 10%;
-    padding: 3px;
-    background: var(--color-orange);
-    color: white;
-    text-transform: uppercase;
-    font-size: 0.7em;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-style: normal;
-    border: none;
-    margin-top: 0.5%;
-    margin-bottom: -5.5%;
-    margin-left: 2%;
-    cursor: pointer;
+    width: 15%;
+    margin: 0.5rem 0 0rem 0;
   }
-  .back_button:hover {
-    background-color: #72cb10;
+
+  .product_container h2{
+    font-size: 1.2rem;
+  }
+
+  .product_button {
+    width: 50%;
+    font-size: 0.8rem;
+  }
+
+  .detail_rating_containter, .product_container h2, 
+  .detail_price_h2, .product_container p,
+  .product_info h4, .detail_reviews_div h4,
+  .product_info p, .detail_reviews_div p {
+    margin-left: 0.9rem;
   }
 }
