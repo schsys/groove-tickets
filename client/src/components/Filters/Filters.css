@@ -79,3 +79,25 @@
     text-align: center;
     margin: 0 0 1.5rem 0;
   }
+
+  .shows__categories-container{
+    width: 85%;
+  }
+
+  /*Responsive desde 750 a 900*/
+  @media screen and (max-width: 900px) {
+    .shows__categories-title h4, .shows__filter-text h4{
+      font-size: 0.8rem;
+    }
+    .shows__filter-box button, .shows__categories-buttons{
+      font-size: 0.8rem;
+    }
+
+  }
+
+  /*Responsive desde 550 a 750*/
+  @media screen and (max-width: 750px) {
+    .shows__categories-container{
+      display: none;
+    }
+  }
