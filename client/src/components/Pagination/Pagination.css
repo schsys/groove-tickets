@@ -11,8 +11,8 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  background-color: var(--color-rose);
-  width: 25vw;
+  background-color: var(--color-blue);
+  width: 35vw;
   height: 5vh;
   color: white;
   border: 1px solid white;
@@ -25,12 +25,13 @@
   cursor: default;
   outline: none;
   color: white;
-  font-size: large;
-  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.2s all;
 }
 
 .shows__pagination-textContainer button:hover {
-  color: var(--color-yellow);
+  color: var(--color-orange);
+  cursor: pointer;
 }
 
 .shows__pagination-textContainer span {
@@ -42,8 +43,24 @@
   text-decoration: underline;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 900px) {
   .shows__pagination-textContainer {
     width: 50vw;
   }
 }
+
+  /*Responsive hasta 750*/
+  @media screen and (max-width: 750px) {
+    .shows__pagination-textContainer {
+      width: 55vw;
+    }
+  }
+
+  /*Responsive hasta 550*/
+  @media screen and (max-width: 550px) {
+    .shows__pagination-textContainer {
+      width: 75vw;
+  }
+
+}
+
