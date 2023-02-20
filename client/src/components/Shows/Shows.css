@@ -309,7 +309,7 @@ hasta aca */
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 550px) {
   .shows__cards-textContainer {
    
     justify-content:flex-start;

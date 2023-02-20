@@ -195,7 +195,7 @@ export default function ProductDetails() {
                 )}
               </>
               <>
-                <h2>Precio: ${product.Price}</h2>
+                <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
               </>
 
               <Box
@@ -213,7 +213,9 @@ export default function ProductDetails() {
               >
                 <div>
                   <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                    SELCCIONA LA CANTIDAD Y PRESIONA AGREGAR AL CARRITO{" "}
+                   <p className="detail_cart_explanation">
+                    Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
+                   </p>
                     <Badge color="warning" badgeContent={quantity}>
                       <ButtonGroup>
                         <Button
