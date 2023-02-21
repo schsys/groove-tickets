@@ -75,11 +75,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         error: payload,
       };
-    case ADD_EDIT_CART:
+    case ADD_EDIT_CART: {
       return {
         ...state,
         totalItems: action.payload,
       };
+    }
     case REMOVE_FROM_CART:
       return {
         ...state,
