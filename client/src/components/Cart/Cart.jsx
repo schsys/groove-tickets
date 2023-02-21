@@ -61,7 +61,7 @@ const Cart = () => {
         })
         .catch(error => {
           setCart([]);
-          alert(error.message)
+          //alert(error.message)
         })
 
     setCartState(cart);
