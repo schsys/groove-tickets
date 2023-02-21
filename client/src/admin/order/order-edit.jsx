@@ -139,15 +139,26 @@ const OrderForm = () => {
                 redirect('list', 'orders');
             } catch (error) {
                 console.table(error);
-                if (error.body && error.body.errors) {
-                    return error.body.errors;
-                }
 
-                if (error.body && error.body.validationError) {
-                    notify(error.body.validationError, {
-                        type: 'error'
-                    });
-                    return '';
+                if (error.body) {
+
+                    if (error.body.errors) {
+                        return error.body.errors;
+                    }
+
+                    if (error.body.validationError) {
+                        notify(error.body.validationError, {
+                            type: 'error'
+                        });
+                        return '';
+                    }
+
+                    if (error.body.notificationError) {
+                        notify(error.body.notificationError, {
+                            type: 'error'
+                        });
+                        redirect('list', 'orders');
+                    }
                 } else {
                     notify('Ooops! Error validating data', {
                         type: 'error'
