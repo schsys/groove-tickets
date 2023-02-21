@@ -81,8 +81,7 @@ export const filterProducts = (day, categoryId) => {
   };
 };
 
-export const addEditCartProduct = (productId, quantity, user, orderId) => {
-  return async (dispatch) => {
+export const addEditCartProduct = async(productId, quantity, user, orderId) => {
     try {
       // leo del local storage
       if (userIsLogining(user)) {
@@ -95,7 +94,7 @@ export const addEditCartProduct = (productId, quantity, user, orderId) => {
             } 
          }   
          if (orderId)
-            await axios.put(`${apiUrl}/order/${orderId}/items`, {productId, quantity});
+            await axios.put(`${apiUrl}/order/${orderId}/items`, {items: [{productId, quantity}]});
       }else {
         let cart = [];
         let stringCart = localStorage.getItem("cart");
@@ -118,44 +117,38 @@ export const addEditCartProduct = (productId, quantity, user, orderId) => {
         }
         localStorage.setItem("cart", JSON.stringify(cart));
       };
-
-      dispatch({
-        type: ADD_EDIT_CART,
-        payload: await getInternalTotalItems(user),
-      });
-    }catch(error) {
+    }
+    catch(error) 
+    {
       console.log(error);
       setError(error);
     }
-  }
 };
 
-export const removeCartProduct = (productId, user, orderId) => {
-  return async (dispatch) => {
+export const removeCartProduct = async(productId, user, orderId) => {
     try {
       if (userIsLogining(user)) {
-        if (orderId)
-           await axios.delete(`${apiUrl}/order/${orderId}/items/${productId}`);
+        if (orderId) { 
+           const response = await axios.delete(`${apiUrl}/order/${orderId}/items/${productId}`);           
+           console.log('response', response);
+         }
       }else {
         let stringCart = localStorage.getItem("cart");
         let cart = [];
 
         if (stringCart) {
           cart = JSON.parse(stringCart);
-          cart = cart.filter(e => e.id !== productId);
+          cart = cart.filter(e => e.id !== productId);           
         }
         localStorage.setItem("cart", JSON.stringify(cart));
       }
-
-      dispatch({
-        type: REMOVE_FROM_CART,
-        payload: await getInternalTotalItems(user),
-      });
-    }catch(error) {
+      return productId;
+    }
+    catch(error) 
+    {
       console.log(error);
       setError(error);
     }
-  }
 };
 
 export const emptyCart = (user) => {
@@ -199,6 +192,7 @@ const getInternalTotalItems = async(user) => {
 export const getCreatedOrderByUser = async(user) => {
   try {
     if (userIsLogining(user)) {
+      console.log('getproduct', user)
       const order = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       return order.data;
     }else{
