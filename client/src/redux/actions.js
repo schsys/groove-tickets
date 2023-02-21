@@ -85,7 +85,7 @@ export const addEditCartProduct = async(productId, quantity, user, orderId) => {
     try {
       // leo del local storage
       if (userIsLogining(user)) {
-         if (!orderId) {
+         if (!orderId || orderId === 0) {
             const order = await getCreatedOrderByUser(user);
             if (order) {
                 orderId = order.Id;

@@ -5,6 +5,7 @@ import {
   addEditCartProduct,
   getProductById,
   toggleShowCart,
+  getTotalItems,
 } from "../../redux/actions";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
@@ -40,6 +41,7 @@ export default function ProductDetails() {
   const showCart = useSelector((state) => state.showCart);
 
   const [quantity, setQuantity] = React.useState(1);
+  const orderId = useSelector(state => state.orderId);
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -82,11 +84,14 @@ export default function ProductDetails() {
   };
   
   //cart
-  const addToCart = () => {
+  const addToCart = async() => {
     if (quantity > 0) {
-      dispatch(addEditCartProduct(product.id, quantity, user));
-      setQuantity(1);
-      handleShowCart();
+      await addEditCartProduct(product.id, quantity, user, orderId)
+      .then(() => {
+        setQuantity(1);
+        handleShowCart();  
+        dispatch(getTotalItems(user));
+      })
     }
   };
 
