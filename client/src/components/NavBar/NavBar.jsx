@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
@@ -71,19 +72,25 @@ const Navbar = ({ isCartDisabled = false }) => {
         <span></span>
         <span></span>
       </div>
+      
+      <div className="navbar_search_div">
+        <Search />
+      </div>
 
       <div className="nav_right">
-        <Search />
 
         {/* {authorizedUser ? ( */}
         {user ? (
           <div className="nav_username">
-            <Link to='/micuenta' className="navbar_menu_link" >MI CUENTA</Link>
+            <Link to="/micuenta" className="navbar_menu_link">
+              <AccountCircleIcon 
+                className="right_navbar_icons"
+              />
+            </Link>
           </div>
         ) : (
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
-              
               <Link to={"/register"} className="navbar_menu_link">
                 INGRESAR
               </Link>
@@ -95,7 +102,11 @@ const Navbar = ({ isCartDisabled = false }) => {
           badgeContent={totalItems}
           onClick={handleBadgeClick}
         >
-          <ShoppingCartIcon className="navbar_cart" style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
+          <ShoppingCartIcon
+            className="right_navbar_icons"
+            style={{ color: "white" }}
+            cursor={isCartDisabled ? "default" : "pointer"}
+          />
         </Badge>
       </div>
     </div>

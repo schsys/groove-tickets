@@ -30,8 +30,8 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
     errors.email = 'Tiene que ser un mail válido'
   } else if (!input.phoneNumber) {
     errors.phoneNumber = 'Necesitás ingrear un teléfono'
-  } else if (!/^((\(?\d{2,5}\)?)?(\d|-| )?(15((\d|-| ){6,13})))$/.test(input.phoneNumber)) {
-    errors.phoneNumber = 'Tiene que ser un número válido'
+  } else if (!/^(?:(?:\+|00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)) {
+    errors.phoneNumber = 'Tiene que ser un número válido. Por ejemplo +5491133333333 o 3515555555'
   } else if (!input.password) {
     errors.password = 'Necesitás ingresar una contraseña'
   } else if (!/^(?=.*\d).{6,8}$$/.test(input.password)) {
