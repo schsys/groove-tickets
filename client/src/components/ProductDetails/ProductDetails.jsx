@@ -43,8 +43,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductById(id));
-    //    setAvailableStock(product.Stock);
-    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

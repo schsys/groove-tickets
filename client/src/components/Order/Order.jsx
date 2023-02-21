@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, NavLink, Link } from "react-router-dom";
-import { Card, CardContent, Box /* Typography, Button */ } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-
+import axios from "axios";
+import {
+  FaUserAlt,
+  FaMailBulk,
+  FaDirections,
+  FaCity,
+  FaPhoneAlt,
+  FaSave,
+  FaTimesCircle,
+} from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-
-import { getCustomer, postOrder } from "./api";
-
-/* import { OrderDetail } from "./OrderDetail";
-import { OrderTotals } from "./OrderTotals"; */
 import "./Order.css";
+import { ItemsOrder } from "./ItemsOrder";
 
 export const Order = () => {
-  // Order data
-  const [, /* order */ setOrder] = useState({
-    item: {},
-    status: "idle",
-    error: null,
-  });
-
-  // Items in the cart
-  const [cartItems, setCartItems] = useState({
-    items: [],
-    totalAmount: 0,
-    fetchStatus: "loading",
-  });
-
-
-  useEffect(() => {
-
-  }, []);
-
   // Logged user
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
@@ -40,34 +24,78 @@ export const Order = () => {
     item: {},
     fetchStatus: "loading",
     error: null,
+    editing: false,
   });
+  /*----------------------------Modificación de datos----------------------------------*/
+  const [editing, setEditing] = useState(false);
+  function handleEditClick() {
+    setEditing(true);
+    setCustomer((customer) => ({
+      ...customer,
+      editing: true,
+      tempItem: customer.item,
+    }));
+  }
+  const customerItem = customer.editing ? customer.tempItem : customer.item;
+  const name = customerItem["name"];
+  const address = customerItem["address"];
+  const email = customerItem["email"];
+  const city = customerItem["city"];
+  const state = customerItem["state"];
+  const zip = customerItem["zip"];
+  const telephone = customerItem["telephone"];
 
+  async function handleSave() {
+    try {
+      // Enviar los datos actualizados al servidor
+      await axios.put(
+        "http://localhost:3001/admin/customers/:id",
+        customer.tempItem
+      );
+      // Actualizar el estado local con los datos actualizados
+      setEditing(false);
+      setCustomer((customer) => ({
+        ...customer,
+        editing: false,
+        item: customer.tempItem,
+      }));
+      window.alert("Datos actualizados con éxito");
+    } catch (error) {
+      window.alert("Error al actualizar datos" + error);
+    }
+  }
+
+  function handleCancel() {
+    // Establecer editing en false y restaurar los datos originales
+    setEditing(false);
+    setCustomer((customer) => ({
+      ...customer,
+      editing: false,
+      tempItem: {},
+    }));
+  }
+  /*----------------------------Datos de usuario----------------------------------*/
   useEffect(() => {
-    console.log("Order useEffect() to fetch customer");
-    console.log("logged user: ", user, loadingUser);
-
-    async function fetchCustomer(userName) {
+    async function fetchCustomer() {
       try {
-        const response = await getCustomer(userName);
-        console.log("getCustomer", response);
+        const response = await await axios.get(
+          "http://localhost:3001/admin/orders/1"
+        );
+        const customerInfo = {
+          name: response.data.Customer.name,
+          address: response.data.Customer.address,
+          city: response.data.Customer.city,
+          state: response.data.Customer.state,
+          zip: response.data.Customer.zip,
+          email: response.data.Customer.email,
+          telephone: response.data.Customer.telephone,
+        };
 
-        if (response.ok) {
-          setCustomer((customer) => ({
-            ...customer,
-            fetchStatus: "succeeded",
-            item: {
-              ...response.data,
-            },
-          }));
-        } else {
-          // console.log('response: ', response);
-          setCustomer((customer) => ({
-            ...customer,
-            fetchStatus: "failed",
-            item: {},
-            error: response.error,
-          }));
-        }
+        setCustomer({
+          item: customerInfo,
+          fetchStatus: "success",
+          error: null,
+        });
       } catch (error) {
         setCustomer((customer) => ({
           ...customer,
@@ -86,162 +114,339 @@ export const Order = () => {
     }
   }, [user, loadingUser]);
 
-  const clearCart = () => {
-    localStorage.setItem("cart", "");
-  };
-
-  const handlePayment = async () => {
-    // handle payment
-    // MercadoPago...
-
-    // handle saving order
-    // customerId, shippingDate, totalAmount, items
-    // item: productId, quantity, unitPrice, totalAmount
-    // Save Order
-    setOrder((order) => ({
-      ...order,
-      status: "processing",
-    }));
-
-    const data = {
-      customerId: customer.item.id,
-      totalAmount: cartItems.totalAmount,
-      items: cartItems.items.map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-        unitPrice: Number(item.Price),
-        totalAmount: Number(item.Price) * item.quantity,
-      })),
-    };
-    console.log("order data: ", data);
-
-    try {
-      const response = await postOrder(data);
-
-      if (response.ok) {
-        clearCart();
-
-        setOrder((order) => ({
-          ...order,
-          status: "succeeded",
-          item: {
-            ...response.data,
-          },
-        }));
-      } else {
-        setOrder((order) => ({
-          ...order,
-          status: "failed",
-          item: {},
-          error: response.error,
-        }));
-      }
-    } catch (error) {
-      setOrder((order) => ({
-        ...order,
-        status: "failed",
-        item: {},
-        error: {
-          message: "Error processing last action",
-          status: error.response && error.response.status,
-        },
-      }));
-    }
-  };
-  console.log("Cartitems", cartItems);
-  const isLoading = () =>
-    loadingUser ||
-    customer.fetchStatus === "loading" ||
-    cartItems.fetchStatus === "loading";
-
-  const userIsGuest = () => !loadingUser && !user;
-
-  const isCartEmpty = () =>
-    cartItems.fetchStatus !== "loading" && cartItems.items.length === 0;
-
-  function formatNumber(number) {
-    return new Intl.NumberFormat("es-ES", {
-      style: "decimal",
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    }).format(number);
-  }
-
-  function formatDate(prevDate) {
-    const date = new Date(prevDate + "T00:00:00");
-    const options = { weekday: "long", day: "numeric", month: "numeric" };
-    const formattedDate = date.toLocaleDateString("es-ES", options);
-    return formattedDate;
-  }
-
   return (
     <div className="cartSummary-Container">
-      {isLoading() && <p>Loading...</p>}
-      {userIsGuest() && <Redirect to="/register" />}
-      {isCartEmpty() && (
-        <Box maxWidth="90%" margin="1em auto">
-          <Card>
-            <CardContent>
-              <p>El carrito está vacío!</p>
-              <NavLink to="/">Ver shows</NavLink>
-            </CardContent>
-          </Card>
-        </Box>
-      )}
       <div className="cartSummary__user-infoContainer">
         <h2 className="cartSummary__user-header">
           TUS DATOS
-          <button className="cartSummary__user-editInfo">
+          <button
+            className="cartSummary__user-editInfo"
+            onClick={handleEditClick}
+          >
             <EditIcon />
           </button>
+          {editing && (
+            <>
+              <button
+                className="cartSummary__user-editInfo-save"
+                onClick={handleSave}
+              >
+                <FaSave /> Guardar cambios
+              </button>
+              <button
+                className="cartSummary__user-editInfo-cancel"
+                onClick={handleCancel}
+              >
+                <FaTimesCircle /> Cancelar
+              </button>
+            </>
+          )}
         </h2>
 
         <div className="cartSummary__user-info">
-          <h3>Nombre: {customer.item.name}</h3>
-          <h3>Email: {customer.item.email}</h3>
-          <h3>Dirección: {customer.item.address}</h3>
           <h3>
-            Ciudad: {customer.item.city}, {customer.item.state}{" "}
-            {customer.item.zip}{" "}
+            <FaUserAlt /> Nombre:{" "}
+            {editing ? (
+              <input
+                type="text"
+                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                maxLength="30"
+                value={name}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, name: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={name} disabled />
+            )}
+          </h3>
+
+          <h3>
+            <FaMailBulk /> Email:{" "}
+            {editing ? (
+              <input
+                type="email"
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                maxLength="30"
+                value={email}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, email: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Ingresa un correo válido. Ejepmlo: ejemplo@gmail.com";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Ingresa un correo válido. Ejemplo: ejemplo@gmail.com.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={email} disabled />
+            )}
+          </h3>
+
+          <h3>
+            <FaDirections /> Dirección:{" "}
+            {editing ? (
+              <input
+                type="text"
+                maxLength="30"
+                pattern="^[A-Za-z0-9\s]+$"
+                value={address}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, address: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Solo se permiten números y letras.";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Solo se permiten números y letras.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={address} disabled />
+            )}
+          </h3>
+
+          <h3>
+            <FaCity /> Ciudad:{" "}
+            {editing ? (
+              <input
+                type="text"
+                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                maxLength="30"
+                value={city}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, city: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={city} disabled />
+            )}{" "}
+            {editing ? (
+              <input
+                type="text"
+                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                maxLength="30"
+                value={state}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, state: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Solo se permiten letras y espacios en blanco.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={state} disabled />
+            )}{" "}
+            {editing ? (
+              <input
+                type="text"
+                pattern="^[0-9]+$"
+                maxLength="5"
+                value={zip}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: { ...customer.tempItem, zip: e.target.value },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML = "Solo se permiten números.";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML = "Solo se permiten números.";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={zip} disabled />
+            )}{" "}
+          </h3>
+          <h3>
+            <FaPhoneAlt /> Teléfono:{" "}
+            {editing ? (
+              <input
+                type="text"
+                pattern="^[0-9]+$"
+                maxLength="15"
+                value={telephone}
+                onChange={(e) =>
+                  setCustomer((customer) => ({
+                    ...customer,
+                    tempItem: {
+                      ...customer.tempItem,
+                      telephone: e.target.value,
+                    },
+                  }))
+                }
+                onKeyUp={(e) => {
+                  const input = e.target;
+                  const value = input.value;
+                  const pattern = new RegExp(input.getAttribute("pattern"));
+
+                  if (!pattern.test(value)) {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.innerHTML =
+                        "Ingresa un número de télefono válido";
+                    } else {
+                      const errorSpan = document.createElement("span");
+                      errorSpan.innerHTML =
+                        "Ingresa un número de télefono válido";
+                      errorSpan.style.color = "red";
+                      input.parentNode.appendChild(errorSpan);
+                    }
+                  } else {
+                    const errorSpan = input.parentNode.querySelector("span");
+                    if (errorSpan) {
+                      errorSpan.remove();
+                    }
+                  }
+                }}
+              />
+            ) : (
+              <input type="text" value={telephone} disabled />
+            )}{" "}
           </h3>
         </div>
       </div>
-      <div className="cartSummary__summary-Container">
-        <h2 className="cartSummary__summary-header">TU CUENTA</h2>
-
-        {cartItems.items.map((item) => {
-          //   totalOrder = totalOrder + item.Price * item.quantity;
-          return (
-            <div className="cartSummary__show-Container">
-              <img
-                src={item && item.Photo}
-                alt="showImage"
-                className="cartSummary__show-image"
-              />
-              <div className="cartSummary__show-nameDate">
-                {item && item.name}
-                <div>{item && formatDate(item.StartDate)}</div>
-              </div>
-              <div>{item && item.quantity}</div>
-              <div>${item && formatNumber(item.Price)}</div>
-              <div>
-                $
-                {item && item.Price && formatNumber(item.Price * item.quantity)}
-              </div>
-            </div>
-          );
-        })}
-        <div className="cartSummary__show-totalOrder">
-          <h4>TOTAL ${formatNumber(cartItems.totalAmount)}</h4>
-        </div>
-        <button className="cartSummary__show-processOrder">
-          <Link
-            onClick={handlePayment}
-            className="cartSummary__show-processOrderButton"
-          >
-            PAGAR
-          </Link>
-        </button>
+      <div>
+        <ItemsOrder />
       </div>
     </div>
   );

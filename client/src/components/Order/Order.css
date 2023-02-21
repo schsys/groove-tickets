@@ -94,6 +94,13 @@
   font-size: 1.5vw;
 }
 
+.cartSummary__user-info input {
+  color: rgb(0, 0, 0);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 1.2vw;
+  width: 12vw;
+}
+
 .cartSummary__user-editInfo {
   margin-left: 1vw;
   text-decoration: none;
@@ -106,9 +113,94 @@
   background-color: var(--color-orange);
   cursor: pointer;
 }
+.cartSummary__user-editInfo-save {
+  margin-left: 1vw;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  justify-content: flex-end;
+  font-size: 80%;
+}
+.cartSummary__user-editInfo-save:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
+}
+
+.cartSummary__user-editInfo-cancel {
+  margin-left: 1vw;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  justify-content: flex-end;
+  font-size: 80%;
+}
+
+.cartSummary__user-editInfo-cancel:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
+}
 .cartSummary__show-processOrderButton {
   color: white;
   font-size: 2vw;
   text-decoration: none;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.editItems_order-save {
+  margin-left: 0.3vw;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  justify-content: flex-end;
+  font-size: 90%;
+}
+
+.editItems_order-save:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
+}
+
+.editItems_order-plus {
+  margin-right: 0.5vw;
+  width: 2vw;
+  text-decoration: none;
+  border: solid 2px var(--color-yellow);
+  background-color: var(--color-blue);
+  color: white;
+  justify-content: flex-end;
+  font-size: 100%;
+}
+
+.editItems_order-plus[disabled] {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.editItems_order-plus:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
+}
+
+.editItems_order-minus {
+  margin-left: 0.5vw;
+  width: 2vw;
+  text-decoration: none;
+  border: solid 2px var(--color-yellow);
+  background-color: var(--color-blue);
+  color: white;
+  justify-content: flex-end;
+  font-size: 100%;
+}
+
+.editItems_order-minus[disabled] {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.editItems_order-minus:hover {
+  background-color: var(--color-orange);
+  cursor: pointer;
 }
