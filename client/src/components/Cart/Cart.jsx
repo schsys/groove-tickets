@@ -40,7 +40,7 @@ const Cart = () => {
       getCreatedOrderByUser(user)
         .then(order => {
           if (order.hasOwnProperty('error')) { 
-            setOrderId(orderId);
+            setOrderId(0);
             setCart([]);
             alert(order.error);
           } else {
@@ -60,7 +60,7 @@ const Cart = () => {
         })
         .catch(error => {
           setCart([]);
-          alert(error.message)
+          alert(`Error al rederizar cart -> ${error.message}`);
         })
 
     setCartState(cart);

@@ -7,21 +7,23 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from "firebase/auth";
-//import { auth } from "../../config/firebase-config";
 import { UserAuth } from "../../context/AuthContext";
-
 import { Modal } from "@mui/material";
-//import { useSessionStorage } from "../../config/useSessionStorage";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 import GoogleLogo from "./googleLogo.png";
 import axios from "axios";
 import "./Login.css";
+
+import { useDispatch } from "react-redux";
+import {setLocalStorageToApi} from "../../redux/actions";
+
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export default function Login() {
   const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
   const history = useHistory();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [email, setEmail] = useState();
@@ -77,7 +79,6 @@ export default function Login() {
           user.getIdToken().then( async (tkn) => {
             // Save data in db
             const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
-            console.log('dbExistUser en login', dbExistUser.data)
             if (!dbExistUser.data) {
               const newUser = await axios.post(
                 `${apiUrl}/admin/users`,
@@ -87,7 +88,6 @@ export default function Login() {
                   status: "Active"
                 }
               );
-              console.log('newUser: ', newUser);
               /* const newCustomer = await axios.post(`${apiUrl}/admin/customers`,
                 {
                   userId: newUser.data.id,
@@ -104,8 +104,13 @@ export default function Login() {
             setAuthorizedUser(true);
           });
           history.push("/"); //despues redirige para ver todo
+
+        //------------------------------------------------------------------------
+        // aca debo llamar a la funcion de control de localstorage contra carrito
+        //
+        dispatch(setLocalStorageToApi(user));
+        //------------------------------------------------------------------------
         }
-        console.log(user);
       })
       .catch((error) => {
         const errorLog = {
@@ -164,7 +169,7 @@ export default function Login() {
     setError("");
     try {
       await signIn(input.email, input.password);
-      console.log("form login submited");
+      console.log("form login submited");      
       history.push("/"); //despues redirige para ver todo
       setInput({
         //resetea el estado del input
