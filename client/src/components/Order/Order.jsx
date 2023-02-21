@@ -14,11 +14,14 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Order.css";
 import { ItemsOrder } from "./ItemsOrder";
+import { useSelect } from "@mui/base";
+import { useSelector } from "react-redux";
 
 export const Order = () => {
   // Logged user
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
+  const orderId = useSelector(state => state.orderId);
 
   const [customer, setCustomer] = useState({
     item: {},
@@ -79,7 +82,7 @@ export const Order = () => {
     async function fetchCustomer() {
       try {
         const response = await await axios.get(
-          "http://localhost:3001/admin/orders/1"
+          `http://localhost:3001/admin/orders/1`
         );
         const customerInfo = {
           name: response.data.Customer.name,
