@@ -96,31 +96,25 @@ export const addEditCartProduct = (productId, quantity, user, orderId) => {
          if (orderId)
             await axios.put(`${apiUrl}/order/${orderId}/items`, {productId, quantity});
       }else {
-        const productById = await axios.get(`${apiUrl}/products/${productId}`);
-        const productInsert = {
-          id: productById.id,
-          name: productById.name,
-          photo: productById.Photos[0].Path,
-          price: productById.Price,
-          startDate: productById.StartDate,
-          quantity: quantity,
-        };
-
-        let stringCart = localStorage.getItem("cart");
         let cart = [];
+        let stringCart = localStorage.getItem("cart");
+        if (stringCart) cart = JSON.parse(stringCart);
+        const cartItem = cart.find((e) => e.id === productId);
 
-        if (!stringCart) {
+        if (stringCart && cartItem) {
+           cartItem.quantity = cartItem.quantity + quantity;
+        }else{
+           const productById = await axios.get(`${apiUrl}/products/${productId}`);
+           const productInsert = {
+             id: productById.data.id,
+             name: productById.data.name,
+             photo: productById.data.Photos[0].Path,
+             price: productById.data.Price,
+             startDate: productById.data.StartDate,
+             quantity: quantity,
+           };
           cart.push(productInsert);
-        } else {
-          cart = JSON.parse(stringCart);
-          const cartItem = cart.find((e) => e.id === productById.id);
-          if (cartItem) {
-            cartItem.quantity = cartItem.quantity + quantity;
-          } else {
-            cart.push(productInsert);
-          }
         }
-
         localStorage.setItem("cart", JSON.stringify(cart));
       };
 
@@ -147,12 +141,8 @@ export const removeCartProduct = (productId, user, orderId) => {
 
         if (stringCart) {
           cart = JSON.parse(stringCart);
-          const cartItemIndex = cart.findIndex((e) => e.id === productId);
-          if (cartItemIndex !== -1) {
-            cart.splice(cartItemIndex, 1);
-          }
+          cart = cart.filter(e => e.id !== productId);
         }
-
         localStorage.setItem("cart", JSON.stringify(cart));
       }
 
