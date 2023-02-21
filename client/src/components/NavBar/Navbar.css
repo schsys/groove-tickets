@@ -67,12 +67,14 @@
   align-content: center;
 }
 
-.navbar_cart {
+.right_navbar_icons {
   color: white;
   transition: 0.2s all;
+  height: 2.2rem;
+  width: auto;
 }
 
-.navbar_cart:hover {
+.right_navbar_icons:hover {
   color: var(--color-green) !important;
   cursor: pointer;
 }
@@ -128,9 +130,12 @@
   .nav_right {
     display: flex;
     margin-right: 1.5rem;
-    width: 45%;
     justify-content: space-around;
     align-content: space-between;
+  }
+
+  .right_navbar_icons{
+    height: 1.6rem;
   }
 }
 
@@ -155,8 +160,4 @@
         font-size: 1.1rem;
     }
 
-    .navbar_cart{
-        height: 1rem;
-        width: auto;   
-    }
 }

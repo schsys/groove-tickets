@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
@@ -82,7 +83,9 @@ const Navbar = ({ isCartDisabled = false }) => {
         {user ? (
           <div className="nav_username">
             <Link to="/micuenta" className="navbar_menu_link">
-              MI CUENTA
+              <AccountCircleIcon 
+                className="right_navbar_icons"
+              />
             </Link>
           </div>
         ) : (
@@ -100,7 +103,7 @@ const Navbar = ({ isCartDisabled = false }) => {
           onClick={handleBadgeClick}
         >
           <ShoppingCartIcon
-            className="navbar_cart"
+            className="right_navbar_icons"
             style={{ color: "white" }}
             cursor={isCartDisabled ? "default" : "pointer"}
           />

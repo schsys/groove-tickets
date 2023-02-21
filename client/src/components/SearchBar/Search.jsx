@@ -35,6 +35,9 @@ function Search() {
       p.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setSuggestions(filtered);
+    if(e.target.value === ""){
+      setSuggestions([])
+    }
   }
 
   function handleSearch(e) {
@@ -51,9 +54,9 @@ function Search() {
 
   function handleSuggestionClick(name) {
     dispatch(search(name));
+    history.push("/");
     setName(""); //vacia el input
     setSuggestions([]);
-    history.push("/");
   }
 
   return (
