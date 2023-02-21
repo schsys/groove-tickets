@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { addEditCartProduct } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { addEditCartProduct, getTotalItems } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../utils/formatedDate";
 import { formatTime } from "../utils/formatTime";
 import { formatPrice } from "../utils/formatPrice";
@@ -9,16 +9,22 @@ import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
 import "../Shows/Shows.css";
 
 import { UserAuth } from "../../context/AuthContext";
+import { useSelect } from "@mui/base";
 
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
   const dispatch = useDispatch();
   const { user } = UserAuth();
+  const orderId = useSelector(state => state.orderId);
 
-  const addToCartFromShows = () => {
+  const addToCartFromShows = async() => {
     if (count < 10) {
-      setCount(count + 1);
-      dispatch(addEditCartProduct(data.data.id, 1, user));
+      await addEditCartProduct(data.data.id, 1, user, orderId)
+      .then(() => 
+        {
+          setCount(count + 1);
+          dispatch(getTotalItems(user));
+      });
     } else {
       alert("La cantidad máxima permitida es 10");
     }
