@@ -85,15 +85,12 @@ export const ItemsOrder = () => {
 
   const sendOrder = async () => {
     try {
-      const response = await axios.put(
-        "http://localhost:3001/order/[2]/items",
-        {
-          OrderItems: orderItems.items.map((item) => ({
-            ProductId: item.ProductId,
-            quantity: item.quantity,
-          })),
-        }
-      );
+      const response = await axios.put("http://localhost:3001/order/1/items", {
+        OrderItems: orderItems.items.map((item) => ({
+          ProductId: item.ProductId,
+          quantity: 1,
+        })),
+      });
       window.alert("Orden actualizada con exito:", response.data);
     } catch (error) {
       window.alert("Error al actualizar la orden: " + error);
@@ -130,10 +127,6 @@ export const ItemsOrder = () => {
                 disabled={item.quantity <= 0}
               >
                 -
-              </button>
-
-              <button className="editItems_order-save" onClick={sendOrder}>
-                <FaSave /> Guardar
               </button>
             </div>
             <div>${item && formatNumber(item.price)}</div>
