@@ -9,6 +9,7 @@ import {
   REMOVE_FROM_CART,
   EMPTY_CART,
   ADD_EDIT_CART,
+  ORDER_SELECTED
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -22,6 +23,7 @@ const initialState = {
   cart: [],
   showCart: false,
   totalItems: 0,
+  orderId: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -91,6 +93,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         totalItems: action.payload
       };
+    case ORDER_SELECTED: 
+      return {
+        ...state,
+        totalItems: action.payload["totalItems"],
+        orderId: action.payload["orderId"]
+      }
     default:
       return { ...state };
   }
