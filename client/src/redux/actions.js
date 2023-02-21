@@ -9,6 +9,7 @@ export const ADD_EDIT_CART = "ADD_EDIT_CART";
 export const TOGGLE_SHOW_CART = "TOGGLE_SHOW_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
+export const ORDER_SELECTED = "ORDER_SELECTED";
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const clearFilters = () => {
@@ -84,7 +85,7 @@ export const addEditCartProduct = (productId, quantity, user, orderId) => {
   return async (dispatch) => {
     try {
       // leo del local storage
-      if (user && user.hasOwnProperty('email')) {
+      if (userIsLogining(user)) {
          if (!orderId) {
             const order = await getCreatedOrderByUser(user);
             if (order) {
@@ -132,7 +133,7 @@ export const addEditCartProduct = (productId, quantity, user, orderId) => {
 export const removeCartProduct = (productId, user, orderId) => {
   return async (dispatch) => {
     try {
-      if (user && user.hasOwnProperty('email')) {
+      if (userIsLogining(user)) {
         if (orderId)
            await axios.delete(`${apiUrl}/order/${orderId}/items/${productId}`);
       }else {
@@ -188,8 +189,6 @@ export const getTotalItems = (user) => {
 const getInternalTotalItems = async(user) => {
   let totalQuantity = 0;
   const order = await getCreatedOrderByUser(user);
-  console.log('getInternalTotalItems', order);
-  console.log('getInternalTotalItems', order.OrderItems);
   if (order) {
     for (const item of order.OrderItems)
         totalQuantity = totalQuantity + item.Quantity; 
@@ -199,7 +198,7 @@ const getInternalTotalItems = async(user) => {
 
 export const getCreatedOrderByUser = async(user) => {
   try {
-    if (user && user.hasOwnProperty('email')) {
+    if (userIsLogining(user)) {
       const order = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       return order.data;
     }else{
@@ -221,10 +220,8 @@ export const getCreatedOrderByUser = async(user) => {
              Photos: [{id: 1, Path: item.photo}],
             } 
          }));
-
-        console.log(order); 
-        return order;
       }
+      return order;
     }
   } 
   catch (error) {
@@ -233,10 +230,84 @@ export const getCreatedOrderByUser = async(user) => {
   }
 }
 
+const userIsLogining = (user) => {
+  if (user && user.hasOwnProperty('email')) return true;
+  return false;  
+}
+
+export const setLocalStorageToApi = (user) => {
+  return async (dispatch) => {
+    try {
+      const stringCart = localStorage.getItem("cart");
+      const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
+      const order = response.data;
+      console.log('oder api', order);
+      if (stringCart) {
+        const items = JSON.parse(stringCart);
+        if (order) {
+          const orderItems = items.map(item => ({productId: item.id, quantity: item.quantity}));  
+          const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, {items: orderItems});
+          // trato de errores
+          console.log('orden modificada: ', response);         
+        }else{
+          const customer = await axios.get(`/user?userName=${user.email}`);
+          if (customer) {            
+            const orderItems = items.map(item => 
+                (
+                  {
+                    productId: item.id, 
+                    quantity: item.quantity,
+                    unitPrice: item.price,
+                    totalAmount: item.price * item.quantity,
+                  }
+                )
+            ); 
+
+            let totalOrderAmount = 0;
+            for (const item of orderItems) 
+                totalOrderAmount = totalOrderAmount + item.totalAmount;
+            
+            const response = await axios.post('/order', 
+                {
+                  customerId: customer.Customer.Id,
+                  totalAmount: totalOrderAmount,
+                  items: orderItems
+                }
+              );
+              
+           // controlo respuesta de orden
+            console.log('orden creada: ', response);
+          }          
+        }
+        // vacio carrito de localstorage 
+        localStorage.setItem("cart", []);
+      };
+        
+      dispatch({
+        type: ORDER_SELECTED,
+        payload: {
+          orderId: order ? order.id : 0,
+          totalItems: await getInternalTotalItems(user)
+        }
+      });
+
+    }catch(error) {
+      console.log(error);
+      setError(error);
+    }
+  }
+}
+
 export const toggleShowCart = (show) => {
-  return {
-    type: TOGGLE_SHOW_CART,
-    payload: show,
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: TOGGLE_SHOW_CART,
+        payload: show,
+      });
+    }catch(error) {
+      console.log(error)
+    }
   };
 };
 
