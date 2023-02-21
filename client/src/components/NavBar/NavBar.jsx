@@ -35,11 +35,11 @@ const Navbar = ({ isCartDisabled = false }) => {
   }
 
   React.useEffect(() => {
-    dispatch(getTotalItems());
+    dispatch(getTotalItems(user));
     //    setAvailableStock(product.Stock);
     //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [totalItems, user]);
 
   // const cart = useSelector((state) => state.cart);
   // const [showCart, setShowCart] = useState(false);
@@ -95,7 +95,7 @@ const Navbar = ({ isCartDisabled = false }) => {
           badgeContent={totalItems}
           onClick={handleBadgeClick}
         >
-          <ShoppingCartIcon style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
+          <ShoppingCartIcon className="navbar_cart" style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
         </Badge>
       </div>
     </div>

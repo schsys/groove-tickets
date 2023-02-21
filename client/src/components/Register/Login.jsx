@@ -221,14 +221,14 @@ export default function Login() {
             </button>
           </div>
         ) : (
-          <div className="login_container">
+            <>
             <h2 className="login_h2">INGRESÁ</h2>
 
-            {/* Loguearse con email y password */}
+            {/* // Loguearse con email y password */}
             <form onSubmit={(e) => handleSubmitLogin(e)} className="login_form">
               <div className="login_info_wraper">
                 <label className="login-form_label" htmlFor="email">
-                  email:
+                  Email:
                 </label>
                 <input
                   className="login_section_input"
@@ -299,7 +299,7 @@ export default function Login() {
 
             {/*Loguearse con Google*/}
             <div className="login_with_google">
-              <h3>O ingresá con tu cuenta de Google</h3>
+              <h2 className="login_h2">O ingresá con tu cuenta de Google</h2>
               <button className="login_btn_google" onClick={signInwithGoogle}>
                 <img
                   className="login_with_google_logo"
@@ -309,7 +309,7 @@ export default function Login() {
                 <h4 className="login_btn_text">Ingresá</h4>
               </button>
             </div>
-          </div>
+            </>
         )}
       </div>
     </div>

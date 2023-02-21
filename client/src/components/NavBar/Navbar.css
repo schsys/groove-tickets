@@ -3,8 +3,7 @@
     height: 4rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    
+    align-items: center;   
 }
 
 .navbar_menu_link{
@@ -18,15 +17,25 @@
 
 .nav_logo{
     margin-left: 1.5rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
 }
 
 .navbar_logo_img{
     margin: 0.75rem;
     color: white;
     position: relative;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    transition: 0.2s all;
 }
+
+.navbar_logo_img:hover{
+    scale: 1.05;
+}
+
 .nav_toggle{
     display: none;
 }
@@ -51,7 +60,7 @@
 }
 
 .navbar_menu_link:hover{
-    color: #AFEF4B;
+    color: var(--color-green);
     cursor: pointer;
 }
 
@@ -61,18 +70,18 @@
     align-content: center;
 }
 
-#cart-icon_nav{
+.navbar_cart{
     color: white;
-    transition: all 0.2s;
+    transition: 0.2s all;
 }
 
-#cart-icon_nav:hover{
-    color: #AFEF4B;
+.navbar_cart:hover{
+    color: var(--color-green) !important;
     cursor: pointer;
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     .nav_items{
         position: absolute;
         top: 60px;

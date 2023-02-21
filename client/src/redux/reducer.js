@@ -5,11 +5,10 @@ import {
   GET_PRODUCT_BY_ID,
   FILTERED_PRODUCTS,
   CLEAR_FILTERS,
-  ADD_TO_CART,
   TOGGLE_SHOW_CART,
-  EDIT_CART,
   REMOVE_FROM_CART,
   EMPTY_CART,
+  ADD_EDIT_CART,
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -71,19 +70,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         product: action.payload,
       };
-
     case SET_ERROR:
       return {
         ...state,
         error: payload,
       };
-
-    case ADD_TO_CART:
-      return {
-        ...state,
-        totalItems: action.payload,
-      };
-    case EDIT_CART:
+    case ADD_EDIT_CART:
       return {
         ...state,
         totalItems: action.payload,

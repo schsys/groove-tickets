@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-  addCartProduct,
+  addEditCartProduct,
   getProductById,
   toggleShowCart,
 } from "../../redux/actions";
@@ -18,6 +18,7 @@ import Typography from "@mui/material/Typography";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
+import { UserAuth } from "../../context/AuthContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -26,14 +27,15 @@ export default function ProductDetails() {
   const options = { weekday: "long", day: "numeric", month: "numeric" };
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
+  const { user } = UserAuth();
 
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
   const [availableStock] = React.useState(0);
 
-  const itemsToCart = useSelector((state) => state.cart);
-  const [mount, setMount] = useState(true);
+  //const itemsToCart = useSelector((state) => state.cart);
+  //const [mount, setMount] = useState(true);
 
   const showCart = useSelector((state) => state.showCart);
 
@@ -57,18 +59,18 @@ export default function ProductDetails() {
   }
 
   // PARA AGREGAR AL CARRITO
-  useEffect(() => {
-    if (!mount) {
-      if (itemsToCart && itemsToCart.length) {
-        window.localStorage.setItem("carrito", JSON.stringify(itemsToCart));
-      } else {
-        window.localStorage.removeItem("carrito");
-        window.localStorage.removeItem("compra");
-      }
-    } else {
-      setMount(false);
-    }
-  }, [dispatch, itemsToCart, mount]);
+  // useEffect(() => {
+  //   if (!mount) {
+  //     if (itemsToCart && itemsToCart.length) {
+  //       window.localStorage.setItem("carrito", JSON.stringify(itemsToCart));
+  //     } else {
+  //       window.localStorage.removeItem("carrito");
+  //       window.localStorage.removeItem("compra");
+  //     }
+  //   } else {
+  //     setMount(false);
+  //   }
+  // }, [dispatch, itemsToCart, mount]);
 
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
@@ -78,10 +80,11 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
+  
   //cart
   const addToCart = () => {
     if (quantity > 0) {
-      dispatch(addCartProduct(product, quantity));
+      dispatch(addEditCartProduct(product.id, quantity, user));
       setQuantity(1);
       handleShowCart();
     }
@@ -109,14 +112,15 @@ export default function ProductDetails() {
     <>
       {product.name ? (
         <div className="container_details">
-          <Link to="/" className="back_button">
-            Atrás
-          </Link>
+          <div className="back_button_div">
+            <Link to="/" className="back_button">
+              Atrás
+            </Link>
+          </div>
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-
-              <>
+              <div className="detail_rating_containter">
                 <Box
                   sx={{
                     width: 200,
@@ -145,23 +149,20 @@ export default function ProductDetails() {
                     </Box>
                   )}
                 </Box>
-              </>
-
+              </div>
               <>
                 <p>
                   <i className="fas fa-calendar"></i> {formattedDate}
                 </p>
               </>
-
-              <>
+              <p>
                 <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
                 horas
-              </>
-
+              </p>
               <>
                 {product.Artist && Object.keys(product.Artist).length > 0 ? (
                   <p>
-                    <i className="fas fa-music"></i> Músico:{" "}
+                    <i className="fas fa-music"></i> Artistas:{" "}
                     {product.Artist.Name}
                   </p>
                 ) : (
@@ -193,7 +194,7 @@ export default function ProductDetails() {
                 )}
               </>
               <>
-                <h2>Precio: ${product.Price}</h2>
+                <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
               </>
 
               <Box
@@ -211,7 +212,9 @@ export default function ProductDetails() {
               >
                 <div>
                   <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                    SELCCIONA LA CATIDAD Y PRESIONA AGREGAR AL CARRITO{" "}
+                   <p className="detail_cart_explanation">
+                    Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
+                   </p>
                     <Badge color="warning" badgeContent={quantity}>
                       <ButtonGroup>
                         <Button
@@ -235,6 +238,11 @@ export default function ProductDetails() {
                       </ButtonGroup>
                     </Badge>
                   </Typography>
+                  <div className="product_button_div">
+                    <button className="product_button" onClick={addToCart}>
+                      Agregar al Carrito
+                    </button>
+                  </div>
                 </div>
               </Box>
             </div>
@@ -251,12 +259,14 @@ export default function ProductDetails() {
               )}
             </div>
           </div>
-          <button className="product_button" onClick={addToCart}>
-            Agregar al Carrito
-          </button>
 
           <div className="product_info">
             <h4>Descripción:</h4>
+            <p>{product.Description}</p>
+          </div>
+
+          <div className="detail_reviews_div">
+            <h4>Esto opinan los que conocen la banda:</h4>
             <p>{product.Description}</p>
           </div>
           <Footer />
