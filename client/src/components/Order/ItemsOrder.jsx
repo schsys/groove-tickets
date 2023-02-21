@@ -99,7 +99,6 @@ export const ItemsOrder = () => {
       window.alert("Error al actualizar la orden: " + error);
     }
   };
-
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
@@ -118,6 +117,7 @@ export const ItemsOrder = () => {
 
             <div>
               <button
+                className="editItems_order-plus"
                 onClick={() => updateItemQuantity(index, item.quantity + 1, 10)}
                 disabled={item.quantity >= 10}
               >
@@ -125,16 +125,14 @@ export const ItemsOrder = () => {
               </button>
               <>{item && item.quantity}</>
               <button
+                className="editItems_order-minus"
                 onClick={() => updateItemQuantity(index, item.quantity - 1, 0)}
                 disabled={item.quantity <= 0}
               >
                 -
               </button>
 
-              <button
-                className="cartSummary__user-editInfo"
-                onClick={sendOrder}
-              >
+              <button className="editItems_order-save" onClick={sendOrder}>
                 <FaSave /> Guardar
               </button>
             </div>

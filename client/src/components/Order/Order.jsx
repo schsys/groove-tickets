@@ -128,13 +128,13 @@ export const Order = () => {
           {editing && (
             <>
               <button
-                className="cartSummary__user-editInfo"
+                className="cartSummary__user-editInfo-save"
                 onClick={handleSave}
               >
                 <FaSave /> Guardar cambios
               </button>
               <button
-                className="cartSummary__user-editInfo"
+                className="cartSummary__user-editInfo-cancel"
                 onClick={handleCancel}
               >
                 <FaTimesCircle /> Cancelar
@@ -215,7 +215,7 @@ export const Order = () => {
                     } else {
                       const errorSpan = document.createElement("span");
                       errorSpan.innerHTML =
-                        "Ingresa un correo válido. Ejepmlo: ejemplo@gmail.com.";
+                        "Ingresa un correo válido. Ejemplo: ejemplo@gmail.com.";
                       errorSpan.style.color = "red";
                       input.parentNode.appendChild(errorSpan);
                     }
@@ -317,7 +317,7 @@ export const Order = () => {
               />
             ) : (
               <input type="text" value={city} disabled />
-            )}
+            )}{" "}
             {editing ? (
               <input
                 type="text"
