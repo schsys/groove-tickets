@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
-import { getTotalItems } from "../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -89,20 +87,6 @@ export const ItemsOrder = () => {
       fetchStatus: "succeeded",
     });
   };
-
-  /*  const sendOrder = async () => {
-    try {
-      const response = await axios.put("http://localhost:3001/order/1/items", {
-        OrderItems: orderItems.items.map((item) => ({
-          ProductId: item.ProductId,
-          quantity: 1,
-        })),
-      });
-      window.alert("Orden actualizada con exito:", response.data);
-    } catch (error) {
-      window.alert("Error al actualizar la orden: " + error);
-    }
-  }; */
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>

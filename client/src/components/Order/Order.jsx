@@ -32,10 +32,6 @@ export const Order = () => {
         const response = await axios.get(
           `http://localhost:3001/orders?status=Created&userName=${user.email}`
         );
-        /* const customer = await axios.get(
-          `http://localhost:3001/admin/customers/${response.data.CustomerId}`
-        ); */
-
         const customerInfo = {
           customerId: response.data.Customer.Id,
           name: response.data.Customer.Name,
