@@ -1,0 +1,20 @@
+.skeleton_shows_container {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: auto auto auto;
+    row-gap: 1rem;
+    column-gap: 5%;
+    width: 92%;
+    margin: 1rem auto;
+    flex: 1;
+    }
+
+.skeleton_shows_section{
+    width: 95%;
+}
+
+.skeleton_shows_icons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
