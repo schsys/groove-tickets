@@ -17,8 +17,12 @@ export const dataProvider = {
             filter: JSON.stringify(params.filter),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
-
-        return httpClient(url).then(({ headers, json }) => ({
+        /* const options = {}
+        options.headers = {
+            authorization: sessionStorage.getItem("accessToken"),
+            user: sessionStorage.getItem("userName"),
+        } */
+        return httpClient(url/* ,options */).then(({ headers, json }) => ({
             data: json.rows,
             total: json.count,
         }));

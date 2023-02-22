@@ -78,30 +78,45 @@ export default function Login() {
         if (user) {
           user.getIdToken().then( async (tkn) => {
             // Save data in db
-            const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
-            if (!dbExistUser.data) {
-              const newUser = await axios.post(
-                `${apiUrl}/admin/users`,
-                {
-                  userName: user.email,
-                  role: "User",
-                  status: "Active"
-                }
-              );
-              /* const newCustomer = await axios.post(`${apiUrl}/admin/customers`,
-                {
-                  userId: newUser.data.id,
-                  name: user.displayName,
-                  email: user.email,
-                  telephone: '',
-                  document: 123456
-                }
-              ) */
+            try {
+              const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
+              if (dbExistUser.data) {
+                sessionStorage.setItem("userName", user.email);
+                 // set access token in session storage
+                 console.log(tkn);
+                sessionStorage.setItem("accessToken", tkn);
+                setAuthorizedUser(true);
+                /* const newCustomer = await axios.post(`${apiUrl}/admin/customers`,
+                  {
+                    userId: newUser.data.id,
+                    name: user.displayName,
+                    email: user.email,
+                    telephone: '',
+                    document: 123456
+                  }
+                ) */
+              }
+            } catch (error) {
+              if(error.response.status === 404){
+                const newUser = await axios.post(
+                  `${apiUrl}/user`,
+                  {
+                    userName: user.email,
+                    role: "User",
+                    status: "Active"
+                  }
+                );
+                sessionStorage.setItem("userName", user.email);
+                console.log('newUser: ', newUser);
+                 // set access token in session storage
+                 console.log(tkn);
+                sessionStorage.setItem("accessToken", tkn);
+                setAuthorizedUser(true);
+              }
+              else{
+                console.log(error);
+              }
             }
-
-            // set access token in session storage
-            sessionStorage.setItem("accessToken", tkn);
-            setAuthorizedUser(true);
           });
           history.push("/"); //despues redirige para ver todo
 
