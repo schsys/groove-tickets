@@ -192,7 +192,6 @@ const getInternalTotalItems = async(user) => {
 export const getCreatedOrderByUser = async(user) => {
   try {
     if (userIsLogining(user)) {
-      console.log('getproduct', user)
       const order = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       return order.data;
     }else{
@@ -263,7 +262,7 @@ export const setLocalStorageToApi = (user) => {
             
             const response = await axios.post('/order', 
                 {
-                  customerId: customer.Customer.Id,
+                  customerId: customer.data.Customer.id,
                   totalAmount: totalOrderAmount,
                   items: orderItems
                 }
@@ -286,7 +285,7 @@ export const setLocalStorageToApi = (user) => {
       });
 
     }catch(error) {
-      console.log(error);
+      console.log('Error postOrder', error);
       setError(error);
     }
   }
