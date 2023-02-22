@@ -86,16 +86,16 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
-  
+
   //cart
-  const addToCart = async() => {
+  const addToCart = async () => {
     if (quantity > 0) {
       await addEditCartProduct(product.id, quantity, user, orderId)
-      .then(() => {
-        setQuantity(1);
-        handleShowCart();  
-        dispatch(getTotalItems(user));
-      })
+        .then(() => {
+          setQuantity(1);
+          handleShowCart();
+          dispatch(getTotalItems(user));
+        })
     }
   };
 
@@ -121,14 +121,14 @@ export default function ProductDetails() {
   const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
   const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
   const topRecommended = recommendation.slice(0, 3);
-  
+
   // console.log('products.categories', products[1].Categories[0].Name)
   // console.log('category', category)
   // console.log('recommendation', recommendation)
   // console.log('topRecommended', topRecommended)
 
   return (
-    
+
     <>
       {product.name ? (
         <div className="container_details">
@@ -203,7 +203,7 @@ export default function ProductDetails() {
               </>
               <>
                 {product.Location &&
-                Object.keys(product.Location).length > 0 ? (
+                  Object.keys(product.Location).length > 0 ? (
                   <p>
                     <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
                     {product.Location.Name}
@@ -232,9 +232,9 @@ export default function ProductDetails() {
               >
                 <div>
                   <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                   <p className="detail_cart_explanation">
-                    Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
-                   </p>
+                    <p className="detail_cart_explanation">
+                      Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
+                    </p>
                     <Badge color="warning" badgeContent={quantity}>
                       <ButtonGroup>
                         <Button
@@ -292,13 +292,14 @@ export default function ProductDetails() {
 
           <div className="detail_recommended_shows">
             <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
-            {/* <div>
-               <RecommendedShows 
+            <div>
+              <RecommendedShows
+                referencedShowId={product.id}
                 categories={product.Categories.map((c) => c.Id)}
-               />
-            </div>   */}
+              />
+            </div>
           </div>
-          
+
           <Footer />
         </div>
       ) : (
