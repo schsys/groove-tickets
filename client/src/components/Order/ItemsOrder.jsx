@@ -90,7 +90,7 @@ export const ItemsOrder = () => {
     });
   };
 
-  const sendOrder = async () => {
+  /*  const sendOrder = async () => {
     try {
       const response = await axios.put("http://localhost:3001/order/1/items", {
         OrderItems: orderItems.items.map((item) => ({
@@ -102,7 +102,7 @@ export const ItemsOrder = () => {
     } catch (error) {
       window.alert("Error al actualizar la orden: " + error);
     }
-  };
+  }; */
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
