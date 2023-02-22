@@ -6,6 +6,7 @@ import {
   getProductById,
   toggleShowCart,
   getTotalItems,
+  getProducts,
 } from "../../redux/actions";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
@@ -20,9 +21,11 @@ import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
+import RecommendedShows from "../RecommendedShows/RecommendedShows";
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const products = useSelector((state) => state.products);
   const product = useSelector((state) => state.product);
   const date = new Date(product.StartDate + "T00:00:00");
   const options = { weekday: "long", day: "numeric", month: "numeric" };
@@ -48,6 +51,7 @@ export default function ProductDetails() {
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   function handleClick() {
     if (quantity < 10 && quantity < product.Stock) {
@@ -113,7 +117,18 @@ export default function ProductDetails() {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
+  //Shows recomendados
+  const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
+  const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
+  const topRecommended = recommendation.slice(0, 3);
+  
+  // console.log('products.categories', products[1].Categories[0].Name)
+  // console.log('category', category)
+  // console.log('recommendation', recommendation)
+  // console.log('topRecommended', topRecommended)
+
   return (
+    
     <>
       {product.name ? (
         <div className="container_details">
@@ -274,6 +289,16 @@ export default function ProductDetails() {
             <h4>Esto opinan los que conocen la banda:</h4>
             <p>{product.Description}</p>
           </div>
+
+          <div className="detail_recommended_shows">
+            <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
+            {/* <div>
+               <RecommendedShows 
+                categories={product.Categories.map((c) => c.Id)}
+               />
+            </div>   */}
+          </div>
+          
           <Footer />
         </div>
       ) : (
