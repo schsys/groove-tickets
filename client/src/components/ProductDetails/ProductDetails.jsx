@@ -48,10 +48,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductById(id));
-    dispatch(getProducts())
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   function handleClick() {
     if (quantity < 10 && quantity < product.Stock) {
@@ -118,11 +118,11 @@ export default function ProductDetails() {
   }
 
   //Shows recomendados
-  // const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
-  // const recommendation = products && products.filter((p) => p.Categories[0].Name === category);
-  // const topRecommended = recommendation.slice(0, 3);
+  const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
+  const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
+  const topRecommended = recommendation.slice(0, 3);
   
-  // console.log('products', products[1])
+  // console.log('products.categories', products[1].Categories[0].Name)
   // console.log('category', category)
   // console.log('recommendation', recommendation)
   // console.log('topRecommended', topRecommended)
@@ -292,21 +292,11 @@ export default function ProductDetails() {
 
           <div className="detail_recommended_shows">
             <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
-            <div>
-                {/* {topRecommended?.map((t) => {
-                  return(
-                    <RecommendedShows
-                      key={t.id}
-                      id={t.id}
-                      name={t.name}
-                      image={t.Photos[0].Path}
-                      date={t.date}
-                      artist={t.Artist.Name}
-                      price={t.price}
-                    />
-                  )
-                })} */}
-            </div>  
+            {/* <div>
+               <RecommendedShows 
+                categories={product.Categories.map((c) => c.Id)}
+               />
+            </div>   */}
           </div>
           
           <Footer />
