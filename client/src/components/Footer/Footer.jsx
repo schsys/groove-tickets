@@ -12,8 +12,6 @@ const Footer = () => {
         <a
           className="footer_logo_div"
           href="/"
-          target="_blank"
-          rel="noreferrer"
         >
           <img src={yazzLogo} alt="logo Yazz" className="app__footer-logo" />
         </a>

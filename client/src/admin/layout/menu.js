@@ -10,6 +10,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import WifiCalling3Icon from '@mui/icons-material/WifiCalling3';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export const Menu = () => (
   <div>
@@ -30,5 +31,6 @@ export const Menu = () => (
       primaryText="Review"
       leftIcon={<BookIcon />}
     />
+    <MenuItemLink to="/mailgen" primaryText="Notification" leftIcon={<NotificationsIcon />} />
   </div>
 );
