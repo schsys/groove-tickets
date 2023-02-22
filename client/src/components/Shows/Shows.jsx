@@ -5,7 +5,6 @@ import { Pagination, productIndex } from "../Pagination/Pagination";
 import SingleCard from "../Cards/SingleCard";
 import "./Shows.css";
 // import banner from "../../assets/banner.shows.fw.png";
-//import Loader from "../Loader/Loader";
 import Filters from "../Filters/Filters";
 import SkeletonShows from "../Skeleton/SkeletonShows";
 
@@ -14,7 +13,6 @@ const Shows = () => {
   //const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
-  const [loading, setLoading] = useState(false);
   const products = useSelector((state) => state.products);
   const filtered = useSelector((state) => state.filteredProducts);
   const dispatch = useDispatch();
