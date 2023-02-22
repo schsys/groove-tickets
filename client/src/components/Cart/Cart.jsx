@@ -17,7 +17,7 @@ import {
   addEditCartProduct,
   emptyCart,
   getCreatedOrderByUser,
-  getTotalItems
+  getTotalItems,
 } from "../../redux/actions";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
@@ -35,34 +35,38 @@ const Cart = () => {
   const [cartState, setCartState] = useState([]);
   const [cart, setCart] = useState([]);
   const [orderId, setOrderId] = useState(0);
-  const totalItems = useSelector(state => state.totalItems);
+  const totalItems = useSelector((state) => state.totalItems);
 
   useEffect(() => {
-      getCreatedOrderByUser(user)
-        .then(order => {
-          if (order.hasOwnProperty('error')) { 
-            setOrderId(0);
-            setCart([]);
-            alert(order.error);
-          } else {
-            setOrderId(order.Id);
-            if (order.OrderItems && order.OrderItems.length) {
-              setCart(order.OrderItems.map(item => 
-                ({
-                  id: item.ProductId,
-                  name: item.Product.Name,
-                  photo: item.Product.Photos && item.Product.Photos.length && item.Product.Photos[0].Path,
-                  startDate: item.Product.StartDate,
-                  quantity: item.Quantity,
-                  price: item.UnitPrice,
-                })));
-            }
-          }
-        })
-        .catch(error => {
+    getCreatedOrderByUser(user)
+      .then((order) => {
+        if (order.hasOwnProperty("error")) {
+          setOrderId(0);
           setCart([]);
-          //alert(error.message)
-        })
+          alert(order.error);
+        } else {
+          setOrderId(order.Id);
+          if (order.OrderItems && order.OrderItems.length) {
+            setCart(
+              order.OrderItems.map((item) => ({
+                id: item.ProductId,
+                name: item.Product.Name,
+                photo:
+                  item.Product.Photos &&
+                  item.Product.Photos.length &&
+                  item.Product.Photos[0].Path,
+                startDate: item.Product.StartDate,
+                quantity: item.Quantity,
+                price: item.UnitPrice,
+              }))
+            );
+          }
+        }
+      })
+      .catch((error) => {
+        setCart([]);
+        //alert(error.message)
+      });
 
     setCartState(cart);
   }, [user, totalItems]);
@@ -72,35 +76,32 @@ const Cart = () => {
   }
 
   async function handleRemove(id) {
-    await removeCartProduct(id, user, orderId)
-    .then(() => {
+    await removeCartProduct(id, user, orderId).then(() => {
       setCartState(cartState.filter((item) => item.id !== id));
       dispatch(getTotalItems(user));
-    })
+    });
   }
 
   async function handleMinus(id, quantity) {
-    await addEditCartProduct(id, -1, user, orderId)
-    .then (() => {
+    await addEditCartProduct(id, -1, user, orderId).then(() => {
       if (quantity === 1) handleRemove(id);
       quantity -= 1;
       setCount(
         cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-      );  
+      );
       dispatch(getTotalItems(user));
-    })
+    });
   }
 
   async function handlePlus(id, quantity) {
-    await addEditCartProduct(id, 1, user, orderId)
-    .then(() => {
+    await addEditCartProduct(id, 1, user, orderId).then(() => {
       if (quantity === 10) return;
       quantity += 1;
       setCount(
         cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-      );  
+      );
       dispatch(getTotalItems(user));
-    })
+    });
   }
 
   function formatNumber(number) {
@@ -119,17 +120,17 @@ const Cart = () => {
   }
 
   function handleComprar() {
-    if(cart.length === 0) {
-      alert("Tu carrito esta vacío")
+    if (cart.length === 0) {
+      alert("Tu carrito esta vacío");
       return;
     }
-      history.push('/comprar');
-    handleCloseOnClick()
+    history.push("/comprar");
+    handleCloseOnClick();
   }
 
   function handleEmptyCart() {
     dispatch(emptyCart());
-    setCartState([])
+    setCartState([]);
   }
 
   const cartContent = cart.map((item) => {

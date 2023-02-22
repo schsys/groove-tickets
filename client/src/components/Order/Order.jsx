@@ -14,21 +14,61 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Order.css";
 import { ItemsOrder } from "./ItemsOrder";
-import { useSelect } from "@mui/base";
-import { useSelector } from "react-redux";
 
 export const Order = () => {
   // Logged user
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
-  const orderId = useSelector(state => state.orderId);
-
   const [customer, setCustomer] = useState({
-    item: {},
+    customerInfo: {},
     fetchStatus: "loading",
     error: null,
     editing: false,
   });
+  /*----------------------------Datos de usuario----------------------------------*/
+  useEffect(() => {
+    async function fetchCustomer() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/orders?status=Created&userName=${user.email}`
+        );
+        const customer = await axios.get(
+          `http://localhost:3001/admin/customers/${response.data.CustomerId}`
+        );
+
+        const customerInfo = {
+          customerId: customer.data.id,
+          name: customer.data.name,
+          address: customer.data.address,
+          city: customer.data.city,
+          state: customer.data.state,
+          zip: customer.data.zip,
+          email: customer.data.email,
+          telephone: customer.data.telephone,
+        };
+
+        setCustomer({
+          customerInfo: customerInfo,
+          fetchStatus: "success",
+          error: null,
+        });
+      } catch (error) {
+        setCustomer((customer) => ({
+          ...customer,
+          fetchStatus: "failed",
+          customerInfo: {},
+          error: {
+            message: "Error processing last action",
+            status: error.response && error.response.status,
+          },
+        }));
+      }
+    }
+
+    if (!loadingUser && user) {
+      fetchCustomer(user.email);
+    }
+  }, [user, loadingUser]);
   /*----------------------------Modificación de datos----------------------------------*/
   const [editing, setEditing] = useState(false);
   function handleEditClick() {
@@ -36,10 +76,12 @@ export const Order = () => {
     setCustomer((customer) => ({
       ...customer,
       editing: true,
-      tempItem: customer.item,
+      tempItem: customer.customerInfo,
     }));
   }
-  const customerItem = customer.editing ? customer.tempItem : customer.item;
+  const customerItem = customer.editing
+    ? customer.tempItem
+    : customer.customerInfo;
   const name = customerItem["name"];
   const address = customerItem["address"];
   const email = customerItem["email"];
@@ -52,7 +94,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        "http://localhost:3001/admin/customers/:id",
+        `http://localhost:3001/admin/customers/${customer.customerInfo.customerId}`,
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
@@ -60,7 +102,7 @@ export const Order = () => {
       setCustomer((customer) => ({
         ...customer,
         editing: false,
-        item: customer.tempItem,
+        customerInfo: customer.tempItem,
       }));
       window.alert("Datos actualizados con éxito");
     } catch (error) {
@@ -77,45 +119,6 @@ export const Order = () => {
       tempItem: {},
     }));
   }
-  /*----------------------------Datos de usuario----------------------------------*/
-  useEffect(() => {
-    async function fetchCustomer() {
-      try {
-        const response = await await axios.get(
-          `http://localhost:3001/admin/orders/1`
-        );
-        const customerInfo = {
-          name: response.data.Customer.name,
-          address: response.data.Customer.address,
-          city: response.data.Customer.city,
-          state: response.data.Customer.state,
-          zip: response.data.Customer.zip,
-          email: response.data.Customer.email,
-          telephone: response.data.Customer.telephone,
-        };
-
-        setCustomer({
-          item: customerInfo,
-          fetchStatus: "success",
-          error: null,
-        });
-      } catch (error) {
-        setCustomer((customer) => ({
-          ...customer,
-          fetchStatus: "failed",
-          item: {},
-          error: {
-            message: "Error processing last action",
-            status: error.response && error.response.status,
-          },
-        }));
-      }
-    }
-
-    if (!loadingUser && user) {
-      fetchCustomer(user.email);
-    }
-  }, [user, loadingUser]);
 
   return (
     <div className="cartSummary-Container">
@@ -405,7 +408,7 @@ export const Order = () => {
             {editing ? (
               <input
                 type="text"
-                pattern="^[0-9]+$"
+                pattern="^[-+]?[0-9]+$"
                 maxLength="15"
                 value={telephone}
                 onChange={(e) =>
