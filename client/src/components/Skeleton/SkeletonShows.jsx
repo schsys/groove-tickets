@@ -5,48 +5,130 @@ import "./SkeletonShows.css";
 export default function SkeletonShows() {
   return (
     <div className="skeleton_shows_container">
-      <div className="skeleton_shows_section">
+      <div className="skeleton_shows_singleCard">
         <div className="skeleton_shows_img">
           <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={300}
             height={220}
+            marginBottom={"0.5rem"}
           />
         </div>
         <br />
         <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
+        </div>
+
+        <div className="skeleton_shows_icons">
+          <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
-
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
+            variant="circular"
+            width={55}
+            height={55}
           />
           <Skeleton
-            variant="text"
             animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
+            sx={{ bgcolor: "grey.800" }}
+            variant="circular"
+            width={55}
+            height={55}
           />
         </div>
+      </div>
+      
+      <div className="skeleton_shows_singleCard">
+        <div className="skeleton_shows_img">
+          <Skeleton
+            animation="wave"
+            sx={{ bgcolor: "grey.800" }}
+            variant="rectangular"
+            height={220}
+            marginBottom={"0.5rem"}
+          />
+        </div>
+        <br />
+        <div className="skeleton_shows_text">
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
+        </div>
+
         <div className="skeleton_shows_icons">
           <Skeleton
             animation="wave"
@@ -65,48 +147,59 @@ export default function SkeletonShows() {
         </div>
       </div>
 
-      <div className="skeleton_shows_section">
+      <div className="skeleton_shows_singleCard">
         <div className="skeleton_shows_img">
           <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={300}
             height={220}
+            marginBottom={"0.5rem"}
           />
         </div>
         <br />
         <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
 
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
-          />
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
         </div>
+
         <div className="skeleton_shows_icons">
           <Skeleton
             animation="wave"
@@ -125,48 +218,59 @@ export default function SkeletonShows() {
         </div>
       </div>
 
-      <div className="skeleton_shows_section">
+      <div className="skeleton_shows_singleCard">
         <div className="skeleton_shows_img">
           <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={300}
             height={220}
+            marginBottom={"0.5rem"}
           />
         </div>
         <br />
         <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
 
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
-          />
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
         </div>
+
         <div className="skeleton_shows_icons">
           <Skeleton
             animation="wave"
@@ -185,48 +289,59 @@ export default function SkeletonShows() {
         </div>
       </div>
 
-      <div className="skeleton_shows_section">
+      <div className="skeleton_shows_singleCard">
         <div className="skeleton_shows_img">
           <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={300}
             height={220}
+            marginBottom={"0.5rem"}
           />
         </div>
         <br />
         <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
 
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
-          />
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
         </div>
+
         <div className="skeleton_shows_icons">
           <Skeleton
             animation="wave"
@@ -245,48 +360,59 @@ export default function SkeletonShows() {
         </div>
       </div>
 
-      <div className="skeleton_shows_section">
+      <div className="skeleton_shows_singleCard">
         <div className="skeleton_shows_img">
           <Skeleton
             animation="wave"
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={300}
             height={220}
+            marginBottom={"0.5rem"}
           />
         </div>
         <br />
         <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
+          <div className="skeleton_shows_text_h4">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
 
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
-          />
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_p">
+            <Typography
+              variant="h5"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography>
+
+          </div>
+          <div className="skeleton_shows_text_price">
+            <Typography
+              variant="h4"
+              animation="wave"
+              sx={{ bgcolor: "grey.800" }}
+            >
+              <Skeleton />
+            </Typography> 
+          </div>
         </div>
+
         <div className="skeleton_shows_icons">
           <Skeleton
             animation="wave"
@@ -304,66 +430,8 @@ export default function SkeletonShows() {
           />
         </div>
       </div>
-
-      <div className="skeleton_shows_section">
-        <div className="skeleton_shows_img">
-          <Skeleton
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            variant="rectangular"
-            width={300}
-            height={220}
-          />
-        </div>
-        <br />
-        <div className="skeleton_shows_text">
-          <Typography
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            width={300}
-          >
-            <Skeleton />
-          </Typography>
-
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="text"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1rem" }}
-            width={300}
-          />
-          <Skeleton
-            variant="h4"
-            marginBottom="0.5rem"
-            animation="wave"
-            sx={{ bgcolor: "grey.800", fontSize: "1.8rem" }}
-            width={300}
-          />
-        </div>
-        <div className="skeleton_shows_icons">
-          <Skeleton
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            variant="circular"
-            width={55}
-            height={55}
-          />
-          <Skeleton
-            animation="wave"
-            sx={{ bgcolor: "grey.800" }}
-            variant="circular"
-            width={55}
-            height={55}
-          />
-        </div>
-      </div>
+            
     </div>
+
   );
 }
