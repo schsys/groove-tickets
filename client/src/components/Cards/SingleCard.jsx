@@ -30,36 +30,9 @@ const SingleCard = (data) => {
     }
   };
 
-  /*Hover effect*/
-  // const cardRef = useRef(null);
-  // useEffect(() => {
-  //   const card = cardRef.current;
-  //   const THRESHOLD = 15;
-
-  //   function handleHover(e) {
-  //     const { clientX, clientY, currentTarget } = e;
-  //     const { clientWidth, clientHeight, offsetLeft, offsetTop } =
-  //       currentTarget;
-
-  //     const horizontal = (clientX - offsetLeft) / clientWidth;
-  //     const vertical = (clientY - offsetTop) / clientHeight;
-  //     const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
-  //     const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
-  //     card.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
-  //   }
-
-  //   function resetStyles(e) {
-  //     card.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
-  //   }
-
-  //   card.addEventListener("mousemove", handleHover);
-  //   card.addEventListener("mouseleave", resetStyles);
-
-  //   return () => {
-  //     card.removeEventListener("mousemove", handleHover);
-  //     card.removeEventListener("mouseleave", resetStyles);
-  //   };
-  // }, [cardRef]);
+  // console.log('data', data)
+  // console.log('data.data', data.data)
+  // console.log('data.data.id', data.data.id)
 
   return (
     <div
