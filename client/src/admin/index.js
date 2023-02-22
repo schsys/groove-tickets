@@ -42,6 +42,9 @@ import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
 import { ReviewCreate } from './review/review-create';
 
+import { MailgenList } from "./mailgen/mailgen-list";
+import { MailgenEdit } from "./mailgen/mailgen-edit";
+
 const App = () => {
     const { user } = UserAuth();
 
@@ -140,6 +143,11 @@ const App = () => {
                 create={ReviewCreate}
                 show={ReviewShow}
                 recordRepresentation="stars"
+            />
+            <Resource
+                name="mailgen"
+                list={MailgenList}
+                edit={MailgenEdit}
             />
         </Admin>
     );
