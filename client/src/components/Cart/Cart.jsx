@@ -37,39 +37,11 @@ const Cart = () => {
   const [orderId, setOrderId] = useState(0);
   const totalItems = useSelector((state) => state.totalItems);
 
-<<<<<<< HEAD
   useEffect(() => {
     getCreatedOrderByUser(user)
       .then((order) => {
         if (order.hasOwnProperty("error")) {
           setOrderId(0);
-=======
-  useEffect(() => {      
-      getCreatedOrderByUser(user)
-        .then(order => {
-          if (order.hasOwnProperty('error')) { 
-            setOrderId(0);
-            setCart([]);
-            alert(order.error);
-          } else {
-            setOrderId(order.Id);
-            if (order.OrderItems && order.OrderItems.length) {
-              setCart(order.OrderItems.map(item => 
-                ({
-                  id: item.ProductId,
-                  name: item.Product.Name,
-                  photo: item.Product.Photos && item.Product.Photos.length && item.Product.Photos[0].Path,
-                  startDate: item.Product.StartDate,
-                  quantity: item.Quantity,
-                  price: item.UnitPrice,
-                })));
-            }else {
-              setCart([]);
-            }
-          }
-        })
-        .catch(error => {
->>>>>>> develop
           setCart([]);
           alert(order.error);
         } else {
@@ -142,11 +114,10 @@ const Cart = () => {
   }
 
   async function handleEmptyCart() {
-    await emptyCart(user, orderId)
-    .then(() => {
+    await emptyCart(user, orderId).then(() => {
       setCartState([]);
       dispatch(getTotalItems(user));
-    })
+    });
   }
 
   function formatNumber(number) {
@@ -169,13 +140,8 @@ const Cart = () => {
       alert("Tu carrito esta vacío");
       return;
     }
-<<<<<<< HEAD
     history.push("/comprar");
     handleCloseOnClick();
-=======
-      history.push('/comprar');
-    handleCloseOnClick()
->>>>>>> develop
   }
 
   const cartContent = cart.map((item) => {
