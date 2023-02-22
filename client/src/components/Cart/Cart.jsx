@@ -22,7 +22,6 @@ import {
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
-import axios from "axios";
 
 const Cart = () => {
   let totalOrder = 0;
