@@ -60,6 +60,8 @@ const Cart = () => {
                 price: item.UnitPrice,
               }))
             );
+          } else {
+            setCart([]);
           }
         }
       })
@@ -104,6 +106,13 @@ const Cart = () => {
     });
   }
 
+  async function handleEmptyCart() {
+    await emptyCart(user, orderId).then(() => {
+      setCartState([]);
+      dispatch(getTotalItems(user));
+    });
+  }
+
   function formatNumber(number) {
     return new Intl.NumberFormat("es-ES", {
       style: "decimal",
@@ -126,11 +135,6 @@ const Cart = () => {
     }
     history.push("/comprar");
     handleCloseOnClick();
-  }
-
-  function handleEmptyCart() {
-    dispatch(emptyCart());
-    setCartState([]);
   }
 
   const cartContent = cart.map((item) => {
