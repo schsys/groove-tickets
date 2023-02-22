@@ -90,7 +90,8 @@ export const addEditCartProduct = async(productId, quantity, user, orderId) => {
             if (order) {
                 orderId = order.Id;
             }else{
-              // crear orden
+                // crear orden             
+                await createOrder(user, [{productId, quantity}]);
             } 
          }   
          if (orderId)
@@ -239,7 +240,6 @@ export const setLocalStorageToApi = (user) => {
       const stringCart = localStorage.getItem("cart");
       const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       const order = response.data;
-      console.log('oder api', order);
       if (stringCart) {
         const items = JSON.parse(stringCart);
         if (order) {
@@ -294,6 +294,50 @@ export const setLocalStorageToApi = (user) => {
       setError(error);
     }
   }
+}
+
+export const createOrder = async(user, items) => {
+  
+  try {
+    if (userIsLogining(user)) {
+        const customer = await axios.get(`/user?userName=${user.email}`);
+        if (customer) {
+          let price = 0;
+          let totalOrderAmount = 0;
+          const orderItems =  [];      
+          for (const item of items) {
+            const productById = await axios.get(`${apiUrl}/products/${item.productId}`);
+            if (productById) price = productById.data.Price;
+            const product = {
+                productId: item.productId, 
+                quantity: item.quantity,
+                unitPrice: price,
+                totalAmount: price * item.quantity,
+              }
+              orderItems.push(product);
+              totalOrderAmount = totalOrderAmount + product.totalAmount;
+          };      
+
+          console.log('createOrder', totalOrderAmount, orderItems,  customer.data.Customer.id);
+          const response = await axios.post('/order', 
+              {
+                customerId: customer.data.Customer.id,
+                totalAmount: totalOrderAmount,
+                items: orderItems
+              }
+            );
+            
+        // controlo respuesta de orden
+          console.log('orden creada: ', response);
+          return response; 
+        }
+    }
+    return {error: 'usuario no logoneado o no existe relación de usuario con cliente'}
+  } 
+  catch(error) {
+    console.log(error);
+    setError(error);
+  }  
 }
 
 export const toggleShowCart = (show) => {
