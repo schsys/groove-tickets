@@ -11,6 +11,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./components/Authentication/PrivateRoute";
 import { Order } from "./components/Order/Order";
 import AdminApp from "./admin";
+import UserAdmin from "./miCuenta"
 import Error404 from "./components/404/Error404";
 import "./App.css";
 
@@ -39,10 +40,7 @@ function App() {
           </Route>
           <Route exact path={"/micuenta"}>
             <PrivateRoute>
-              <NavBar />
-              <Account />
-              <Footer />
-              <Cart />
+              <UserAdmin />
             </PrivateRoute>
           </Route>
           <Route exact path={"/comprar"}>
