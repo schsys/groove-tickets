@@ -151,18 +151,23 @@ export const removeCartProduct = async(productId, user, orderId) => {
     }
 };
 
-export const emptyCart = (user) => {
-  return async (dispatch) => {
-    try {
+export const emptyCart = async(user, orderId) => {
+  try {
+    if (userIsLogining(user)) {
+      if (!orderId) { 
+          const order = await getCreatedOrderByUser(user);
+          orderId = order.Id;
+      }
+      if (orderId)
+         await axios.put(`${apiUrl}/admin/orders/${orderId}`, {id: orderId, status: "Canceled"}); 
+    } else {     
       localStorage.setItem("cart", JSON.stringify([]));
-      dispatch({
-        type: EMPTY_CART,
-        payload: await getInternalTotalItems(user),
-      });
-    }catch(error) {
-      console.log(error)
-      setError(error);
     }
+  }
+  catch(error) 
+  {
+    console.log(error)
+    setError(error);
   }
 }
 

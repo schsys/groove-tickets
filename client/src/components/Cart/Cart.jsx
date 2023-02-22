@@ -37,7 +37,7 @@ const Cart = () => {
   const [orderId, setOrderId] = useState(0);
   const totalItems = useSelector(state => state.totalItems);
 
-  useEffect(() => {
+  useEffect(() => {      
       getCreatedOrderByUser(user)
         .then(order => {
           if (order.hasOwnProperty('error')) { 
@@ -56,6 +56,8 @@ const Cart = () => {
                   quantity: item.Quantity,
                   price: item.UnitPrice,
                 })));
+            }else {
+              setCart([]);
             }
           }
         })
@@ -103,6 +105,14 @@ const Cart = () => {
     })
   }
 
+  async function handleEmptyCart() {
+    await emptyCart(user, orderId)
+    .then(() => {
+      setCartState([]);
+      dispatch(getTotalItems(user));
+    })
+  }
+
   function formatNumber(number) {
     return new Intl.NumberFormat("es-ES", {
       style: "decimal",
@@ -125,11 +135,6 @@ const Cart = () => {
     }
       history.push('/comprar');
     handleCloseOnClick()
-  }
-
-  function handleEmptyCart() {
-    dispatch(emptyCart());
-    setCartState([])
   }
 
   const cartContent = cart.map((item) => {
