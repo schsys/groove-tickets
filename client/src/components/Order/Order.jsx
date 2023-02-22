@@ -32,19 +32,19 @@ export const Order = () => {
         const response = await axios.get(
           `http://localhost:3001/orders?status=Created&userName=${user.email}`
         );
-        const customer = await axios.get(
+        /* const customer = await axios.get(
           `http://localhost:3001/admin/customers/${response.data.CustomerId}`
-        );
+        ); */
 
         const customerInfo = {
-          customerId: customer.data.id,
-          name: customer.data.name,
-          address: customer.data.address,
-          city: customer.data.city,
-          state: customer.data.state,
-          zip: customer.data.zip,
-          email: customer.data.email,
-          telephone: customer.data.telephone,
+          customerId: response.data.Customer.Id,
+          name: response.data.Customer.Name,
+          address: response.data.Customer.Address,
+          city: response.data.Customer.City,
+          state: response.data.Customer.State,
+          zip: response.data.Customer.Zip,
+          email: response.data.Customer.Email,
+          telephone: response.data.Customer.Telephone,
         };
 
         setCustomer({

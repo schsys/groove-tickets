@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
+import { getTotalItems } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";

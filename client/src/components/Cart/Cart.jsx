@@ -113,13 +113,6 @@ const Cart = () => {
     });
   }
 
-  async function handleEmptyCart() {
-    await emptyCart(user, orderId).then(() => {
-      setCartState([]);
-      dispatch(getTotalItems(user));
-    });
-  }
-
   function formatNumber(number) {
     return new Intl.NumberFormat("es-ES", {
       style: "decimal",
