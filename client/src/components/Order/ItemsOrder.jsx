@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
+import { getTotalItems } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./Order.css";
-import { FaSave } from "react-icons/fa";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 export const ItemsOrder = () => {
   /*------------------------------Datos de los items de la orden----------------------------*/
+  const auth = getAuth();
+  const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
     items: [],
     totalAmount: 0,
@@ -55,8 +60,10 @@ export const ItemsOrder = () => {
       }
     }
 
-    fetchOrder();
-  }, []);
+    if (!loadingUser && user) {
+      fetchOrder(user.email);
+    }
+  }, [user, loadingUser]);
 
   function formatNumber(number) {
     return new Intl.NumberFormat("es-ES", {
