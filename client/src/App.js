@@ -10,8 +10,8 @@ import Cart from "../src/components/Cart/Cart.jsx"
 import { AuthContextProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./components/Authentication/PrivateRoute";
 import { Order } from "./components/Order/Order";
-import AdminApp from "./admin";
-import UserAdmin from "./miCuenta"
+// import AdminApp from "./admin";
+// import UserAdmin from "./miCuenta"
 import Error404 from "./components/404/Error404";
 import "./App.css";
 
@@ -40,7 +40,7 @@ function App() {
           </Route>
           <Route exact path={"/micuenta"}>
             <PrivateRoute>
-              <UserAdmin />
+              <Account />
             </PrivateRoute>
           </Route>
           <Route exact path={"/comprar"}>
@@ -50,11 +50,11 @@ function App() {
               <Footer />
             </PrivateRoute>
           </Route>
-          <Route exact path={"/admin"}>
+          {/* <Route exact path={"/admin"}>
             <PrivateRoute>
               <AdminApp />
             </PrivateRoute>
-          </Route>
+          </Route> */}
           <Route path='*'>
             <Error404 />
           </Route>
