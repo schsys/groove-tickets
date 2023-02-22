@@ -22,23 +22,23 @@ export const ItemsOrder = () => {
     async function fetchOrder() {
       try {
         const response = await axios.get(
-          "http://localhost:3001/admin/orders/1"
+          `http://localhost:3001/orders?status=Created&userName=${user.email}`
         );
         const items = response.data.OrderItems.map((item) => {
-          const { Product, quantity } = item;
-          const { Photos, name, price, unitPrice, startDate } = Product;
+          const { Product, Quantity, UnitPrice } = item;
+          const { Photos, Name, StartDate } = Product;
           const formattedStartDate = moment.tz(
-            startDate,
+            StartDate,
             "America/Argentina/Buenos_Aires"
           );
 
           return {
-            name,
-            Photos,
+            name: Name,
+            Photos: Photos,
             startDate: formattedStartDate,
-            price,
-            quantity,
-            unitPrice,
+            price: UnitPrice,
+            quantity: Quantity,
+            unitPrice: UnitPrice,
           };
         });
         const totalAmount = items.reduce(
@@ -110,7 +110,7 @@ export const ItemsOrder = () => {
         return (
           <div className="cartSummary__show-Container">
             <img
-              src={item && item.Photos[0].path}
+              src={item && item.Photos[0].Path}
               alt="showImage"
               className="cartSummary__show-image"
             />
@@ -121,19 +121,19 @@ export const ItemsOrder = () => {
 
             <div>
               <button
-                className="editItems_order-plus"
-                onClick={() => updateItemQuantity(index, item.quantity + 1, 10)}
-                disabled={item.quantity >= 10}
-              >
-                +
-              </button>
-              <>{item && item.quantity}</>
-              <button
                 className="editItems_order-minus"
                 onClick={() => updateItemQuantity(index, item.quantity - 1, 0)}
                 disabled={item.quantity <= 0}
               >
                 -
+              </button>
+              <> {item && item.quantity} </>
+              <button
+                className="editItems_order-plus"
+                onClick={() => updateItemQuantity(index, item.quantity + 1, 10)}
+                disabled={item.quantity >= 10}
+              >
+                +
               </button>
             </div>
             <div>${item && formatNumber(item.price)}</div>
