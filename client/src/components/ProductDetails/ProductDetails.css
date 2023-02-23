@@ -154,6 +154,21 @@ height: auto;
   text-align: justify;
 }
 
+.detail_recommended_shows{
+  width: 85%;
+  padding: 1.2rem 0;
+  text-align: left;
+  color: #ffffff;
+  height: auto;
+}
+
+.detail_recommended_shows h3{
+  color: white;
+  font-size: 1.6rem;
+  text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
+}
+
+
 /*-----Responsive hasta 900px -----*/
 @media screen and (max-width: 900px) {
   .product_container {
