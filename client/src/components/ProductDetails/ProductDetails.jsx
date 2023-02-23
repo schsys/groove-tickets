@@ -292,7 +292,7 @@ export default function ProductDetails() {
 
           <div className="detail_recommended_shows">
             <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
-            <div>
+            <div className="recommended_inDetail">
               <RecommendedShows
                 referencedShowId={product.id}
                 categories={product.Categories.map((c) => c.Id)}
