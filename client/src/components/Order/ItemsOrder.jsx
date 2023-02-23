@@ -90,6 +90,28 @@ export const ItemsOrder = () => {
     });
   };
 
+  const handleMPago = async () => {
+    const order = {
+      id: 1,
+      customerId: 1,
+      Photo:
+        "https://res.cloudinary.com/dfuozesaq/image/upload/v1675357467/HenryMusic/electronic5_zcnhgd.jpg",
+      TotalAmount: 3500,
+      customerName: "Diego Llaya",
+      customerEmail: "goya0310@gmail.com",
+    };
+
+    try {
+      await axios
+        .post("/pay/mercadopago", order)
+        .then(
+          (res) => (window.location.href = res.data.response.body.init_point)
+        );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const sendOrder = async () => {
     try {
       const response = await axios.put("http://localhost:3001/order/1/items", {
@@ -146,8 +168,8 @@ export const ItemsOrder = () => {
       <div className="cartSummary__show-totalOrder">
         <h4>TOTAL ${formatNumber(orderItems.totalAmount)}</h4>
       </div>
-      <button className="cartSummary__show-processOrder">
-        <Link className="cartSummary__show-processOrderButton">PAGAR</Link>
+      <button onClick={handleMPago} className="cartSummary__show-processOrder">
+        PAGAR
       </button>
     </div>
   );
