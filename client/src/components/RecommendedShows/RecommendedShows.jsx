@@ -1,59 +1,79 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import './RecommendedShows.css';
-
-export default function RecommendedShows({ referencedShowId, categories }) {
-    const products = useSelector((state) => state.products);
-    const [productByCat, setProductByCat] = useState([])
-
-    useEffect(() => {
-        // console.log('categories', categories)
-        // console.log('products', products)
-        const filteredProducts = products.filter((p) => {
-            console.log('product: ', p); 
-            
-            
-            //Si el id de un pdto es = al id del pdto de ProductDetails da false
-            if (p.id === referencedShowId) return false;
-
-            //Sino, filtramos dentro de las cat del pdto
-            return p.Categories.filter((c) => {
-                //dentro de la cat que viene del detail tomamos la q tienen
-                //el mismo id que viene de Detail y da true o false
-                const isCategoryIncluded = categories.includes(c.id)
-                console.log('category: ', c.id, isCategoryIncluded);
-
-                console.log('isCategoryIncluded', isCategoryIncluded)
-                return isCategoryIncluded;
-            }).length > 0
-        })
-        console.log('filteredPRoducts', filteredProducts)
-        setProductByCat(filteredProducts.slice(0, 3));
-    }, [referencedShowId, categories, products])
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { formatDate } from "../utils/formatedDate";
+import { formatPrice } from "../utils/formatPrice";
+import "./RecommendedShows.css";
 
 
-    return (
-        <div className='recommended_section'>
-            {console.log('productByCat: ', productByCat)}
-            {productByCat.map((p) => {
-                return (
-                    <div className='recommended_section_container'>
-                        <Link className='recommended_link' to={`products/${p.id}`}>
-                            <div className='recommended_section_photo'>
-                                <img src={p.Photos[0].Path} alt="" />
-                            </div>
-                            <div className='recommended_section_info'>
-                                <h2 className='recommended_section_h2'>{p.name}</h2>
-                                <p className='recommended_section_text'>{p.startDate}</p>
-                                <p className='recommended_section_text'>{p.Artist.Name}</p>
-                                <h3 className='recommended_section_price'>${p.Price}</h3>
-                            </div>
-                        
-                        </Link>
-                    </div>
-                )
-            })}
-        </div>
-    )
+export default function RecommendedShows({
+  referencedShowId,
+  categories,
+  handleClickRecom,
+}) {
+  const products = useSelector((state) => state.products);
+  const [productByCat, setProductByCat] = useState([]);
+  // const { id } = useParams();
+  // const history = useHistory();
+
+
+  useEffect(() => {
+    const date = new Date().toLocaleDateString("es-ES");
+    console.log("date", date);
+
+
+    const filteredProducts = products
+      .filter((p) => {
+        if (p.id === referencedShowId) return false;
+
+
+        return (
+          p.Categories.filter((c) => {
+            const isCategoryIncluded = categories.includes(c.id);
+
+
+            return isCategoryIncluded;
+          }).length > 0
+        );
+      })
+      .filter((d) => new Date(d.StartDate).toLocaleDateString("es-ES") >= date);
+
+
+    setProductByCat(filteredProducts.slice(0, 3));
+  }, [referencedShowId, categories, products]);
+
+
+  return (
+    <div className="recommended_section">
+      {productByCat.map((p) => {
+        return (
+         
+          <div className="recommended_section_container" onClick={() => handleClickRecom(p.id)}
+          >
+            <Link className="recommended_link" to={`/product/${p.id}`}>
+              <div className="recommended_section_photo">
+                <img src={p.Photos[0].Path} alt="portada show recomendado" />
+              </div>
+              <div className="recommended_section_info">
+                <h2 className="recommended_section_h2">{p.name}</h2>
+                <p className="recommended_section_text">
+                  {formatDate(p.StartDate).replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                  )}
+                </p>
+                <p className="recommended_section_text">{p.Artist.Name}</p>
+                <h3 className="recommended_section_price">
+                  {formatPrice(p.Price)}
+                </h3>
+              </div>
+            </Link>
+          </div>
+        );
+      })}
+     
+       
+    </div>
+  );
 }
+
+

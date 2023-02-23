@@ -8,6 +8,8 @@ import {
   getTotalItems,
   getProducts,
 } from "../../redux/actions";
+
+
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -17,11 +19,16 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
+
+
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
+import RecommendedShows from "../RecommendedShows/RecommendedShows";
+
+
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
-import RecommendedShows from "../RecommendedShows/RecommendedShows";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -32,25 +39,36 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
+  const [prod, setProd] = useState(null);
+
+
+
 
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
+
   const [availableStock] = React.useState(0);
+
 
   //const itemsToCart = useSelector((state) => state.cart);
   //const [mount, setMount] = useState(true);
 
+
   const showCart = useSelector((state) => state.showCart);
+
 
   const [quantity, setQuantity] = React.useState(1);
   const orderId = useSelector(state => state.orderId);
+
 
   useEffect(() => {
     dispatch(getProductById(id));
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
 
 
   function handleClick() {
@@ -63,6 +81,14 @@ export default function ProductDetails() {
       alert("La cantidad máxima permitida es 10");
     }
   }
+
+
+  const handleClickRecom = (productId) => {
+    setProd(productId);
+  };
+
+
+
 
   // PARA AGREGAR AL CARRITO
   // useEffect(() => {
@@ -78,6 +104,7 @@ export default function ProductDetails() {
   //   }
   // }, [dispatch, itemsToCart, mount]);
 
+
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
     if (!showCart) {
@@ -86,6 +113,7 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
+
 
   //cart
   const addToCart = async () => {
@@ -98,6 +126,7 @@ export default function ProductDetails() {
         })
     }
   };
+
 
   //Rating
   const labels = {
@@ -113,21 +142,26 @@ export default function ProductDetails() {
     5: "Excelente+",
   };
 
+
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
+
 
   //Shows recomendados
   const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
   const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
   const topRecommended = recommendation.slice(0, 3);
 
+
   // console.log('products.categories', products[1].Categories[0].Name)
   // console.log('category', category)
   // console.log('recommendation', recommendation)
   // console.log('topRecommended', topRecommended)
 
+
   return (
+
 
     <>
       {product.name ? (
@@ -190,6 +224,7 @@ export default function ProductDetails() {
                 )}
               </>
 
+
               <>
                 {product.Categories && product.Categories.length > 0 ? (
                   <p>
@@ -216,6 +251,7 @@ export default function ProductDetails() {
               <>
                 <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
               </>
+
 
               <Box
                 sx={{
@@ -249,6 +285,7 @@ export default function ProductDetails() {
                           />
                         </Button>
 
+
                         <Button
                           style={{ background: "white" }}
                           onClick={handleClick}
@@ -267,6 +304,7 @@ export default function ProductDetails() {
               </Box>
             </div>
 
+
             <div className="image_container">
               {product.Photos && product.Photos.length > 0 ? (
                 <img
@@ -280,15 +318,18 @@ export default function ProductDetails() {
             </div>
           </div>
 
+
           <div className="product_info">
             <h4>Descripción:</h4>
             <p>{product.Description}</p>
           </div>
 
+
           <div className="detail_reviews_div">
             <h4>Esto opinan los que conocen la banda:</h4>
             <p>{product.Description}</p>
           </div>
+
 
           <div className="detail_recommended_shows">
             <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
@@ -296,9 +337,11 @@ export default function ProductDetails() {
               <RecommendedShows
                 referencedShowId={product.id}
                 categories={product.Categories.map((c) => c.Id)}
+                handleClickRecom={handleClickRecom}
               />
             </div>
           </div>
+
 
           <Footer />
         </div>
@@ -308,3 +351,5 @@ export default function ProductDetails() {
     </>
   );
 }
+
+
