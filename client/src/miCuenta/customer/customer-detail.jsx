@@ -17,7 +17,7 @@ import { getDetailedUser } from "../../common/integrations/api";
 export const CustomerDetail = () => {
 
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  
+
   const { user } = UserAuth();
   
   const [apiUser, setApiUser] = useState({
@@ -59,7 +59,7 @@ export const CustomerDetail = () => {
 
   // const record = { id: 2, name: "John Doe", email: "john.doe@example.com" };
   return (
-    <Show title="Customer Detail" id={apiUser.item.customer.id}>
+    <Show title="Customer Detail" id={apiUser.item.Customer.id}>
       {isSmall ? (
         <SimpleList
           primaryText={(customer) => customer.name}
