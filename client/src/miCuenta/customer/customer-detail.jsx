@@ -9,12 +9,57 @@ import {
   SimpleList,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
+import { UserAuth } from "../../context/AuthContext";
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { getDetailedUser } from "../../common/integrations/api";
 
 export const CustomerDetail = () => {
+
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const record = { id: 2, name: "John Doe", email: "john.doe@example.com" };
+
+  const { user } = UserAuth();
+  
+  const [apiUser, setApiUser] = useState({
+    item: {},
+    fetchStatus: "loading",
+    error: null,
+  });
+
+  useEffect(() => {
+
+    async function getApiUser(username) {
+      const response = await getDetailedUser(username);
+      console.log("response, user: ", response);
+      setApiUser(response);
+    }
+
+    getApiUser(user.email);
+  }, [user]);
+
+
+  if (apiUser.fetchStatus === "loading") {
+    return (
+      <>
+        <p>Obteniendo datos...</p>
+      </>
+    );
+  }
+
+  if (apiUser.fetchStatus === "failed") {
+    return (
+      <>
+        <p>Oops! Esto es embarazoso! </p>
+        <p>{apiUser.error && apiUser.error.message}</p>
+        <NavLink to="/">Volver</NavLink>
+      </>
+    );
+  }
+
+
+  // const record = { id: 2, name: "John Doe", email: "john.doe@example.com" };
   return (
-    <Show title="Customer Detail" id={record.id}>
+    <Show title="Customer Detail" id={apiUser.item.Customer.id}>
       {isSmall ? (
         <SimpleList
           primaryText={(customer) => customer.name}
