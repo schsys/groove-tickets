@@ -9,7 +9,6 @@ import {
   getProducts,
 } from "../../redux/actions";
 
-
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -20,15 +19,12 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
 
-
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
 
-
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
-
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -41,22 +37,16 @@ export default function ProductDetails() {
   const { user } = UserAuth();
   const [prod, setProd] = useState(null);
 
-
-
-
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
 
   const [availableStock] = React.useState(0);
 
-
   //const itemsToCart = useSelector((state) => state.cart);
   //const [mount, setMount] = useState(true);
 
-
   const showCart = useSelector((state) => state.showCart);
-
 
   const [quantity, setQuantity] = React.useState(1);
   const orderId = useSelector(state => state.orderId);
@@ -342,8 +332,6 @@ export default function ProductDetails() {
             </div>
           </div>
 
-
-          <Footer />
         </div>
       ) : (
         <Loader />
