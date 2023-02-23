@@ -30,6 +30,7 @@ export const AuthContextProvider = ({ children }) => {
     return signOut(auth)
       .then(() => {
         sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("userName");
       })
       .catch((error) => {
         // An error happened.
