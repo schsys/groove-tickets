@@ -183,8 +183,11 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await signIn(input.email, input.password);
-      console.log("form login submited");      
+      const result = await signIn(input.email, input.password);
+      // console.log("result from signIn", result);
+      sessionStorage.setItem("userName", input.email);
+      // set access token in session storage
+      sessionStorage.setItem("accessToken", result.user.accessToken);
       history.push("/"); //despues redirige para ver todo
       setInput({
         //resetea el estado del input
