@@ -78,7 +78,17 @@ const Navbar = ({ isCartDisabled = false }) => {
       </div>
 
       <div className="nav_right">
-
+      <Badge
+          color="info"
+          badgeContent={totalItems}
+          onClick={handleBadgeClick}
+        >
+          <ShoppingCartIcon
+            className="right_navbar_icons"
+            style={{ color: "white" }}
+            cursor={isCartDisabled ? "default" : "pointer"}
+          />
+        </Badge>
         {/* {authorizedUser ? ( */}
         {user ? (
           <div className="nav_username">
@@ -97,17 +107,7 @@ const Navbar = ({ isCartDisabled = false }) => {
             </div>
           </div>
         )}
-        <Badge
-          color="info"
-          badgeContent={totalItems}
-          onClick={handleBadgeClick}
-        >
-          <ShoppingCartIcon
-            className="right_navbar_icons"
-            style={{ color: "white" }}
-            cursor={isCartDisabled ? "default" : "pointer"}
-          />
-        </Badge>
+        
       </div>
     </div>
   );

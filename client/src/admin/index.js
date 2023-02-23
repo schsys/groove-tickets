@@ -45,6 +45,8 @@ import { ReviewCreate } from './review/review-create';
 import { MailgenList } from "./mailgen/mailgen-list";
 import { MailgenEdit } from "./mailgen/mailgen-edit";
 
+import Loader from "../components/Loader/Loader";
+
 const App = () => {
     const { user } = UserAuth();
 
@@ -69,7 +71,7 @@ const App = () => {
 
     if (apiUser.fetchStatus === 'loading') {
         return <>
-            <p>Obteniendo datos...</p>
+            <Loader />
         </>
     }
 
