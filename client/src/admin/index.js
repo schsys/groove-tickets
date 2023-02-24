@@ -1,3 +1,8 @@
+import React, { useState, useEffect } from "react";
+import { NavLink, Redirect } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
+import { getDetailedUser } from '../common/integrations/api';
+
 import { Admin, Resource } from 'react-admin';
 
 import { YazzLayout } from "./layout/yazz-layout";
@@ -37,64 +42,118 @@ import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
 import { ReviewCreate } from './review/review-create';
 
-const App = () => (
-    <Admin layout={YazzLayout} dataProvider={dataProvider} dashboard={Dashboard}>
-        <Resource
-            name="categories"
-            list={CategoryList}
-            edit={CategoryEdit}
-            create={CategoryCreate}
-            recordRepresentation="name"
-        />
-        <Resource
-            name="locations"
-            list={LocationList}
-            edit={LocationEdit}
-            create={LocationCreate}
-            recordRepresentation="name"
-        />
-        <Resource
-            name="artists"
-            list={ArtistList}
-            edit={ArtistEdit}
-            create={ArtistCreate}
-            recordRepresentation="name"
-        />
-        <Resource
-            name="products"
-            list={ProductList}
-            edit={ProductEdit}
-            create={ProductCreate}
-            recordRepresentation="name"
-        />
-        <Resource
-            name="users"
-            list={UserList}
-            edit={UserEdit}
-            create={UserCreate}
-            recordRepresentation="userName"
-        />
-        <Resource
-            name="customers"
-            list={CustomerList}
-            edit={CustomerEdit}
-            create={CustomerCreate}
-            recordRepresentation="name"
-        />
-        <Resource
-            name="orders"
-            list={OrderList}
-            edit={OrderEdit}
-            recordRepresentation={(record) => `${record.id}`}
-        />
-        <Resource
-            name="reviews"
-            list={ReviewList}
-            create={ReviewCreate}
-            show={ReviewShow}
-            recordRepresentation="stars"
-        />
-    </Admin>
-);
+import { MailgenList } from "./mailgen/mailgen-list";
+import { MailgenEdit } from "./mailgen/mailgen-edit";
+
+import Loader from "../components/Loader/Loader";
+
+const App = () => {
+    const { user } = UserAuth();
+
+    const [apiUser, setApiUser] = useState({
+        item: {},
+        fetchStatus: 'loading',
+        error: null
+    });
+
+    useEffect(() => {
+        console.log('Admin useEffect()');
+
+        async function getApiUser(username) {
+            const response = await getDetailedUser(username);
+
+            setApiUser(response);
+        }
+
+        getApiUser(user.email)
+
+    }, [user]);
+
+    if (apiUser.fetchStatus === 'loading') {
+        return <>
+            <Loader />
+        </>
+    }
+
+    if (apiUser.fetchStatus === 'failed') {
+        return <>
+            <p>Oops! Esto es embarazoso! </p>
+            <p>{apiUser.error && apiUser.error.message}</p>
+            <NavLink to="/">Volver</NavLink>
+        </>
+    }
+
+    if (apiUser.fetchStatus === 'succeeded' && apiUser.item.role !== 'Admin') {
+        return <>
+            <Redirect to="/micuenta" />
+        </>
+    }
+
+    return (
+        <Admin layout={YazzLayout} dataProvider={dataProvider} dashboard={Dashboard}>
+            <Resource
+                name="categories"
+                list={CategoryList}
+                edit={CategoryEdit}
+                create={CategoryCreate}
+                recordRepresentation="name"
+            />
+            <Resource
+                name="locations"
+                list={LocationList}
+                edit={LocationEdit}
+                create={LocationCreate}
+                recordRepresentation="name"
+            />
+            <Resource
+                name="artists"
+                list={ArtistList}
+                edit={ArtistEdit}
+                create={ArtistCreate}
+                recordRepresentation="name"
+            />
+            <Resource
+                name="products"
+                list={ProductList}
+                edit={ProductEdit}
+                create={ProductCreate}
+                recordRepresentation="name"
+            />
+            <Resource
+                name="users"
+                list={UserList}
+                edit={UserEdit}
+                create={UserCreate}
+                recordRepresentation="userName"
+            />
+            <Resource
+                name="customers"
+                list={CustomerList}
+                edit={CustomerEdit}
+                create={CustomerCreate}
+                recordRepresentation="name"
+            />
+            <Resource
+                name="orders"
+                list={OrderList}
+                edit={OrderEdit}
+                recordRepresentation={(record) => `${record.id}`}
+            />
+            <Resource
+                name="reviews"
+                list={ReviewList}
+                create={ReviewCreate}
+                show={ReviewShow}
+                recordRepresentation="stars"
+            />
+            <Resource
+                name="mailgen"
+                list={MailgenList}
+                edit={MailgenEdit}
+            />
+        </Admin>
+    );
+
+}
 
 export default App;

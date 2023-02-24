@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -6,7 +6,7 @@ import {
   Drawer,
   Paper,
   Typography,
-  IconButton,
+  // IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,52 +14,102 @@ import "./Cart.css";
 import {
   toggleShowCart,
   removeCartProduct,
-  editCartProduct,
+  addEditCartProduct,
   emptyCart,
+  getCreatedOrderByUser,
+  getTotalItems,
 } from "../../redux/actions";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
+import { UserAuth } from "../../context/AuthContext";
 
 const Cart = () => {
   let totalOrder = 0;
   const showCart = useSelector((state) => state.showCart);
   //const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
-  let cart = [];
-  const stringCart = localStorage.getItem("cart");
-  if (stringCart) cart = JSON.parse(stringCart);
-
-  const [cartState, setCartState] = useState(cart);
+  const { user } = UserAuth();
   const [count, setCount] = useState();
   const history = useHistory();
+  const [cartState, setCartState] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [orderId, setOrderId] = useState(0);
+  const totalItems = useSelector((state) => state.totalItems);
+
+  useEffect(() => {
+    getCreatedOrderByUser(user)
+      .then((order) => {
+        if (order.hasOwnProperty("error")) {
+          setOrderId(0);
+          setCart([]);
+          alert(order.error);
+        } else {
+          setOrderId(order.Id);
+          if (order.OrderItems && order.OrderItems.length) {
+            setCart(
+              order.OrderItems.map((item) => ({
+                id: item.ProductId,
+                name: item.Product.Name,
+                photo:
+                  item.Product.Photos &&
+                  item.Product.Photos.length &&
+                  item.Product.Photos[0].Path,
+                startDate: item.Product.StartDate,
+                quantity: item.Quantity,
+                price: item.UnitPrice,
+              }))
+            );
+          } else {
+            setCart([]);
+          }
+        }
+      })
+      .catch((error) => {
+        setCart([]);
+        //alert(error.message)
+      });
+
+    setCartState(cart);
+  }, [user, totalItems]);
 
   function handleCloseOnClick() {
     dispatch(toggleShowCart(false));
   }
 
-  function handleRemove(id) {
-    dispatch(removeCartProduct(id));
-    setCartState(cartState.filter((item) => item.id !== id));
+  async function handleRemove(id) {
+    await removeCartProduct(id, user, orderId).then(() => {
+      setCartState(cartState.filter((item) => item.id !== id));
+      dispatch(getTotalItems(user));
+    });
   }
 
-  function handleMinus(id, quantity) {
-    if (quantity === 1) handleRemove(id);
-    quantity -= 1;
-    dispatch(editCartProduct(id, quantity));
-    setCount(
-      cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-    );
+  async function handleMinus(id, quantity) {
+    await addEditCartProduct(id, -1, user, orderId).then(() => {
+      if (quantity === 1) handleRemove(id);
+      quantity -= 1;
+      setCount(
+        cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
+      );
+      dispatch(getTotalItems(user));
+    });
   }
 
-  function handlePlus(id, quantity) {
-    // por si se quiere maximo de 10 por persona
-    if (quantity === 10) return;
-    quantity += 1;
-    dispatch(editCartProduct(id, quantity));
-    setCount(
-      cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-    );
+  async function handlePlus(id, quantity) {
+    await addEditCartProduct(id, 1, user, orderId).then(() => {
+      if (quantity === 10) return;
+      quantity += 1;
+      setCount(
+        cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
+      );
+      dispatch(getTotalItems(user));
+    });
+  }
+
+  async function handleEmptyCart() {
+    await emptyCart(user, orderId).then(() => {
+      setCartState([]);
+      dispatch(getTotalItems(user));
+    });
   }
 
   function formatNumber(number) {
@@ -78,21 +128,16 @@ const Cart = () => {
   }
 
   function handleComprar() {
-    if(cart.length === 0) {
-      alert("Tu carrito esta vacío")
+    if (cart.length === 0) {
+      alert("Tu carrito esta vacío");
       return;
     }
-      history.push('/comprar');
-    handleCloseOnClick()
-  }
-
-  function handleEmptyCart() {
-    dispatch(emptyCart());
-    setCartState([])
+    history.push("/comprar");
+    handleCloseOnClick();
   }
 
   const cartContent = cart.map((item) => {
-    totalOrder = totalOrder + item.Price * item.quantity;
+    totalOrder = totalOrder + item.price * item.quantity;
 
     return (
       <Box key={item.id}>
@@ -103,7 +148,7 @@ const Cart = () => {
           justifyContent={"space-between"}
         >
           <Avatar
-            src={item && item.Photo}
+            src={item && item.photo}
             sx={{ width: 80, height: 80 }}
             variant="square"
           />
@@ -118,7 +163,7 @@ const Cart = () => {
             </Typography>
 
             <Typography variant="body1" sx={{ pl: 1 }}>
-              {item && formatDate(item.StartDate)}
+              {item && formatDate(item.startDate)}
             </Typography>
           </Box>
 
@@ -138,7 +183,7 @@ const Cart = () => {
           </Typography>
 
           <Typography variant="body1" justifyContent={"end"} sx={{ pr: 2 }}>
-            ${item && formatNumber(item.Price)}
+            ${item && formatNumber(item.price)}
           </Typography>
 
           <Typography variant="body1" justifyContent={"end"} sx={{ pr: 2 }}>
@@ -152,6 +197,7 @@ const Cart = () => {
       </Box>
     );
   });
+
   return (
     <Drawer
       open={showCart}

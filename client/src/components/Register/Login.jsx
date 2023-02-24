@@ -7,20 +7,23 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from "firebase/auth";
-//import { auth } from "../../config/firebase-config";
 import { UserAuth } from "../../context/AuthContext";
-
 import { Modal } from "@mui/material";
-//import { useSessionStorage } from "../../config/useSessionStorage";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 import GoogleLogo from "./googleLogo.png";
 import axios from "axios";
 import "./Login.css";
 
+import { useDispatch } from "react-redux";
+import {setLocalStorageToApi} from "../../redux/actions";
+
+const apiUrl = process.env.REACT_APP_BASE_URL;
+
 export default function Login() {
   const { signIn } = UserAuth(); //Lo usamos para loguearse con email y passw
   const history = useHistory();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [email, setEmail] = useState();
@@ -69,51 +72,88 @@ export default function Login() {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
+        // const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
         if (user) {
           user.getIdToken().then( async (tkn) => {
             // Save data in db
-            const dbExistUser = await axios.get(`http://localhost:3001/user?userName=${user.email}`)
-            console.log('dbExistUser en login', dbExistUser.data)
-            if (!dbExistUser.data) {
-              const newUser = await axios.post(
-                'http://localhost:3001/admin/users',
-                {
-                  userName: user.email,
-                  role: "User",
-                  status: "Active"
+            try {
+              const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
+              if (dbExistUser.data){
+                sessionStorage.setItem("userName", user.email);
+                 // set access token in session storage
+                 console.log(tkn);
+                sessionStorage.setItem("accessToken", tkn);
+                setAuthorizedUser(true);
+                if(!dbExistUser.data.Customer){
+                  await axios.post(`${apiUrl}/customer`,
+                  {
+                    userId: dbExistUser.data.id,
+                    name: user.displayName,
+                    email: user.email,
+                    telephone: '',
+                    document: 123456
+                  })
                 }
-              );
-              console.log('newUser: ', newUser);
-              const newCustomer = await axios.post('http://localhost:3001/admin/customers',
-                {
-                  userId: newUser.data.id,
-                  name: user.displayName,
-                  email: user.email,
-                  telephone: '',
-                  document: 123456
-                }
-              )
+              }
+            } catch (error) {
+              if(error.response.status === 404){
+                const newUser = await axios.post(
+                  `${apiUrl}/user`,
+                  {
+                    userName: user.email,
+                    role: "User",
+                    status: "Active"
+                  }
+                );
+                await axios.post(`${apiUrl}/customer`,
+                  {
+                    userId: newUser.data.id,
+                    name: user.displayName,
+                    email: user.email,
+                    telephone: '',
+                    document: 123456
+                  })
+                sessionStorage.setItem("userName", user.email);
+                 // set access token in session storage
+                sessionStorage.setItem("accessToken", tkn);
+                setAuthorizedUser(true);
+              }
+              else{
+                console.log(error);
+              }
             }
-
-            // set access token in session storage
-            sessionStorage.setItem("accessToken", tkn);
-            setAuthorizedUser(true);
           });
           history.push("/"); //despues redirige para ver todo
+
+        //------------------------------------------------------------------------
+        // aca debo llamar a la funcion de control de localstorage contra carrito
+        //
+        dispatch(setLocalStorageToApi(user));
+        //------------------------------------------------------------------------
         }
-        console.log(user);
       })
       .catch((error) => {
-        // Handle Errors here.
+        const errorLog = {
+          code : error.code,
+          message : error.message,
+          email : error.customData.email,
+          credential : GoogleAuthProvider.credentialFromError(error),
+        }
+        
+        console.log(`Ha ocurrido un error con el codigo ${errorLog.code}`)
+        console.log(`Ha sucedido al utilizar el email ${errorLog.email}`)
+        console.log(`El error se refiere a`)
+        console.log(errorLog.message)
+
+        /* // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        const credential = GoogleAuthProvider.credentialFromError(error); */
       });
   }
 
@@ -150,8 +190,11 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await signIn(input.email, input.password);
-      console.log("form login submited");
+      const result = await signIn(input.email, input.password);
+      // console.log("result from signIn", result);
+      sessionStorage.setItem("userName", input.email);
+      // set access token in session storage
+      sessionStorage.setItem("accessToken", result.user.accessToken);
       history.push("/"); //despues redirige para ver todo
       setInput({
         //resetea el estado del input
@@ -208,14 +251,14 @@ export default function Login() {
             </button>
           </div>
         ) : (
-          <div className="login_container">
+            <>
             <h2 className="login_h2">INGRESÁ</h2>
 
-            {/* Loguearse con email y password */}
+            {/* // Loguearse con email y password */}
             <form onSubmit={(e) => handleSubmitLogin(e)} className="login_form">
               <div className="login_info_wraper">
                 <label className="login-form_label" htmlFor="email">
-                  email:
+                  Email:
                 </label>
                 <input
                   className="login_section_input"
@@ -286,7 +329,7 @@ export default function Login() {
 
             {/*Loguearse con Google*/}
             <div className="login_with_google">
-              <h3>O ingresá con tu cuenta de Google</h3>
+              <h2 className="login_h2">O ingresá con tu cuenta de Google</h2>
               <button className="login_btn_google" onClick={signInwithGoogle}>
                 <img
                   className="login_with_google_logo"
@@ -296,7 +339,7 @@ export default function Login() {
                 <h4 className="login_btn_text">Ingresá</h4>
               </button>
             </div>
-          </div>
+            </>
         )}
       </div>
     </div>

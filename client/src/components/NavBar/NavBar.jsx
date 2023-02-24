@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import { IconName } from "react-icons/fa";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
 //import { useSessionStorage } from "../../config/useSessionStorage";
@@ -18,8 +19,8 @@ const Navbar = ({ isCartDisabled = false }) => {
   //const [authorizedUser] = useSessionStorage("accessToken");
   const { user } = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
   const totalItems = useSelector((state) => state.totalItems);
@@ -35,14 +36,14 @@ const Navbar = ({ isCartDisabled = false }) => {
   }
 
   React.useEffect(() => {
-    dispatch(getTotalItems());
+    dispatch(getTotalItems(user));
     //    setAvailableStock(product.Stock);
     //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [totalItems, user]);
 
-  const cart = useSelector((state) => state.cart);
-  const [showCart, setShowCart] = useState(false);
+  // const cart = useSelector((state) => state.cart);
+  // const [showCart, setShowCart] = useState(false);
 
   return (
     <div className="navbar">
@@ -71,32 +72,42 @@ const Navbar = ({ isCartDisabled = false }) => {
         <span></span>
         <span></span>
       </div>
+      
+      <div className="navbar_search_div">
+        <Search />
+      </div>
 
       <div className="nav_right">
-        <Search />
-
+      <Badge
+          color="info"
+          badgeContent={totalItems}
+          onClick={handleBadgeClick}
+        >
+          <ShoppingCartIcon
+            className="right_navbar_icons"
+            style={{ color: "white" }}
+            cursor={isCartDisabled ? "default" : "pointer"}
+          />
+        </Badge>
         {/* {authorizedUser ? ( */}
         {user ? (
           <div className="nav_username">
-            <Link to='/micuenta' className="navbar_menu_link" >MI CUENTA</Link>
+            <Link to="/micuenta" className="navbar_menu_link">
+              <AccountCircleIcon 
+                className="right_navbar_icons"
+              />
+            </Link>
           </div>
         ) : (
           <div className="nav_btn_logged">
             <div className="nav_login_btns">
-              
               <Link to={"/register"} className="navbar_menu_link">
                 INGRESAR
               </Link>
             </div>
           </div>
         )}
-        <Badge
-          color="info"
-          badgeContent={totalItems}
-          onClick={handleBadgeClick}
-        >
-          <ShoppingCartIcon style={{ color: "white" }} cursor={isCartDisabled ? 'default' : 'pointer'} />
-        </Badge>
+        
       </div>
     </div>
   );

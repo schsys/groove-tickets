@@ -8,8 +8,10 @@ import Register from "./components/Register/Register";
 import Account from "./components/Account/Account";
 import Cart from "../src/components/Cart/Cart.jsx"
 import { AuthContextProvider } from "./context/AuthContext";
+import { PrivateRoute } from "./components/Authentication/PrivateRoute";
 import { Order } from "./components/Order/Order";
-import AdminApp from "./admin";
+// import AdminApp from "./admin";
+// import UserAdmin from "./miCuenta"
 import Error404 from "./components/404/Error404";
 import "./App.css";
 
@@ -37,19 +39,23 @@ function App() {
             <Cart />
           </Route>
           <Route exact path={"/micuenta"}>
-            <NavBar />
-            <Account />
-            <Footer />
-            <Cart />
+            <PrivateRoute>
+              <Account />
+              <Footer />
+            </PrivateRoute>
           </Route>
           <Route exact path={"/comprar"}>
-            <NavBar isCartDisabled={true} />
-            <Order />
-            <Footer />
+            <PrivateRoute>
+              <NavBar isCartDisabled={true} />
+              <Order />
+              <Footer />
+            </PrivateRoute>
           </Route>
-          <Route exact path={"/admin"}>
-            <AdminApp />
-          </Route>
+          {/* <Route exact path={"/admin"}>
+            <PrivateRoute>
+              <AdminApp />
+            </PrivateRoute>
+          </Route> */}
           <Route path='*'>
             <Error404 />
           </Route>

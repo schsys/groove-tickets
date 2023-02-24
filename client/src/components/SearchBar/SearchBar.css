@@ -1,168 +1,117 @@
-/*menos de 640*/
-@media (max-width: 640px) {
-  .searchContainer {
-    width: 8rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .searchBar {
-    height: 1rem;
-    width: 6rem;
-    border: none;
-
-    padding-left: 0.2rem;
-    font-size: 600;
-    color: black;
-  }
-
-  .btnSearch {
-    background: rgb(2, 0, 36);
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    appearance: none;
-    outline: none;
-    border: none;
-    font-size: 0.6rem;
-    position: relative;
-    width: 1rem;
-    height: 1rem;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.5s;
-  }
-
-  .dropDown {
-    background-color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .dropDown :empty {
-    border: none;
-  }
-
-  .divDrop {
-    cursor: pointer;
-    text-align: start;
-    margin: 0.15rem 0;
-  }
-
-  .searchInner {
-    display: flex;
-  }
+.searchContainer {
+  width: 15rem;
+  display: flex;
 }
 
-/*de 640 a 768*/
-@media (min-width: 640px) {
+.searchBar {
+  height: 1.8rem;
+  width: 13rem;
+  border: none;
+  padding: 0 0 0 0.2rem !important;
+  font-size: 600;
+  color: black;
+  background-color: white;
+  margin-right: 0rem;
+}
+
+.searchBar::placeholder {
+  padding-left: 0.2rem;
+}
+
+.btnSearch {
+  background: white;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  color: black;
+  appearance: none;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  position: relative;
+  width: 2rem;
+  height: 1.8rem;
+  cursor: pointer;
+  margin-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+.btnSearch:hover {
+  background: transparent;
+}
+
+.dropDown {
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropDown :empty {
+  border: none;
+}
+
+.divDrop {
+  cursor: pointer;
+  text-align: start;
+  margin: 0.15rem 0;
+}
+
+.searchInner {
+  display: flex;
+}
+
+.search_suggestion_div {
+  display: flex;
+  flex-direction: column;
+}
+
+.search_inputSuggest {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestionsList {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestionsList_item {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.8rem;
+  cursor: pointer;
+}
+
+/*de 750 a 900*/
+@media (max-width: 900px) {
   .searchContainer {
-    width: 9rem;
-    display: flex;
+    width: 10rem;
   }
-
+  
   .searchBar {
-    height: 1.4rem;
-    width: 7rem;
-    border: none;
-    padding-left: 0.2rem;
-    font-size: 600;
-    color: black;
-  }
-
-  .btnSearch {
-    background: rgb(2, 0, 36);
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    appearance: none;
-    outline: none;
+    width: 9rem;
     border: none;
     font-size: 0.8rem;
-    position: relative;
-    width: 1.4rem;
-    height: 1.4rem;
-    cursor: pointer;
-    margin-left: 0.85rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.5s;
+    padding: 0 0 0 0.2rem !important;
   }
-
-  .dropDown {
-    background-color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .dropDown :empty {
-    border: none;
-  }
-
-  .divDrop {
-    cursor: pointer;
-    text-align: start;
-    margin: 0.15rem 0;
-  }
-
-  .searchInner {
-    display: flex;
-  }
-}
-
-/*de 768 a 1200*/
-@media (min-width: 768px) {
-  .searchContainer {
-    width: 9rem;
-    display: flex;
-  }
-
-  .searchBar {
-    height: 1.4rem;
-    width: 7rem;
-    border: none;
-    padding-left: 0.2rem;
-    font-size: 600;
-    color: black;
-  }
-
+  
   .searchBar::placeholder {
-    padding-left: 0.2rem;
-  }
-
-  .btnSearch {
-    background: rgb(2, 0, 36);
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    appearance: none;
-    outline: none;
-    border: none;
     font-size: 0.8rem;
-    position: relative;
-    width: 1.4rem;
-    height: 1.4rem;
-    cursor: pointer;
-    margin-left: 0.85rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.5s;
   }
-
-  .btnSearch:hover {
-    background: transparent;
-    background: linear-gradient(
-      100deg,
-      rgba(2, 0, 36, 1) 0%,
-      rgba(255, 0, 0, 1) 43%,
-      rgba(227, 108, 255, 1) 100%
-    );
+  
+  .btnSearch {
+    font-size: 0.8rem;
   }
 
   .dropDown {
@@ -186,53 +135,37 @@
   }
 }
 
-/*MAS DE 1200*/
-@media (min-width: 1200px) {
+/*entre 550 y 750*/
+@media (max-width: 750px) {
+  .suggestionsList_item{
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+}
+
+/*menos de 550*/
+@media (max-width: 550px) {
   .searchContainer {
-    width: 15rem;
-    display: flex;
+    width: 7rem;
   }
 
   .searchBar {
-    height: 1.8rem;
-    width: 13rem;
-    border: none;
-
-    padding-left: 0.2rem;
-    font-size: 600;
-    color: black;
-    margin-right: 0.5rem;
+    height: 1.5rem;
+    width: 6.5rem;
+    font-size: 0.7rem;
   }
 
-  .searchBar::placeholder {
-    padding-left: 0.2rem;
+  .searchBar::placeholder{
+    font-size: 0.7rem;
   }
 
   .btnSearch {
-    background: transparent;
-
-    text-decoration: none;
-    text-align: center;
-    font-weight: 600;
-    color: white;
-    appearance: none;
-    outline: none;
-    border: none;
-    font-size: 1rem;
-
+    font-size: 0.8rem !important;
     position: relative;
-    width: 2rem;
-    height: 2rem;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.5s;
-  }
-
-  .btnSearch:hover {
-    background: transparent;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   .dropDown {
@@ -254,34 +187,6 @@
   .searchInner {
     display: flex;
   }
-
-  .search_suggestion_div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .search_inputSuggest {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .suggestionsList {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .suggestionsList_item {
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.8rem;
-    cursor: pointer;
-  }
 }
+
+ 

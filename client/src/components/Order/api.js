@@ -1,9 +1,8 @@
 import axios from 'axios';
 // import * as errors from '../../common/constants/errors.js';
 // import * as httpStatusCodes from '../../common/constants/httpStatusCodes.js';
-
-axios.defaults.baseURL = "http://localhost:3001";
-axios.defaults.timeout = 20000;
+// axios.defaults.baseURL = "http://localhost:3001"; // al crear la variable de entorno esta declaracion ya no tiene efecto
+// axios.defaults.timeout = 20000;
 
 export async function getCustomer(userName) {
     try {

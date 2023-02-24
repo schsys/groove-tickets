@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
 import axios from "axios";
-
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
-
 import "./Signup.css";
+const apiUrl = process.env.REACT_APP_BASE_URL;
+
 
 //FUNCION VALIDADORA
 function validate(input) {  //va a recibir el estado input con los cambios detectados por los handlers
@@ -26,12 +26,12 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
     errors.lastname = 'El apellido debe tener al menos 2 letras';
   } else if (!input.email) {
     errors.email = 'Necesitás ingresar un mail'
-  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) {
+  } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) { // eslint-disable-next-line
     errors.email = 'Tiene que ser un mail válido'
   } else if (!input.phoneNumber) {
     errors.phoneNumber = 'Necesitás ingrear un teléfono'
-  } else if (!/^((\(?\d{2,5}\)?)?(\d|-| )?(15((\d|-| ){6,13})))$/.test(input.phoneNumber)) {
-    errors.phoneNumber = 'Tiene que ser un número válido'
+  } else if (!/^(?:(?:\+|00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)) {
+    errors.phoneNumber = 'Tiene que ser un número válido. Por ejemplo +5491133333333 o 3515555555'
   } else if (!input.password) {
     errors.password = 'Necesitás ingresar una contraseña'
   } else if (!/^(?=.*\d).{6,8}$$/.test(input.password)) {
@@ -94,11 +94,11 @@ export default function Signup() {
     try {
       await createUser(input.email, input.password)
       // const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
-      const dbExistUser = await axios.get(`http://localhost:3001/user?userName=${input.email}`)
+      const dbExistUser = await axios.get(`${apiUrl}/user?userName=${input.email}`)
       console.log('dbExistUser en signup', dbExistUser.data)
       if (!dbExistUser.data) {
         const newUser = await axios.post(
-          'http://localhost:3001/admin/users',
+          `${apiUrl}/admin/users`,
           {
             userName: input.email,
             role: "User",
@@ -106,7 +106,7 @@ export default function Signup() {
           }
         );
         console.log('newUser: ', newUser);
-        const newCustomer = await axios.post('http://localhost:3001/admin/customers',
+        const newCustomer = await axios.post(`${apiUrl}/admin/customers`, // eslint-disable-next-line
           {
             userId: newUser.data.id,
             name: input.displayName + " " + input.lastname,
