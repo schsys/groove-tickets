@@ -6,6 +6,7 @@ import Error_Search from "../../assets/Error_Search.jpg";
 import { getDetailedUser } from '../../common/integrations/api';
 import AdminApp from "../../admin";
 import UserApp from "../../miCuenta";
+import Loader from "../Loader/Loader";
 import "./Account.css";
 
 export default function Account() {
@@ -56,7 +57,7 @@ export default function Account() {
 
   if (apiUser.fetchStatus === 'loading') {
     return <>
-      <p>Obteniendo datos...</p>
+      <Loader />
     </>
   }
 

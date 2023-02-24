@@ -1,3 +1,67 @@
+.shows__categories-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+}
+.shows__categories-title {
+  color: white;
+  background-color: var(--color-rose);
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  height: 3.5vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.shows__categories-title h4 {
+  font-size: 1em;
+}
+
+.shows__categories-title button {
+  background-color: inherit;
+  color: var(--color-rose);
+  border: none;
+  text-shadow: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  display: inherit;
+  cursor: pointer;
+}
+
+.shows__categories-box {
+  background-color: var(--color-gray);
+  color: white;
+  width: 90vw;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 3.5vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.shows__categories-buttons {
+  background-color: inherit;
+  color: inherit;
+  /* border: 1px solid white; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  border: none;
+  transition: 0.2s all;
+}
+
+.shows__categories-buttons:hover {
+  color: var(--color-rose);
+  cursor: pointer;
+}
+
 .shows__filter-textcontainer {
     display: flex;
     justify-content: center;
@@ -37,7 +101,6 @@
   }
   
   .shows__filter-box {
-    /* width: 35vw; */
     width: 15.5rem;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
@@ -84,15 +147,19 @@
     width: 85%;
   }
 
+  .shows__categories-title {
+    min-width: 7.7rem !important;
+  }
+
   /*Responsive desde 750 a 900*/
   @media screen and (max-width: 900px) {
     .shows__categories-title h4, .shows__filter-text h4{
       font-size: 0.8rem;
     }
-    .shows__filter-box button, .shows__categories-buttons{
-      font-size: 0.8rem;
-    }
 
+    .shows__filter-box button, .shows__categories-buttons{
+      font-size: 0.75rem;
+    }
   }
 
   /*Responsive desde 550 a 750*/

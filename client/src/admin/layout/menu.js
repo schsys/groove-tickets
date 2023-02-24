@@ -12,39 +12,8 @@ import SlideshowIcon from '@mui/icons-material/Slideshow';
 import WifiCalling3Icon from '@mui/icons-material/WifiCalling3';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { MenuItem } from "@mui/material";
-
-import { UserAuth } from "../../context/AuthContext";
-import Swal from "sweetalert2";
-import Error_Search from "../../assets/Error_Search.jpg";
-import { useHistory } from "react-router-dom";
 
 export const Menu = () => {
-  const { logout } = UserAuth();
-  const history = useHistory();
-
-  const LogoutMessage = () => {
-    Swal.fire({
-      imageUrl: Error_Search,
-      imageHeight: 150,
-      imageWidth: 200,
-      imageAlt: "Usuasio deslogueado.",
-      title: "Yazz",
-      html: "<h3>Gracias, te esperamos la próxima</p>",
-      footer: "<p>Podés seguir navegando.</p>",
-    });
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      LogoutMessage();
-      history.push("/"); //despues redirige para ver todo
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
   return (
     <div>
       <DashboardMenuItem />
@@ -65,9 +34,6 @@ export const Menu = () => {
         leftIcon={<BookIcon />}
       />
       <MenuItemLink to="/mailgen" primaryText="Notification" leftIcon={<NotificationsIcon />} />
-      <MenuItem>
-        <p onClick={handleLogout}>Cerrar sesión</p>
-      </MenuItem>
     </div>
   );
 }

@@ -80,21 +80,22 @@ export default function Login() {
             // Save data in db
             try {
               const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
-              if (dbExistUser.data) {
+              if (dbExistUser.data){
                 sessionStorage.setItem("userName", user.email);
                  // set access token in session storage
                  console.log(tkn);
                 sessionStorage.setItem("accessToken", tkn);
                 setAuthorizedUser(true);
-                /* const newCustomer = await axios.post(`${apiUrl}/admin/customers`,
+                if(!dbExistUser.data.Customer){
+                  await axios.post(`${apiUrl}/customer`,
                   {
-                    userId: newUser.data.id,
+                    userId: dbExistUser.data.id,
                     name: user.displayName,
                     email: user.email,
                     telephone: '',
                     document: 123456
-                  }
-                ) */
+                  })
+                }
               }
             } catch (error) {
               if(error.response.status === 404){
@@ -106,10 +107,16 @@ export default function Login() {
                     status: "Active"
                   }
                 );
+                await axios.post(`${apiUrl}/customer`,
+                  {
+                    userId: newUser.data.id,
+                    name: user.displayName,
+                    email: user.email,
+                    telephone: '',
+                    document: 123456
+                  })
                 sessionStorage.setItem("userName", user.email);
-                console.log('newUser: ', newUser);
                  // set access token in session storage
-                 console.log(tkn);
                 sessionStorage.setItem("accessToken", tkn);
                 setAuthorizedUser(true);
               }
@@ -183,8 +190,11 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await signIn(input.email, input.password);
-      console.log("form login submited");      
+      const result = await signIn(input.email, input.password);
+      // console.log("result from signIn", result);
+      sessionStorage.setItem("userName", input.email);
+      // set access token in session storage
+      sessionStorage.setItem("accessToken", result.user.accessToken);
       history.push("/"); //despues redirige para ver todo
       setInput({
         //resetea el estado del input
