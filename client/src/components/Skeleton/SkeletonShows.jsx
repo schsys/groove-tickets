@@ -12,7 +12,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />
@@ -83,7 +83,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />
@@ -154,7 +154,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />
@@ -225,7 +225,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />
@@ -296,7 +296,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />
@@ -367,7 +367,7 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            marginBottom={"0.5rem"}
+            
           />
         </div>
         <br />

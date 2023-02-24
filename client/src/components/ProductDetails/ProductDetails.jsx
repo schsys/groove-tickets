@@ -240,9 +240,7 @@ export default function ProductDetails() {
                   color: "action.active",
                   display: "flex",
                   flexDirection: "column",
-                  "& > *": {
-                    marginBottom: 2,
-                  },
+                  
                   "& .MuiBadge-root": {
                     marginRight: 4,
                   },
