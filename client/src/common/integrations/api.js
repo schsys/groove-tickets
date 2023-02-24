@@ -8,7 +8,7 @@ export async function getDetailedUser(userName) {
     try {
         const endpoint = `/user?userName=${userName}`;
         const response = await axios.get(endpoint);
-        console.log('getDetaileduser response: ', response);
+        // console.log('getDetaileduser response: ', response);
 
         return {
             fetchStatus: "succeeded",
@@ -21,6 +21,29 @@ export async function getDetailedUser(userName) {
             item: null,
             error: {
                 message: 'Error al obtener el detalle del usuario',
+                status: error.response && error.response.status
+            }
+        };
+    }
+}
+
+export async function getRecommendedProducts(referencedProductId, categories) {
+    try {
+        const filter = JSON.stringify({ referencedProductId, categories});
+        const endpoint = `/recommended-products?filter=${filter}`;
+        const response = await axios.get(endpoint);
+
+        return {
+            fetchStatus: "succeeded",
+            items: response.data,
+            error: null,
+        };
+    } catch (error) {
+        return {
+            fetchStatus: "failed",
+            items: [],
+            error: {
+                message: 'Error al obtener el productos recomendados',
                 status: error.response && error.response.status
             }
         };

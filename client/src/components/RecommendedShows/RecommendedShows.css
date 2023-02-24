@@ -18,6 +18,7 @@
     height: 26rem;
     background-color: var(--color-blue);
     margin-bottom: 1rem;
+    cursor: pointer;
 }
 
 
