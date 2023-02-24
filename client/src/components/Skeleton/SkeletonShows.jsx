@@ -12,7 +12,6 @@ export default function SkeletonShows() {
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
             height={220}
-            
           />
         </div>
         <br />
