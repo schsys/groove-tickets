@@ -46,7 +46,7 @@ export default function RecommendedShows({ referencedShowId, categories }) {
 
   return (
     <div className="detail_recommended_shows">
-      <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
+      <h3 className="detail_recommended_shows_h3">Si te gusta esta música, seguro te van a gustar estos shows</h3>
       <div className="recommended_inDetail">
         <div className="recommended_section">
           {products.items.slice(0, 3).map((p) => {

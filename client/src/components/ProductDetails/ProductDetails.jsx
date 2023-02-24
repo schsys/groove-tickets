@@ -135,16 +135,12 @@ export default function ProductDetails() {
   const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
   const topRecommended = recommendation.slice(0, 3);
 
-
   // console.log('products.categories', products[1].Categories[0].Name)
   // console.log('category', category)
   // console.log('recommendation', recommendation)
   // console.log('topRecommended', topRecommended)
 
-
   return (
-
-
     <>
       {product.name ? (
         <div className="container_details">
@@ -206,7 +202,6 @@ export default function ProductDetails() {
                 )}
               </>
 
-
               <>
                 {product.Categories && product.Categories.length > 0 ? (
                   <p>
@@ -240,21 +235,19 @@ export default function ProductDetails() {
                   color: "action.active",
                   display: "flex",
                   flexDirection: "column",
-                  "& > *": {
-                    marginBottom: 2,
-                  },
+                  
                   "& .MuiBadge-root": {
                     marginRight: 4,
                   },
                 }}
               >
                 <div>
-                  <Typography color="white" variant="body2" xs={{ pl: 0 }}>
+                  <div>
                     <p className="detail_cart_explanation">
                       Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
                     </p>
                     <Badge color="warning" badgeContent={quantity}>
-                      <ButtonGroup>
+                      <ButtonGroup className="buttonGroup_toCart">
                         <Button
                           style={{ background: "white" }}
                           onClick={() => {
@@ -267,7 +260,6 @@ export default function ProductDetails() {
                           />
                         </Button>
 
-
                         <Button
                           style={{ background: "white" }}
                           onClick={handleClick}
@@ -276,7 +268,7 @@ export default function ProductDetails() {
                         </Button>
                       </ButtonGroup>
                     </Badge>
-                  </Typography>
+                  </div>
                   <div className="product_button_div">
                     <button className="product_button" onClick={addToCart}>
                       Agregar al Carrito
@@ -317,16 +309,6 @@ export default function ProductDetails() {
             referencedShowId={product.id}
             categories={product.Categories.map((c) => c.Id)}
           />
-          {/* <div className="detail_recommended_shows">
-            <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
-            <div className="recommended_inDetail">
-              <RecommendedShows
-                referencedShowId={product.id}
-                categories={product.Categories.map((c) => c.Id)}
-                handleClickRecom={handleClickRecom}
-              />
-            </div>
-          </div> */}
 
         </div>
       ) : (

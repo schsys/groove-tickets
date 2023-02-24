@@ -41,6 +41,7 @@ function App() {
           <Route exact path={"/micuenta"}>
             <PrivateRoute>
               <Account />
+              <Footer />
             </PrivateRoute>
           </Route>
           <Route exact path={"/comprar"}>

@@ -12,9 +12,10 @@ const Shows = () => {
   //const [selectedDay, setSelectedDay] = useState("");
   //const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   const products = useSelector((state) => state.products);
-  const filtered = useSelector((state) => state.filteredProducts);
+  const fetchProducts = useSelector((state) => state.fetchProducts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Shows = () => {
   return (
     <div className="shows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
-      {!products.length ? (
+      {fetchProducts === "loading" ? (
         <SkeletonShows />
       ) : (
         <>
@@ -58,7 +59,7 @@ const Shows = () => {
                 No hay shows disponibles con los filtros seleccionados.
               </h2>
             ) : (
-              products
+              products 
                 ?.sort(
                   (a, b) =>
                     new Date(a.StartDate + "T00:00:00") -
