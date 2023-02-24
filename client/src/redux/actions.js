@@ -10,6 +10,7 @@ export const TOGGLE_SHOW_CART = "TOGGLE_SHOW_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
+export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const clearFilters = () => {
@@ -45,10 +46,11 @@ export const search = (name) => {
 export const getProducts = () => {
   return async (dispatch) => {
     try {
+      dispatch({type: FETCHING_PRODUCTS })
       const allProducts = await axios.get(`${apiUrl}/products`);
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
-      alert("algo salió mal");
+      alert("algo salió mal, no se cargaron los productos");
       console.log(error);
     }
   };
@@ -70,6 +72,7 @@ export const getProductById = (id) => {
 export const filterProducts = (day, categoryId) => {
   return async (dispatch) => {
     try {
+      dispatch({type: FETCHING_PRODUCTS })
       const filteredProducts = await axios.get(
         `${apiUrl}/products?days=${day}&category=${categoryId}`
       );
