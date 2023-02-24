@@ -8,8 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 
 export const ItemsOrder = (customer) => {
-  console.log("Customer: ", customer);
-  /*------------------------------Datos de los items de la orden----------------------------*/
+  /*---------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
