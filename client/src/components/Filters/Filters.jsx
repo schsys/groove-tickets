@@ -123,6 +123,7 @@ export default function Filters() {
                       action={handleCategoryChange}
                       data=""
                       value="QUITAR FILTRO"
+                      className="filter_remove_btn"
                     />
                   ) : (
                     "CATEGORÍAS"

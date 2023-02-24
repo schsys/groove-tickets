@@ -119,6 +119,7 @@ export const Order = () => {
       tempItem: {},
     }));
   }
+  const { customerInfo } = customer;
 
   return (
     <div className="cartSummary-Container">
@@ -452,7 +453,7 @@ export const Order = () => {
         </div>
       </div>
       <div>
-        <ItemsOrder />
+        <ItemsOrder customer={customerInfo} />
       </div>
     </div>
   );

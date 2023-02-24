@@ -12,7 +12,7 @@ import { UserAuth } from "../../context/AuthContext";
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { getDetailedUser } from "../../common/integrations/api";
-import { Password } from "@mui/icons-material";
+
 
 export const UserDetail = () => {
   const { user } = UserAuth();
@@ -56,7 +56,6 @@ export const UserDetail = () => {
   console.log("apiUser.item.customer: ", apiUser.item.Customer);
   // {
   //   apiUser.item.Customer ? (
-  //   // SI hubiera customer, habría que despachar un get de customer, no de user.
   //     <Show title="User Detail" id={apiUser.item.Customer.id}>
   //       <SimpleShowLayout>
   //         <TextField source="name" label="Nombre" />
@@ -103,6 +102,21 @@ export const UserDetail = () => {
         <DateField source="Customer.birthDate" label="Fecha de nacimiento" />
         <TextField source="Customer.status" label="Estado" />
       </SimpleShowLayout>
+   {apiUser.item.Customer && (
+        <SimpleShowLayout>
+          {/* Como acceder a las propiedades de Customer? */}
+          <TextField source="name" label="Nombre" />
+          <TextField source="address" label="Dirección" />
+          <TextField source="city" label="Ciudad" />
+          <TextField source="state" label="Provincia" />
+          <NumberField source="zip" label="Código Postal" />
+          <EmailField source="email" label="Email" />
+          <TextField source="telephone" label="Teléfono" />
+          <TextField source="document" label="Documento" />
+          <DateField source="birthDate" label="Fecha de nacimiento" />
+          <TextField source="status" label="Estado" />
+        </SimpleShowLayout>
+      )}
     </Show>
   );
 };

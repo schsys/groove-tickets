@@ -21,6 +21,14 @@ const Shows = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  // NOTA de friss: el useEffect a continuación vuelve a la página 1 luego de hacer búsquedas;
+  // Si por ejemplo el usuario está viendo la página 5 y se le ocurre buscar algo, si el resultado devuelve
+  // menos de 5 páginas, currentPage va a apuntar a una página inexistente.
+  // Esto es solo una solución temporal, quién pueda que lo haga de la manera correcta.
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [products]);
+
   const handlePrev = () => {
     setCurrentPage(currentPage - 1);
   };

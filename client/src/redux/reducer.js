@@ -23,7 +23,6 @@ const initialState = {
   cart: [],
   showCart: false,
   totalItems: 0,
-  orderId: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -97,7 +96,6 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         totalItems: action.payload["totalItems"],
-        orderId: action.payload["orderId"]
       }
     default:
       return { ...state };

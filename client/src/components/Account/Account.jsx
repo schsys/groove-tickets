@@ -6,6 +6,7 @@ import Error_Search from "../../assets/Error_Search.jpg";
 import { getDetailedUser } from '../../common/integrations/api';
 import AdminApp from "../../admin";
 import UserApp from "../../miCuenta";
+import Loader from "../Loader/Loader";
 import "./Account.css";
 
 export default function Account() {
@@ -56,7 +57,7 @@ export default function Account() {
 
   if (apiUser.fetchStatus === 'loading') {
     return <>
-      <p>Obteniendo datos...</p>
+      <Loader />
     </>
   }
 
@@ -72,34 +73,34 @@ export default function Account() {
     return <AdminApp />;
   }
 
-  return <UserApp />;
+  // return <UserApp />;
 
-  // return (
-  //   <div className="account_page_container">
-  //     <div className="account_wrapper">
-  //       <h1 className="account_title">Bienvenido a tu cuenta</h1>
-  //       <div className="account_info_div">
-  //         <b className="account_info_bold">Nombre:</b>
-  //         <p className="account_info_text">{user?.displayName}</p>
-  //       </div>
-  //       <div className="account_info_div">
-  //         <p className="account_info_text">Soy {apiUser.item.role}</p>
-  //       </div>
-  //       <div className="account_info_div">
-  //         <b className="account_info_bold">email:</b>
-  //         <p className="account_info_text">{user?.email}</p>
-  //       </div>
-  //       <div className="account_info_div">
-  //         <b className="account_info_bold">teléfono:</b>
-  //         <p className="account_info_text">{apiUser?.item?.telephone}</p>
-  //       </div>
-  //       <div>
-  //         <h4 className="account_logout_ask">¿Querés cerrar sesión?</h4>
-  //         <button className="login_logged_btn" onClick={handleLogout}>
-  //           CERRAR SESIÓN
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  return (
+    <div className="account_page_container">
+      <div className="account_wrapper">
+        <h1 className="account_title">Bienvenido a tu cuenta</h1>
+        <div className="account_info_div">
+          <b className="account_info_bold">Nombre:</b>
+          <p className="account_info_text">{user?.displayName}</p>
+        </div>
+        <div className="account_info_div">
+          <p className="account_info_text">Soy {apiUser.item.role}</p>
+        </div>
+        <div className="account_info_div">
+          <b className="account_info_bold">email:</b>
+          <p className="account_info_text">{user?.email}</p>
+        </div>
+        <div className="account_info_div">
+          <b className="account_info_bold">teléfono:</b>
+          <p className="account_info_text">{apiUser?.item?.telephone}</p>
+        </div>
+        <div>
+          <h4 className="account_logout_ask">¿Querés cerrar sesión?</h4>
+          <button className="login_logged_btn" onClick={handleLogout}>
+            CERRAR SESIÓN
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
