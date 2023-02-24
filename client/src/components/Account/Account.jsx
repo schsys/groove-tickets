@@ -72,6 +72,9 @@ export default function Account() {
   if (apiUser.item.role === 'Admin') {
     return <AdminApp />;
   }
+  if (apiUser.item.role === 'User') {
+    return <UserApp />;
+  }
 
   // return <UserApp />;
 

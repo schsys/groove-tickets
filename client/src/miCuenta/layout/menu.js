@@ -54,9 +54,9 @@ export const Menu = () => {
         primaryText="Review"
         leftIcon={<BookIcon />}
       />
-      <MenuItem>
+      {/* <MenuItem>
         <p onClick={handleLogout}>Cerrar sesión</p>
-      </MenuItem>
+      </MenuItem> */}
     </div>
   );
 };
