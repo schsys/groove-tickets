@@ -87,7 +87,7 @@ export default function Login() {
                 sessionStorage.setItem("accessToken", tkn);
                 setAuthorizedUser(true);
                 if(!dbExistUser.data.Customer){
-                  await axios.post(`${apiUrl}/admin/customers`,
+                  await axios.post(`${apiUrl}/customer`,
                   {
                     userId: dbExistUser.data.id,
                     name: user.displayName,
@@ -107,7 +107,7 @@ export default function Login() {
                     status: "Active"
                   }
                 );
-                await axios.post(`${apiUrl}/admin/customers`,
+                await axios.post(`${apiUrl}/customer`,
                   {
                     userId: newUser.data.id,
                     name: user.displayName,
