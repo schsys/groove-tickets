@@ -56,7 +56,7 @@ export default function ProductDetails() {
     dispatch(getProductById(id));
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
 
 
@@ -71,14 +71,6 @@ export default function ProductDetails() {
       alert("La cantidad máxima permitida es 10");
     }
   }
-
-
-  const handleClickRecom = (productId) => {
-    setProd(productId);
-  };
-
-
-
 
   // PARA AGREGAR AL CARRITO
   // useEffect(() => {
@@ -321,7 +313,11 @@ export default function ProductDetails() {
           </div>
 
 
-          <div className="detail_recommended_shows">
+          <RecommendedShows
+            referencedShowId={product.id}
+            categories={product.Categories.map((c) => c.Id)}
+          />
+          {/* <div className="detail_recommended_shows">
             <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
             <div className="recommended_inDetail">
               <RecommendedShows
@@ -330,7 +326,7 @@ export default function ProductDetails() {
                 handleClickRecom={handleClickRecom}
               />
             </div>
-          </div>
+          </div> */}
 
         </div>
       ) : (
