@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import moment from "moment-timezone";
+// import { getTotalItems } from "../../redux/actions";
+// import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 
-export const ItemsOrder = () => {
+export const ItemsOrder = (customer) => {
+  console.log("Customer: ", customer);
   /*------------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
   const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
+    id: 0,
     items: [],
     totalAmount: 0,
     fetchStatus: "loading",
@@ -22,6 +25,7 @@ export const ItemsOrder = () => {
         const response = await axios.get(
           `http://localhost:3001/orders?status=Created&userName=${user.email}`
         );
+        const id = response.data.Id;
         const items = response.data.OrderItems.map((item) => {
           const { Product, Quantity, UnitPrice } = item;
           const { Photos, Name, StartDate } = Product;
@@ -31,6 +35,7 @@ export const ItemsOrder = () => {
           );
 
           return {
+            id: id,
             name: Name,
             Photos: Photos,
             startDate: formattedStartDate,
@@ -44,6 +49,7 @@ export const ItemsOrder = () => {
           0
         );
         setorderItems({
+          id,
           items,
           totalAmount,
           fetchStatus: "succeeded",
@@ -51,6 +57,7 @@ export const ItemsOrder = () => {
       } catch (error) {
         console.error(error);
         setorderItems({
+          id: 0,
           items: [],
           totalAmount: 0,
           fetchStatus: "failed",
@@ -86,6 +93,41 @@ export const ItemsOrder = () => {
       totalAmount,
       fetchStatus: "succeeded",
     });
+  };
+  /*------------------------------------------------------------------------------*/
+
+  const handleMPago = async () => {
+    const order = {
+      id: orderItems.id,
+      TotalAmount: orderItems.totalAmount,
+      customerName: customer.name,
+      customerEmail: customer.email,
+    };
+    console.log("Order para MercadoPago: ", order);
+    try {
+      await axios
+        .post("/pay/mercadopago", order)
+        .then(
+          (res) => (window.location.href = res.data.response.body.init_point)
+        )
+        .then(await axios.get("/payment"));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendOrder = async () => {
+    try {
+      const response = await axios.put("http://localhost:3001/order/1/items", {
+        OrderItems: orderItems.items.map((item) => ({
+          ProductId: item.ProductId,
+          quantity: 1,
+        })),
+      });
+      window.alert("Orden actualizada con exito:", response.data);
+    } catch (error) {
+      window.alert("Error al actualizar la orden: " + error);
+    }
   };
   return (
     <div className="cartSummary__summary-Container">
@@ -130,8 +172,8 @@ export const ItemsOrder = () => {
       <div className="cartSummary__show-totalOrder">
         <h4>TOTAL ${formatNumber(orderItems.totalAmount)}</h4>
       </div>
-      <button className="cartSummary__show-processOrder">
-        <Link className="cartSummary__show-processOrderButton">PAGAR</Link>
+      <button onClick={handleMPago} className="cartSummary__show-processOrder">
+        PAGAR
       </button>
     </div>
   );
