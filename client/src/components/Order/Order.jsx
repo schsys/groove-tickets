@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   FaUserAlt,
   FaMailBulk,
@@ -32,10 +33,6 @@ export const Order = () => {
         const response = await axios.get(
           `http://localhost:3001/orders?status=Created&userName=${user.email}`
         );
-        /* const customer = await axios.get(
-          `http://localhost:3001/admin/customers/${response.data.CustomerId}`
-        ); */
-
         const customerInfo = {
           customerId: response.data.Customer.Id,
           name: response.data.Customer.Name,
@@ -94,7 +91,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        `http://localhost:3001/admin/customers/${customer.customerInfo.customerId}`,
+        `http://localhost:3001/customers/${customer.customerInfo.customerId}`,
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
@@ -124,13 +121,18 @@ export const Order = () => {
   return (
     <div className="cartSummary-Container">
       <div className="cartSummary__user-infoContainer">
-        <h2 className="cartSummary__user-header">
+        <div className="back_button-div">
+          <Link to="/" className="back_button-order">
+            Seguir Comprando
+          </Link>
+        </div>
+        <h3 className="cartSummary__user-header">
           TUS DATOS
           <button
             className="cartSummary__user-editInfo"
             onClick={handleEditClick}
           >
-            <EditIcon />
+            <EditIcon className="icon_editInfo" />
           </button>
           {editing && (
             <>
@@ -148,7 +150,7 @@ export const Order = () => {
               </button>
             </>
           )}
-        </h2>
+        </h3>
 
         <div className="cartSummary__user-info">
           <h3>
@@ -323,7 +325,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={city} disabled />
+              <input id="city" type="text" value={city} disabled />
             )}{" "}
             {editing ? (
               <input
@@ -363,7 +365,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={state} disabled />
+              <input id="state" type="text" value={state} disabled />
             )}{" "}
             {editing ? (
               <input
@@ -401,7 +403,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={zip} disabled />
+              <input id="zip" type="text" value={zip} disabled />
             )}{" "}
           </h3>
           <h3>
