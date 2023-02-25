@@ -8,38 +8,40 @@
   overflow: hidden;
 }
 
+.displayStock_container{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+}
 
-.displayStock_Card{
-  color: white;
-  background-color: var(--color-green);
+.shows__cards_imgContainer{
+  position: relative;
+}
+
+.displayStock_Card, .displayStock_Card_LAST, 
+.displayStock_Card_OUT{
+color: white;
   margin-left: 0.5rem;
   border-radius: 0.2rem;
   font-size: 0.8rem;
-  width: 5rem;
   text-align: center;
   height: 1.1rem;
+  z-index: 100;
+}
+
+.displayStock_Card{
+  background-color: var(--color-green);
+  width: 5rem;
 }
 
 .displayStock_Card_LAST{
-  color: white;
   background-color: var(--color-orange);
-  margin-left: 0.5rem;
-  border-radius: 0.2rem;
-  font-size: 0.8rem;
   width: 8rem;
-  text-align: center;
-  height: 1.1rem;
 }
 
 .displayStock_Card_OUT{
-  color: white;
   background-color: red;
-  margin-left: 0.5rem;
-  border-radius: 0.2rem;
-  font-size: 0.8rem;
   width: 5rem;
-  text-align: center;
-  height: 1.1rem;
 }
 /* .shows__banner-img {
   position: relative;
@@ -66,8 +68,24 @@
   transition: 0.2s all;
 }
 
+.shows__cards-Soldout{
+  width: 100%;
+  background-color: gray;
+  margin-bottom: 1rem;
+}
+
+.shows__cards-Soldout h1, .shows__cards-Soldout h2, 
+.shows__cards-Soldout h3 {
+  color: white;
+}
+
+.shows__cards-Soldout img{
+  filter: grayscale(100%);
+}
+
 .shows__cards-show1 {
   margin-bottom: 0vh;
+  display: block;
   width: 100%;
   height: 16.5vw;
   object-fit: cover;

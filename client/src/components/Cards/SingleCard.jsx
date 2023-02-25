@@ -38,23 +38,26 @@ const SingleCard = (data) => {
     } else if (data.data.Stock <= 10 && data.data.Stock > 0) {
       return <p className="displayStock_Card_LAST">ÚLTIMAS ENTRADAS</p>;
     } else {
+      
       return <p className="displayStock_Card_OUT">AGOTADO</p>;
     }
   };
 
   return (
     <div
-      className="shows__cards-box1"
+      className={data.data.Stock > 0 ? "shows__cards-box1" : "shows__cards-Soldout"}
       //  ref={cardRef}
       key={data.data.id}
     >
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
-        <div>{displayStock()}</div>
-        <img
-          src={data.data.Photos[0].Path}
-          alt="imagen show1"
-          className="shows__cards-show1"
-        />
+        <div className="shows__cards_imgContainer">
+          <img
+            src={data.data.Photos[0].Path}
+            alt="imagen show1"
+            className="shows__cards-show1"
+          />
+        <div className="displayStock_container">{displayStock()}</div>
+        </div>
       </Link>
 
       <div className="shows__cards-textContainer">
@@ -71,10 +74,12 @@ const SingleCard = (data) => {
           {formatPrice(data.data.Price)}
         </h3>
         <div className="shows_icons">
+          {data.data.Stock < 1 ? (" ") :(
           <FaShoppingCart
             className="shows_cards-cart"
             onClick={addToCartFromShows}
           />
+          ) }
           <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
             <FaInfoCircle />
           </Link>
