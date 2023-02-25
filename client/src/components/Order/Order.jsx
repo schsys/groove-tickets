@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   FaUserAlt,
   FaMailBulk,
@@ -120,13 +121,18 @@ export const Order = () => {
   return (
     <div className="cartSummary-Container">
       <div className="cartSummary__user-infoContainer">
+        <div className="back_button-div">
+          <Link to="/" className="back_button-order">
+            Seguir Comprando
+          </Link>
+        </div>
         <h3 className="cartSummary__user-header">
           TUS DATOS
           <button
             className="cartSummary__user-editInfo"
             onClick={handleEditClick}
           >
-            <EditIcon />
+            <EditIcon className="icon_editInfo" />
           </button>
           {editing && (
             <>
