@@ -6,16 +6,31 @@ import { formatDate } from "../utils/formatedDate";
 import { formatTime } from "../utils/formatTime";
 import { formatPrice } from "../utils/formatPrice";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
-import "../Shows/Shows.css";
+
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
 
 import { UserAuth } from "../../context/AuthContext";
 import { useSelect } from "@mui/base";
+
+import "../Shows/Shows.css";
 
 const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
   const dispatch = useDispatch();
   const { user } = UserAuth();
   const orderId = useSelector((state) => state.orderId);
+
+  const LimitAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: "<h3>La cantidad máxima permitida es 10</h3>",
+    });
+  };
 
   const addToCartFromShows = async () => {
     if (count < 10) {
@@ -24,7 +39,7 @@ const SingleCard = (data) => {
         dispatch(getTotalItems(user));
       });
     } else {
-      alert("La cantidad máxima permitida es 10");
+      LimitAlert()
     }
   };
 

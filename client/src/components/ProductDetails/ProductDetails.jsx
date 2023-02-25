@@ -17,6 +17,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 // import Rating from "@mui/material/Rating";
 // import StarIcon from "@mui/icons-material/Star";
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
 
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
@@ -34,6 +36,7 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
+
 
   // const [value, setValue] = React.useState(2);
   // const [hover, setHover] = React.useState(-1);
@@ -55,16 +58,52 @@ export default function ProductDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const StockAvailableAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: `<h3>Solo tenemos disponibles ${product.Stock} entradas</h3>`,
+    });
+  };
+
+  const LimitAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: "<h3>La cantidad máxima permitida es 10</h3>",
+    });
+  };
+
+
   function handleClick() {
     if (quantity < 10 && quantity < product.Stock) {
       setQuantity(quantity + 1);
     } else if (quantity < 10 && quantity >= product.Stock) {
       setQuantity(availableStock);
-      alert("Solo tenemos disponibles " + product.Stock);
+      StockAvailableAlert()
     } else {
-      alert("La cantidad máxima permitida es 10");
+      LimitAlert()
     }
   }
+
+
+  // function handleClick() {
+  //   if (quantity < 10 && quantity < product.Stock) {
+  //     setQuantity(quantity + 1);
+  //   } else if (quantity < 10 && quantity >= product.Stock) {
+  //     setQuantity(availableStock);
+  //     alert("Solo tenemos disponibles " + product.Stock);
+  //   } else {
+  //     alert("La cantidad máxima permitida es 10");
+  //   }
+  // }
+
 
   // PARA AGREGAR AL CARRITO
   // useEffect(() => {
