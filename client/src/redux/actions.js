@@ -72,10 +72,10 @@ export const getProductById = (id) => {
 export const filterProducts = (day, categoryId) => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCHING_PRODUCTS })
       const filteredProducts = await axios.get(
         `${apiUrl}/products?days=${day}&category=${categoryId}`
-      );
+        );
+      dispatch({type: FETCHING_PRODUCTS })
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
       dispatch({ type: FILTERED_PRODUCTS, payload: [] });
