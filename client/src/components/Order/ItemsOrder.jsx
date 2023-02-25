@@ -91,36 +91,18 @@ export const ItemsOrder = (customer) => {
   ) => {
     const items = [...orderItems.items];
     const item = items[index];
-
     await addEditCartProduct(item.id, quantityToUpdate, user).then(() => {
       const quantity = newQuantity > 0 ? newQuantity : defaultValue;
       item.quantity = quantity;
-
-      if (quantity === 0) {
-        setorderItems({
-          items: items
-            .map((it) => {
-              if (it === item) {
-                return { ...it, quantity: 0 };
-              } else {
-                return it;
-              }
-            })
-            .filter((it) => it.quantity > 0),
-          totalAmount: orderItems.totalAmount - item.price * item.quantity,
-          fetchStatus: "succeeded",
-        });
-      } else {
-        const totalAmount = items.reduce(
-          (acc, cur) => acc + Number(cur.price) * cur.quantity,
-          0
-        );
-        setorderItems({
-          items,
-          totalAmount,
-          fetchStatus: "succeeded",
-        });
-      }
+      const totalAmount = items.reduce(
+        (acc, cur) => acc + Number(cur.price) * cur.quantity,
+        0
+      );
+      setorderItems({
+        items,
+        totalAmount,
+        fetchStatus: "succeeded",
+      });
 
       dispatch(getTotalItems(user));
     });
@@ -167,7 +149,12 @@ export const ItemsOrder = (customer) => {
                 onClick={() =>
                   updateItemQuantity(1, index, item.quantity + 1, 10)
                 }
-                disabled={item.quantity >= 10}
+                onMouseDown={(event) => {
+                  if (item.quantity >= 10) {
+                    event.preventDefault();
+                    alert("La cantidad máxima permitida por producto es 10 🙂");
+                  }
+                }}
               >
                 +
               </button>
@@ -175,9 +162,16 @@ export const ItemsOrder = (customer) => {
               <button
                 className="editItems_order-minus"
                 onClick={() =>
-                  updateItemQuantity(-1, index, item.quantity - 1, 0)
+                  updateItemQuantity(-1, index, item.quantity - 1, 1)
                 }
-                disabled={item.quantity <= 0}
+                onMouseDown={(event) => {
+                  if (item.quantity <= 1) {
+                    event.preventDefault();
+                    alert(
+                      "😯¡Oh! Si quieres eliminar este ítem. Hazlo desde tu carrito😊"
+                    );
+                  }
+                }}
               >
                 -
               </button>

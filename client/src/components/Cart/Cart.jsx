@@ -6,7 +6,6 @@ import {
   Drawer,
   Paper,
   Typography,
-  // IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +25,6 @@ import { UserAuth } from "../../context/AuthContext";
 const Cart = () => {
   let totalOrder = 0;
   const showCart = useSelector((state) => state.showCart);
-  //const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { user } = UserAuth();
   const [count, setCount] = useState();

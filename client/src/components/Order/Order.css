@@ -172,11 +172,6 @@
   font-size: 100%;
 }
 
-.editItems_order-plus[disabled] {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-
 .editItems_order-plus:hover {
   background-color: var(--color-orange);
   cursor: pointer;
@@ -196,11 +191,6 @@
   color: white;
   justify-content: flex-end;
   font-size: 100%;
-}
-
-.editItems_order-minus[disabled] {
-  opacity: 0.2;
-  cursor: not-allowed;
 }
 
 .editItems_order-minus:hover {

@@ -91,7 +91,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        `http://localhost:3001/admin/customers/${customer.customerInfo.customerId}`,
+        `http://localhost:3001/customers/${customer.customerInfo.customerId}`,
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
