@@ -15,24 +15,32 @@ const SingleCard = (data) => {
   const [count, setCount] = React.useState(0);
   const dispatch = useDispatch();
   const { user } = UserAuth();
-  const orderId = useSelector(state => state.orderId);
+  const orderId = useSelector((state) => state.orderId);
 
-  const addToCartFromShows = async() => {
+  const addToCartFromShows = async () => {
     if (count < 10) {
-      await addEditCartProduct(data.data.id, 1, user, orderId)
-      .then(() => 
-        {
-          setCount(count + 1);
-          dispatch(getTotalItems(user));
+      await addEditCartProduct(data.data.id, 1, user, orderId).then(() => {
+        setCount(count + 1);
+        dispatch(getTotalItems(user));
       });
     } else {
       alert("La cantidad máxima permitida es 10");
     }
   };
 
-  // console.log('data', data)
-  // console.log('data.data', data.data)
+  //  console.log('data', data)
+  console.log("data.data.Stock", data.data.Stock);
   // console.log('data.data.id', data.data.id)
+
+  const displayStock = () => {
+    if (data.data.Stock > 10) {
+      return <p className="displayStock_Card">DISPONIBLE</p>;
+    } else if (data.data.Stock <= 10 && data.data.Stock > 0) {
+      return <p className="displayStock_Card_LAST">ÚLTIMAS ENTRADAS</p>;
+    } else {
+      return <p className="displayStock_Card_OUT">AGOTADO</p>;
+    }
+  };
 
   return (
     <div
@@ -41,12 +49,14 @@ const SingleCard = (data) => {
       key={data.data.id}
     >
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
+        <div>{displayStock()}</div>
         <img
           src={data.data.Photos[0].Path}
           alt="imagen show1"
           className="shows__cards-show1"
         />
       </Link>
+
       <div className="shows__cards-textContainer">
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
         <h2 className="shows__cards-texth2">

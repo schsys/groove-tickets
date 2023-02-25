@@ -8,6 +8,39 @@
   overflow: hidden;
 }
 
+
+.displayStock_Card{
+  color: white;
+  background-color: var(--color-green);
+  margin-left: 0.5rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  width: 5rem;
+  text-align: center;
+  height: 1.1rem;
+}
+
+.displayStock_Card_LAST{
+  color: white;
+  background-color: var(--color-orange);
+  margin-left: 0.5rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  width: 8rem;
+  text-align: center;
+  height: 1.1rem;
+}
+
+.displayStock_Card_OUT{
+  color: white;
+  background-color: red;
+  margin-left: 0.5rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  width: 5rem;
+  text-align: center;
+  height: 1.1rem;
+}
 /* .shows__banner-img {
   position: relative;
   width: 95vw;

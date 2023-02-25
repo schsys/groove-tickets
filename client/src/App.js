@@ -19,6 +19,7 @@ function App() {
   return (
     <>
       <AuthContextProvider>
+
         <Switch>
           <Route exact path={"/"}>
             <NavBar />
