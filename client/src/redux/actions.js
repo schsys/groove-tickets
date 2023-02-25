@@ -245,7 +245,7 @@ export const setLocalStorageToApi = (user) => {
       const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       const order = response.data;
       if (stringCart) {
-        const items = JSON.parse(stringCart);
+        const items = JSON.parse(stringCart);        
         if (order) {
           const orderItems = items.map(item => ({productId: item.id, quantity: item.quantity}));  
           const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, {items: orderItems});
