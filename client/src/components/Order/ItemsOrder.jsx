@@ -6,10 +6,22 @@ import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import {
+  addEditCartProduct,
+  getTotalItems,
+  getCreatedOrderByUser,
+} from "../../redux/actions";
 
 export const ItemsOrder = (customer) => {
+<<<<<<< HEAD
   /*---------------------------Datos de los items de la orden----------------------------*/
+=======
+
+  /*------------------------------Datos de los items de la orden----------------------------*/
+>>>>>>> develop
   const auth = getAuth();
+  const dispatch = useDispatch();
   const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
     id: 0,
@@ -21,38 +33,38 @@ export const ItemsOrder = (customer) => {
   useEffect(() => {
     async function fetchOrder() {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/orders?status=Created&userName=${user.email}`
-        );
-        const id = response.data.Id;
-        const items = response.data.OrderItems.map((item) => {
-          const { Product, Quantity, UnitPrice } = item;
-          const { Photos, Name, StartDate } = Product;
-          const formattedStartDate = moment.tz(
-            StartDate,
-            "America/Argentina/Buenos_Aires"
-          );
-
-          return {
-            id: id,
-            name: Name,
-            Photos: Photos,
-            startDate: formattedStartDate,
-            price: UnitPrice,
-            quantity: Quantity,
-            unitPrice: UnitPrice,
-          };
-        });
-        const totalAmount = items.reduce(
-          (acc, cur) => acc + Number(cur.price) * cur.quantity,
-          0
-        );
-        setorderItems({
-          id,
-          items,
-          totalAmount,
-          fetchStatus: "succeeded",
-        });
+        getCreatedOrderByUser(user)
+          .then((order) => {
+            const id = order.Id;
+            const items = order.OrderItems.map((item) => {
+              const { ProductId, Product, Quantity, UnitPrice } = item;
+              const { Photos, Name, StartDate } = Product;
+              const formattedStartDate = moment.tz(
+                StartDate,
+                "America/Argentina/Buenos_Aires"
+              );
+    
+              return {
+                id: ProductId,
+                name: Name,
+                Photos: Photos,
+                startDate: formattedStartDate,
+                price: UnitPrice,
+                quantity: Quantity,
+                unitPrice: UnitPrice,
+              };
+            });
+            const totalAmount = items.reduce(
+              (acc, cur) => acc + Number(cur.price) * cur.quantity,
+              0
+            );
+            setorderItems({
+              id,
+              items,
+              totalAmount,
+              fetchStatus: "succeeded",
+            });
+          })
       } catch (error) {
         console.error(error);
         setorderItems({
@@ -78,20 +90,24 @@ export const ItemsOrder = (customer) => {
   }
 
   /*--------------------Actualizar cantidad del item quantity----------------------------*/
-  const updateItemQuantity = (index, newQuantity, defaultValue) => {
+  const updateItemQuantity = async(quantityToUpdate, index, newQuantity, defaultValue) => {
     const items = [...orderItems.items];
-    const item = items[index];
-    const quantity = newQuantity > 0 ? newQuantity : defaultValue;
-    item.quantity = quantity;
-    const totalAmount = items.reduce(
-      (acc, cur) => acc + Number(cur.price) * cur.quantity,
-      0
-    );
-    setorderItems({
-      items,
-      totalAmount,
-      fetchStatus: "succeeded",
-    });
+    const item = items[index];     
+    await addEditCartProduct(item.id, quantityToUpdate, user).then(() => {
+      const quantity = newQuantity > 0 ? newQuantity : defaultValue;      
+      item.quantity = quantity;
+        const totalAmount = items.reduce(
+          (acc, cur) => acc + Number(cur.price) * cur.quantity,
+          0
+        );
+        setorderItems({
+          items,
+          totalAmount,
+          fetchStatus: "succeeded",
+        });
+
+        dispatch(getTotalItems(user));
+      });
   };
   /*------------------------------------------------------------------------------*/
 
@@ -102,7 +118,10 @@ export const ItemsOrder = (customer) => {
       customerName: customer.name,
       customerEmail: customer.email,
     };
+<<<<<<< HEAD
     console.log("Order para MercadoPago: ", order);
+=======
+>>>>>>> develop
     try {
       await axios
         .post("/pay/mercadopago", order)
@@ -133,7 +152,7 @@ export const ItemsOrder = (customer) => {
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
       {orderItems.items.map((item, index) => {
         return (
-          <div className="cartSummary__show-Container">
+          <div className="cartSummary__show-Container" key={index}>
             <img
               src={item && item.Photos[0].Path}
               alt="showImage"
@@ -147,7 +166,7 @@ export const ItemsOrder = (customer) => {
             <div>
               <button
                 className="editItems_order-minus"
-                onClick={() => updateItemQuantity(index, item.quantity - 1, 0)}
+                onClick={() => updateItemQuantity(-1, index, item.quantity - 1, 0)}
                 disabled={item.quantity <= 0}
               >
                 -
@@ -155,7 +174,7 @@ export const ItemsOrder = (customer) => {
               <> {item && item.quantity} </>
               <button
                 className="editItems_order-plus"
-                onClick={() => updateItemQuantity(index, item.quantity + 1, 10)}
+                onClick={() => updateItemQuantity(1, index, item.quantity + 1, 10)}
                 disabled={item.quantity >= 10}
               >
                 +

@@ -187,7 +187,7 @@ const Cart = () => {
           </Typography>
 
           <Typography variant="body1" justifyContent={"end"} sx={{ pr: 2 }}>
-            ${item && item.Price && formatNumber(item.Price * item.quantity)}
+            ${item && item.price && formatNumber(item.price * item.quantity)}
           </Typography>
           <button onClick={() => handleRemove(item.id)}>
             <DeleteOutlined sx={{ fontSize: "medium" }} />
