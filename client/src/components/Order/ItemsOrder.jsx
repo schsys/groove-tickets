@@ -25,7 +25,7 @@ export const ItemsOrder = (customer) => {
     async function fetchOrder() {
       try {
         const response = await axios.get(
-          `http://localhost:3001/orders?status=Created&userName=${user.email}`
+          `http://localhost:${process.env.REACT_APP_BASE_URL}/orders?status=Created&userName=${user.email}`
         );
         const id = response.data.Id;
         const items = response.data.OrderItems.map((item) => {
@@ -120,19 +120,19 @@ export const ItemsOrder = (customer) => {
     }
   };
 
-  const sendOrder = async () => {
-    try {
-      const response = await axios.put("http://localhost:3001/order/1/items", {
-        OrderItems: orderItems.items.map((item) => ({
-          ProductId: item.ProductId,
-          quantity: 1,
-        })),
-      });
-      window.alert("Orden actualizada con exito:", response.data);
-    } catch (error) {
-      window.alert("Error al actualizar la orden: " + error);
-    }
-  };
+  // const sendOrder = async () => {
+  //   try {
+  //     const response = await axios.put(`http://localhost:${process.env.REACT_APP_BASE_URL}/order/1/items`, {
+  //       OrderItems: orderItems.items.map((item) => ({
+  //         ProductId: item.ProductId,
+  //         quantity: 1,
+  //       })),
+  //     });
+  //     window.alert("Orden actualizada con exito:", response.data);
+  //   } catch (error) {
+  //     window.alert("Error al actualizar la orden: " + error);
+  //   }
+  // };
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
