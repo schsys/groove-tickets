@@ -15,13 +15,12 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
-import Typography from "@mui/material/Typography";
+// import Rating from "@mui/material/Rating";
+// import StarIcon from "@mui/icons-material/Star";
 
-import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
+import ShowReviews from "../ShowReviews/ShowReviews";
 
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
@@ -35,10 +34,9 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
-  const [prod, setProd] = useState(null);
 
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
+  // const [value, setValue] = React.useState(2);
+  // const [hover, setHover] = React.useState(-1);
 
 
   const [availableStock] = React.useState(0);
@@ -51,15 +49,11 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = React.useState(1);
   const orderId = useSelector(state => state.orderId);
 
-
   useEffect(() => {
     dispatch(getProductById(id));
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-
-
 
   function handleClick() {
     if (quantity < 10 && quantity < product.Stock) {
@@ -86,7 +80,6 @@ export default function ProductDetails() {
   //   }
   // }, [dispatch, itemsToCart, mount]);
 
-
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
     if (!showCart) {
@@ -95,7 +88,6 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
-
 
   //cart
   const addToCart = async () => {
@@ -109,26 +101,23 @@ export default function ProductDetails() {
     }
   };
 
+  // //Rating
+  // const labels = {
+  //   0.5: "Inútil",
+  //   1: "Inútil+",
+  //   1.5: "Pobre",
+  //   2: "Pobre+",
+  //   2.5: "Ok",
+  //   3: "Ok+",
+  //   3.5: "Bueno",
+  //   4: "Bueno+",
+  //   4.5: "Excelente",
+  //   5: "Excelente+",
+  // };
 
-  //Rating
-  const labels = {
-    0.5: "Inútil",
-    1: "Inútil+",
-    1.5: "Pobre",
-    2: "Pobre+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Bueno",
-    4: "Bueno+",
-    4.5: "Excelente",
-    5: "Excelente+",
-  };
-
-
-  function getLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-  }
-
+  // function getLabelText(value) {
+  //   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  // }
 
   //Shows recomendados
   const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
@@ -152,7 +141,7 @@ export default function ProductDetails() {
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-              <div className="detail_rating_containter">
+              {/* <div className="detail_rating_containter">
                 <Box
                   sx={{
                     width: 200,
@@ -181,7 +170,7 @@ export default function ProductDetails() {
                     </Box>
                   )}
                 </Box>
-              </div>
+              </div> */}
               <>
                 <p>
                   <i className="fas fa-calendar"></i> {formattedDate}
@@ -300,8 +289,7 @@ export default function ProductDetails() {
 
 
           <div className="detail_reviews_div">
-            <h4>Esto opinan los que conocen la banda:</h4>
-            <p>{product.Description}</p>
+            <ShowReviews />
           </div>
 
 
