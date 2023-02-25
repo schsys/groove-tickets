@@ -120,7 +120,7 @@ export const Order = () => {
   return (
     <div className="cartSummary-Container">
       <div className="cartSummary__user-infoContainer">
-        <h2 className="cartSummary__user-header">
+        <h3 className="cartSummary__user-header">
           TUS DATOS
           <button
             className="cartSummary__user-editInfo"
@@ -144,7 +144,7 @@ export const Order = () => {
               </button>
             </>
           )}
-        </h2>
+        </h3>
 
         <div className="cartSummary__user-info">
           <h3>
@@ -319,7 +319,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={city} disabled />
+              <input id="city" type="text" value={city} disabled />
             )}{" "}
             {editing ? (
               <input
@@ -359,7 +359,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={state} disabled />
+              <input id="state" type="text" value={state} disabled />
             )}{" "}
             {editing ? (
               <input
@@ -397,7 +397,7 @@ export const Order = () => {
                 }}
               />
             ) : (
-              <input type="text" value={zip} disabled />
+              <input id="zip" type="text" value={zip} disabled />
             )}{" "}
           </h3>
           <h3>

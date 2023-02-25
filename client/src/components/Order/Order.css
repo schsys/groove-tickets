@@ -6,9 +6,9 @@
 }
 .cartSummary__summary-Container {
   background-color: var(--color-violet);
-  width: 95%;
+  width: 85%;
   margin-top: 2vh;
-  margin-left: 2vw;
+  margin-left: 8vw;
   margin-bottom: 2vh;
 }
 .cartSummary__summary-header {
@@ -30,8 +30,7 @@
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
 }
 .cartSummary__show-image {
-  height: 10vh;
-  margin-left: 2vw;
+  height: 8vh;
   margin-bottom: 2vh;
   border: 1px solid var(--color-gray);
 }
@@ -40,13 +39,13 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  font-size: 2vh;
 }
 
 .cartSummary__show-totalOrder {
   display: flex;
   justify-content: flex-end;
   color: white;
-  /* font-size: 2vw; */
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding-right: 2vw;
 }
@@ -56,9 +55,9 @@
   border: none;
   width: 100%;
   height: 5vh;
-  font-size: 1.5vw;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 2vh;
+  cursor: pointer;
 }
 
 .cartSummary__show-processOrder:hover {
@@ -68,8 +67,8 @@
 .cartSummary__user-infoContainer {
   margin-top: 2vh;
   background-color: var(--color-blue);
-  margin-left: 2vw;
-  width: 95%;
+  margin-left: 8vw;
+  width: 85%;
   display: flex;
   flex-direction: column;
 }
@@ -83,7 +82,7 @@
 .cartSummary__user-headerInfo {
   color: white;
   margin-left: 2vw;
-  padding-top: 2vh;
+  padding-top: 5vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid white;
 }
@@ -91,16 +90,22 @@
   color: white;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-left: 2vw;
-  font-size: 1.5vw;
 }
 
 .cartSummary__user-info input {
   color: rgb(0, 0, 0);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 1.2vw;
-  width: 12vw;
+  font-size: 1vw;
+  width: 10vw;
 }
-
+.cartSummary__user-info #city,
+#state,
+#zip {
+  color: rgb(0, 0, 0);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 1vw;
+  width: 5vw;
+}
 .cartSummary__user-editInfo {
   margin-left: 1vw;
   text-decoration: none;
