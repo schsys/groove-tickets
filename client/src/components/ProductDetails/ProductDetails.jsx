@@ -119,6 +119,18 @@ export default function ProductDetails() {
   //   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   // }
 
+  //Que no se pueda comprar si stock es 0
+  // const displayStock = () => {
+  //   if (product.Stock > 10) {
+  //     return <p className="displayStock_Card">DISPONIBLE</p>;
+  //   } else if (product.Stock <= 10 && product.Stock > 0) {
+  //     return <p className="displayStock_Card_LAST">ÚLTIMAS ENTRADAS</p>;
+  //   } else {
+      
+  //     return <p className="displayStock_Card_OUT">AGOTADO</p>;
+  //   }
+  // };
+
   //Shows recomendados
   const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
   const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
@@ -232,7 +244,9 @@ export default function ProductDetails() {
               >
                 <div>
                   <div>
-                    <p className="detail_cart_explanation">
+                    {product.Stock > 0 ? (
+                      <>
+                      <p className="detail_cart_explanation">
                       Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
                     </p>
                     <Badge color="warning" badgeContent={quantity}>
@@ -257,11 +271,28 @@ export default function ProductDetails() {
                         </Button>
                       </ButtonGroup>
                     </Badge>
+                    </>
+                    ) : (
+                      " "
+                    )
+
+                    }
+                    
                   </div>
                   <div className="product_button_div">
-                    <button className="product_button" onClick={addToCart}>
+                    {product.Stock > 0 ? (
+                      <button className="product_button" onClick={addToCart}>
                       Agregar al Carrito
                     </button>
+                    ) :
+                    (
+                      <div className="show_soldout_div">
+                        <p className="show_soldout_text">SHOW AGOTADO</p>
+                      </div>
+                    )
+                      
+                  }
+                    
                   </div>
                 </div>
               </Box>
@@ -273,7 +304,7 @@ export default function ProductDetails() {
                 <img
                   src={product.Photos[0].Path}
                   alt="product"
-                  className="product_image"
+                  className={product.Stock > 0 ? "product_image" : "photo_soldout_detail"}
                 />
               ) : (
                 <p>No hay imágenes disponibles</p>
