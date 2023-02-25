@@ -16,7 +16,7 @@ import axios from "axios";
 import "./Login.css";
 
 import { useDispatch } from "react-redux";
-import {setLocalStorageToApi} from "../../redux/actions";
+import { setLocalStorageToApi } from "../../redux/actions";
 
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
@@ -76,76 +76,86 @@ export default function Login() {
         // The signed-in user info.
         const user = result.user;
         if (user) {
-          user.getIdToken().then( async (tkn) => {
+          user.getIdToken().then(async (tkn) => {
             // Save data in db
             try {
-              const dbExistUser = await axios.get(`${apiUrl}/user?userName=${user.email}`)
-              if (dbExistUser.data){
+              const dbExistUser = await axios.get(
+                `${apiUrl}/user?userName=${user.email}`
+              );
+              if (dbExistUser.data) {
                 sessionStorage.setItem("userName", user.email);
-                 // set access token in session storage
-                 console.log(tkn);
+                // set access token in session storage
+                console.log(tkn);
                 sessionStorage.setItem("accessToken", tkn);
                 setAuthorizedUser(true);
-                if(!dbExistUser.data.Customer){
-                  await axios.post(`${apiUrl}/customer`,
+                if (!dbExistUser.data.Customer) {
+                  history.push({
+                    pathname: "/complete-register",
+                    state: { dbUser: dbExistUser.data },
+                  });
+                  /* await axios.post(`${apiUrl}/admin/customers`,
                   {
                     userId: dbExistUser.data.id,
                     name: user.displayName,
                     email: user.email,
                     telephone: '',
                     document: 123456
-                  })
+                  }) */
+                } else {
+                  history.push("/"); //despues redirige para ver todo
                 }
               }
             } catch (error) {
-              if(error.response.status === 404){
-                const newUser = await axios.post(
-                  `${apiUrl}/user`,
-                  {
-                    userName: user.email,
-                    role: "User",
-                    status: "Active"
-                  }
-                );
-                await axios.post(`${apiUrl}/customer`,
+              if (error.response.status === 404) {
+                const newUser = await axios.post(`${apiUrl}/user`, {
+                  userName: user.email,
+                  role: "User",
+                  status: "Active",
+                });
+
+                /* await axios.post(`${apiUrl}/admin/customers`,
                   {
                     userId: newUser.data.id,
                     name: user.displayName,
                     email: user.email,
                     telephone: '',
                     document: 123456
-                  })
+                  }) */
                 sessionStorage.setItem("userName", user.email);
-                 // set access token in session storage
+                // set access token in session storage
                 sessionStorage.setItem("accessToken", tkn);
                 setAuthorizedUser(true);
-              }
-              else{
+                console.log("user:", newUser);
+                history.push({
+                  pathname: "/complete-register",
+                  state: { dbUser: newUser.data },
+                });
+              } else {
                 console.log(error);
               }
             }
           });
           history.push("/"); //despues redirige para ver todo
 
-        //------------------------------------------------------------------------
-        // aca debo llamar a la funcion de control de localstorage contra carrito
-        //
-        dispatch(setLocalStorageToApi(user));
-        //------------------------------------------------------------------------
+          //------------------------------------------------------------------------
+          // aca debo llamar a la funcion de control de localstorage contra carrito
+          //
+          dispatch(setLocalStorageToApi(user));
+          //------------------------------------------------------------------------
         }
       })
       .catch((error) => {
         const errorLog = {
-          code : error.code,
-          message : error.message,
-          email : error.customData.email,
-          credential : GoogleAuthProvider.credentialFromError(error),
-        }
-        
-        console.log(`Ha ocurrido un error con el codigo ${errorLog.code}`)
-        console.log(`Ha sucedido al utilizar el email ${errorLog.email}`)
-        console.log(`El error se refiere a`)
-        console.log(errorLog.message)
+          code: error.code,
+          message: error.message,
+          email: error.customData.email,
+          credential: GoogleAuthProvider.credentialFromError(error),
+        };
+
+        console.log(`Ha ocurrido un error con el codigo ${errorLog.code}`);
+        console.log(`Ha sucedido al utilizar el email ${errorLog.email}`);
+        console.log(`El error se refiere a`);
+        console.log(errorLog.message);
 
         /* // Handle Errors here.
         const errorCode = error.code;
@@ -229,13 +239,11 @@ export default function Login() {
   const handleSendEmail = (e) => {
     e.preventDefault();
     setError("");
-    return sendPasswordResetEmail(auth, email)
-      .then(() => {
-        //setEmail(true);
-        // setInput({ email: "", password: "" });
-        EmailSent()
-      })
-
+    return sendPasswordResetEmail(auth, email).then(() => {
+      //setEmail(true);
+      // setInput({ email: "", password: "" });
+      EmailSent();
+    });
   };
 
   return (
@@ -251,7 +259,7 @@ export default function Login() {
             </button>
           </div>
         ) : (
-            <>
+          <>
             <h2 className="login_h2">INGRESÁ</h2>
 
             {/* // Loguearse con email y password */}
@@ -300,14 +308,18 @@ export default function Login() {
               aria-describedby="modal-description"
             >
               <div className="modal-container">
-                <button className="reset_btn_close" onClick={handleCloseModal}>X</button>
+                <button className="reset_btn_close" onClick={handleCloseModal}>
+                  X
+                </button>
                 <h2 className="modal-title">Recuperar contraseña</h2>
                 <p className="modal-description">
                   Ingresa tu correo electrónico para recibir las instrucciones
                   para recuperar tu contraseña.
                 </p>
-                <form className="reset_password_form" onSubmit={handleSendEmail}>
-
+                <form
+                  className="reset_password_form"
+                  onSubmit={handleSendEmail}
+                >
                   <input
                     className="reset_section_input"
                     type="email"
@@ -339,7 +351,7 @@ export default function Login() {
                 <h4 className="login_btn_text">Ingresá</h4>
               </button>
             </div>
-            </>
+          </>
         )}
       </div>
     </div>
