@@ -36,8 +36,13 @@
   color: #ffffff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.product_container h2, .detail_price_h2 {
+.product_container h2, .detail_price_h2, .average_opinion_title {
   margin: 0rem 0 0 1.2rem;
+}
+
+.average_opinion_title{
+  font-size: 1.2rem;
+  color: white;
 }
 
 .detail_price_h2{
