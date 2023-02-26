@@ -2,39 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { useParams } from "react-router-dom";
-
-import axios from 'axios';
+import { NavLink } from "react-router-dom";
+import { getReviews } from "../../common/integrations/api";
 
 import "./ShowReviews.css";
 
-const getReviews = function getReviews(id_producto) {
-  const endpointReviews = `/products/${id_producto}/reviews`;
-  return axios
-    .get(endpointReviews)
-    .then(function(response) {
-      const average = response.averageRating;
-      console.log('response', response);
-      console.log('average', average);
-      console.log('response.items', response.items);
-      return response;
-    })
-    .catch(function(error) {
-      return {
-        error: {
-          message: "Error al obtener las reviews"
-        }
-      };
-    });
-};
+export default function ShowReviews({ productId }) {
 
-export default function ShowReviews(id_producto) {
   //FUNCION VALIDADORA
   function validate(input) {
     //va a recibir el estado input con los cambios detectados por los handlers
     let errors = {}; //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
     if (!input.text) {
-      errors.text = "Necesitás ingresar un nombre"; 
+      errors.text = "Necesitás ingresar un nombre";
     } else if (input.text.length > 500) {
       errors.displayName = "Solo se permiten hasta 500 caracteres";
     }
@@ -46,16 +26,22 @@ export default function ShowReviews(id_producto) {
   const [input, setInput] = useState({
     text: "",
   });
-
-useEffect(() => {
-  getReviews(id_producto)
-  .then(function(reviews) {
-    console.log('reviews en useeffect', reviews)
-  })
-  .catch(function(error) {
-    console.log("Error en useffect de reviews")
+  const [reviews, setReviews] = useState({
+    data: {},
+    fetchStatus: 'loading',
+    error: null
   });
-})
+
+  useEffect(() => {
+    async function getApiReviews(productId) {
+      const response = await getReviews(productId);
+      console.log('reviews: ', response);
+
+      setReviews(response);
+    }
+
+    getApiReviews(productId);
+  }, [productId])
 
   //Rating
   const labels = {
@@ -95,8 +81,23 @@ useEffect(() => {
     })
   }
 
+  if (reviews.fetchStatus === 'loading') {
+    return <>
+      <p>Obteniendo datos...</p>
+    </>
+  }
+
+  if (reviews.fetchStatus === 'failed') {
+    return <>
+      <p>Oops! Esto es embarazoso! </p>
+      <p>{reviews.error && reviews.error.message}</p>
+      <NavLink to="/">Volver</NavLink>
+    </>
+  }
+
   return (
     <div>
+      <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>
       <div className="detail_rating_section">
         <h2 className="detail_rating_title">
           ¿Conocés la banda? ¿Viste el show?
