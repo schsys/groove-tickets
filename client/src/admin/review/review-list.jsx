@@ -6,7 +6,8 @@ import {
     ReferenceInput,
     AutocompleteInput,
     FunctionField,
-    NumberInput
+    NumberInput,
+    DateField
 } from "react-admin";
 import StarRatingField from "./star-rating-field";
 
@@ -39,6 +40,8 @@ export const ReviewList = () => (
             <ReferenceField source="userId" reference="users">
                 <TextField source="userName" />
             </ReferenceField>
+            <DateField source="createdAt" showTime />
+            <DateField source="updatedAt" showTime />
             <TextField source="status" label="Status" />
         </Datagrid>
     </List>
