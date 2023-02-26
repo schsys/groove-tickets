@@ -20,7 +20,6 @@ import { formatTime, parseTime } from './utils';
 
 const productDefaultValues = () => ({
     startDate: new Date(),
-    endDate: new Date(),
     stock: 0,
     price: 0,
     status: 'Active'
@@ -106,9 +105,6 @@ export const ProductCreate = () => {
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                         <DateInput source="startDate" validate={required()} fullWidth />
-                    </Box>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                        <DateInput source="endDate" validate={required()} fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                         <TimeInput
