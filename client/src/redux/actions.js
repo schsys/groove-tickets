@@ -11,6 +11,8 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
+
+
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const clearFilters = () => {
