@@ -7,6 +7,7 @@ import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
 import Account from "./components/Account/Account";
 import Cart from "../src/components/Cart/Cart.jsx"
+import CompleteRegister from "./components/Register/CompleteRegister";
 import { AuthContextProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./components/Authentication/PrivateRoute";
 import { Order } from "./components/Order/Order";
@@ -19,6 +20,7 @@ function App() {
   return (
     <>
       <AuthContextProvider>
+
         <Switch>
           <Route exact path={"/"}>
             <NavBar />
@@ -38,9 +40,16 @@ function App() {
             <Footer />
             <Cart />
           </Route>
+          <Route exact path={"/complete-register"}>
+            <NavBar />
+            <CompleteRegister />
+            <Footer />
+            <Cart />
+          </Route>
           <Route exact path={"/micuenta"}>
             <PrivateRoute>
               <Account />
+              <Footer />
             </PrivateRoute>
           </Route>
           <Route exact path={"/comprar"}>

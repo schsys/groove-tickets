@@ -9,7 +9,8 @@ import {
   REMOVE_FROM_CART,
   EMPTY_CART,
   ADD_EDIT_CART,
-  ORDER_SELECTED
+  ORDER_SELECTED,
+  FETCHING_PRODUCTS
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -17,13 +18,13 @@ import {
 const initialState = {
   error: false,
   products: [],
+  fetchProducts: "loading",
   product: {},
   allProducts: [],
   filteredProducts: [],
   cart: [],
   showCart: false,
   totalItems: 0,
-  orderId: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -36,6 +37,7 @@ const rootReducer = (state = initialState, action) => {
           ? state.filteredProducts
           : action.payload,
         allProducts: action.payload,
+        fetchProducts: "succeeded"
       };
     }
 
@@ -56,6 +58,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         products: action.payload,
+        fetchProducts: "succeeded"
         //allProducts: action.payload,
         // filteredProducts: action.payload,
       };
@@ -97,8 +100,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         totalItems: action.payload["totalItems"],
-        orderId: action.payload["orderId"]
-      }
+      };
+      case FETCHING_PRODUCTS:
+        return{
+          ...state,
+          fetchProducts: "loading"
+        }
     default:
       return { ...state };
   }

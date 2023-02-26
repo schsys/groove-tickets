@@ -15,13 +15,14 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
-import Typography from "@mui/material/Typography";
+// import Rating from "@mui/material/Rating";
+// import StarIcon from "@mui/icons-material/Star";
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
 
-import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
+import ShowReviews from "../ShowReviews/ShowReviews";
 
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
@@ -35,10 +36,10 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
-  const [prod, setProd] = useState(null);
 
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
+
+  // const [value, setValue] = React.useState(2);
+  // const [hover, setHover] = React.useState(-1);
 
 
   const [availableStock] = React.useState(0);
@@ -51,14 +52,33 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = React.useState(1);
   const orderId = useSelector(state => state.orderId);
 
-
   useEffect(() => {
     dispatch(getProductById(id));
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const StockAvailableAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: `<h3>Solo tenemos disponibles ${product.Stock} entradas</h3>`,
+    });
+  };
 
+  const LimitAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: "<h3>La cantidad máxima permitida es 10</h3>",
+    });
+  };
 
 
   function handleClick() {
@@ -66,11 +86,24 @@ export default function ProductDetails() {
       setQuantity(quantity + 1);
     } else if (quantity < 10 && quantity >= product.Stock) {
       setQuantity(availableStock);
-      alert("Solo tenemos disponibles " + product.Stock);
+      StockAvailableAlert()
     } else {
-      alert("La cantidad máxima permitida es 10");
+      LimitAlert()
     }
   }
+
+
+  // function handleClick() {
+  //   if (quantity < 10 && quantity < product.Stock) {
+  //     setQuantity(quantity + 1);
+  //   } else if (quantity < 10 && quantity >= product.Stock) {
+  //     setQuantity(availableStock);
+  //     alert("Solo tenemos disponibles " + product.Stock);
+  //   } else {
+  //     alert("La cantidad máxima permitida es 10");
+  //   }
+  // }
+
 
   // PARA AGREGAR AL CARRITO
   // useEffect(() => {
@@ -86,7 +119,6 @@ export default function ProductDetails() {
   //   }
   // }, [dispatch, itemsToCart, mount]);
 
-
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
     if (!showCart) {
@@ -95,7 +127,6 @@ export default function ProductDetails() {
       }, 2000);
     }
   };
-
 
   //cart
   const addToCart = async () => {
@@ -109,42 +140,47 @@ export default function ProductDetails() {
     }
   };
 
+  // //Rating
+  // const labels = {
+  //   0.5: "Inútil",
+  //   1: "Inútil+",
+  //   1.5: "Pobre",
+  //   2: "Pobre+",
+  //   2.5: "Ok",
+  //   3: "Ok+",
+  //   3.5: "Bueno",
+  //   4: "Bueno+",
+  //   4.5: "Excelente",
+  //   5: "Excelente+",
+  // };
 
-  //Rating
-  const labels = {
-    0.5: "Inútil",
-    1: "Inútil+",
-    1.5: "Pobre",
-    2: "Pobre+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Bueno",
-    4: "Bueno+",
-    4.5: "Excelente",
-    5: "Excelente+",
-  };
+  // function getLabelText(value) {
+  //   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  // }
 
-
-  function getLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-  }
-
+  //Que no se pueda comprar si stock es 0
+  // const displayStock = () => {
+  //   if (product.Stock > 10) {
+  //     return <p className="displayStock_Card">DISPONIBLE</p>;
+  //   } else if (product.Stock <= 10 && product.Stock > 0) {
+  //     return <p className="displayStock_Card_LAST">ÚLTIMAS ENTRADAS</p>;
+  //   } else {
+      
+  //     return <p className="displayStock_Card_OUT">AGOTADO</p>;
+  //   }
+  // };
 
   //Shows recomendados
   const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
   const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
   const topRecommended = recommendation.slice(0, 3);
 
-
   // console.log('products.categories', products[1].Categories[0].Name)
   // console.log('category', category)
   // console.log('recommendation', recommendation)
   // console.log('topRecommended', topRecommended)
 
-
   return (
-
-
     <>
       {product.name ? (
         <div className="container_details">
@@ -156,7 +192,7 @@ export default function ProductDetails() {
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-              <div className="detail_rating_containter">
+              {/* <div className="detail_rating_containter">
                 <Box
                   sx={{
                     width: 200,
@@ -185,7 +221,7 @@ export default function ProductDetails() {
                     </Box>
                   )}
                 </Box>
-              </div>
+              </div> */}
               <>
                 <p>
                   <i className="fas fa-calendar"></i> {formattedDate}
@@ -205,7 +241,6 @@ export default function ProductDetails() {
                   <p>Músico no disponible</p>
                 )}
               </>
-
 
               <>
                 {product.Categories && product.Categories.length > 0 ? (
@@ -240,21 +275,21 @@ export default function ProductDetails() {
                   color: "action.active",
                   display: "flex",
                   flexDirection: "column",
-                  "& > *": {
-                    marginBottom: 2,
-                  },
+                  
                   "& .MuiBadge-root": {
                     marginRight: 4,
                   },
                 }}
               >
                 <div>
-                  <Typography color="white" variant="body2" xs={{ pl: 0 }}>
-                    <p className="detail_cart_explanation">
+                  <div>
+                    {product.Stock > 0 ? (
+                      <>
+                      <p className="detail_cart_explanation">
                       Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
                     </p>
                     <Badge color="warning" badgeContent={quantity}>
-                      <ButtonGroup>
+                      <ButtonGroup className="buttonGroup_toCart">
                         <Button
                           style={{ background: "white" }}
                           onClick={() => {
@@ -267,7 +302,6 @@ export default function ProductDetails() {
                           />
                         </Button>
 
-
                         <Button
                           style={{ background: "white" }}
                           onClick={handleClick}
@@ -276,11 +310,28 @@ export default function ProductDetails() {
                         </Button>
                       </ButtonGroup>
                     </Badge>
-                  </Typography>
+                    </>
+                    ) : (
+                      " "
+                    )
+
+                    }
+                    
+                  </div>
                   <div className="product_button_div">
-                    <button className="product_button" onClick={addToCart}>
+                    {product.Stock > 0 ? (
+                      <button className="product_button" onClick={addToCart}>
                       Agregar al Carrito
                     </button>
+                    ) :
+                    (
+                      <div className="show_soldout_div">
+                        <p className="show_soldout_text">SHOW AGOTADO</p>
+                      </div>
+                    )
+                      
+                  }
+                    
                   </div>
                 </div>
               </Box>
@@ -292,7 +343,7 @@ export default function ProductDetails() {
                 <img
                   src={product.Photos[0].Path}
                   alt="product"
-                  className="product_image"
+                  className={product.Stock > 0 ? "product_image" : "photo_soldout_detail"}
                 />
               ) : (
                 <p>No hay imágenes disponibles</p>
@@ -308,8 +359,7 @@ export default function ProductDetails() {
 
 
           <div className="detail_reviews_div">
-            <h4>Esto opinan los que conocen la banda:</h4>
-            <p>{product.Description}</p>
+            <ShowReviews />
           </div>
 
 
@@ -317,16 +367,6 @@ export default function ProductDetails() {
             referencedShowId={product.id}
             categories={product.Categories.map((c) => c.Id)}
           />
-          {/* <div className="detail_recommended_shows">
-            <h3>Si te gusta esta música, seguro te van a gustar estos shows</h3>
-            <div className="recommended_inDetail">
-              <RecommendedShows
-                referencedShowId={product.id}
-                categories={product.Categories.map((c) => c.Id)}
-                handleClickRecom={handleClickRecom}
-              />
-            </div>
-          </div> */}
 
         </div>
       ) : (

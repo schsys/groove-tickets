@@ -142,7 +142,6 @@ const App = () => {
             <Resource
                 name="reviews"
                 list={ReviewList}
-                create={ReviewCreate}
                 show={ReviewShow}
                 recordRepresentation="stars"
             />

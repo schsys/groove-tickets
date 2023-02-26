@@ -8,7 +8,7 @@ export const Pagination = ({ products, handlePrev, handleNext, currentPage }) =>
     <div className="shows__pagination-container">
       <div className="shows__pagination-textContainer">
         <button onClick={handlePrev} disabled={currentPage === 1}>
-        <i class="fa-solid fa-chevron-left"></i> Anterior
+        <i className="fa-solid fa-chevron-left"></i> Anterior
         </button>
         <span>
           <span className="shows__pagination-currentPageUnderline">
@@ -17,7 +17,7 @@ export const Pagination = ({ products, handlePrev, handleNext, currentPage }) =>
           de {totalPages}
         </span>
         <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Siguiente <i class="fa-solid fa-chevron-right"></i>
+          Siguiente <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>
     </div>

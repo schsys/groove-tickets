@@ -12,14 +12,23 @@ const Shows = () => {
   //const [selectedDay, setSelectedDay] = useState("");
   //const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
   const products = useSelector((state) => state.products);
-  const filtered = useSelector((state) => state.filteredProducts);
+  const fetchProducts = useSelector((state) => state.fetchProducts);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
+
+  // NOTA de friss: el useEffect a continuación vuelve a la página 1 luego de hacer búsquedas;
+  // Si por ejemplo el usuario está viendo la página 5 y se le ocurre buscar algo, si el resultado devuelve
+  // menos de 5 páginas, currentPage va a apuntar a una página inexistente.
+  // Esto es solo una solución temporal, quién pueda que lo haga de la manera correcta.
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [products]);
 
   const handlePrev = () => {
     setCurrentPage(currentPage - 1);
@@ -34,7 +43,7 @@ const Shows = () => {
   return (
     <div className="shows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
-      {!products.length ? (
+      {fetchProducts === "loading" ? (
         <SkeletonShows />
       ) : (
         <>
@@ -50,7 +59,7 @@ const Shows = () => {
                 No hay shows disponibles con los filtros seleccionados.
               </h2>
             ) : (
-              products
+              products 
                 ?.sort(
                   (a, b) =>
                     new Date(a.StartDate + "T00:00:00") -

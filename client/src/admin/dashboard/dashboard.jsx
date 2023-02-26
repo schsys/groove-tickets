@@ -15,7 +15,7 @@ export const Dashboard = () => {
       imageWidth: 200,
       imageAlt: "Usuasio deslogueado.",
       title: "Yazz",
-      html: "<h3>Gracias, te esperamos la próxima</p>",
+      html: "<h3>Gracias, te esperamos la próxima</h3>",
       footer: "<p>Podés seguir navegando.</p>",
     });
   };

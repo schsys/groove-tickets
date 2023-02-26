@@ -10,6 +10,7 @@ export const TOGGLE_SHOW_CART = "TOGGLE_SHOW_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
+export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const clearFilters = () => {
@@ -45,10 +46,11 @@ export const search = (name) => {
 export const getProducts = () => {
   return async (dispatch) => {
     try {
+      dispatch({type: FETCHING_PRODUCTS })
       const allProducts = await axios.get(`${apiUrl}/products`);
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
-      alert("algo salió mal");
+      alert("algo salió mal, no se cargaron los productos");
       console.log(error);
     }
   };
@@ -72,7 +74,8 @@ export const filterProducts = (day, categoryId) => {
     try {
       const filteredProducts = await axios.get(
         `${apiUrl}/products?days=${day}&category=${categoryId}`
-      );
+        );
+      dispatch({type: FETCHING_PRODUCTS })
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
       dispatch({ type: FILTERED_PRODUCTS, payload: [] });
@@ -155,12 +158,13 @@ export const removeCartProduct = async(productId, user, orderId) => {
 export const emptyCart = async(user, orderId) => {
   try {
     if (userIsLogining(user)) {
+      console.log(user);
       if (!orderId) { 
           const order = await getCreatedOrderByUser(user);
           orderId = order.Id;
       }
       if (orderId)
-         await axios.put(`${apiUrl}/admin/orders/${orderId}`, {id: orderId, status: "Canceled"}); 
+         await axios.put(`${apiUrl}/orders/${orderId}`, {id: orderId, status: "Canceled"}); 
     } else {     
       localStorage.setItem("cart", JSON.stringify([]));
     }
@@ -241,7 +245,7 @@ export const setLocalStorageToApi = (user) => {
       const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       const order = response.data;
       if (stringCart) {
-        const items = JSON.parse(stringCart);
+        const items = JSON.parse(stringCart);        
         if (order) {
           const orderItems = items.map(item => ({productId: item.id, quantity: item.quantity}));  
           const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, {items: orderItems});
@@ -284,7 +288,6 @@ export const setLocalStorageToApi = (user) => {
       dispatch({
         type: ORDER_SELECTED,
         payload: {
-          orderId: order ? order.id : 0,
           totalItems: await getInternalTotalItems(user)
         }
       });
