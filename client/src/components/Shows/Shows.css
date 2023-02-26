@@ -19,7 +19,7 @@
 }
 
 .displayStock_Card, .displayStock_Card_LAST, 
-.displayStock_Card_OUT{
+.displayStock_Card_OUT, .display_notAvaialbe{
 color: white;
   margin-left: 0.5rem;
   border-radius: 0.2rem;
@@ -43,6 +43,12 @@ color: white;
   background-color: red;
   width: 5rem;
 }
+
+.display_notAvaialbe{
+  background-color: red;
+  width: 5.5rem;
+}
+
 /* .shows__banner-img {
   position: relative;
   width: 95vw;

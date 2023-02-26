@@ -39,31 +39,40 @@ const SingleCard = (data) => {
         dispatch(getTotalItems(user));
       });
     } else {
-      LimitAlert()
+      LimitAlert();
     }
   };
 
-  //  console.log('data', data)
-  console.log("data.data.Stock", data.data.Stock);
-  // console.log('data.data.id', data.data.id)
+  /*(data.data.Stock > 0  || data.data.isShowFinished) ? ("shows__cards-box1") : ("shows__cards-Soldout")*/
+const classStyle = () => {
+  if(data.data.Stock > 0 && !data.data.isShowFinished) {
+    return "shows__cards-box1"
+  } else if(data.data.Stock < 1 || data.data.isShowFinished) {
+    return "shows__cards-Soldout"
+  }
+}
 
   const displayStock = () => {
-    if (data.data.Stock > 10) {
+    if (data.data.isShowFinished) {
+      return <p className="display_notAvaialbe">FINALIZADO</p>;
+    } else if (data.data.Stock > 10) {
       return <p className="displayStock_Card">DISPONIBLE</p>;
     } else if (data.data.Stock <= 10 && data.data.Stock > 0) {
       return <p className="displayStock_Card_LAST">ÚLTIMAS ENTRADAS</p>;
-    } else {
-      
+    } else if (data.data.Stock < 1) {
       return <p className="displayStock_Card_OUT">AGOTADO</p>;
     }
   };
 
   return (
     <div
-      className={data.data.Stock > 0 ? "shows__cards-box1" : "shows__cards-Soldout"}
+      className={
+        (classStyle())
+      }
       //  ref={cardRef}
       key={data.data.id}
     >
+      {/* <h1 className="shows__cards-texth1">{data.data.name} - {data.data.isShowFinished ? 'FINALIZADO' : 'JAJA'}</h1> */}
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <div className="shows__cards_imgContainer">
           <img
@@ -71,7 +80,7 @@ const SingleCard = (data) => {
             alt="imagen show1"
             className="shows__cards-show1"
           />
-        <div className="displayStock_container">{displayStock()}</div>
+          <div className="displayStock_container">{displayStock()}</div>
         </div>
       </Link>
 
@@ -89,12 +98,14 @@ const SingleCard = (data) => {
           {formatPrice(data.data.Price)}
         </h3>
         <div className="shows_icons">
-          {data.data.Stock < 1 ? (" ") :(
-          <FaShoppingCart
-            className="shows_cards-cart"
-            onClick={addToCartFromShows}
-          />
-          ) }
+          {(data.data.Stock < 1 || data.data.isShowFinished) ? (
+            " "
+          ) : (
+            <FaShoppingCart
+              className="shows_cards-cart"
+              onClick={addToCartFromShows}
+            />
+          )}
           <Link to={`product/${data.data.id}`} className="shows_cards-linkInfo">
             <FaInfoCircle />
           </Link>
