@@ -43,7 +43,29 @@ export async function getRecommendedProducts(referencedProductId, categories) {
             fetchStatus: "failed",
             items: [],
             error: {
-                message: 'Error al obtener el productos recomendados',
+                message: 'Error al obtener los productos recomendados',
+                status: error.response && error.response.status
+            }
+        };
+    }
+}
+
+export async function getReviews(productId) {
+    try {
+        const endpoint = `/products/${productId}/reviews`;
+        const response = await axios.get(endpoint);
+
+        return {
+            fetchStatus: "succeeded",
+            data: response.data,
+            error: null,
+        };
+    } catch (error) {
+        return {
+            fetchStatus: "failed",
+            data: null,
+            error: {
+                message: 'Error al obtener las reviews del producto',
                 status: error.response && error.response.status
             }
         };

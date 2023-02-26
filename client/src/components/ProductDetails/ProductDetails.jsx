@@ -314,7 +314,7 @@ export default function ProductDetails() {
 
           {product.isShowFinished ? (
             <div className="detail_reviews_div">
-              <ShowReviews />
+              <ShowReviews productId={product.id} />
             </div>
           ) : (
             ""
