@@ -109,9 +109,6 @@ export const ProductEdit = () => {
                         <DateInput source="startDate" validate={required()} fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                        <DateInput source="endDate" validate={required()} fullWidth />
-                    </Box>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
                         <TimeInput
                             source="startTime"
                             parse={parseTime}
