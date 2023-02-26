@@ -1,11 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useParams } from "react-router-dom";
+
+import axios from 'axios';
 
 import "./ShowReviews.css";
 
-export default function ShowReviews() {
+const getReviews = function getReviews(id_producto) {
+  const endpointReviews = `/products/${id_producto}/reviews`;
+  return axios
+    .get(endpointReviews)
+    .then(function(response) {
+      const average = response.averageRating;
+      console.log('response', response);
+      console.log('average', average);
+      console.log('response.items', response.items);
+      return response;
+    })
+    .catch(function(error) {
+      return {
+        error: {
+          message: "Error al obtener las reviews"
+        }
+      };
+    });
+};
+
+export default function ShowReviews(id_producto) {
   //FUNCION VALIDADORA
   function validate(input) {
     //va a recibir el estado input con los cambios detectados por los handlers
@@ -23,6 +46,16 @@ export default function ShowReviews() {
   const [input, setInput] = useState({
     text: "",
   });
+
+useEffect(() => {
+  getReviews(id_producto)
+  .then(function(reviews) {
+    console.log('reviews en useeffect', reviews)
+  })
+  .catch(function(error) {
+    console.log("Error en useffect de reviews")
+  });
+})
 
   //Rating
   const labels = {
@@ -56,13 +89,10 @@ export default function ShowReviews() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors('')
-
-
     setInput({
       //resetea el estado del input
       text: "",
     })
-
   }
 
   return (

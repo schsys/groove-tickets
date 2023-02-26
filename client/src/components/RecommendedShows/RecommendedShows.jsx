@@ -17,7 +17,7 @@ export default function RecommendedShows({ referencedShowId, categories }) {
   useEffect(() => {
     async function fetchProducts(referencedShowId, categories) {
       const response = await getRecommendedProducts(referencedShowId, categories);
-      console.log('response: ', response);
+      // console.log('response: ', response);
 
 
       setProducts(response);
