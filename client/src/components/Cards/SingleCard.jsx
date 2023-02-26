@@ -47,8 +47,10 @@ const SingleCard = (data) => {
 const classStyle = () => {
   if(data.data.Stock > 0 && !data.data.isShowFinished) {
     return "shows__cards-box1"
-  } else if(data.data.Stock < 1 || data.data.isShowFinished) {
+  } else if(data.data.Stock < 1) {
     return "shows__cards-Soldout"
+  } else if (data.data.isShowFinished) {
+    return "shows__cards-expired"
   }
 }
 
@@ -64,14 +66,29 @@ const classStyle = () => {
     }
   };
 
-  return (
-    <div
-      className={
-        (classStyle())
+  const showIfNotExpired = () => {
+    if(!data.data.isShowFinished){
+      return (
+        <>
+         <h3 className="shows__cards-texth3">
+          {formatTime(data.data.StartTime)} Horas
+        </h3>
+        <h3 className="shows__cards-textPrice">
+          {formatPrice(data.data.Price)}
+        </h3>
+        </>
+      )
+    } else {
+        return (
+          <div className="card_average_opinion_div">
+          <h3 className="card_average_opinion_title">Promedio de opiniones</h3>
+        </div>
+        )
       }
-      //  ref={cardRef}
-      key={data.data.id}
-    >
+  }
+
+  return (
+    <div className={(classStyle())} key={data.data.id}>
       {/* <h1 className="shows__cards-texth1">{data.data.name} - {data.data.isShowFinished ? 'FINALIZADO' : 'JAJA'}</h1> */}
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <div className="shows__cards_imgContainer">
@@ -79,24 +96,24 @@ const classStyle = () => {
             src={data.data.Photos[0].Path}
             alt="imagen show1"
             className="shows__cards-show1"
-          />
+          /> 
+          {/*Muestra cartel avisando si hay o no stock*/}
           <div className="displayStock_container">{displayStock()}</div>
         </div>
       </Link>
 
-      <div className="shows__cards-textContainer">
+      <div className={!data.data.isShowFinished ? ("shows__cards-textContainer")
+       : ("shows__cards-textContainer_expired")}>
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
         <h2 className="shows__cards-texth2">
           {formatDate(data.data.StartDate).replace(/^\w/, (c) =>
             c.toUpperCase()
           )}
         </h2>
-        <h3 className="shows__cards-texth3">
-          {formatTime(data.data.StartTime)} Horas
-        </h3>
-        <h3 className="shows__cards-textPrice">
-          {formatPrice(data.data.Price)}
-        </h3>
+
+        {/*Si el show está vigente muestra info y si no muestra reviews*/}
+        {showIfNotExpired()}
+        
         <div className="shows_icons">
           {(data.data.Stock < 1 || data.data.isShowFinished) ? (
             " "
