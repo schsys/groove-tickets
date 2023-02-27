@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment-timezone";
-// import { getTotalItems } from "../../redux/actions";
-// import { useDispatch, useSelector } from "react-redux";
+
 import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import {
+  addEditCartProduct,
+  getTotalItems,
+  getCreatedOrderByUser,
+} from "../../redux/actions";
 
 export const ItemsOrder = (customer) => {
-
-  console.log("Customer: ", customer)
   /*------------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
+  const dispatch = useDispatch();
   const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
     id: 0,
@@ -20,41 +24,39 @@ export const ItemsOrder = (customer) => {
     fetchStatus: "loading",
   });
 
-
   useEffect(() => {
     async function fetchOrder() {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/orders?status=Created&userName=${user.email}`
-        );
-        const id = response.data.Id;
-        const items = response.data.OrderItems.map((item) => {
-          const { Product, Quantity, UnitPrice } = item;
-          const { Photos, Name, StartDate } = Product;
-          const formattedStartDate = moment.tz(
-            StartDate,
-            "America/Argentina/Buenos_Aires"
-          );
+        getCreatedOrderByUser(user).then((order) => {
+          const id = order.Id;
+          const items = order.OrderItems.map((item) => {
+            const { ProductId, Product, Quantity, UnitPrice } = item;
+            const { Photos, Name, StartDate } = Product;
+            const formattedStartDate = moment.tz(
+              StartDate,
+              "America/Argentina/Buenos_Aires"
+            );
 
-          return {
-            id: id,
-            name: Name,
-            Photos: Photos,
-            startDate: formattedStartDate,
-            price: UnitPrice,
-            quantity: Quantity,
-            unitPrice: UnitPrice,
-          };
-        });
-        const totalAmount = items.reduce(
-          (acc, cur) => acc + Number(cur.price) * cur.quantity,
-          0
-        );
-        setorderItems({
-          id,
-          items,
-          totalAmount,
-          fetchStatus: "succeeded",
+            return {
+              id: ProductId,
+              name: Name,
+              Photos: Photos,
+              startDate: formattedStartDate,
+              price: UnitPrice,
+              quantity: Quantity,
+              unitPrice: UnitPrice,
+            };
+          });
+          const totalAmount = items.reduce(
+            (acc, cur) => acc + Number(cur.price) * cur.quantity,
+            0
+          );
+          setorderItems({
+            id,
+            items,
+            totalAmount,
+            fetchStatus: "succeeded",
+          });
         });
       } catch (error) {
         console.error(error);
@@ -81,33 +83,39 @@ export const ItemsOrder = (customer) => {
   }
 
   /*--------------------Actualizar cantidad del item quantity----------------------------*/
-  const updateItemQuantity = (index, newQuantity, defaultValue) => {
+  const updateItemQuantity = async (
+    quantityToUpdate,
+    index,
+    newQuantity,
+    defaultValue
+  ) => {
     const items = [...orderItems.items];
     const item = items[index];
-    const quantity = newQuantity > 0 ? newQuantity : defaultValue;
-    item.quantity = quantity;
-    const totalAmount = items.reduce(
-      (acc, cur) => acc + Number(cur.price) * cur.quantity,
-      0
-    );
-    setorderItems({
-      items,
-      totalAmount,
-      fetchStatus: "succeeded",
+    await addEditCartProduct(item.id, quantityToUpdate, user).then(() => {
+      const quantity = newQuantity > 0 ? newQuantity : defaultValue;
+      item.quantity = quantity;
+      const totalAmount = items.reduce(
+        (acc, cur) => acc + Number(cur.price) * cur.quantity,
+        0
+      );
+      setorderItems({
+        items,
+        totalAmount,
+        fetchStatus: "succeeded",
+      });
+
+      dispatch(getTotalItems(user));
     });
   };
   /*------------------------------------------------------------------------------*/
 
-  
   const handleMPago = async () => {
-    
     const order = {
       id: orderItems.id,
       TotalAmount: orderItems.totalAmount,
       customerName: customer.name,
       customerEmail: customer.email,
     };
-    console.log("Order para MercadoPago: ", order)
     try {
       await axios
         .post("/pay/mercadopago", order)
@@ -119,26 +127,12 @@ export const ItemsOrder = (customer) => {
       console.log(error);
     }
   };
-
-  const sendOrder = async () => {
-    try {
-      const response = await axios.put("http://localhost:3001/order/1/items", {
-        OrderItems: orderItems.items.map((item) => ({
-          ProductId: item.ProductId,
-          quantity: 1,
-        })),
-      });
-      window.alert("Orden actualizada con exito:", response.data);
-    } catch (error) {
-      window.alert("Error al actualizar la orden: " + error);
-    }
-  };
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
       {orderItems.items.map((item, index) => {
         return (
-          <div className="cartSummary__show-Container">
+          <div className="cartSummary__show-Container" key={index}>
             <img
               src={item && item.Photos[0].Path}
               alt="showImage"
@@ -151,19 +145,35 @@ export const ItemsOrder = (customer) => {
 
             <div>
               <button
-                className="editItems_order-minus"
-                onClick={() => updateItemQuantity(index, item.quantity - 1, 0)}
-                disabled={item.quantity <= 0}
-              >
-                -
-              </button>
-              <> {item && item.quantity} </>
-              <button
                 className="editItems_order-plus"
-                onClick={() => updateItemQuantity(index, item.quantity + 1, 10)}
-                disabled={item.quantity >= 10}
+                onClick={() =>
+                  updateItemQuantity(1, index, item.quantity + 1, 10)
+                }
+                onMouseDown={(event) => {
+                  if (item.quantity >= 10) {
+                    event.preventDefault();
+                    alert("La cantidad máxima permitida por producto es 10 🙂");
+                  }
+                }}
               >
                 +
+              </button>
+              <span class="item-quantity">{item && item.quantity}</span>
+              <button
+                className="editItems_order-minus"
+                onClick={() =>
+                  updateItemQuantity(-1, index, item.quantity - 1, 1)
+                }
+                onMouseDown={(event) => {
+                  if (item.quantity <= 1) {
+                    event.preventDefault();
+                    alert(
+                      "😯¡Oh! Si quieres eliminar este ítem. Hazlo desde tu carrito😊"
+                    );
+                  }
+                }}
+              >
+                -
               </button>
             </div>
             <div>${item && formatNumber(item.price)}</div>

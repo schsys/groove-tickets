@@ -29,7 +29,6 @@ export const ProductList = () => (
                 <TextField source="name" />
             </ReferenceField>
             <DateField source="startDate" locales="es-AR" />
-            <DateField source="endDate" locales="es-AR" />
             <FunctionField source="startTime" label="Time" render={record => {
                 if (!record.startTime) {
                     return '';

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../redux/actions";
+import { getOldShows } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
 import SingleCard from "../Cards/SingleCard";
-import "./Shows.css";
+import "./OldShows.css";
 // import banner from "../../assets/banner.shows.fw.png";
 import Filters from "../Filters/FiltersV2";
 import SkeletonShows from "../Skeleton/SkeletonShows";
 
-const Shows = () => {
+const OldShows = () => {
   //const [selectedDay, setSelectedDay] = useState("");
   //const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +19,7 @@ const Shows = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getOldShows());
   }, [dispatch]);
 
   // NOTA de friss: el useEffect a continuación vuelve a la página 1 luego de hacer búsquedas;
@@ -41,19 +41,14 @@ const Shows = () => {
   console.log("Shows currentPage: ", currentPage);
 
   return (
-    <div className="shows__background-container">
+    <div className="oldshows__background-container">
       {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
       {fetchProducts === "loading" ? (
         <SkeletonShows />
       ) : (
         <>
-          {/* FILTRADO*/}
-          <div className="shows__filters-container">
-            <Filters />
-          </div>
-          {/* FIN FILTRADO*/}
-
-          <div className="shows__cards-container">
+         
+          <div className="oldshows__cards-container">
             {!products.length ? (
               <h2 className="shows__cards-h1FilterError">
                 No hay shows disponibles con los filtros seleccionados.
@@ -84,4 +79,4 @@ const Shows = () => {
   );
 };
 
-export default Shows;
+export default OldShows;

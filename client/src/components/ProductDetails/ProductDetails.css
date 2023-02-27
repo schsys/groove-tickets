@@ -36,8 +36,13 @@
   color: #ffffff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.product_container h2, .detail_price_h2 {
+.product_container h2, .detail_price_h2, .average_opinion_title {
   margin: 0rem 0 0 1.2rem;
+}
+
+.average_opinion_title{
+  font-size: 1.2rem;
+  color: white;
 }
 
 .detail_price_h2{
@@ -56,7 +61,16 @@ height: auto;
 .product_image {
   flex: 1;
   flex-wrap: wrap;
-  /* float: right; */
+  display: block;
+  object-fit: cover;
+  width:100%;
+  height:100%;
+}
+
+.photo_soldout_detail{
+  filter: grayscale(100%);
+  flex: 1;
+  flex-wrap: wrap;
   display: block;
   object-fit: cover;
   width:100%;
@@ -122,6 +136,25 @@ height: auto;
 .product_button:hover {
   background-color: var(--color-violet);
   cursor: pointer;
+}
+
+.show_soldout_div{
+  display: flex;
+  height: 2rem;
+  border-radius: 0.2rem;
+  padding: 0.2rem;
+  background-color: red;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.show_soldout_text{
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 !important;
+  padding: 0 0.5rem;
 }
 
 .product_info, .detail_reviews_div {

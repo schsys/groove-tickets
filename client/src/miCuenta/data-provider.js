@@ -1,14 +1,43 @@
 import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 
-const apiUrl = 'http://localhost:3001/micuenta';
+const baseUrl = process.env.REACT_APP_BASE_URL;
+const apiUrl = baseUrl + '/micuenta';
 const httpClient = fetchUtils.fetchJson;
 
+const createHeaders = () => {
+    const headers = new Headers({
+        Accept: 'application/json',
+    });
+    headers.set('authorization', sessionStorage.getItem("accessToken"));
+    headers.set('user', sessionStorage.getItem("userName"));
+
+    return headers;
+}
+
 export const dataProvider = {
-    getList: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-        data: json,
-    })),
+    getList: (resource, params) => {
+        const { page, perPage } = params.pagination;
+        const { field, order } = params.sort;
+        const { resourceId } = params.meta;
+
+        if (resource === 'reviews') {
+            params.filter = {};
+        }
+        console.log('params.filter',params.filter);
+
+        const query = {
+            sort: JSON.stringify([field, order]),
+            page: page - 1,
+            size: perPage,
+            filter: JSON.stringify(params.filter),
+        };
+        const url = `${apiUrl}/${resource}/${resourceId}?${stringify(query)}`;
+        return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
+            data: json.rows,
+            total: json.count,
+        }));
+    },
     getOne: (resource, params) =>
         httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
             data: json,

@@ -57,8 +57,8 @@ export default function Signup() {
     password: "",
     repassword: "",
     phoneNumber: 0,
-    //terms: false,
   });
+
   //Alert para saludar cuando se desloguea
   const EmailUsed = () => {
     Swal.fire({

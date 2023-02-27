@@ -11,6 +11,9 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
+export const GET_OLDSHOWS = "GET_OLDSHOWS";
+
+
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const clearFilters = () => {
@@ -56,6 +59,19 @@ export const getProducts = () => {
   };
 };
 
+export const getOldShows = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({type: FETCHING_PRODUCTS })
+      const allProducts = await axios.get(`${apiUrl}/finished-products`);
+      dispatch({ type: GET_OLDSHOWS, payload: allProducts.data });
+    } catch (error) {
+      alert("algo salió mal, no se cargaron los shows históricos");
+      console.log(error);
+    }
+  };
+};
+
 export const getProductById = (id) => {
   return async (dispatch) => {
     try {
@@ -72,10 +88,10 @@ export const getProductById = (id) => {
 export const filterProducts = (day, categoryId) => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCHING_PRODUCTS })
       const filteredProducts = await axios.get(
         `${apiUrl}/products?days=${day}&category=${categoryId}`
-      );
+        );
+      dispatch({type: FETCHING_PRODUCTS })
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
       dispatch({ type: FILTERED_PRODUCTS, payload: [] });
@@ -245,14 +261,14 @@ export const setLocalStorageToApi = (user) => {
       const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       const order = response.data;
       if (stringCart) {
-        const items = JSON.parse(stringCart);
+        const items = JSON.parse(stringCart);        
         if (order) {
           const orderItems = items.map(item => ({productId: item.id, quantity: item.quantity}));  
           const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, {items: orderItems});
           // trato de errores
           console.log('orden modificada: ', response);         
         }else{
-          const customer = await axios.get(`/user?userName=${user.email}`);
+          const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
           if (customer) {            
             const orderItems = items.map(item => 
                 (
@@ -269,7 +285,7 @@ export const setLocalStorageToApi = (user) => {
             for (const item of orderItems) 
                 totalOrderAmount = totalOrderAmount + item.totalAmount;
             
-            const response = await axios.post('/order', 
+            const response = await axios.post(`${apiUrl}/order`, 
                 {
                   customerId: customer.data.Customer.id,
                   totalAmount: totalOrderAmount,
@@ -303,7 +319,7 @@ export const createOrder = async(user, items) => {
   
   try {
     if (userIsLogining(user)) {
-        const customer = await axios.get(`/user?userName=${user.email}`);
+        const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
         if (customer) {
           let price = 0;
           let totalOrderAmount = 0;
@@ -322,7 +338,7 @@ export const createOrder = async(user, items) => {
           };      
 
           console.log('createOrder', totalOrderAmount, orderItems,  customer.data.Customer.id);
-          const response = await axios.post('/order', 
+          const response = await axios.post(`${apiUrl}/order`, 
               {
                 customerId: customer.data.Customer.id,
                 totalAmount: totalOrderAmount,

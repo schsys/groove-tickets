@@ -36,7 +36,7 @@ export const Dashboard = () => {
 
   return (
     <Card sx={{ mt: 1 }}>
-      <CardHeader title={`Hola ${user.displayName}`} />
+      <CardHeader title={`Hola ${user.displayName}!`} />
       <CardContent>
         <p>{`Iniciaste sesión como ${user.email}`}</p>
       </CardContent>

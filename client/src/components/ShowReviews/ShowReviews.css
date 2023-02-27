@@ -1,0 +1,64 @@
+.detail_rating_section, .reviews_div{
+    margin-left: 1.2rem;
+    color: white;
+    width: 100%;
+}
+
+.detail_rating_containter {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0 !important;
+}
+
+.detail_rating_title{
+    font-size: 1.2rem;
+}
+
+.detail_rating_text{
+    color: white;
+    font-size: 0.9rem;
+    margin-left: 0 !important;
+}
+
+.rating_textarea_div {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews_textarea {
+    width: 15rem;
+    padding: 0.3rem 0.2rem 0.3rem 0.4rem;
+    margin: 1rem 0;
+    font-size: 0.8rem;
+    resize: none;
+}
+
+.reviews_textarea::placeholder{
+    padding: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.textarea_error{
+    color: red;
+    font-size: 1rem;
+}
+
+.send_review_btn{
+    display: block;
+    width: 15.6rem;
+    padding: 0.4rem;
+    margin: 0.4rem 0 1rem 0;
+    background: var(--color-orange);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    border: none;
+    transition: 0.2s all;
+}
+
+.send_review_btn:hover {
+    background-color: var(--color-violet);
+    cursor: pointer;
+  }

@@ -15,13 +15,14 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
-import Typography from "@mui/material/Typography";
+// import Rating from "@mui/material/Rating";
+// import StarIcon from "@mui/icons-material/Star";
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
 
-import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
+import ShowReviews from "../ShowReviews/ShowReviews";
 
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
@@ -35,11 +36,9 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
-  const [prod, setProd] = useState(null);
 
-  const [value, setValue] = React.useState(2);
-  const [hover, setHover] = React.useState(-1);
-
+  // const [value, setValue] = React.useState(2);
+  // const [hover, setHover] = React.useState(-1);
 
   const [availableStock] = React.useState(0);
 
@@ -49,8 +48,7 @@ export default function ProductDetails() {
   const showCart = useSelector((state) => state.showCart);
 
   const [quantity, setQuantity] = React.useState(1);
-  const orderId = useSelector(state => state.orderId);
-
+  const orderId = useSelector((state) => state.orderId);
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -58,19 +56,49 @@ export default function ProductDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const StockAvailableAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: `<h3>Solo tenemos disponibles ${product.Stock} entradas</h3>`,
+    });
+  };
 
-
+  const LimitAlert = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      html: "<h3>La cantidad máxima permitida es 10</h3>",
+    });
+  };
 
   function handleClick() {
     if (quantity < 10 && quantity < product.Stock) {
       setQuantity(quantity + 1);
     } else if (quantity < 10 && quantity >= product.Stock) {
       setQuantity(availableStock);
-      alert("Solo tenemos disponibles " + product.Stock);
+      StockAvailableAlert();
     } else {
-      alert("La cantidad máxima permitida es 10");
+      LimitAlert();
     }
   }
+
+  // function handleClick() {
+  //   if (quantity < 10 && quantity < product.Stock) {
+  //     setQuantity(quantity + 1);
+  //   } else if (quantity < 10 && quantity >= product.Stock) {
+  //     setQuantity(availableStock);
+  //     alert("Solo tenemos disponibles " + product.Stock);
+  //   } else {
+  //     alert("La cantidad máxima permitida es 10");
+  //   }
+  // }
 
   // PARA AGREGAR AL CARRITO
   // useEffect(() => {
@@ -86,7 +114,6 @@ export default function ProductDetails() {
   //   }
   // }, [dispatch, itemsToCart, mount]);
 
-
   const handleShowCart = () => {
     dispatch(toggleShowCart(!showCart));
     if (!showCart) {
@@ -96,49 +123,90 @@ export default function ProductDetails() {
     }
   };
 
-
   //cart
   const addToCart = async () => {
     if (quantity > 0) {
-      await addEditCartProduct(product.id, quantity, user, orderId)
-        .then(() => {
-          setQuantity(1);
-          handleShowCart();
-          dispatch(getTotalItems(user));
-        })
+      await addEditCartProduct(product.id, quantity, user, orderId).then(() => {
+        setQuantity(1);
+        handleShowCart();
+        dispatch(getTotalItems(user));
+      });
     }
   };
 
-
-  //Rating
-  const labels = {
-    0.5: "Inútil",
-    1: "Inútil+",
-    1.5: "Pobre",
-    2: "Pobre+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Bueno",
-    4: "Bueno+",
-    4.5: "Excelente",
-    5: "Excelente+",
-  };
-
-
-  function getLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-  }
-
-
   //Shows recomendados
-  const category = product && product.Categories && product.Categories.length > 0 ? product.Categories[0].Name : null;
-  const recommendation = products && products.filter((p) => p.Categories[0].Name && p.Categories[0].Name === category);
+  const category =
+    product && product.Categories && product.Categories.length > 0
+      ? product.Categories[0].Name
+      : null;
+  const recommendation =
+    products &&
+    products.filter(
+      (p) => p.Categories[0].Name && p.Categories[0].Name === category
+    );
   const topRecommended = recommendation.slice(0, 3);
 
-  // console.log('products.categories', products[1].Categories[0].Name)
-  // console.log('category', category)
-  // console.log('recommendation', recommendation)
-  // console.log('topRecommended', topRecommended)
+  const message = () => {
+    if (product.Stock < 1) {
+      return <p className="show_soldout_text">SHOW AGOTADO</p>;
+    } else if (product.Stock > 1 && product.isShowFinished) {
+      return <p className="show_soldout_text">SHOW FINALIZADO</p>;
+    }
+  };
+
+  const showIfNotExpired = () => {
+    if (!product.isShowFinished) {
+      return (
+        <>
+          <p>
+            <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
+            horas
+          </p>
+          <>
+            {product.Artist && Object.keys(product.Artist).length > 0 ? (
+              <p>
+                <i className="fas fa-music"></i> Conjunto: {product.Artist.Name}
+              </p>
+            ) : (
+              <p>Conjunto no disponible</p>
+            )}
+          </>
+
+          <>
+            {product.Categories && product.Categories.length > 0 ? (
+              <p>
+                {" "}
+                <i className="fas fa-tag"></i> Género:{" "}
+                {product.Categories[0].Name}
+              </p>
+            ) : (
+              <p>No hay géneros disponibles</p>
+            )}
+          </>
+          <>
+            {product.Location && Object.keys(product.Location).length > 0 ? (
+              <p>
+                <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
+                {product.Location.Name}
+                {" -"} {product.Location.Address}
+              </p>
+            ) : (
+              <p>No hay ubicación disponible</p>
+            )}
+          </>
+          <>
+            <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
+          </>
+        </>
+      );
+    } else {
+      return (
+        <div className="average_opinion_div">
+          <h3 className="average_opinion_title">Promedio de opiniones</h3>
+        </div>
+      );
+    }
+  };
 
   return (
     <>
@@ -152,90 +220,19 @@ export default function ProductDetails() {
           <div className="global_container">
             <div className="product_container">
               <h2>{product.name}</h2>
-              <div className="detail_rating_containter">
-                <Box
-                  sx={{
-                    width: 200,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Rating
-                    name="hover-feedback"
-                    value={value}
-                    precision={0.5}
-                    getLabelText={getLabelText}
-                    onChange={(event, newValue) => {
-                      setValue(newValue);
-                    }}
-                    onChangeActive={(event, newHover) => {
-                      setHover(newHover);
-                    }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-                  {value !== null && (
-                    <Box sx={{ ml: 2 }}>
-                      {labels[hover !== -1 ? hover : value]}
-                    </Box>
-                  )}
-                </Box>
-              </div>
               <>
                 <p>
                   <i className="fas fa-calendar"></i> {formattedDate}
                 </p>
               </>
-              <p>
-                <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
-                horas
-              </p>
-              <>
-                {product.Artist && Object.keys(product.Artist).length > 0 ? (
-                  <p>
-                    <i className="fas fa-music"></i> Artistas:{" "}
-                    {product.Artist.Name}
-                  </p>
-                ) : (
-                  <p>Músico no disponible</p>
-                )}
-              </>
-
-              <>
-                {product.Categories && product.Categories.length > 0 ? (
-                  <p>
-                    {" "}
-                    <i className="fas fa-tag"></i> Categoría:{" "}
-                    {product.Categories[0].Name}
-                  </p>
-                ) : (
-                  <p>No hay categorías disponibles</p>
-                )}
-              </>
-              <>
-                {product.Location &&
-                  Object.keys(product.Location).length > 0 ? (
-                  <p>
-                    <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
-                    {product.Location.Name}
-                    {" -"} {product.Location.Address}
-                  </p>
-                ) : (
-                  <p>No hay ubicación disponible</p>
-                )}
-              </>
-              <>
-                <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
-              </>
-
+              {showIfNotExpired()}
 
               <Box
                 sx={{
                   color: "action.active",
                   display: "flex",
                   flexDirection: "column",
-                  
+
                   "& .MuiBadge-root": {
                     marginRight: 4,
                   },
@@ -243,48 +240,61 @@ export default function ProductDetails() {
               >
                 <div>
                   <div>
-                    <p className="detail_cart_explanation">
-                      Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
-                    </p>
-                    <Badge color="warning" badgeContent={quantity}>
-                      <ButtonGroup className="buttonGroup_toCart">
-                        <Button
-                          style={{ background: "white" }}
-                          onClick={() => {
-                            setQuantity(Math.max(quantity - 1, 1));
-                          }}
-                        >
-                          <RemoveIcon
-                            fontSize="small"
-                            style={{ background: "white" }}
-                          />
-                        </Button>
+                    {product.Stock > 0 && !product.isShowFinished ? (
+                      <>
+                        <p className="detail_cart_explanation">
+                          Elegí la cantidad y presioná "AGREGAR AL CARRITO"{" "}
+                        </p>
+                        <Badge color="warning" badgeContent={quantity}>
+                          <ButtonGroup className="buttonGroup_toCart">
+                            <Button
+                              style={{ background: "white" }}
+                              onClick={() => {
+                                setQuantity(Math.max(quantity - 1, 1));
+                              }}
+                            >
+                              <RemoveIcon
+                                fontSize="small"
+                                style={{ background: "white" }}
+                              />
+                            </Button>
 
-                        <Button
-                          style={{ background: "white" }}
-                          onClick={handleClick}
-                        >
-                          <AddIcon fontSize="small" />
-                        </Button>
-                      </ButtonGroup>
-                    </Badge>
+                            <Button
+                              style={{ background: "white" }}
+                              onClick={handleClick}
+                            >
+                              <AddIcon fontSize="small" />
+                            </Button>
+                          </ButtonGroup>
+                        </Badge>
+                      </>
+                    ) : (
+                      " "
+                    )}
                   </div>
                   <div className="product_button_div">
-                    <button className="product_button" onClick={addToCart}>
-                      Agregar al Carrito
-                    </button>
+                    {product.Stock > 0 && !product.isShowFinished ? (
+                      <button className="product_button" onClick={addToCart}>
+                        Agregar al Carrito
+                      </button>
+                    ) : (
+                      <div className="show_soldout_div">{message()}</div>
+                    )}
                   </div>
                 </div>
               </Box>
             </div>
-
 
             <div className="image_container">
               {product.Photos && product.Photos.length > 0 ? (
                 <img
                   src={product.Photos[0].Path}
                   alt="product"
-                  className="product_image"
+                  className={
+                    product.Stock > 0 && !product.isShowFinished
+                      ? "product_image"
+                      : "photo_soldout_detail"
+                  }
                 />
               ) : (
                 <p>No hay imágenes disponibles</p>
@@ -292,24 +302,23 @@ export default function ProductDetails() {
             </div>
           </div>
 
-
           <div className="product_info">
             <h4>Descripción:</h4>
             <p>{product.Description}</p>
           </div>
 
-
-          <div className="detail_reviews_div">
-            <h4>Esto opinan los que conocen la banda:</h4>
-            <p>{product.Description}</p>
-          </div>
-
+          {product.isShowFinished ? (
+            <div className="detail_reviews_div">
+              <ShowReviews productId={product.id} />
+            </div>
+          ) : (
+            ""
+          )}
 
           <RecommendedShows
             referencedShowId={product.id}
             categories={product.Categories.map((c) => c.Id)}
           />
-
         </div>
       ) : (
         <Loader />
@@ -317,5 +326,3 @@ export default function ProductDetails() {
     </>
   );
 }
-
-

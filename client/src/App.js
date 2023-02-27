@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Shows from "./components/Shows/Shows";
+import OldShows from "./components/OldShows/OldShows";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import Register from "./components/Register/Register";
 import Account from "./components/Account/Account";
 import Cart from "../src/components/Cart/Cart.jsx"
+import CompleteRegister from "./components/Register/CompleteRegister";
 import { AuthContextProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./components/Authentication/PrivateRoute";
 import { Order } from "./components/Order/Order";
@@ -19,6 +21,7 @@ function App() {
   return (
     <>
       <AuthContextProvider>
+
         <Switch>
           <Route exact path={"/"}>
             <NavBar />
@@ -32,9 +35,21 @@ function App() {
             <Footer />
             <Cart />
           </Route>
+          <Route exact path={"/oldshows"}>
+            <NavBar />
+            <OldShows />
+            <Footer />
+            <Cart />
+          </Route>
           <Route exact path={"/register"}>
             <NavBar />
             <Register />
+            <Footer />
+            <Cart />
+          </Route>
+          <Route exact path={"/complete-register"}>
+            <NavBar />
+            <CompleteRegister />
             <Footer />
             <Cart />
           </Route>
