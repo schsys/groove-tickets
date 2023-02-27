@@ -19,13 +19,20 @@ export const dataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
+        const { resourceId } = params.meta;
+
+        if (resource === 'reviews') {
+            params.filter = {};
+        }
+        console.log('params.filter',params.filter);
+
         const query = {
             sort: JSON.stringify([field, order]),
             page: page - 1,
             size: perPage,
             filter: JSON.stringify(params.filter),
         };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        const url = `${apiUrl}/${resource}/${resourceId}?${stringify(query)}`;
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
             data: json.rows,
             total: json.count,

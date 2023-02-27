@@ -3,22 +3,20 @@ import {
   List,
   ReferenceField,
   TextField,
-  ReferenceInput,
-  AutocompleteInput,
   FunctionField,
-  NumberInput,
 } from "react-admin";
 import StarRatingField from "./star-rating-field";
 import React, { useState, useEffect } from "react";
 import { getDetailedUser } from "../../common/integrations/api";
 import { NavLink } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
+import { Card, CardContent, CardHeader } from "@mui/material";
 
-const reviewFilters = [
-  <ReferenceInput source="productId" reference="products" alwaysOn>
-    <AutocompleteInput filterToQuery={(searchText) => ({ name: searchText })} />
-  </ReferenceInput>,
-];
+// const reviewFilters = [
+//   <ReferenceInput source="productId" reference="products" alwaysOn>
+//     <AutocompleteInput filterToQuery={(searchText) => ({ name: searchText })} />
+//   </ReferenceInput>,
+// ];
 
 export const ReviewList = () => {
   const { user } = UserAuth();
@@ -42,24 +40,33 @@ export const ReviewList = () => {
   }, [user]);
 
   if (apiUser.fetchStatus === "loading") {
-    return (
-      <>
-        <p>Obteniendo datos...</p>
-      </>
-    );
+    return <>
+      <Card sx={{ mt: 1 }}>
+        <CardContent>
+          <p>Obteniendo datos...</p>
+        </CardContent>
+      </Card>
+    </>
   }
 
   if (apiUser.fetchStatus === "failed") {
-    return (
-      <>
-        <p>Oops! Esto es embarazoso! </p>
-        <p>{apiUser.error && apiUser.error.message}</p>
-        <NavLink to="/">Volver</NavLink>
-      </>
-    );
+    return <>
+      <Card sx={{ mt: 1 }}>
+        <CardHeader title="Oops! Esto es embarazoso!" />
+        <CardContent>
+          <p>{apiUser.error && apiUser.error.message}</p>
+          <NavLink to="/">Volver</NavLink>
+        </CardContent>
+      </Card>
+    </>
   }
+
   return (
-    <List filters={reviewFilters} sort={{ field: "status", order: "ASC" }}>
+    <List 
+    /* filters={reviewFilters}  */
+    sort={{ field: "status", order: "ASC" }}
+    queryOptions={{ meta: { resourceId: apiUser.item.id } }}
+    >
       <Datagrid rowClick="show" bulkActionButtons={false}>
         <StarRatingField size="small" />
         <FunctionField
@@ -75,12 +82,9 @@ export const ReviewList = () => {
             return "";
           }}
         />
-        <ReferenceField source="productId" reference="products">
+        {/* <ReferenceField source="productId" reference="products">
           <TextField source="name" />
-        </ReferenceField>
-        <ReferenceField source="userId" reference="users">
-          <TextField source="userName" />
-        </ReferenceField>
+        </ReferenceField> */}
         <TextField source="status" label="Status" />
       </Datagrid>
     </List>
