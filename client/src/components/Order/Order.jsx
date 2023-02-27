@@ -154,305 +154,315 @@ export const Order = () => {
         </h3>
 
         <div className="cartSummary__user-info">
-          <h3>
-            <FaUserAlt /> Nombre:{" "}
-            {editing ? (
-              <input
-                type="text"
-                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
-                maxLength="30"
-                value={name}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, name: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
-
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
-                    } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
-                    }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+          <div className="name">
+            <h3 id="name">
+              <FaUserAlt /> Nombre:{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                  maxLength="30"
+                  value={name}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: { ...customer.tempItem, name: e.target.value },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input type="text" value={name} disabled />
-            )}
-          </h3>
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-          <h3>
-            <FaMailBulk /> Email:{" "}
-            {editing ? (
-              <input
-                type="email"
-                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                maxLength="30"
-                value={email}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, email: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
-
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Ingresa un correo válido. Ejepmlo: ejemplo@gmail.com";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Ingresa un correo válido. Ejemplo: ejemplo@gmail.com.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input type="text" value={name} disabled />
+              )}
+            </h3>
+          </div>
+          <div className="email_container">
+            <h3>
+              <FaMailBulk /> Email:{" "}
+              {editing ? (
+                <input
+                  type="email"
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                  maxLength="30"
+                  value={email}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: { ...customer.tempItem, email: e.target.value },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input type="text" value={email} disabled />
-            )}
-          </h3>
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-          <h3>
-            <FaDirections /> Dirección:{" "}
-            {editing ? (
-              <input
-                type="text"
-                maxLength="30"
-                pattern="^[A-Za-z0-9\s]+$"
-                value={address}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, address: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
-
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Solo se permiten números y letras.";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Ingresa un correo válido. Ejepmlo: ejemplo@gmail.com";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Ingresa un correo válido. Ejemplo: ejemplo@gmail.com.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Solo se permiten números y letras.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input type="text" value={email} disabled />
+              )}
+            </h3>
+          </div>
+          <div className="address_container">
+            <h3>
+              <FaDirections /> Dirección:{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  maxLength="30"
+                  pattern="^[A-Za-z0-9\s]+$"
+                  value={address}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: {
+                        ...customer.tempItem,
+                        address: e.target.value,
+                      },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input type="text" value={address} disabled />
-            )}
-          </h3>
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-          <h3>
-            <FaCity /> Ciudad:{" "}
-            {editing ? (
-              <input
-                type="text"
-                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
-                maxLength="30"
-                value={city}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, city: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
-
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Solo se permiten números y letras.";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Solo se permiten números y letras.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input type="text" value={address} disabled />
+              )}
+            </h3>
+          </div>
+          <div className="telephone_container">
+            <h3>
+              <FaPhoneAlt /> Teléfono:{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  pattern="^[-+]?[0-9]+$"
+                  maxLength="15"
+                  value={telephone}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: {
+                        ...customer.tempItem,
+                        telephone: e.target.value,
+                      },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input id="city" type="text" value={city} disabled />
-            )}{" "}
-            {editing ? (
-              <input
-                type="text"
-                pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
-                maxLength="30"
-                value={state}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, state: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Ingresa un número de télefono válido";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Ingresa un número de télefono válido";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Solo se permiten letras y espacios en blanco.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input type="text" value={telephone} disabled />
+              )}{" "}
+            </h3>
+          </div>
+          <div className="city_container">
+            <h3>
+              <FaCity /> Ciudad:{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                  maxLength="30"
+                  value={city}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: { ...customer.tempItem, city: e.target.value },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input id="state" type="text" value={state} disabled />
-            )}{" "}
-            {editing ? (
-              <input
-                type="text"
-                pattern="^[0-9]+$"
-                maxLength="5"
-                value={zip}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: { ...customer.tempItem, zip: e.target.value },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML = "Solo se permiten números.";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML = "Solo se permiten números.";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input id="city" type="text" value={city} disabled />
+              )}{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
+                  maxLength="30"
+                  value={state}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: { ...customer.tempItem, state: e.target.value },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input id="zip" type="text" value={zip} disabled />
-            )}{" "}
-          </h3>
-          <h3>
-            <FaPhoneAlt /> Teléfono:{" "}
-            {editing ? (
-              <input
-                type="text"
-                pattern="^[-+]?[0-9]+$"
-                maxLength="15"
-                value={telephone}
-                onChange={(e) =>
-                  setCustomer((customer) => ({
-                    ...customer,
-                    tempItem: {
-                      ...customer.tempItem,
-                      telephone: e.target.value,
-                    },
-                  }))
-                }
-                onKeyUp={(e) => {
-                  const input = e.target;
-                  const value = input.value;
-                  const pattern = new RegExp(input.getAttribute("pattern"));
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-                  if (!pattern.test(value)) {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.innerHTML =
-                        "Ingresa un número de télefono válido";
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML =
+                          "Solo se permiten letras y espacios en blanco.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
                     } else {
-                      const errorSpan = document.createElement("span");
-                      errorSpan.innerHTML =
-                        "Ingresa un número de télefono válido";
-                      errorSpan.style.color = "red";
-                      input.parentNode.appendChild(errorSpan);
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
                     }
-                  } else {
-                    const errorSpan = input.parentNode.querySelector("span");
-                    if (errorSpan) {
-                      errorSpan.remove();
-                    }
+                  }}
+                />
+              ) : (
+                <input id="state" type="text" value={state} disabled />
+              )}{" "}
+              {editing ? (
+                <input
+                  type="text"
+                  pattern="^[0-9]+$"
+                  maxLength="5"
+                  value={zip}
+                  onChange={(e) =>
+                    setCustomer((customer) => ({
+                      ...customer,
+                      tempItem: { ...customer.tempItem, zip: e.target.value },
+                    }))
                   }
-                }}
-              />
-            ) : (
-              <input type="text" value={telephone} disabled />
-            )}{" "}
-          </h3>
+                  onKeyUp={(e) => {
+                    const input = e.target;
+                    const value = input.value;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
+
+                    if (!pattern.test(value)) {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.innerHTML = "Solo se permiten números.";
+                      } else {
+                        const errorSpan = document.createElement("span");
+                        errorSpan.innerHTML = "Solo se permiten números.";
+                        errorSpan.style.color = "red";
+                        input.parentNode.appendChild(errorSpan);
+                      }
+                    } else {
+                      const errorSpan = input.parentNode.querySelector("span");
+                      if (errorSpan) {
+                        errorSpan.remove();
+                      }
+                    }
+                  }}
+                />
+              ) : (
+                <input id="zip" type="text" value={zip} disabled />
+              )}{" "}
+            </h3>
+          </div>
         </div>
       </div>
       <div>

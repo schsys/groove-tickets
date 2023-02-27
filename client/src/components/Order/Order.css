@@ -17,7 +17,7 @@
   padding-top: 2vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid white;
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 .cartSummary__show-Container {
   margin-top: 2vh;
@@ -93,26 +93,68 @@
   border-bottom: 4px solid white;
 }
 .cartSummary__user-info {
+  position: relative;
   color: white;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-left: 2vw;
-  font-size: 3vh;
+  font-size: 2.6vh;
 }
 
 .cartSummary__user-info input {
   color: rgb(0, 0, 0);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 1vw;
-  width: 25vh;
-  font-size: 2.7vh;
+  font-size: 2.6vh;
 }
+
+.name {
+  height: 8vh;
+  float: left;
+  width: 52vh;
+}
+.email_container {
+  height: 8vh;
+  width: 55vh;
+  float: right;
+  margin-right: 20vh;
+}
+.email_container input {
+  width: 35vh;
+}
+
+.address_container {
+  height: 8vh;
+  float: left;
+  width: 52vh;
+}
+
+.address_container input {
+  width: 27vh;
+}
+
+.telephone_container {
+  height: 8vh;
+  float: right;
+  width: 55vh;
+  margin-right: 20vh;
+}
+
+.telephone_container input {
+  width: 30vh;
+}
+
+.city_container {
+  float: left;
+  width: 100vh;
+}
+
+.city_container input {
+  width: 25vh;
+}
+
 .cartSummary__user-info #city,
 #state,
 #zip {
-  color: rgb(0, 0, 0);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 2.7vh;
-  width: 10vh;
+  font-size: 2.3vh;
 }
 .cartSummary__user-editInfo {
   margin-left: 1vw;
@@ -217,7 +259,7 @@
   text-decoration: none;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border: none;
-  margin: 2rem 1.5rem -5rem 0;
+  margin: 2rem 1.5rem -5rem 0rem;
   margin-left: 10%;
   cursor: pointer;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -228,27 +270,20 @@
   background-color: var(--color-violet);
 }
 /*---------------------@media (min-width: 750px) and (max-width: 1200px)-----------------*/
-@media (min-width: 750px) and (max-width: 1200px) {
+@media (min-width: 750px) and (max-width: 1500px) {
   .cartSummary__user-info input {
-    color: rgb(0, 0, 0);
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-size: 1vw;
-    width: 25vh;
-    font-size: 2.7vh;
+    font-size: 2.4vh;
   }
-  .cartSummary__user-info #city,
-  #state,
-  #zip {
-    color: rgb(0, 0, 0);
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-size: 2.7vh;
-    width: 10vh;
-  }
+
   .cartSummary__user-info {
     color: white;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-left: 3vh;
-    font-size: 2vh;
+    margin-left: 2vw;
+    font-size: 2.5vh;
+  }
+  .cartSummary__user-info #zip {
+    font-size: 2.4vh;
+    width: 10vh;
   }
   .back_button-order {
     width: 25vh;
@@ -328,21 +363,20 @@
   }
 
   .cartSummary__user-info {
-    font-size: 3vh;
+    font-size: 2.3vh;
   }
   .cartSummary__user-info input {
     color: rgb(0, 0, 0);
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-size: 1vw;
-    width: 20vw;
-    font-size: 2.5vh;
+    /*     width: 20vw; */
+    font-size: 2.3vh;
   }
   .cartSummary__user-info #city,
   #state,
   #zip {
     color: rgb(0, 0, 0);
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     width: 8vh;
   }
 
@@ -402,5 +436,14 @@
 
   .cartSummary__show-processOrder {
     font-size: 3vh;
+  }
+}
+
+@media (min-width: 470px) and (max-width: 1060px) {
+  .email_container {
+    float: left;
+  }
+  .telephone_container {
+    float: left;
   }
 }
