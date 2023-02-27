@@ -254,7 +254,7 @@ export const setLocalStorageToApi = (user) => {
           // trato de errores
           console.log('orden modificada: ', response);         
         }else{
-          const customer = await axios.get(`/user?userName=${user.email}`);
+          const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
           if (customer) {            
             const orderItems = items.map(item => 
                 (
@@ -271,7 +271,7 @@ export const setLocalStorageToApi = (user) => {
             for (const item of orderItems) 
                 totalOrderAmount = totalOrderAmount + item.totalAmount;
             
-            const response = await axios.post('/order', 
+            const response = await axios.post(`${apiUrl}/order`, 
                 {
                   customerId: customer.data.Customer.id,
                   totalAmount: totalOrderAmount,
@@ -305,7 +305,7 @@ export const createOrder = async(user, items) => {
   
   try {
     if (userIsLogining(user)) {
-        const customer = await axios.get(`/user?userName=${user.email}`);
+        const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
         if (customer) {
           let price = 0;
           let totalOrderAmount = 0;
@@ -324,7 +324,7 @@ export const createOrder = async(user, items) => {
           };      
 
           console.log('createOrder', totalOrderAmount, orderItems,  customer.data.Customer.id);
-          const response = await axios.post('/order', 
+          const response = await axios.post(`${apiUrl}/order`, 
               {
                 customerId: customer.data.Customer.id,
                 totalAmount: totalOrderAmount,
