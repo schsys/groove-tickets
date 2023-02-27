@@ -5,9 +5,15 @@ import StarIcon from "@mui/icons-material/Star";
 import { NavLink } from "react-router-dom";
 import { getReviews } from "../../common/integrations/api";
 
+
+import ReviewsCard from "./ReviewsCard";
+
+
 import "./ShowReviews.css";
 
+
 export default function ShowReviews({ productId }) {
+
 
   //FUNCION VALIDADORA
   function validate(input) {
@@ -19,6 +25,7 @@ export default function ShowReviews({ productId }) {
       errors.displayName = "Solo se permiten hasta 500 caracteres";
     }
   }
+
 
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
@@ -32,16 +39,19 @@ export default function ShowReviews({ productId }) {
     error: null
   });
 
+
   useEffect(() => {
     async function getApiReviews(productId) {
       const response = await getReviews(productId);
       console.log('reviews: ', response);
-
+     
       setReviews(response);
     }
 
+
     getApiReviews(productId);
   }, [productId])
+
 
   //Rating
   const labels = {
@@ -57,9 +67,11 @@ export default function ShowReviews({ productId }) {
     5: "Excelente+",
   };
 
+
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
+
 
   const handleTextChange = (e) => {
     setInput({
@@ -72,6 +84,7 @@ export default function ShowReviews({ productId }) {
     }))
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors('')
@@ -81,11 +94,13 @@ export default function ShowReviews({ productId }) {
     })
   }
 
+
   if (reviews.fetchStatus === 'loading') {
     return <>
       <p>Obteniendo datos...</p>
     </>
   }
+
 
   if (reviews.fetchStatus === 'failed') {
     return <>
@@ -95,10 +110,15 @@ export default function ShowReviews({ productId }) {
     </>
   }
 
+
   return (
     <div>
-      <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>
       <div className="detail_rating_section">
+        <div className="show_reviews">
+          <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>
+          
+        </div>
+     
         <h2 className="detail_rating_title">
           ¿Conocés la banda? ¿Viste el show?
         </h2>
@@ -150,8 +170,17 @@ export default function ShowReviews({ productId }) {
         </div>
       </div>
 
+
       <div className="reviews_div">
         <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
+        <div className="users_reviews_div">
+        {reviews.length ? (
+      reviews?.data?.items?.map((review) => <ReviewsCard review={review} key={review.items.id}/>)
+    ) :
+    (
+      ""
+    )}
+        </div>
       </div>
     </div>
   );
