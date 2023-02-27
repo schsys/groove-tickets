@@ -319,11 +319,11 @@ export const Order = () => {
                       const errorSpan = input.parentNode.querySelector("span");
                       if (errorSpan) {
                         errorSpan.innerHTML =
-                          "Ingresa un número de télefono válido";
+                          "Ingresa un número de teléfono válido";
                       } else {
                         const errorSpan = document.createElement("span");
                         errorSpan.innerHTML =
-                          "Ingresa un número de télefono válido";
+                          "Ingresa un número de teléfono válido";
                         errorSpan.style.color = "red";
                         input.parentNode.appendChild(errorSpan);
                       }
