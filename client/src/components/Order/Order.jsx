@@ -15,6 +15,7 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./Order.css";
 import { ItemsOrder } from "./ItemsOrder";
+const apiUrl = process.env.REACT_APP_BASE_URL;
 
 export const Order = () => {
   // Logged user
@@ -31,7 +32,7 @@ export const Order = () => {
     async function fetchCustomer() {
       try {
         const response = await axios.get(
-          `http://localhost:3001/orders?status=Created&userName=${user.email}`
+          `${apiUrl}/orders?status=Created&userName=${user.email}`
         );
         const customerInfo = {
           customerId: response.data.Customer.Id,
@@ -91,7 +92,7 @@ export const Order = () => {
     try {
       // Enviar los datos actualizados al servidor
       await axios.put(
-        `http://localhost:3001/customers/${customer.customerInfo.customerId}`,
+        `${apiUrl}/customers/${customer.customerInfo.customerId}`,
         customer.tempItem
       );
       // Actualizar el estado local con los datos actualizados
