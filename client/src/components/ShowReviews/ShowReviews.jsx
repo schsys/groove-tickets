@@ -7,13 +7,10 @@ import { getReviews } from "../../common/integrations/api";
 
 
 import ReviewsCard from "./ReviewsCard";
-
-
 import "./ShowReviews.css";
 
 
 export default function ShowReviews({ productId }) {
-
 
   //FUNCION VALIDADORA
   function validate(input) {
@@ -25,7 +22,6 @@ export default function ShowReviews({ productId }) {
       errors.displayName = "Solo se permiten hasta 500 caracteres";
     }
   }
-
 
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
@@ -39,7 +35,6 @@ export default function ShowReviews({ productId }) {
     error: null
   });
 
-
   useEffect(() => {
     async function getApiReviews(productId) {
       const response = await getReviews(productId);
@@ -48,15 +43,14 @@ export default function ShowReviews({ productId }) {
       setReviews(response);
     }
 
-
     getApiReviews(productId);
   }, [productId])
 
 
   //Rating
   const labels = {
-    0.5: "Inútil",
-    1: "Inútil+",
+    0.5: "Malo",
+    1: "Malo+",
     1.5: "Pobre",
     2: "Pobre+",
     2.5: "Ok",
@@ -67,11 +61,9 @@ export default function ShowReviews({ productId }) {
     5: "Excelente+",
   };
 
-
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
-
 
   const handleTextChange = (e) => {
     setInput({
@@ -84,7 +76,6 @@ export default function ShowReviews({ productId }) {
     }))
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors('')
@@ -93,7 +84,6 @@ export default function ShowReviews({ productId }) {
       text: "",
     })
   }
-
 
   if (reviews.fetchStatus === 'loading') {
     return <>
@@ -133,6 +123,17 @@ export default function ShowReviews({ productId }) {
               }}
             >
               <Rating
+              sx={{
+                '& .MuiRating-iconFilled': {
+                  color: '#efa13ce0',
+                },
+                '& .MuiRating-iconFocus': {
+                  color: '#d68291e0',
+                },
+                '& .MuiRating-iconHover': {
+                  color: '#d68291e0',
+                },
+              }}
                 name="hover-feedback"
                 value={value}
                 precision={0.5}
@@ -151,6 +152,7 @@ export default function ShowReviews({ productId }) {
                 <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
               )}
             </Box>
+
             <div className="rating_textarea_div">
               <textarea
                 className="reviews_textarea"
@@ -174,11 +176,11 @@ export default function ShowReviews({ productId }) {
       <div className="reviews_div">
         <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
         <div className="users_reviews_div">
-        {reviews.length ? (
-      reviews?.data?.items?.map((review) => <ReviewsCard review={review} key={review.items.id}/>)
+        {reviews.data.items ? (
+      reviews?.data?.items?.map((review) => <ReviewsCard review={review} key={review.id}/>)
     ) :
     (
-      ""
+      "Todavía no hay opiniones para este show."
     )}
         </div>
       </div>
