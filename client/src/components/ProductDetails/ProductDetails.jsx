@@ -134,7 +134,6 @@ export default function ProductDetails() {
     }
   };
 
-
   //Shows recomendados
   const category =
     product && product.Categories && product.Categories.length > 0
@@ -148,68 +147,66 @@ export default function ProductDetails() {
   const topRecommended = recommendation.slice(0, 3);
 
   const message = () => {
-    if(product.Stock < 1) {
-      return (<p className="show_soldout_text">SHOW AGOTADO</p>)
+    if (product.Stock < 1) {
+      return <p className="show_soldout_text">SHOW AGOTADO</p>;
     } else if (product.Stock > 1 && product.isShowFinished) {
-      return (<p className="show_soldout_text">SHOW FINALIZADO</p>)
+      return <p className="show_soldout_text">SHOW FINALIZADO</p>;
     }
-  }
+  };
 
   const showIfNotExpired = () => {
-    if(!product.isShowFinished){
+    if (!product.isShowFinished) {
       return (
         <>
-        <p>
-                <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
-                horas
+          <p>
+            <i className="fas fa-clock"></i> {product.StartTime.slice(0, 5)}{" "}
+            horas
+          </p>
+          <>
+            {product.Artist && Object.keys(product.Artist).length > 0 ? (
+              <p>
+                <i className="fas fa-music"></i> Conjunto: {product.Artist.Name}
               </p>
-              <>
-                {product.Artist && Object.keys(product.Artist).length > 0 ? (
-                  <p>
-                    <i className="fas fa-music"></i> Artistas:{" "}
-                    {product.Artist.Name}
-                  </p>
-                ) : (
-                  <p>Músico no disponible</p>
-                )}
-              </>
+            ) : (
+              <p>Conjunto no disponible</p>
+            )}
+          </>
 
-              <>
-                {product.Categories && product.Categories.length > 0 ? (
-                  <p>
-                    {" "}
-                    <i className="fas fa-tag"></i> Categoría:{" "}
-                    {product.Categories[0].Name}
-                  </p>
-                ) : (
-                  <p>No hay categorías disponibles</p>
-                )}
-              </>
-              <>
-                {product.Location &&
-                Object.keys(product.Location).length > 0 ? (
-                  <p>
-                    <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
-                    {product.Location.Name}
-                    {" -"} {product.Location.Address}
-                  </p>
-                ) : (
-                  <p>No hay ubicación disponible</p>
-                )}
-              </>
-              <>
-                <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
-              </>
-            </>
-      )
+          <>
+            {product.Categories && product.Categories.length > 0 ? (
+              <p>
+                {" "}
+                <i className="fas fa-tag"></i> Género:{" "}
+                {product.Categories[0].Name}
+              </p>
+            ) : (
+              <p>No hay géneros disponibles</p>
+            )}
+          </>
+          <>
+            {product.Location && Object.keys(product.Location).length > 0 ? (
+              <p>
+                <i className="fas fa-map-marker-alt"></i> Ubicación:{" "}
+                {product.Location.Name}
+                {" -"} {product.Location.Address}
+              </p>
+            ) : (
+              <p>No hay ubicación disponible</p>
+            )}
+          </>
+          <>
+            <h2 className="detail_price_h2">Precio: ${product.Price}</h2>
+          </>
+        </>
+      );
     } else {
       return (
         <div className="average_opinion_div">
           <h3 className="average_opinion_title">Promedio de opiniones</h3>
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -281,9 +278,7 @@ export default function ProductDetails() {
                         Agregar al Carrito
                       </button>
                     ) : (
-                      <div className="show_soldout_div">
-                        {message()}
-                      </div>
+                      <div className="show_soldout_div">{message()}</div>
                     )}
                   </div>
                 </div>
