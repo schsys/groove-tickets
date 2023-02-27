@@ -1,0 +1,18 @@
+.individual_review_card{
+    border-top: 1px solid white;
+    width: 100%;
+    margin-left: -1.2rem;
+}
+
+.stars_review_div{
+    display: flex;
+    align-items:center;
+    text-align: left;
+    margin-left: 1.2rem;
+}
+
+.review_label_stars, .review_label_stars_icons{
+    margin: auto 0 !important;
+    padding: 0;
+    width: auto;
+}
