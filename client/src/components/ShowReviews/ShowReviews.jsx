@@ -17,9 +17,9 @@ export default function ShowReviews({ productId }) {
     //va a recibir el estado input con los cambios detectados por los handlers
     let errors = {}; //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
     if (!input.text) {
-      errors.text = "Necesitás ingresar un nombre";
+      errors.text = "Necesitás ingresar un comentario";
     } else if (input.text.length > 500) {
-      errors.displayName = "Solo se permiten hasta 500 caracteres";
+      errors.text = "Solo se permiten hasta 500 caracteres";
     }
   }
 
@@ -128,10 +128,10 @@ export default function ShowReviews({ productId }) {
                   color: '#efa13ce0',
                 },
                 '& .MuiRating-iconFocus': {
-                  color: '#d68291e0',
+                  color: '#6f4580e0',
                 },
                 '& .MuiRating-iconHover': {
-                  color: '#d68291e0',
+                  color: '#6f4580e0',
                 },
               }}
                 name="hover-feedback"
@@ -165,7 +165,7 @@ export default function ShowReviews({ productId }) {
                 onChange={(e) => handleTextChange(e)}
                 maxLength={500}
               ></textarea>
-              {/* {errors.text && <p className="textarea_error">{errors.text}</p>} */}
+              {errors.text && <p className="textarea_error">{errors.text}</p>}
             </div>
             <button className="send_review_btn">ENVIAR OPINIÓN</button>
           </form>
