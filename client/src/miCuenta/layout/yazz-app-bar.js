@@ -7,7 +7,7 @@ const darkTheme = {
 };
 
 export const YazzAppBar = (props) => (
-    <AppBar {...props}>-
+    <AppBar {...props}>
         <Typography flex="1" variant="h6" id="react-admin-title"></Typography>
         <ToggleThemeButton
             lightTheme={defaultTheme}

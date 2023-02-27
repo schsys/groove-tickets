@@ -2,9 +2,7 @@ import {
   Edit,
   SimpleForm,
   TextInput,
-  SelectInput,
   required,
-  ReferenceInput,
   DateInput,
   NumberInput,
 } from "react-admin";
@@ -15,31 +13,15 @@ export const CustomerEdit = () => (
   <Edit>
     <SimpleForm toolbar={<CustomToolbar />}>
       <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
-        <Box flex={2} mr={{ xs: 0, sm: "0.5em" }}>
-          <TextInput source="name" label="Nombre" validate={required()} fullWidth />
-        </Box>
-        <Box flex={2} ml={{ xs: 0, sm: "0.5em" }}>
-          <ReferenceInput source="userId" label="Usuario" reference="users">
-            <SelectInput validate={required()} fullWidth />
-          </ReferenceInput>
-        </Box>
-        <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-          <SelectInput
-            source="status"
-            label="Estado"
-            optionValue="name"
-            defaultValue={"Active"}
-            choices={[
-              { id: "Active", name: "Active" },
-              { id: "Disabled", name: "Disabled" },
-            ]}
-            validate={required()}
-            fullWidth
-          />
-        </Box>
+        <TextInput
+          source="name"
+          label="Nombre"
+          validate={required()}
+          fullWidth
+        />
       </Box>
       <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
-        <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
+        <Box flex={1}>
           <TextInput
             source="address"
             label="Dirección"
@@ -55,7 +37,9 @@ export const CustomerEdit = () => (
             fullWidth
           />
         </Box>
-        <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
+      </Box>
+      <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+        <Box flex={1}>
           <TextInput
             source="state"
             label="Provincia"
@@ -73,10 +57,7 @@ export const CustomerEdit = () => (
         </Box>
       </Box>
       <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
-        <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-          <TextInput source="email" label="Email" validate={required()} fullWidth />
-        </Box>
-        <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
+        <Box flex={1}>
           <TextInput source="telephone" label="Teléfono" fullWidth />
         </Box>
         <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
