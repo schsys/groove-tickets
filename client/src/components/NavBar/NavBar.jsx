@@ -53,14 +53,22 @@ const Navbar = ({ isCartDisabled = false }) => {
         </Link>
       </div>
       <div className={`nav_items ${isOpen && "open"}`}>
+      <Link
+          to={"/oldshows"}
+          onClick={handleOnClickShows}
+          className="navbar_menu_link"
+        >
+          HISTÓRICOS
+        </Link>
+        
         <Link
-          // to={"/shows"}
           to={"/"}
           onClick={handleOnClickShows}
           className="navbar_menu_link"
         >
           SHOWS
         </Link>
+       
         {/* <Link to={"/shop"} className="navbar_menu_link">TIENDA</Link>
               <Link to={"/lessons"} className="navbar_menu_link">CLASES</Link> */}
       </div>

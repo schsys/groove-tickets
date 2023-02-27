@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Shows from "./components/Shows/Shows";
+import OldShows from "./components/OldShows/OldShows";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
@@ -31,6 +32,12 @@ function App() {
           <Route path="/product/:id">
             <NavBar />
             <ProductDetails />
+            <Footer />
+            <Cart />
+          </Route>
+          <Route exact path={"/oldshows"}>
+            <NavBar />
+            <OldShows />
             <Footer />
             <Cart />
           </Route>
