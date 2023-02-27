@@ -10,7 +10,8 @@ import {
   EMPTY_CART,
   ADD_EDIT_CART,
   ORDER_SELECTED,
-  FETCHING_PRODUCTS
+  FETCHING_PRODUCTS,
+  GET_OLDSHOWS
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -39,6 +40,15 @@ const rootReducer = (state = initialState, action) => {
         allProducts: action.payload,
         fetchProducts: "succeeded"
       };
+    }
+
+    case GET_OLDSHOWS: {
+      return{
+        ...state,
+        products: action.payload,
+      allProducts: action.payload,
+      fetchProducts: "succeeded"
+      }
     }
 
     case TOGGLE_SHOW_CART:

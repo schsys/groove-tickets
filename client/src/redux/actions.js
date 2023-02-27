@@ -11,6 +11,7 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
+export const GET_OLDSHOWS = "GET_OLDSHOWS";
 
 
 const apiUrl = process.env.REACT_APP_BASE_URL;
@@ -53,6 +54,19 @@ export const getProducts = () => {
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
       alert("algo salió mal, no se cargaron los productos");
+      console.log(error);
+    }
+  };
+};
+
+export const getOldShows = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({type: FETCHING_PRODUCTS })
+      const allProducts = await axios.get(`${apiUrl}/finished-products`);
+      dispatch({ type: GET_OLDSHOWS, payload: allProducts.data });
+    } catch (error) {
+      alert("algo salió mal, no se cargaron los shows históricos");
       console.log(error);
     }
   };
