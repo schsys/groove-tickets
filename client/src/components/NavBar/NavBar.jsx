@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleShowCart } from "../../redux/actions";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { clearFilters, getProducts, getTotalItems } from "../../redux/actions";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import { IconName } from "react-icons/fa";
 import Search from "../SearchBar/Search";
 
@@ -18,6 +18,7 @@ import { UserAuth } from "../../context/AuthContext";
 const Navbar = ({ isCartDisabled = false }) => {
   //const [authorizedUser] = useSessionStorage("accessToken");
   const { user } = UserAuth();
+  const [activeLink, setActiveLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   // const [loggedIn, setLoggedIn] = useState(false);
   // const [username, setUsername] = useState("");
@@ -35,15 +36,22 @@ const Navbar = ({ isCartDisabled = false }) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getTotalItems(user));
     //    setAvailableStock(product.Stock);
-    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
+    //La línea de código en formato comentado que estás debajo de este comentario deshabilita específicamente la regla "react-hooks/exhaustive-deps.
+    //No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalItems, user]);
 
   // const cart = useSelector((state) => state.cart);
   // const [showCart, setShowCart] = useState(false);
+
+  const location = useLocation();
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <div className="navbar">
@@ -53,22 +61,23 @@ const Navbar = ({ isCartDisabled = false }) => {
         </Link>
       </div>
       <div className={`nav_items ${isOpen && "open"}`}>
-      <Link
+        <Link
           to={"/oldshows"}
           onClick={handleOnClickShows}
-          className="navbar_menu_link"
+          //className="navbar_menu_link"
+          className={isActive('/oldshows') ? 'navbar_menu_link_active' : 'navbar_menu_link'}
         >
           HISTÓRICOS
         </Link>
-        
+
         <Link
           to={"/"}
           onClick={handleOnClickShows}
-          className="navbar_menu_link"
+          className={isActive('/') ? 'navbar_menu_link_active' : 'navbar_menu_link'}
         >
           SHOWS
         </Link>
-       
+
         {/* <Link to={"/shop"} className="navbar_menu_link">TIENDA</Link>
               <Link to={"/lessons"} className="navbar_menu_link">CLASES</Link> */}
       </div>
@@ -80,13 +89,13 @@ const Navbar = ({ isCartDisabled = false }) => {
         <span></span>
         <span></span>
       </div>
-      
+
       <div className="navbar_search_div">
         <Search />
       </div>
 
       <div className="nav_right">
-      <Badge
+        <Badge
           color="info"
           badgeContent={totalItems}
           onClick={handleBadgeClick}
@@ -101,9 +110,7 @@ const Navbar = ({ isCartDisabled = false }) => {
         {user ? (
           <div className="nav_username">
             <Link to="/micuenta" className="navbar_menu_link">
-              <AccountCircleIcon 
-                className="right_navbar_icons"
-              />
+              <AccountCircleIcon className="right_navbar_icons" />
             </Link>
           </div>
         ) : (
@@ -115,7 +122,6 @@ const Navbar = ({ isCartDisabled = false }) => {
             </div>
           </div>
         )}
-        
       </div>
     </div>
   );

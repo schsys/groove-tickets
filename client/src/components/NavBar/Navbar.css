@@ -6,8 +6,6 @@
   align-items: center;
 }
 
-
-
 .nav_logo {
   margin-left: 1.5rem;
   width: 3rem;
@@ -54,6 +52,10 @@
   color: var(--color-green);
   cursor: pointer;
   font-size: 1.25rem;
+}
+
+.navbar_menu_link_active{
+  color: var(--color-green);
 }
 
 .nav_btn_logged {
