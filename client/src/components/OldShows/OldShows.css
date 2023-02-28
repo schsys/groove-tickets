@@ -1,7 +1,7 @@
 .oldshows__background-container {
   width: 100%;
   background-color: black;
-  background-image: url("../../assets/showsBg.png");
+  /* background-image: url("../../assets/showsBg.png"); */
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -102,6 +102,14 @@ color: white;
 
 .card_average_opinion_title{
   color: var(--color-orange) !important;
+  margin: 0.5rem auto;
+}
+
+.card_average_number{
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 auto 0.5rem auto;
 }
 
 .shows__cards-show1 {
@@ -219,8 +227,6 @@ color: white;
   align-items: center;
   width: 100%;
 }
-
-
 
 @media screen and (max-width: 900px) {
   .oldshows__cards-container {
