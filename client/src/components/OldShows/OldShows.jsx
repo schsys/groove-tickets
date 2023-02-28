@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOldShows } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
-import SingleCard from "../Cards/SingleCard";
+import OldShowCard from "../OldShowCard/OldShowCard";
 import "./OldShows.css";
 // import banner from "../../assets/banner.shows.fw.png";
 import Filters from "../Filters/FiltersV2";
@@ -61,7 +61,7 @@ const OldShows = () => {
                     new Date(b.StartDate + "T00:00:00")
                 )
                 .slice(firstProduct, lastProduct)
-                .map((prod) => <SingleCard data={prod} key={prod.id} />)
+                .map((prod) => <OldShowCard data={prod} key={prod.id} />)
             )}
           </div>
 

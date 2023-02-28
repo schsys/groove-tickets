@@ -57,6 +57,7 @@ const Navbar = ({ isCartDisabled = false }) => {
           to={"/oldshows"}
           onClick={handleOnClickShows}
           className="navbar_menu_link"
+          activeClassName="active-link"
         >
           HISTÓRICOS
         </Link>
@@ -65,6 +66,7 @@ const Navbar = ({ isCartDisabled = false }) => {
           to={"/"}
           onClick={handleOnClickShows}
           className="navbar_menu_link"
+          activeClassName="active-link"
         >
           SHOWS
         </Link>
