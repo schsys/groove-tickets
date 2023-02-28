@@ -5,7 +5,9 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
+
 import "./CompleteRegister.css";
+
 const apiUrl = process.env.REACT_APP_BASE_URL;
 
 //FUNCION VALIDADORA
@@ -49,7 +51,6 @@ export default function CompleteRegister() {
     email: history.location.state.dbUser.userName,
     phoneNumber: 0,
     dni:0,
-    //terms: false,
   });
 
   //Alert para saludar cuando se desloguea
@@ -121,22 +122,21 @@ export default function CompleteRegister() {
   };
 
   return (
-    <div className="register_page_container">
-      <div className="register_section">
+    <div className="complete_page_container">
+      <div className="completeregister_section">
         {/*SECTION TO REGISTER*/}
-        <div className="register_container">
-          <h2 className="register_h2">YA ESTAS CERCA, FINALIZA TU REGISTRO</h2>
-          {/* <p className="signup_text">Registrate!</p> */}
+        <div className="completeregister_container">
+          <h2 className="completeregister_h2">YA ESTAS CERCA, FINALIZÁ TU REGISTRO</h2>
           <form
             onSubmit={(e) => handleSubmitSignup(e)}
-            className="register_form"
+            className="completeregister_form"
           >
             <div className="register_info_wraper">
-              <label className="register-form_label" htmlFor="name">
-                Nombre:
+              <label className="completeregister-form_label" htmlFor="name">
+                Nombre y apellido:
               </label>
               <input
-                className="signup_section_input"
+                className="complete_section_input"
                 type="text"
                 id="name"
                 name="displayName"
@@ -149,29 +149,13 @@ export default function CompleteRegister() {
               )}{" "}
               {/*si el estado errors tiene la prop name, renderizo un parrafo con el string de esta prop */}
             </div>
+            
             <div className="register_info_wraper">
-              <label className="register-form_label" htmlFor="lastname">
-                Apellido:
-              </label>
-              <input
-                className="signup_section_input"
-                type="text"
-                id="lastname"
-                name="lastname"
-                value={input.lastname}
-                placeholder="Ingresá tu apellido"
-                onChange={(e) => handleChange(e)}
-              />
-              {errors.lastname && (
-                <p className="signup_error">{errors.lastname}</p>
-              )}
-            </div>
-            <div className="register_info_wraper">
-              <label className="register-form_label" htmlFor="email">
+              <label className="completeregister-form_label" htmlFor="email">
                 Email:
               </label>
               <input
-                className="signup_section_input"
+                className="complete_section_input"
                 type="email"
                 id="email"
                 name="email"
@@ -181,11 +165,11 @@ export default function CompleteRegister() {
               {errors.email && <p className="signup_error">{errors.email}</p>}
             </div>
             <div className="register_info_wraper">
-              <label className="register-form_label" htmlFor="dni">
+              <label className="completeregister-form_label" htmlFor="dni">
                 Dni:
               </label>
               <input
-                className="signup_section_input"
+                className="complete_section_input"
                 type="dni"
                 id="dni"
                 name="dni"
@@ -195,11 +179,11 @@ export default function CompleteRegister() {
               {errors.dni && <p className="signup_error">{errors.dni}</p>}
             </div>
             <div className="register_info_wraper">
-              <label className="register-form_label" htmlFor="phoneNumber">
+              <label className="completeregister-form_label" htmlFor="phoneNumber">
                 Teléfono:
               </label>
               <input
-                className="signup_section_input"
+                className="complete_section_input"
                 type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
@@ -213,7 +197,7 @@ export default function CompleteRegister() {
             </div>
             <div className="register_info_wraper_check">
               <label className="register-label_check" htmlFor="terms">
-                <Link to={"./terms"} className="register_link_terms">
+                <Link to={"./terms"} className="completeregister_link_terms">
                   Aceptás los términos y condiciones:
                 </Link>
               </label>
