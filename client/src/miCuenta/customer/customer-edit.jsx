@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 import { CustomToolbar } from "../custom-toolbar";
 
 export const CustomerEdit = () => (
-  <Edit>
+  <Edit title="Datos personales">
     <SimpleForm toolbar={<CustomToolbar />}>
       <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
         <TextInput

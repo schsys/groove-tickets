@@ -21,18 +21,13 @@ export const dataProvider = {
         const { field, order } = params.sort;
         const { resourceId } = params.meta;
 
-        if (resource === 'reviews') {
-            params.filter = {};
-        }
-        console.log('params.filter',params.filter);
-
         const query = {
             sort: JSON.stringify([field, order]),
             page: page - 1,
             size: perPage,
             filter: JSON.stringify(params.filter),
         };
-        const url = `${apiUrl}/${resource}/${resourceId}?${stringify(query)}`;
+        const url = `${apiUrl}/${resourceId}/${resource}?${stringify(query)}`;
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
             data: json.rows,
             total: json.count,
@@ -48,10 +43,10 @@ export const dataProvider = {
             filter: JSON.stringify({ id: params.ids }),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
-        console.log('dataProvider.getMany params.ids: ', params.ids);
+        // console.log('dataProvider.getMany params.ids: ', params.ids);
         // return httpClient(url).then(({ json }) => ({ data: json.rows }));
         return httpClient(url).then(({ json }) => {
-            console.log('json.rows: ', json.rows);
+            // console.log('json.rows: ', json.rows);
             return { data: json.rows };
         });
     },
@@ -61,7 +56,7 @@ export const dataProvider = {
             body: JSON.stringify(params.data)
         });
 
-        console.log('json returned by httpClient: ', response);
+        // console.log('json returned by httpClient: ', response);
         return { data: response.json };
 
     },
@@ -71,7 +66,7 @@ export const dataProvider = {
             body: JSON.stringify(params.data)
         });
 
-        console.log('json returned by httpClient: ', response.json);
+        // console.log('json returned by httpClient: ', response.json);
         return { data: { ...params.data, id: response.json.id } };
     },
     delete: (resource, params) =>

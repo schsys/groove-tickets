@@ -57,7 +57,7 @@ export const CustomerShow = () => {
 
   return <>
     <Dashboard />
-    <Show title="Customer Detail" id={apiUser.item.Customer.id}>
+    <Show title="Datos personales" id={apiUser.item.Customer.id}>
       <SimpleShowLayout>
         <TextField source="address" label="Dirección" />
         <TextField source="city" label="Ciudad" />

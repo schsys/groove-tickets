@@ -2,23 +2,22 @@ import {
   Show,
   SimpleShowLayout,
   TextField,
-  ReferenceField,
+  DateField,
 } from "react-admin";
 import StarRatingField from "./star-rating-field";
 
 export const ReviewShow = () => (
-  <Show>
+  <Show title="Reviews">
     <SimpleShowLayout>
-      <ReferenceField source="productId" reference="products" resource="products">
-        <TextField source="name" fullWidth label="Product" />
-      </ReferenceField>
+      <StarRatingField source="stars" label="Puntaje" />
+      <TextField source="Product.name" label="Producto" />
       <TextField
         source="message"
-        label="Message"
+        label="Opinión"
         fullWidth
       />
-      <StarRatingField source="stars" />
-      <TextField source="status" label="Status" fullWidth />
+      <DateField source="createdAt" label="Fecha de Creación" showTime />
+      <DateField source="updatedAt" label="Fecha de Actualización" showTime />
     </SimpleShowLayout>
   </Show>
 );
