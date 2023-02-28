@@ -1,14 +1,24 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { NavLink } from "react-router-dom";
 import { getReviews } from "../../common/integrations/api";
-
+import { UserAuth } from "../../context/AuthContext";
 
 import ReviewsCard from "./ReviewsCard";
 import "./ShowReviews.css";
 
+const apiUrl = process.env.REACT_APP_BASE_URL;
+
+const promiseHandleSubmit = (data) => {
+  return new Promise((resolve, reject) => {
+      axios.post(`${apiUrl}/reviews`, data)
+      .then(data => resolve(data))
+      .catch(e => reject(e))
+  }); 
+}
 
 export default function ShowReviews({ productId }) {
 
@@ -26,39 +36,30 @@ export default function ShowReviews({ productId }) {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [errors, setErrors] = useState({ e: "" });
-  const [input, setInput] = useState({
-    text: "",
-  });
+  const [input, setInput] = useState({text: ""});
+  const [toRender, setToRender] = useState(false);
   const [reviews, setReviews] = useState({
     data: {},
     fetchStatus: 'loading',
     error: null
   });
-
+  const { user } = UserAuth();
+  
   useEffect(() => {
     async function getApiReviews(productId) {
-      const response = await getReviews(productId);
-      console.log('reviews: ', response);
-     
+      const response = await getReviews(productId);   
       setReviews(response);
     }
-
     getApiReviews(productId);
-  }, [productId])
-
+  }, [productId, toRender])
 
   //Rating
   const labels = {
-    0.5: "Malo",
-    1: "Malo+",
-    1.5: "Pobre",
-    2: "Pobre+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Bueno",
-    4: "Bueno+",
-    4.5: "Excelente",
-    5: "Excelente+",
+    1: "Malo",
+    2: "Pobre",
+    3: "Ok",
+    4: "Bueno",
+    5: "Excelente",
   };
 
   function getLabelText(value) {
@@ -78,11 +79,37 @@ export default function ShowReviews({ productId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors('')
-    setInput({
-      //resetea el estado del input
-      text: "",
-    })
+    if (user && user.hasOwnProperty('email')) {
+        const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
+        if (customer) {
+            const r = {
+              productId: productId,
+              CustomerId: customer.data.Customer.id,
+              UserId: customer.data.id,
+              stars: value,
+              message: input.text,
+            }
+
+            await promiseHandleSubmit(r)
+            .then(review => 
+              {
+                setInput({text: ''});        
+                setErrors('');
+                setToRender(!toRender)
+              }
+            )
+            .catch(e => 
+              {
+                console.log(e);
+                setErrors({
+                  ...input,
+                  text: e.response.data.error
+                })
+              }                          
+            );
+        } 
+    }
+
   }
 
   if (reviews.fetchStatus === 'loading') {
@@ -90,7 +117,6 @@ export default function ShowReviews({ productId }) {
       <p>Obteniendo datos...</p>
     </>
   }
-
 
   if (reviews.fetchStatus === 'failed') {
     return <>
@@ -136,7 +162,7 @@ export default function ShowReviews({ productId }) {
               }}
                 name="hover-feedback"
                 value={value}
-                precision={0.5}
+                precision={1}
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setValue(newValue);
@@ -162,16 +188,15 @@ export default function ShowReviews({ productId }) {
                 rows="10"
                 placeholder="Dejá tu comentario"
                 value={input.text}
-                onChange={(e) => handleTextChange(e)}
+                onChange={handleTextChange}
                 maxLength={500}
               ></textarea>
-              {errors.text && <p className="textarea_error">{errors.text}</p>}
+              {errors && errors.text && <p className="textarea_error">{errors.text}</p>}
             </div>
             <button className="send_review_btn">ENVIAR OPINIÓN</button>
           </form>
         </div>
       </div>
-
 
       <div className="reviews_div">
         <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
