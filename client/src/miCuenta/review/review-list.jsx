@@ -4,6 +4,8 @@ import {
   TextField,
   FunctionField,
   DateField,
+  SimpleShowLayout,
+  RichTextField,
 } from "react-admin";
 import StarRatingField from "./star-rating-field";
 import React, { useState, useEffect } from "react";
@@ -11,6 +13,12 @@ import { getDetailedUser } from "../../common/integrations/api";
 import { NavLink } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import { Card, CardContent, CardHeader } from "@mui/material";
+
+const ReviewShow = () => (
+  <SimpleShowLayout>
+    <RichTextField source="message" label={false} />
+  </SimpleShowLayout>
+)
 
 export const ReviewList = () => {
   const { user } = UserAuth();
@@ -57,12 +65,16 @@ export const ReviewList = () => {
 
   return <>
     <List
-      sort={{ field: "status", order: "ASC" }}
-      queryOptions={{ meta: { resourceId: apiUser.item.id } }}
+      sort={{ field: "createdAt", order: "DESC" }}
+      queryOptions={{ meta: { resource: `${apiUser.item.id}/reviews` } }}
       title="Reviews"
       exporter={false}
     >
-      <Datagrid rowClick="show" bulkActionButtons={false}>
+      <Datagrid
+        bulkActionButtons={false}
+        expand={<ReviewShow />}
+        size="medium"
+      >
         <StarRatingField size="small" label="Puntaje" />
         <TextField source="Product.name" label="Producto" />
         <FunctionField

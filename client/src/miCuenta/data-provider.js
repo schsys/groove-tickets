@@ -16,10 +16,10 @@ const createHeaders = () => {
 }
 
 export const dataProvider = {
-    getList: (resource, params) => {
+    getList: (_, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
-        const { resourceId } = params.meta;
+        const { resource } = params.meta;
 
         const query = {
             sort: JSON.stringify([field, order]),
@@ -27,7 +27,8 @@ export const dataProvider = {
             size: perPage,
             filter: JSON.stringify(params.filter),
         };
-        const url = `${apiUrl}/${resourceId}/${resource}?${stringify(query)}`;
+        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        console.log('dataProvider getList url', url);
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
             data: json.rows,
             total: json.count,
@@ -51,6 +52,7 @@ export const dataProvider = {
         });
     },
     update: async (resource, params) => {
+        console.log('dataProvider update params: ', params);
         const response = await httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
             body: JSON.stringify(params.data)
