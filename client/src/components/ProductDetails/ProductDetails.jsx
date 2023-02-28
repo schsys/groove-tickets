@@ -36,11 +36,10 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
-
-  // const [value, setValue] = React.useState(2);
-  // const [hover, setHover] = React.useState(-1);
-
+ 
   const [availableStock] = React.useState(0);
+
+  const [url, setUrl] = useState('')
 
   //const itemsToCart = useSelector((state) => state.cart);
   //const [mount, setMount] = useState(true);
@@ -55,6 +54,19 @@ export default function ProductDetails() {
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const backDirection = ()=> {
+    return(
+      product.isShowFinished ? '/oldshows' : '/'
+    )
+      
+  }
+
+
+  /* <Link to="/" className="back_button">
+            <i className="fa-solid fa-chevron-left"></i> Atrás
+            </Link>
+          </div>*/
 
   const StockAvailableAlert = () => {
     Swal.fire({
@@ -213,8 +225,8 @@ export default function ProductDetails() {
       {product.name ? (
         <div className="container_details">
           <div className="back_button_div">
-            <Link to="/" className="back_button">
-              Atrás
+            <Link to={backDirection()} className="back_button">
+            <i className="fa-solid fa-chevron-left"></i> Atrás
             </Link>
           </div>
           <div className="global_container">
