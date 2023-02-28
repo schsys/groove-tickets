@@ -14,7 +14,7 @@ const OldShows = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
-  const products = useSelector((state) => state.products);
+  const products = useSelector((state) => state.allProducts);
   const fetchProducts = useSelector((state) => state.fetchProducts);
   const dispatch = useDispatch();
 
