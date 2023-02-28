@@ -18,12 +18,6 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
     errors.displayName = 'Solo se permiten letras'
   } else if (input.displayName.length < 2) {
     errors.displayName = 'El nombre debe tener al menos 2 letras';
-  } else if (!input.lastname) {
-    errors.lastname = 'Necesitás ingresar un apellido';
-  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.lastname)) {
-    errors.lastname = 'Solo se permiten letras'
-  } else if (input.lastname.length < 2) {
-    errors.lastname = 'El apellido debe tener al menos 2 letras';
   } else if (!input.email) {
     errors.email = 'Necesitás ingresar un mail'
   } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) { // eslint-disable-next-line
@@ -32,6 +26,10 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
     errors.phoneNumber = 'Necesitás ingrear un teléfono'
   } else if (!/^(?:(?:\+|00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(input.phoneNumber)) {
     errors.phoneNumber = 'Tiene que ser un número válido. Por ejemplo +5491133333333 o 3515555555'
+  } else if (!input.dni) {
+    errors.dni = "Necesitás ingresar tu dni.";
+  } else if (!/^\d{8}$/.test(input.dni)){
+    errors.dni = "Tiene que ser un dni válido, solo numeros y de 8 caracteres.";
   } else if (!input.password) {
     errors.password = 'Necesitás ingresar una contraseña'
   } else if (!/^(?=.*\d).{6,8}$$/.test(input.password)) {
@@ -54,7 +52,7 @@ export default function Signup() {
     displayName: "",
     lastname: "",
     email: "",
-    password: "",
+    password: "", 
     repassword: "",
     phoneNumber: 0,
   });
@@ -125,7 +123,7 @@ export default function Signup() {
         password: "",
         repassword: "",
         phoneNumber: 0,
-        //terms: false,
+        dni:0,
       });
       setChecked(false);
     } catch (errors) {
@@ -151,7 +149,7 @@ export default function Signup() {
         <form onSubmit={(e) => handleSubmitSignup(e)} className="register_form">
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="name">
-              Nombre:
+              Nombre y apellido:
             </label>
             <input
               className="signup_section_input"
@@ -164,21 +162,7 @@ export default function Signup() {
             />
             {errors.displayName && <p className="signup_error">{errors.displayName}</p>} {/*si el estado errors tiene la prop name, renderizo un parrafo con el string de esta prop */}
           </div>
-          <div className="register_info_wraper">
-            <label className="register-form_label" htmlFor="lastname">
-              Apellido:
-            </label>
-            <input
-              className="signup_section_input"
-              type="text"
-              id="lastname"
-              name="lastname"
-              value={input.lastname}
-              placeholder="Ingresá tu apellido"
-              onChange={(e) => handleChange(e)}
-            />
-            {errors.lastname && <p className="signup_error">{errors.lastname}</p>}
-          </div>
+          
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="email">
               Email:
@@ -209,6 +193,22 @@ export default function Signup() {
             />
             {errors.phoneNumber && <p className="signup_error">{errors.phoneNumber}</p>}
           </div>
+
+          <div className="register_info_wraper">
+              <label className="completeregister-form_label" htmlFor="dni">
+                Dni:
+              </label>
+              <input
+                className="complete_section_input"
+                type="dni"
+                id="dni"
+                name="dni"
+                value={input.dni}
+                onChange={(e) => handleChange(e)}
+              />
+              {errors.dni && <p className="signup_error">{errors.dni}</p>}
+            </div>
+
           <div className="register_info_wraper">
             <label className="register-form_label" htmlFor="password">
               Contraseña:
