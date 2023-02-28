@@ -15,13 +15,13 @@ import { Card, CardContent, CardHeader } from "@mui/material";
 
 const orderFilters = [
     <SelectInput source="status" label="Estado" choices={[
-        { id: "Created", name: "Created" },
-        { id: "Processing", name: "Processing" },
-        { id: "Canceled", name: "Canceled" },
-        { id: "Completed", name: "Completed" },
-    ]} />,
-    <DateInput source="date_gte" label="Fecha desde" />,
-    <DateInput source="date_lte" label="Fecha hasta" />
+        { id: "Created", name: "Creada" },
+        { id: "Processing", name: "Procesando" },
+        { id: "Canceled", name: "Cancelada" },
+        { id: "Completed", name: "Completada" },
+    ]} alwaysOn />,
+    <DateInput source="date_gte" label="Fecha desde" alwaysOn />,
+    <DateInput source="date_lte" label="Fecha hasta" alwaysOn />
 ];
 
 export const OrderList = () => {
@@ -70,13 +70,14 @@ export const OrderList = () => {
         <List
             filters={orderFilters}
             sort={{ field: 'orderDate', order: 'DESC' }}
-            queryOptions={{ meta: { resourceId: apiUser.item.Customer.id } }}
+            queryOptions={{ meta: { resource: `${apiUser.item.Customer.id}/orders` } }}
             title="Pedidos"
             exporter={false}
         >
             <Datagrid
-                rowClick="edit"
+                rowClick="show"
                 bulkActionButtons={false}
+                size="medium"
             // sx={{
             //     '& .column-status': { textAlign: 'right' },
             // }}

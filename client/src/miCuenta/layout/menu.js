@@ -1,6 +1,6 @@
 import * as React from "react";
 import { MenuItemLink } from "react-admin";
-import PersonIcon from "@mui/icons-material/Person";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 
@@ -9,8 +9,8 @@ export const Menu = () => {
     <div>
       <MenuItemLink
         to="/customers"
-        primaryText="Datos personales"
-        leftIcon={<PersonIcon />}
+        primaryText="Cuenta"
+        leftIcon={<AccountCircleIcon />}
       />
       <MenuItemLink
         to="/orders"
