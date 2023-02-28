@@ -1,9 +1,9 @@
 import {
   Datagrid,
   List,
-  ReferenceField,
   TextField,
   FunctionField,
+  DateField,
 } from "react-admin";
 import StarRatingField from "./star-rating-field";
 import React, { useState, useEffect } from "react";
@@ -11,12 +11,6 @@ import { getDetailedUser } from "../../common/integrations/api";
 import { NavLink } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
 import { Card, CardContent, CardHeader } from "@mui/material";
-
-// const reviewFilters = [
-//   <ReferenceInput source="productId" reference="products" alwaysOn>
-//     <AutocompleteInput filterToQuery={(searchText) => ({ name: searchText })} />
-//   </ReferenceInput>,
-// ];
 
 export const ReviewList = () => {
   const { user } = UserAuth();
@@ -61,17 +55,19 @@ export const ReviewList = () => {
     </>
   }
 
-  return (
-    <List 
-    /* filters={reviewFilters}  */
-    sort={{ field: "status", order: "ASC" }}
-    queryOptions={{ meta: { resourceId: apiUser.item.id } }}
+  return <>
+    <List
+      sort={{ field: "status", order: "ASC" }}
+      queryOptions={{ meta: { resourceId: apiUser.item.id } }}
+      title="Reviews"
+      exporter={false}
     >
       <Datagrid rowClick="show" bulkActionButtons={false}>
-        <StarRatingField size="small" />
+        <StarRatingField size="small" label="Puntaje" />
+        <TextField source="Product.name" label="Producto" />
         <FunctionField
           source="message"
-          label="Review"
+          label="Opinión"
           render={(record) => {
             if (record.message && record.message.length <= 20) {
               return record.message;
@@ -82,11 +78,9 @@ export const ReviewList = () => {
             return "";
           }}
         />
-        {/* <ReferenceField source="productId" reference="products">
-          <TextField source="name" />
-        </ReferenceField> */}
-        <TextField source="status" label="Status" />
+        <DateField source="createdAt" label="Fecha de Creación" showTime />
+        <DateField source="updatedAt" label="Fecha de Actualización" showTime />
       </Datagrid>
     </List>
-  );
+  </>
 };

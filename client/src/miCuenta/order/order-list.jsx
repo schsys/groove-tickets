@@ -71,12 +71,21 @@ export const OrderList = () => {
             filters={orderFilters}
             sort={{ field: 'orderDate', order: 'DESC' }}
             queryOptions={{ meta: { resourceId: apiUser.item.Customer.id } }}
+            title="Pedidos"
+            exporter={false}
         >
-            <Datagrid rowClick="edit" bulkActionButtons={false}>
+            <Datagrid
+                rowClick="edit"
+                bulkActionButtons={false}
+            // sx={{
+            //     '& .column-status': { textAlign: 'right' },
+            // }}
+            >
+                <TextField source="id" label="N° Pedido" />
                 <DateField source="orderDate" label="Fecha" />
                 {/* <DateField source="shippingDate" label="Despachado el" /> */}
-                <NumberField source="totalAmount" label="Importe" />
                 <TextField source="status" label="Estado" />
+                <NumberField source="totalAmount" label="Importe" />
             </Datagrid>
         </List>
     );
