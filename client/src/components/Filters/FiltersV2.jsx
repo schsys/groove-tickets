@@ -6,6 +6,7 @@ import "./Filters.css";
 export default function Filters() {
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
@@ -47,8 +48,15 @@ export default function Filters() {
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    if (categoryId) {
+      const category = uniqueCategories.find(c => c.id === categoryId);
+      if (category) {
+        setSelectedCategoryName(category.name)
+      } else {
+        setSelectedCategoryName("")
+      }
+    }
     dispatch(filterProducts(selectedDay, categoryId));
-    // setCurrentPage(1);
   };
 
   const BtnTemplate = ({ value, action, data, ...props }) => {
@@ -119,41 +127,51 @@ export default function Filters() {
 
         {/* FILTRADO POR CATEGORIAS */}
         <div className="shows__categories-container">
-          {!products.length ? (
+          {/* {!products.length ? (
             ""
           ) : (
-            <>
-              <div className="shows__categories-title">
-                <h4>
-                  {selectedCategoryId !== "" ? (
-                    <BtnTemplate
-                      action={handleCategoryChange}
-                      data=""
-                      value="QUITAR FILTRO"
-                      className="filter_remove_btn"
-                    />
-                  ) : (
-                    "CATEGORÍAS"
-                  )}
-                </h4>
-              </div>
-              <div className="shows__categories-box">
-                {uniqueCategories.map((c) => {
-                  return (
-                    <BtnTemplate
-                      value={
-                        c.name + " (" + countCategories(products, c.name) + ")"
-                      }
-                      action={handleCategoryChange}
-                      data={c.id}
-                      className="shows__categories-buttons"
-                      key={c.id}
-                    />
-                  );
-                })}
-              </div>
-            </>
-          )}
+          )} */}
+          <>
+            <div className="shows__categories-title">
+              <h4>
+                {selectedCategoryId !== "" ? (
+                  <BtnTemplate
+                    action={handleCategoryChange}
+                    data=""
+                    value="QUITAR FILTRO"
+                    className="filter_remove_btn"
+                  />
+                ) : (
+                  "CATEGORÍAS"
+                )}
+              </h4>
+            </div>
+            <div className="shows__categories-box">
+              {!uniqueCategories.length && selectedCategoryId !== "" &&
+                <BtnTemplate
+                  value={selectedCategoryName}
+                  // action={handleCategoryChange}
+                  data=""
+                  className="shows__categories-buttons"
+                  // key={c.id}
+                />
+
+              }
+              {uniqueCategories.map((c) => {
+                return (
+                  <BtnTemplate
+                    value={
+                      c.name + " (" + countCategories(products, c.name) + ")"
+                    }
+                    action={handleCategoryChange}
+                    data={c.id}
+                    className="shows__categories-buttons"
+                    key={c.id}
+                  />
+                );
+              })}
+            </div>
+          </>
         </div>
       </div>
       {/* FIN FILTRADO POR CATEGORIAS */}
