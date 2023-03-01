@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOldShows } from "../../redux/actions";
+// import { getOldShows } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
 import OldShowCard from "../OldShowCard/OldShowCard";
 import "./OldShows.css";
@@ -18,9 +18,9 @@ const OldShows = () => {
   const fetchProducts = useSelector((state) => state.fetchProducts);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getOldShows());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getOldShows());
+  // }, [dispatch]);
 
   // NOTA de friss: el useEffect a continuación vuelve a la página 1 luego de hacer búsquedas;
   // Si por ejemplo el usuario está viendo la página 5 y se le ocurre buscar algo, si el resultado devuelve

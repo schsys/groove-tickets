@@ -61,14 +61,14 @@ const Navbar = ({ isCartDisabled = false }) => {
         </Link>
       </div>
       <div className={`nav_items ${isOpen && "open"}`}>
-        <Link
+        {/* <Link
           to={"/oldshows"}
           onClick={handleOnClickShows}
           //className="navbar_menu_link"
           className={isActive('/oldshows') ? 'navbar_menu_link_active' : 'navbar_menu_link'}
         >
           HISTÓRICOS
-        </Link>
+        </Link> */}
 
         <Link
           to={"/"}

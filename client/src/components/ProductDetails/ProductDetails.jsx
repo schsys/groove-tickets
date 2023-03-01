@@ -225,7 +225,7 @@ export default function ProductDetails() {
       {product.name ? (
         <div className="container_details">
           <div className="back_button_div">
-            <Link to={backDirection()} className="back_button">
+            <Link to="/" className="back_button">
             <i className="fa-solid fa-chevron-left"></i> Atrás
             </Link>
           </div>
