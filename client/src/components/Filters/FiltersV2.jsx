@@ -86,6 +86,57 @@ export default function Filters() {
     return <></>;
   }
 
+  const CategoryFilters = () => {
+    return <>
+      <div className="shows__categories-container">
+        <>
+          <div className="shows__categories-title">
+            <h4>
+              {selectedCategoryId !== "" ? (
+                <BtnTemplate
+                  action={handleCategoryChange}
+                  data=""
+                  value="QUITAR FILTRO"
+                  className="filter_remove_btn"
+                />
+              ) : (
+                "CATEGORÍAS"
+              )}
+            </h4>
+          </div>
+          <div className="shows__categories-box">
+            {!uniqueCategories.length && !selectedCategoryId &&
+              <p>No hay categorías disponibles</p>
+            }
+            {!uniqueCategories.length && selectedCategoryId !== "" &&
+              <BtnTemplate
+                value={selectedCategoryName}
+                // action={handleCategoryChange}
+                data=""
+                className="shows__categories-buttons"
+              // key={c.id}
+              />
+
+            }
+            {uniqueCategories.map((c) => {
+              return (
+                <BtnTemplate
+                  value={
+                    c.name + " (" + countCategories(products, c.name) + ")"
+                  }
+                  action={handleCategoryChange}
+                  data={c.id}
+                  className="shows__categories-buttons"
+                  key={c.id}
+                />
+              );
+            })}
+          </div>
+        </>
+      </div>
+    </>
+  }
+
   return (
     <div className="filter_section">
       {/* FILTRADO POR FECHA*/}
@@ -125,54 +176,7 @@ export default function Filters() {
         </div>
         <SelectedDayFilter days={selectedDay} />
 
-        {/* FILTRADO POR CATEGORIAS */}
-        <div className="shows__categories-container">
-          {/* {!products.length ? (
-            ""
-          ) : (
-          )} */}
-          <>
-            <div className="shows__categories-title">
-              <h4>
-                {selectedCategoryId !== "" ? (
-                  <BtnTemplate
-                    action={handleCategoryChange}
-                    data=""
-                    value="QUITAR FILTRO"
-                    className="filter_remove_btn"
-                  />
-                ) : (
-                  "CATEGORÍAS"
-                )}
-              </h4>
-            </div>
-            <div className="shows__categories-box">
-              {!uniqueCategories.length && selectedCategoryId !== "" &&
-                <BtnTemplate
-                  value={selectedCategoryName}
-                  // action={handleCategoryChange}
-                  data=""
-                  className="shows__categories-buttons"
-                  // key={c.id}
-                />
-
-              }
-              {uniqueCategories.map((c) => {
-                return (
-                  <BtnTemplate
-                    value={
-                      c.name + " (" + countCategories(products, c.name) + ")"
-                    }
-                    action={handleCategoryChange}
-                    data={c.id}
-                    className="shows__categories-buttons"
-                    key={c.id}
-                  />
-                );
-              })}
-            </div>
-          </>
-        </div>
+        <CategoryFilters />
       </div>
       {/* FIN FILTRADO POR CATEGORIAS */}
     </div>
