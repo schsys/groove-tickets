@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import moment from "moment-timezone";
-<<<<<<< HEAD
-import { getTotalItems } from "../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
-=======
 
->>>>>>> a7155379ff4aa118ee8c1122bee9e5b243a53ed1
 import axios from "axios";
 import "./Order.css";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,16 +12,13 @@ import {
   getCreatedOrderByUser,
 } from "../../redux/actions";
 
-<<<<<<< HEAD
-export const ItemsOrder = () => {
-=======
 export const ItemsOrder = (customer) => {
->>>>>>> a7155379ff4aa118ee8c1122bee9e5b243a53ed1
   /*------------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
   const dispatch = useDispatch();
   const [user, loadingUser] = useAuthState(auth);
   const [orderItems, setorderItems] = useState({
+    id: 0,
     items: [],
     totalAmount: 0,
     fetchStatus: "loading",
@@ -36,36 +27,6 @@ export const ItemsOrder = (customer) => {
   useEffect(() => {
     async function fetchOrder() {
       try {
-<<<<<<< HEAD
-        const response = await axios.get(
-          `http://localhost:3001/orders?status=Created&userName=${user.email}`
-        );
-        const items = response.data.OrderItems.map((item) => {
-          const { Product, Quantity, UnitPrice } = item;
-          const { Photos, Name, StartDate } = Product;
-          const formattedStartDate = moment.tz(
-            StartDate,
-            "America/Argentina/Buenos_Aires"
-          );
-
-          return {
-            name: Name,
-            Photos: Photos,
-            startDate: formattedStartDate,
-            price: UnitPrice,
-            quantity: Quantity,
-            unitPrice: UnitPrice,
-          };
-        });
-        const totalAmount = items.reduce(
-          (acc, cur) => acc + Number(cur.price) * cur.quantity,
-          0
-        );
-        setorderItems({
-          items,
-          totalAmount,
-          fetchStatus: "succeeded",
-=======
         getCreatedOrderByUser(user).then((order) => {
           const id = order.Id;
           const items = order.OrderItems.map((item) => {
@@ -96,11 +57,11 @@ export const ItemsOrder = (customer) => {
             totalAmount,
             fetchStatus: "succeeded",
           });
->>>>>>> a7155379ff4aa118ee8c1122bee9e5b243a53ed1
         });
       } catch (error) {
         console.error(error);
         setorderItems({
+          id: 0,
           items: [],
           totalAmount: 0,
           fetchStatus: "failed",
@@ -146,20 +107,6 @@ export const ItemsOrder = (customer) => {
       dispatch(getTotalItems(user));
     });
   };
-<<<<<<< HEAD
-
-  const sendOrder = async () => {
-    try {
-      const response = await axios.put("http://localhost:3001/order/1/items", {
-        OrderItems: orderItems.items.map((item) => ({
-          ProductId: item.ProductId,
-          quantity: 1,
-        })),
-      });
-      window.alert("Orden actualizada con exito:", response.data);
-    } catch (error) {
-      window.alert("Error al actualizar la orden: " + error);
-=======
   /*------------------------------------------------------------------------------*/
 
   const handleMPago = async () => {
@@ -178,7 +125,6 @@ export const ItemsOrder = (customer) => {
         .then(await axios.get("/payment"));
     } catch (error) {
       console.log(error);
->>>>>>> a7155379ff4aa118ee8c1122bee9e5b243a53ed1
     }
   };
   return (
@@ -240,8 +186,8 @@ export const ItemsOrder = (customer) => {
       <div className="cartSummary__show-totalOrder">
         <h4>TOTAL ${formatNumber(orderItems.totalAmount)}</h4>
       </div>
-      <button className="cartSummary__show-processOrder">
-        <Link className="cartSummary__show-processOrderButton">PAGAR</Link>
+      <button onClick={handleMPago} className="cartSummary__show-processOrder">
+        PAGAR
       </button>
     </div>
   );
