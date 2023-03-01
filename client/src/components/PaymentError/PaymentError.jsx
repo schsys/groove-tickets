@@ -11,7 +11,7 @@ const PaymentError = () => {
       icon: 'error',
       title: 'Ha ocurrido un error',
       text:
-        'Mientras pagabas tu orden, nos hemos quedado sin entradas. En unos momentos te devolveremos el dinero.',
+        'No se pudo procesar la orden, intenta nuevamente, si ocurre algun problema contactanos',
       confirmButtonText: 'Ir a inicio',
     }).then((result) => {
       if (result.isConfirmed) {
