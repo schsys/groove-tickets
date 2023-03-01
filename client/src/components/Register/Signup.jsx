@@ -65,8 +65,20 @@ export default function Signup() {
       imageWidth: 200,
       imageAlt: "Email usado.",
       title: "Yazz",
-      html: "<h3>Ese email ya está registrado</p>",
+      html: "<h3>Ese email ya está registrado</h3>",
       footer: "<p>Probá con otro email.</p>",
+    });
+  };
+
+  const showError = () => {
+    Swal.fire({
+      // imageUrl: Error_Search,
+      // imageHeight: 150,
+      // imageWidth: 200,
+      // imageAlt: "Email usado.",
+      title: "Yazz",
+      html: "<h3>No se pudo completar el proceso de registración</h3>",
+      footer: "<p>Volvé a intentarlo</p>",
     });
   };
 
@@ -92,28 +104,28 @@ export default function Signup() {
     try {
       await createUser(input.email, input.password)
       // const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
-      const dbExistUser = await axios.get(`${apiUrl}/user?userName=${input.email}`)
-      console.log('dbExistUser en signup', dbExistUser.data)
-      if (!dbExistUser.data) {
-        const newUser = await axios.post(
-          `${apiUrl}/admin/users`,
-          {
-            userName: input.email,
-            role: "User",
-            status: "Active"
-          }
-        );
-        console.log('newUser: ', newUser);
-        const newCustomer = await axios.post(`${apiUrl}/admin/customers`, // eslint-disable-next-line
-          {
-            userId: newUser.data.id,
-            name: input.displayName + " " + input.lastname,
-            email: input.email,
-            telephone: input.phoneNumber,
-            document: 123456
-          }
-        )
-      }
+      // const dbExistUser = await axios.get(`${apiUrl}/user?userName=${input.email}`)
+      // console.log('dbExistUser en signup', dbExistUser.data)
+
+      const newUser = await axios.post(
+        `${apiUrl}/user`,
+        {
+          userName: input.email,
+          role: "User",
+          status: "Active"
+        }
+      );
+      console.log('newUser: ', newUser);
+      const newCustomer = await axios.post(`${apiUrl}/customer`, // eslint-disable-next-line
+        {
+          userId: newUser.data.id,
+          name: input.displayName + " " + input.lastname,
+          email: input.email,
+          telephone: input.phoneNumber,
+          document: input.dni
+        }
+      )
+
       history.push("/"); //despues redirige para ver todos los shows
       setInput({
         //resetea el estado del input
@@ -127,13 +139,15 @@ export default function Signup() {
       });
       setChecked(false);
     } catch (errors) {
+      console.log('handleSubmitSignup errors.message', errors.message);
       switch (errors.code) {
         case "auth/email-already-in-use":
           setErrors("El mail ya está registrado. Necesitás usar otro mail.");
           EmailUsed()
           break;
         default:
-          setErrors(errors.message)
+          setErrors(errors.message);
+          showError();
       }
       console.log(errors.message)
     }
