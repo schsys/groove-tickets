@@ -17,6 +17,7 @@ import { Order } from "./components/Order/Order";
 import Error404 from "./components/404/Error404";
 import "./App.css";
 import PaymentError from "./components/PaymentError/PaymentError";
+import PaymentComplete from "./components/PaymentComplete/PaymentComplete";
 
 function App() {
   return (
@@ -69,6 +70,9 @@ function App() {
           </Route>
           <Route exact path={"/PaymentError"}>
             <PaymentError />
+          </Route>
+          <Route exact path={"/PaymentComplete"}>
+            <PaymentComplete />
           </Route>
           {/* <Route exact path={"/admin"}>
             <PrivateRoute>
