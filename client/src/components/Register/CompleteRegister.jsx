@@ -16,18 +16,12 @@ function validate(input) {
   let errors = {}; //objeto que guarda todos los errores y le agrego props con los nombres iguales a los del input
   if (!input.displayName) {
     //si imput no tiene una prop displayName
-    errors.displayName = "Necesitás ingresar un nombre"; //al obj errors le agrego una prop displayName q tiene un mensaje como valor
+    errors.displayName = "Necesitás ingresar un nombre y apellido"; //al obj errors le agrego una prop displayName q tiene un mensaje como valor
   } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.displayName)) {
     //regex solo acepta letras
     errors.displayName = "Solo se permiten letras";
   } else if (input.displayName.length < 2) {
     errors.displayName = "El nombre debe tener al menos 2 letras";
-  } else if (!input.lastname) {
-    errors.lastname = "Necesitás ingresar un apellido";
-  } else if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(input.lastname)) {
-    errors.lastname = "Solo se permiten letras";
-  } else if (input.lastname.length < 2) {
-    errors.lastname = "El apellido debe tener al menos 2 letras";
   } else if (!input.dni) {
     errors.dni = "Necesitás ingresar tu dni.";
   } else if (!/^\d{8}$/.test(input.dni)){

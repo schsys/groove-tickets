@@ -50,7 +50,7 @@ const OldShows = () => {
          
           <div className="oldshows__cards-container">
             {!products.length ? (
-              <h2 className="shows__cards-h1FilterError">
+              <h2 className="oldshows__cards-h1FilterError">
                 No hay shows disponibles con los filtros seleccionados.
               </h2>
             ) : (
