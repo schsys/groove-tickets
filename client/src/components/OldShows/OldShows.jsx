@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOldShows } from "../../redux/actions";
+// import { getOldShows } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
 import OldShowCard from "../OldShowCard/OldShowCard";
 import "./OldShows.css";
@@ -14,13 +14,13 @@ const OldShows = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { lastProduct, firstProduct } = productIndex(currentPage, 6);
-  const products = useSelector((state) => state.products);
+  const products = useSelector((state) => state.allProducts);
   const fetchProducts = useSelector((state) => state.fetchProducts);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getOldShows());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getOldShows());
+  // }, [dispatch]);
 
   // NOTA de friss: el useEffect a continuación vuelve a la página 1 luego de hacer búsquedas;
   // Si por ejemplo el usuario está viendo la página 5 y se le ocurre buscar algo, si el resultado devuelve
@@ -50,7 +50,7 @@ const OldShows = () => {
          
           <div className="oldshows__cards-container">
             {!products.length ? (
-              <h2 className="shows__cards-h1FilterError">
+              <h2 className="oldshows__cards-h1FilterError">
                 No hay shows disponibles con los filtros seleccionados.
               </h2>
             ) : (

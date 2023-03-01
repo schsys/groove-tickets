@@ -61,11 +61,46 @@ export async function getReviews(productId) {
             error: null,
         };
     } catch (error) {
+        console.log('getReviews error', error);
+
+        if (error.response && error.response.status === 404) {
+            return {
+                fetchStatus: "succeeded",
+                data: null,
+                error: {
+                    message: 'No hay reviews del producto',
+                    status: error.response.status
+                }
+            };
+        }
+    
         return {
             fetchStatus: "failed",
             data: null,
             error: {
                 message: 'Error al obtener las reviews del producto',
+                status: error.response && error.response.status
+            }
+        };
+    }
+}
+
+export async function getFinishedProducts() {
+    try {
+        const endpoint = `/finished-products`;
+        const response = await axios.get(endpoint);
+
+        return {
+            fetchStatus: "succeeded",
+            data: response.data,
+            error: null,
+        };
+    } catch (error) {
+        return {
+            fetchStatus: "failed",
+            data: null,
+            error: {
+                message: 'Error al obtener los productos finalizados',
                 status: error.response && error.response.status
             }
         };

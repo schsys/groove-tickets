@@ -1,7 +1,7 @@
 .oldshows__background-container {
   width: 100%;
   background-color: black;
-  background-image: url("../../assets/showsBg.png");
+  /* background-image: url("../../assets/showsBg.png"); */
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -14,12 +14,15 @@
   left: 2%;
 }
 
-.shows__cards_imgContainer{
+.oldshows__cards_imgContainer{
   position: relative;
 }
 
-.displayStock_Card, .displayStock_Card_LAST, 
-.displayStock_Card_OUT, .display_notAvaialbe{
+.oldshows__cards_imgContainer:hover {
+  cursor: pointer;
+}
+
+.display_notAvaialbe{
 color: white;
   margin-left: 0.5rem;
   border-radius: 0.2rem;
@@ -29,33 +32,10 @@ color: white;
   z-index: 100;
 }
 
-.displayStock_Card{
-  background-color: var(--color-green);
-  width: 5rem;
-}
-
-.displayStock_Card_LAST{
-  background-color: var(--color-orange);
-  width: 8rem;
-}
-
-.displayStock_Card_OUT{
-  background-color: red;
-  width: 5rem;
-}
-
 .display_notAvaialbe{
   background-color: red;
   width: 5.5rem;
 }
-
-/* .shows__banner-img {
-  position: relative;
-  width: 95vw;
-  margin-left: 2.5%;
-  margin-top: 2vh;
-  border: 2px solid var(--color-gray);
-} */
 
 .oldshows__cards-container {
   display: grid;
@@ -67,30 +47,23 @@ color: white;
   margin: 3rem auto 1rem auto;
 }
 
-.shows__cards-box1 {
-  width: 100%;
-  background-color: var(--color-blue);
-  margin-bottom: 1rem;
-  transition: 0.2s all;
-}
-
-.shows__cards-Soldout, .shows__cards-expired{
+.shows__cards-expired{
   width: 100%;
   background-color: gray;
   margin-bottom: 1rem;
 }
 
-.shows__cards-Soldout h1, .shows__cards-expired h1,
-.shows__cards-Soldout h2, .shows__cards-expired h2, 
-.shows__cards-Soldout h3, .shows__cards-expired h3 {
+.shows__cards-expired h1,
+.shows__cards-expired h2, 
+.shows__cards-expired h3 {
   color: white;
 }
 
-.shows__cards-Soldout img, .shows__cards-expired img{
+.shows__cards-expired img{
   filter: grayscale(100%);
 }
 
-.shows__cards-textContainer_expired{
+.oldshows__cards-textContainer_expired{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -100,11 +73,19 @@ color: white;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.card_average_opinion_title{
+.oldcard_average_opinion_title{
   color: var(--color-orange) !important;
+  margin: 0.5rem auto;
 }
 
-.shows__cards-show1 {
+.card_average_number{
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 auto 0.5rem auto;
+}
+
+.oldshows__cards-show1 {
   margin-bottom: 0vh;
   display: block;
   width: 100%;
@@ -118,11 +99,11 @@ color: white;
   border: 2px solid var(--color-orange);
 }
 
-.shows__cards-link {
+.oldshows__cards-link {
   text-decoration: none;
 }
 
-.shows__cards-textContainer {
+.oldshows__cards-textContainer_expired {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -133,13 +114,13 @@ color: white;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.shows__cards-texth1 {
+.oldshows__cards-texth1 {
   font-size: 1.3rem;
   margin-bottom: 0vh;
   padding-top: 0rem;
 }
 
-.shows__cards-texth2 {
+.oldshows__cards-texth2 {
   color: var(--color-rose);
   font-size: 1.25rem;
   margin-top: 0.6rem;
@@ -147,26 +128,14 @@ color: white;
   text-shadow: 1px 1px 1px rgba(58, 45, 54, 0.6);
 }
 
-.shows__cards-texth3 {
-  color: var(--color-orange);
-  font-size: 1rem;
-  margin: 0rem 0 0.6rem 0;
-}
-
-.shows__cards-textPrice {
-  color: var(--color-orange);
-  font-size: 1.5rem;
-  margin-top: 0.4rem;
-}
-
-.shows_icons {
+.oldshows_icons {
   display: flex;
   justify-content: space-between;
   width: 95%;
   margin-bottom: 0;
 }
 
-.shows_cards-linkInfo {
+.oldshows_cards-linkInfo {
   font-size: 2.8rem;
   font-weight: 1000;
   text-decoration: none;
@@ -174,8 +143,9 @@ color: white;
   /* alternativa de animacion */
   animation: pulse 1s ease-in-out infinite;
 }
-.shows_cards-linkInfo:hover {
+.oldshows_cards-linkInfo:hover {
   color: var(--color-rose);
+  cursor: pointer;
 }
 .shows_cards-cart {
   font-size: 2.8rem;
@@ -190,17 +160,7 @@ color: white;
   color: var(--color-rose);
 }
 
-.shows__cards-h1FilterError {
-  color: white;
-  margin-bottom: 0vh;
-  padding-bottom: 0vh;
-  margin-top: 5vh;
-  margin-left: 5rem;
-  height: 50vw;
-  text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
-  text-align: center;
-  width: 100%;
-}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -213,15 +173,6 @@ color: white;
   }
 }
 
-.shows__filters-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-
-
 @media screen and (max-width: 900px) {
   .oldshows__cards-container {
     display: grid;
@@ -233,17 +184,16 @@ color: white;
     margin: 1rem auto;
   }
 
-  .shows__cards-box1 {
-    width: 100%;
-    height: 70vh;
-  }
-
-  .shows__cards-show1 {
+  .oldshows__cards_imgContainer{
     width: 100%;
     height: 42%;
   }
 
-  .shows__cards-textContainer {
+  .oldshows__cards-show1 {
+    height: 100%;
+  } 
+
+  .oldshows__cards-textContainer_expired {
     position: relative;
     height: 58%;
     display: flex;
@@ -254,21 +204,13 @@ color: white;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
-  .shows__cards-texth1 {
+  .oldshows__cards-texth1 {
     font-size: 1.6rem;
     padding-bottom: 0.6rem;
   }
 
-  .shows__cards-texth2 {
+  .oldshows__cards-texth2 {
     font-size: 1.3rem;
-  }
-
-  .shows__cards-texth3 {
-    font-size: 1.1rem;
-  }
-  .shows__cards-textPrice {
-    font-size: 1.5rem;
-    margin-top: 0.4rem;
   }
 }
 
@@ -279,12 +221,7 @@ color: white;
     align-items: center;
   }
 
-  .shows__cards-box1 {
-    width: 75%;
-    height: 70vh;
-  }
-
-  .shows__cards-textContainer {
+  .oldshows__cards-textContainer_expired {
     position: relative;
     height: 58%;
     display: flex;
@@ -297,33 +234,23 @@ color: white;
 }
 
 @media screen and (max-width: 550px) {
-  .shows__cards-textContainer {
+  .oldshows__cards-textContainer_expired {
     justify-content: flex-start;
     color: white;
     padding-left: 1vw;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
-  .shows__cards-box1 {
-    height: 68vh;
-  }
-  .shows__cards-texth1 {
+
+  .oldshows__cards-texth1 {
     font-size: 1.4rem;
     padding-bottom: 0.5rem;
   }
 
-  .shows__cards-texth2 {
+  .oldshows__cards-texth2 {
     font-size: 1.2rem;
   }
 
-  .shows__cards-texth3 {
-    font-size: 1.1rem;
-  }
-  .shows__cards-textPrice {
-    font-size: 1.4rem;
-    margin-top: 0.2rem;
-  }
-
-  .shows_cards-linkInfo {
+  .oldshows_cards-linkInfo {
     font-size: 2rem;
   }
 

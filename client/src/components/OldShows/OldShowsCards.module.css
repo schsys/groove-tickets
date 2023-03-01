@@ -1,0 +1,10 @@
+.container {
+  width: 92%;
+  margin: 1rem auto;
+  color: white;
+}
+
+.cardsContainer {
+  display: flex;
+  gap: 1em;
+}

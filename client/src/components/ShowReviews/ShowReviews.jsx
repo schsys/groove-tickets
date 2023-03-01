@@ -14,10 +14,10 @@ const apiUrl = process.env.REACT_APP_BASE_URL;
 
 const promiseHandleSubmit = (data) => {
   return new Promise((resolve, reject) => {
-      axios.post(`${apiUrl}/reviews`, data)
+    axios.post(`${apiUrl}/reviews`, data)
       .then(data => resolve(data))
       .catch(e => reject(e))
-  }); 
+  });
 }
 
 export default function ShowReviews({ productId }) {
@@ -36,7 +36,7 @@ export default function ShowReviews({ productId }) {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [errors, setErrors] = useState({ e: "" });
-  const [input, setInput] = useState({text: ""});
+  const [input, setInput] = useState({ text: "" });
   const [toRender, setToRender] = useState(false);
   const [reviews, setReviews] = useState({
     data: {},
@@ -44,10 +44,10 @@ export default function ShowReviews({ productId }) {
     error: null
   });
   const { user } = UserAuth();
-  
+
   useEffect(() => {
     async function getApiReviews(productId) {
-      const response = await getReviews(productId);   
+      const response = await getReviews(productId);
       setReviews(response);
     }
     getApiReviews(productId);
@@ -80,34 +80,32 @@ export default function ShowReviews({ productId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user && user.hasOwnProperty('email')) {
-        const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
-        if (customer) {
-            const r = {
-              productId: productId,
-              CustomerId: customer.data.Customer.id,
-              UserId: customer.data.id,
-              stars: value,
-              message: input.text,
-            }
+      const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
+      if (customer) {
+        const r = {
+          productId: productId,
+          CustomerId: customer.data.Customer.id,
+          UserId: customer.data.id,
+          stars: value,
+          message: input.text,
+        }
 
-            await promiseHandleSubmit(r)
-            .then(review => 
-              {
-                setInput({text: ''});        
-                setErrors('');
-                setToRender(!toRender)
-              }
-            )
-            .catch(e => 
-              {
-                console.log(e);
-                setErrors({
-                  ...input,
-                  text: e.response.data.error
-                })
-              }                          
-            );
-        } 
+        await promiseHandleSubmit(r)
+          .then(review => {
+            setInput({ text: '' });
+            setErrors('');
+            setToRender(!toRender)
+          }
+          )
+          .catch(e => {
+            console.log(e);
+            setErrors({
+              ...input,
+              text: e.response.data.error
+            })
+          }
+          );
+      }
     }
 
   }
@@ -126,15 +124,37 @@ export default function ShowReviews({ productId }) {
     </>
   }
 
+  const ReviewsCards = () => {
+    if (!reviews.data) {
+      return <></>
+    }
+
+    return <>
+      <div className="reviews_div">
+        <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
+        <div className="users_reviews_div">
+          {reviews.data.items.map((review) => <ReviewsCard review={review} key={review.id} />)}
+        </div>
+      </div>
+    </>
+  }
+
+  const AverageRating = () => {
+    if (!reviews.data) {
+      return <></>
+    }
+
+    return <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>;
+  }
 
   return (
     <div>
       <div className="detail_rating_section">
         <div className="show_reviews">
-          <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>
-          
+          <AverageRating />
+
         </div>
-     
+
         <h2 className="detail_rating_title">
           ¿Conocés la banda? ¿Viste el show?
         </h2>
@@ -149,17 +169,17 @@ export default function ShowReviews({ productId }) {
               }}
             >
               <Rating
-              sx={{
-                '& .MuiRating-iconFilled': {
-                  color: '#efa13ce0',
-                },
-                '& .MuiRating-iconFocus': {
-                  color: '#6f4580e0',
-                },
-                '& .MuiRating-iconHover': {
-                  color: '#6f4580e0',
-                },
-              }}
+                sx={{
+                  '& .MuiRating-iconFilled': {
+                    color: '#efa13ce0',
+                  },
+                  '& .MuiRating-iconFocus': {
+                    color: '#6f4580e0',
+                  },
+                  '& .MuiRating-iconHover': {
+                    color: '#6f4580e0',
+                  },
+                }}
                 name="hover-feedback"
                 value={value}
                 precision={1}
@@ -198,17 +218,7 @@ export default function ShowReviews({ productId }) {
         </div>
       </div>
 
-      <div className="reviews_div">
-        <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
-        <div className="users_reviews_div">
-        {reviews.data.items ? (
-      reviews?.data?.items?.map((review) => <ReviewsCard review={review} key={review.id}/>)
-    ) :
-    (
-      "Todavía no hay opiniones para este show."
-    )}
-        </div>
-      </div>
+      <ReviewsCards />
     </div>
   );
 }

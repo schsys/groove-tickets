@@ -102,8 +102,8 @@ const classStyle = () => {
         </div>
       </Link>
 
-      <div className={!data.data.isShowFinished ? ("shows__cards-textContainer")
-       : ("shows__cards-textContainer_expired")}>
+      <div className="shows__cards-textContainer"
+      >
         <h1 className="shows__cards-texth1">{data.data.name}</h1>
         <h2 className="shows__cards-texth2">
           {formatDate(data.data.StartDate).replace(/^\w/, (c) =>

@@ -1,35 +1,28 @@
 import { Admin, Resource } from 'react-admin';
-
 import { dataProvider } from './data-provider';
-
 import { YazzLayout } from './layout';
-
-import { CustomerShow } from './customer/customer-show';
-import { CustomerEdit } from './customer/customer-edit';
-
+import { CustomerList } from './customer/customer-list';
+import { CustomerEdit } from '../admin/customer/customer-edit';
 import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
-// import { ReviewCreate } from './review/review-create';
-// import { ReviewEdit } from './review/review-edit';
-
 import { OrderList } from './order/order-list';
+import { OrderShow } from './order/order-show';
 
 const App = () => (
     <Admin layout={YazzLayout} dataProvider={dataProvider}>
         <Resource
             name="customers"
-            list={CustomerShow}
+            list={CustomerList}
             edit={CustomerEdit}
         />
         <Resource
             name="orders"
             list={OrderList}
+            show={OrderShow}
         />
         <Resource
             name="reviews"
             list={ReviewList}
-            // edit={ReviewEdit}
-            // create={ReviewCreate}
             show={ReviewShow}
         />
     </Admin>
