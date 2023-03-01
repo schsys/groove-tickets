@@ -8,6 +8,13 @@
   overflow: hidden;
 }
 
+.shows__cards-expired{
+  width: 100%;
+  height: 28rem;
+  background-color: gray;
+  margin-bottom: 1rem;
+}
+
 .display_notAvaialbe{
   position: absolute;
   top: 2%;
@@ -16,6 +23,7 @@
 
 .oldshows__cards_imgContainer{
   position: relative;
+  height: 48%;
 }
 
 .oldshows__cards_imgContainer:hover {
@@ -37,21 +45,15 @@ color: white;
   width: 5.5rem;
 }
 
-.oldshows__cards-container {
+/* .oldshows__cards-container {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: auto auto auto; /* Cambiamos 1fr por auto */
+  grid-template-columns: auto auto auto; 
   row-gap: 1rem;
   column-gap: 5%;
   width: 92%;
   margin: 3rem auto 1rem auto;
-}
-
-.shows__cards-expired{
-  width: 100%;
-  background-color: gray;
-  margin-bottom: 1rem;
-}
+} */
 
 .shows__cards-expired h1,
 .shows__cards-expired h2, 
@@ -63,13 +65,14 @@ color: white;
   filter: grayscale(100%);
 }
 
-.oldshows__cards-textContainer_expired{
+.oldshows__cards-textContainer_expired {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   color: white;
   padding-left: 1vw;
-  height: 14rem;
+  height: 52%;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -89,7 +92,7 @@ color: white;
   margin-bottom: 0vh;
   display: block;
   width: 100%;
-  height: 16.5vw;
+  height: 100%;
   object-fit: cover;
   transition: 0.2 all;
 }
@@ -132,7 +135,7 @@ color: white;
   display: flex;
   justify-content: space-between;
   width: 95%;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .oldshows_cards-linkInfo {
@@ -200,12 +203,12 @@ color: white;
     flex-direction: column;
     justify-content: space-evenly;
     color: white;
-    padding-left: 1vw;
+    padding-left: 0.5rem;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
   .oldshows__cards-texth1 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     padding-bottom: 0.6rem;
   }
 
@@ -228,21 +231,23 @@ color: white;
     flex-direction: column;
     justify-content: space-evenly;
     color: white;
-    padding-left: 1vw;
+    padding-left: 0.75rem;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 }
 
 @media screen and (max-width: 550px) {
+  .shows__cards-expired{
+    height: 23rem;
+  }
+
   .oldshows__cards-textContainer_expired {
     justify-content: flex-start;
-    color: white;
-    padding-left: 1vw;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 11rem;
   }
 
   .oldshows__cards-texth1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     padding-bottom: 0.5rem;
   }
 

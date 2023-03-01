@@ -139,7 +139,6 @@ export default function Signup() {
     }
   }
 
-
   return (
     <div className="register_section">
       {/*SECTION TO REGISTER*/}
