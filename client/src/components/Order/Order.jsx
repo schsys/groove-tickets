@@ -345,6 +345,7 @@ export const Order = () => {
               <FaCity /> Ciudad:{" "}
               {editing ? (
                 <input
+                  id="city"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"
@@ -381,10 +382,11 @@ export const Order = () => {
                   }}
                 />
               ) : (
-                <input id="city" type="text" value={city} disabled />
+                <input id="state" type="text" value={city} disabled />
               )}{" "}
               {editing ? (
                 <input
+                  id="state"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"
@@ -425,6 +427,8 @@ export const Order = () => {
               )}{" "}
               {editing ? (
                 <input
+                  id="zip"
+                  style={{ width: "10vh", boxSizing: "border-box" }}
                   type="text"
                   pattern="^[0-9]+$"
                   maxLength="5"
