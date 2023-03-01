@@ -1,0 +1,36 @@
+.oldShows_Cards_container {
+ display: flex;
+ flex-direction: column;
+ width: 100%;
+}
+
+.oldShows_Cards_h2{
+  color: white;
+  font-size: 1.4rem;
+  margin: 0 0 0 4%;
+}
+
+.oldShows_section {
+  display: grid;  
+  grid-template-columns: 1fr 1fr 1fr; /* Cambiamos 1fr por auto */
+  row-gap: 1rem;
+  column-gap: 5%;
+  width: 92%;
+  margin: 1.5rem auto 1rem auto;
+}
+
+@media screen and (max-width: 750px) {
+  .oldShows_section{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .oldShows_Cards_h2{
+    margin: 0 0 0 7.5%;
+  }
+
+  .oldShows_section {
+    width: 85%;
+  }
+
+}

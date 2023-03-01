@@ -27,7 +27,6 @@ const OldShowCard = (data) => {
   }, [data.data.id, toRender])
 
   
-
   return (
     <div className="shows__cards-expired" key={data.data.id}>
 
