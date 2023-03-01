@@ -82,25 +82,41 @@ const Cart = () => {
   }
 
   async function handleMinus(id, quantity) {
-    await addEditCartProduct(id, -1, user, orderId).then(() => {
-      if (quantity === 1) handleRemove(id);
-      quantity -= 1;
-      setCount(
-        cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-      );
-      dispatch(getTotalItems(user));
-    });
+    await addEditCartProduct(id, -1, user, orderId)
+      .then((response) => {
+        if (response.statusOk) {
+            if (quantity === 1) handleRemove(id);
+            quantity -= 1;
+            setCount(
+              cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
+            );
+            dispatch(getTotalItems(user));
+        }else{
+          alert(response.message);        
+        }
+      })
+      .catch((e)=> {
+        alert(e.message);        
+      })
   }
 
   async function handlePlus(id, quantity) {
-    await addEditCartProduct(id, 1, user, orderId).then(() => {
-      if (quantity === 10) return;
-      quantity += 1;
-      setCount(
-        cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-      );
-      dispatch(getTotalItems(user));
-    });
+    await addEditCartProduct(id, 1, user, orderId)
+      .then((response) => {
+          if (response.statusOk) {
+            if (quantity === 10) return;
+            quantity += 1;
+            setCount(
+              cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
+            );
+            dispatch(getTotalItems(user));
+          }else{
+            alert(response.message);        
+          }
+      })
+      .catch((e) => {
+        alert(e.message);                
+      })
   }
 
   async function handleEmptyCart() {
