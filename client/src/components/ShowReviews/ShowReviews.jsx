@@ -7,6 +7,9 @@ import { NavLink } from "react-router-dom";
 import { getReviews } from "../../common/integrations/api";
 import { UserAuth } from "../../context/AuthContext";
 
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
+
 import ReviewsCard from "./ReviewsCard";
 import "./ShowReviews.css";
 
@@ -77,6 +80,26 @@ export default function ShowReviews({ productId }) {
     }))
   };
 
+  const goToRegister = () => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta sobre nuestro stock.",
+      title: "Yazz",
+      text: "Para poder dejar una opinión, necesitás loguearte.",
+      showCancelButton: true,
+      confirmButtonColor: "#6f4580e0",
+      cancelButtonColor: "#efa13ce0",
+      confirmButtonText: "LOGUEARME",
+      cancelButtonText: "CANCELAR"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/register";
+      }
+    });
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user && user.hasOwnProperty('email')) {
@@ -106,6 +129,8 @@ export default function ShowReviews({ productId }) {
           }
           );
       }
+    } else {
+      goToRegister()
     }
 
   }
@@ -144,7 +169,7 @@ export default function ShowReviews({ productId }) {
       return <></>
     }
 
-    return <h2>Average rating: {reviews.data.averageRating.toFixed(2)}</h2>;
+    return <h2>Puntaje promedio: {reviews.data.averageRating.toFixed(2)}</h2>;
   }
 
   return (
