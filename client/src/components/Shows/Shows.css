@@ -60,7 +60,7 @@ color: white;
 .shows__cards-container {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: auto auto auto; /* Cambiamos 1fr por auto */
+  grid-template-columns: 1fr 1fr 1fr;
   row-gap: 1rem;
   column-gap: 5%;
   width: 92%;
@@ -112,7 +112,7 @@ color: white;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content:flex-start;
   color: white;
   padding-left: 1vw;
   height: 14rem;
@@ -142,7 +142,7 @@ color: white;
 .shows__cards-textPrice {
   color: var(--color-orange);
   font-size: 1.5rem;
-  margin-top: 0.4rem;
+  margin: 0.2rem 0 auto 0;
 }
 
 .shows_icons {
@@ -206,8 +206,6 @@ color: white;
   width: 100%;
 }
 
-
-
 @media screen and (max-width: 900px) {
   .shows__cards-container {
     display: grid;
@@ -224,14 +222,19 @@ color: white;
     height: 70vh;
   }
 
+  .shows__cards_imgContainer{
+    width: 100%;
+    height: 42% !important;
+  }
+  
   .shows__cards-show1 {
     width: 100%;
-    height: 42%;
+    height: 100% !important;
   }
 
   .shows__cards-textContainer {
     position: relative;
-    height: 58%;
+    height: 58% !important;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
