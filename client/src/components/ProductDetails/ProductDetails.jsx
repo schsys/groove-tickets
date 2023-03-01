@@ -213,9 +213,10 @@ export default function ProductDetails() {
       );
     } else {
       return (
-        <div className="average_opinion_div">
-          <h3 className="average_opinion_title">Promedio de opiniones</h3>
-        </div>
+        // <div className="average_opinion_div">
+        //   <h3 className="average_opinion_title">Promedio de opiniones</h3>
+        // </div>
+        ""
       );
     }
   };
