@@ -18,6 +18,10 @@
   position: relative;
 }
 
+.oldshows__cards_imgContainer:hover {
+  cursor: pointer;
+}
+
 .display_notAvaialbe{
 color: white;
   margin-left: 0.5rem;
@@ -141,6 +145,7 @@ color: white;
 }
 .oldshows_cards-linkInfo:hover {
   color: var(--color-rose);
+  cursor: pointer;
 }
 .shows_cards-cart {
   font-size: 2.8rem;
