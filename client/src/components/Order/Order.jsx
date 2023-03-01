@@ -159,6 +159,7 @@ export const Order = () => {
               <FaUserAlt /> Nombre:{" "}
               {editing ? (
                 <input
+                  placeholder="Nombre"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"
@@ -204,6 +205,7 @@ export const Order = () => {
               <FaMailBulk /> Email:{" "}
               {editing ? (
                 <input
+                  placeholder="Correo Electrónico"
                   type="email"
                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                   maxLength="30"
@@ -222,12 +224,10 @@ export const Order = () => {
                     if (!pattern.test(value)) {
                       const errorSpan = input.parentNode.querySelector("span");
                       if (errorSpan) {
-                        errorSpan.innerHTML =
-                          "Ingresa un correo válido. Ejepmlo: ejemplo@gmail.com";
+                        errorSpan.innerHTML = "Ingresa un correo válido";
                       } else {
                         const errorSpan = document.createElement("span");
-                        errorSpan.innerHTML =
-                          "Ingresa un correo válido. Ejemplo: ejemplo@gmail.com.";
+                        errorSpan.innerHTML = "Ingresa un correo válido";
                         errorSpan.style.color = "red";
                         input.parentNode.appendChild(errorSpan);
                       }
@@ -249,6 +249,7 @@ export const Order = () => {
               <FaDirections /> Dirección:{" "}
               {editing ? (
                 <input
+                  placeholder="Dirección"
                   type="text"
                   maxLength="30"
                   pattern="^[A-Za-z0-9\s]+$"
@@ -297,6 +298,7 @@ export const Order = () => {
               <FaPhoneAlt /> Teléfono:{" "}
               {editing ? (
                 <input
+                  placeholder="Teléfono"
                   type="text"
                   pattern="^[-+]?[0-9]+$"
                   maxLength="15"
@@ -345,6 +347,8 @@ export const Order = () => {
               <FaCity /> Ciudad:{" "}
               {editing ? (
                 <input
+                  placeholder="Ciudad"
+                  id="city"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"
@@ -381,10 +385,12 @@ export const Order = () => {
                   }}
                 />
               ) : (
-                <input id="city" type="text" value={city} disabled />
+                <input id="state" type="text" value={city} disabled />
               )}{" "}
               {editing ? (
                 <input
+                  placeholder="Provincia"
+                  id="state"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"
@@ -425,6 +431,9 @@ export const Order = () => {
               )}{" "}
               {editing ? (
                 <input
+                  placeholder="zip"
+                  id="zip"
+                  style={{ width: "10vh", boxSizing: "border-box" }}
                   type="text"
                   pattern="^[0-9]+$"
                   maxLength="5"

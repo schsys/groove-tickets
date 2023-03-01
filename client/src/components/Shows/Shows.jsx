@@ -7,6 +7,7 @@ import "./Shows.css";
 // import banner from "../../assets/banner.shows.fw.png";
 import Filters from "../Filters/FiltersV2";
 import SkeletonShows from "../Skeleton/SkeletonShows";
+import OldShowCards from "../OldShows/OldShowsCards";
 
 const Shows = () => {
   //const [selectedDay, setSelectedDay] = useState("");
@@ -78,6 +79,8 @@ const Shows = () => {
               currentPage={currentPage}
             />
           )}
+
+          <OldShowCards />
         </>
       )}
     </div>

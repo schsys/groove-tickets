@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getFinishedProducts } from "../common/integrations/api";
+
 export const SEARCH = "SEARCH";
 export const SET_ERROR = "SET_ERROR";
 export const GET_PRODUCTS = "GET_PRODUCTS";
@@ -12,6 +14,11 @@ export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
 export const GET_OLDSHOWS = "GET_OLDSHOWS";
+
+// Old shows
+export const FETCH_OLD_SHOWS_REQUESTED = "oldShows/fetchRequested";
+export const FETCH_OLD_SHOWS_SUCCEEDED = 'oldShows/fetchSucceeded';
+export const FETCH_OLD_SHOWS_FAILED = 'oldShows/fetchFailed';
 
 
 const apiUrl = process.env.REACT_APP_BASE_URL;
@@ -49,7 +56,7 @@ export const search = (name) => {
 export const getProducts = () => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCHING_PRODUCTS })
+      dispatch({ type: FETCHING_PRODUCTS })
       const allProducts = await axios.get(`${apiUrl}/products`);
       dispatch({ type: GET_PRODUCTS, payload: allProducts.data });
     } catch (error) {
@@ -59,17 +66,33 @@ export const getProducts = () => {
   };
 };
 
-export const getOldShows = () => {
+export const fetchOldShows = () => {
   return async (dispatch) => {
     try {
-      dispatch({type: FETCHING_PRODUCTS })
-      const allProducts = await axios.get(`${apiUrl}/finished-products`);
-      dispatch({ type: GET_OLDSHOWS, payload: allProducts.data });
+      dispatch({ type: FETCH_OLD_SHOWS_REQUESTED });
+
+      const response = await getFinishedProducts();
+
+      if (response.fetchStatus === 'failed') {
+        return dispatch({
+          type: FETCH_OLD_SHOWS_FAILED,
+          payload: response.error
+        });
+      }
+
+      dispatch({ type: FETCH_OLD_SHOWS_SUCCEEDED, payload: response.data });
+
     } catch (error) {
-      alert("algo salió mal, no se cargaron los shows históricos");
-      console.log(error);
+      console.log('fetchOldShows error: ', error);
+      dispatch({
+        type: FETCH_OLD_SHOWS_FAILED,
+        payload: {
+          message: 'Error al obtener los productos finalizados',
+          status: ''
+        }
+      });
     }
-  };
+  }
 };
 
 export const getProductById = (id) => {
@@ -90,8 +113,8 @@ export const filterProducts = (day, categoryId) => {
     try {
       const filteredProducts = await axios.get(
         `${apiUrl}/products?days=${day}&category=${categoryId}`
-        );
-      dispatch({type: FETCHING_PRODUCTS })
+      );
+      dispatch({ type: FETCHING_PRODUCTS })
       dispatch({ type: FILTERED_PRODUCTS, payload: filteredProducts.data });
     } catch (error) {
       dispatch({ type: FILTERED_PRODUCTS, payload: [] });
@@ -100,93 +123,105 @@ export const filterProducts = (day, categoryId) => {
   };
 };
 
-export const addEditCartProduct = async(productId, quantity, user, orderId) => {
-    try {
-      // leo del local storage
-      if (userIsLogining(user)) {
-         if (!orderId || orderId === 0) {
-            const order = await getCreatedOrderByUser(user);
-            if (order) {
-                orderId = order.Id;
-            }else{
-                // crear orden             
-                await createOrder(user, [{productId, quantity}]);
-            } 
-         }   
-         if (orderId)
-            await axios.put(`${apiUrl}/order/${orderId}/items`, {items: [{productId, quantity}]});
-      }else {
-        let cart = [];
-        let stringCart = localStorage.getItem("cart");
-        if (stringCart) cart = JSON.parse(stringCart);
-        const cartItem = cart.find((e) => e.id === productId);
-
+export const addEditCartProduct = async (productId, quantity, user, orderId) => {
+  try {
+    // leo del local storage
+    if (userIsLogining(user)) {
+      if (!orderId || orderId === 0) {
+        const order = await getCreatedOrderByUser(user);
+        if (order) {
+          orderId = order.Id;
+        } else {
+          // crear orden             
+          await createOrder(user, [{ productId, quantity }]);
+          return {statusOk: true}
+        }
+      }
+      if (orderId) {
+         await axios.put(`${apiUrl}/order/${orderId}/items`, { items: [{ productId, quantity }] });
+         return {statusOk: true};
+        }
+    } 
+    else 
+    {
+      let cart = [];
+      let stringCart = localStorage.getItem("cart");
+      if (stringCart) cart = JSON.parse(stringCart);
+      const cartItem = cart.find((e) => e.id === productId);
+      const productById = await axios.get(`${apiUrl}/products/${productId}`);
+      if (productById) {
         if (stringCart && cartItem) {
-           cartItem.quantity = cartItem.quantity + quantity;
-        }else{
-           const productById = await axios.get(`${apiUrl}/products/${productId}`);
-           const productInsert = {
-             id: productById.data.id,
-             name: productById.data.name,
-             photo: productById.data.Photos[0].Path,
-             price: productById.data.Price,
-             startDate: productById.data.StartDate,
-             quantity: quantity,
-           };
+          if ((cartItem.quantity + quantity) > productById.data.Stock)
+             return {statusOk: false, message: `El producto ${productById.data.name} no tiene stock suficiente`};
+
+          cartItem.quantity = cartItem.quantity + quantity;
+        } else {
+          if (quantity > productById.data.Stock)
+             return {statusOk: false, message: `El producto ${productById.data.name} no tiene stock suficiente`};
+
+          const productInsert = {
+            id: productById.data.id,
+            name: productById.data.name,
+            photo: productById.data.Photos[0].Path,
+            price: productById.data.Price,
+            startDate: productById.data.StartDate,
+            quantity: quantity,
+          };
+
           cart.push(productInsert);
         }
         localStorage.setItem("cart", JSON.stringify(cart));
-      };
-    }
-    catch(error) 
-    {
-      console.log(error);
-      setError(error);
-    }
-};
-
-export const removeCartProduct = async(productId, user, orderId) => {
-    try {
-      if (userIsLogining(user)) {
-        if (orderId) { 
-           const response = await axios.delete(`${apiUrl}/order/${orderId}/items/${productId}`);           
-           console.log('response', response);
-         }
-      }else {
-        let stringCart = localStorage.getItem("cart");
-        let cart = [];
-
-        if (stringCart) {
-          cart = JSON.parse(stringCart);
-          cart = cart.filter(e => e.id !== productId);           
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
+        return {statusOk: true};
       }
-      return productId;
-    }
-    catch(error) 
-    {
-      console.log(error);
-      setError(error);
-    }
+    };
+  }
+
+  catch (error) {
+    setError(error);
+    return {statusOk: false, message: error.response.data.error}
+  }
 };
 
-export const emptyCart = async(user, orderId) => {
+export const removeCartProduct = async (productId, user, orderId) => {
+  try {
+    if (userIsLogining(user)) {
+      if (orderId) {
+        const response = await axios.delete(`${apiUrl}/order/${orderId}/items/${productId}`);
+        console.log('response', response);
+      }
+    } else {
+      let stringCart = localStorage.getItem("cart");
+      let cart = [];
+
+      if (stringCart) {
+        cart = JSON.parse(stringCart);
+        cart = cart.filter(e => e.id !== productId);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+    return productId;
+  }
+  catch (error) {
+    console.log(error);
+    setError(error);
+  }
+};
+
+export const emptyCart = async (user, orderId) => {
   try {
     if (userIsLogining(user)) {
       console.log(user);
-      if (!orderId) { 
-          const order = await getCreatedOrderByUser(user);
-          orderId = order.Id;
+      if (!orderId) {
+        const order = await getCreatedOrderByUser(user);
+        orderId = order.Id;
       }
       if (orderId)
-         await axios.put(`${apiUrl}/orders/${orderId}`, {id: orderId, status: "Canceled"}); 
-    } else {     
+        await axios.put(`${apiUrl}/orders/${orderId}`, { id: orderId, status: "Canceled" });
+    } else {
       localStorage.setItem("cart", JSON.stringify([]));
     }
   }
-  catch(error) 
-  {
+  catch (error) {
     console.log(error)
     setError(error);
   }
@@ -195,32 +230,32 @@ export const emptyCart = async(user, orderId) => {
 export const getTotalItems = (user) => {
   return async (dispatch) => {
     try {
-      dispatch({ 
+      dispatch({
         type: ADD_EDIT_CART,
-        payload: await getInternalTotalItems(user) 
+        payload: await getInternalTotalItems(user)
       })
-    }catch(error) {
+    } catch (error) {
       console.log(error)
     }
   };
 };
 
-const getInternalTotalItems = async(user) => {
+const getInternalTotalItems = async (user) => {
   let totalQuantity = 0;
   const order = await getCreatedOrderByUser(user);
   if (order) {
     for (const item of order.OrderItems)
-        totalQuantity = totalQuantity + item.Quantity; 
+      totalQuantity = totalQuantity + item.Quantity;
   }
   return totalQuantity;
 };
 
-export const getCreatedOrderByUser = async(user) => {
+export const getCreatedOrderByUser = async (user) => {
   try {
     if (userIsLogining(user)) {
       const order = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       return order.data;
-    }else{
+    } else {
       const stringCart = localStorage.getItem("cart");
       const order = {};
       order.Id = 0;
@@ -228,21 +263,21 @@ export const getCreatedOrderByUser = async(user) => {
       order.TotalAmount = 0;
       order.OrderItems = [];
       if (stringCart) {
-         const items = JSON.parse(stringCart);
-         order.OrderItems = items.map( item => ({
-           ProductId :  item.id,
-           StartDate: item.startDate,
-           Quantity: item.quantity,
-           UnitPrice: item.price,
-           Product: {
-             Name: item.name,
-             Photos: [{id: 1, Path: item.photo}],
-            } 
-         }));
+        const items = JSON.parse(stringCart);
+        order.OrderItems = items.map(item => ({
+          ProductId: item.id,
+          StartDate: item.startDate,
+          Quantity: item.quantity,
+          UnitPrice: item.price,
+          Product: {
+            Name: item.name,
+            Photos: [{ id: 1, Path: item.photo }],
+          }
+        }));
       }
       return order;
     }
-  } 
+  }
   catch (error) {
     console.log(error);
     setError(error);
@@ -251,7 +286,7 @@ export const getCreatedOrderByUser = async(user) => {
 
 const userIsLogining = (user) => {
   if (user && user.hasOwnProperty('email')) return true;
-  return false;  
+  return false;
 }
 
 export const setLocalStorageToApi = (user) => {
@@ -261,46 +296,46 @@ export const setLocalStorageToApi = (user) => {
       const response = await axios.get(`${apiUrl}/orders?status=Created&userName=${user.email}`);
       const order = response.data;
       if (stringCart) {
-        const items = JSON.parse(stringCart);        
+        const items = JSON.parse(stringCart);
         if (order) {
-          const orderItems = items.map(item => ({productId: item.id, quantity: item.quantity}));  
-          const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, {items: orderItems});
+          const orderItems = items.map(item => ({ productId: item.id, quantity: item.quantity }));
+          const response = await axios.put(`${apiUrl}/order/${order.Id}/items`, { items: orderItems });
           // trato de errores
-          console.log('orden modificada: ', response);         
-        }else{
+          console.log('orden modificada: ', response);
+        } else {
           const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
-          if (customer) {            
-            const orderItems = items.map(item => 
-                (
-                  {
-                    productId: item.id, 
-                    quantity: item.quantity,
-                    unitPrice: item.price,
-                    totalAmount: item.price * item.quantity,
-                  }
-                )
-            ); 
+          if (customer) {
+            const orderItems = items.map(item =>
+            (
+              {
+                productId: item.id,
+                quantity: item.quantity,
+                unitPrice: item.price,
+                totalAmount: item.price * item.quantity,
+              }
+            )
+            );
 
             let totalOrderAmount = 0;
-            for (const item of orderItems) 
-                totalOrderAmount = totalOrderAmount + item.totalAmount;
-            
-            const response = await axios.post(`${apiUrl}/order`, 
-                {
-                  customerId: customer.data.Customer.id,
-                  totalAmount: totalOrderAmount,
-                  items: orderItems
-                }
-              );
-              
-           // controlo respuesta de orden
+            for (const item of orderItems)
+              totalOrderAmount = totalOrderAmount + item.totalAmount;
+
+            const response = await axios.post(`${apiUrl}/order`,
+              {
+                customerId: customer.data.Customer.id,
+                totalAmount: totalOrderAmount,
+                items: orderItems
+              }
+            );
+
+            // controlo respuesta de orden
             console.log('orden creada: ', response);
-          }          
+          }
         }
         // vacio carrito de localstorage 
         localStorage.setItem("cart", []);
       };
-        
+
       dispatch({
         type: ORDER_SELECTED,
         payload: {
@@ -308,55 +343,55 @@ export const setLocalStorageToApi = (user) => {
         }
       });
 
-    }catch(error) {
+    } catch (error) {
       console.log('Error postOrder', error);
       setError(error);
     }
   }
 }
 
-export const createOrder = async(user, items) => {
-  
+export const createOrder = async (user, items) => {
+
   try {
     if (userIsLogining(user)) {
-        const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
-        if (customer) {
-          let price = 0;
-          let totalOrderAmount = 0;
-          const orderItems =  [];      
-          for (const item of items) {
-            const productById = await axios.get(`${apiUrl}/products/${item.productId}`);
-            if (productById) price = productById.data.Price;
-            const product = {
-                productId: item.productId, 
-                quantity: item.quantity,
-                unitPrice: price,
-                totalAmount: price * item.quantity,
-              }
-              orderItems.push(product);
-              totalOrderAmount = totalOrderAmount + product.totalAmount;
-          };      
+      const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
+      if (customer) {
+        let price = 0;
+        let totalOrderAmount = 0;
+        const orderItems = [];
+        for (const item of items) {
+          const productById = await axios.get(`${apiUrl}/products/${item.productId}`);
+          if (productById) price = productById.data.Price;
+          const product = {
+            productId: item.productId,
+            quantity: item.quantity,
+            unitPrice: price,
+            totalAmount: price * item.quantity,
+          }
+          orderItems.push(product);
+          totalOrderAmount = totalOrderAmount + product.totalAmount;
+        };
 
-          console.log('createOrder', totalOrderAmount, orderItems,  customer.data.Customer.id);
-          const response = await axios.post(`${apiUrl}/order`, 
-              {
-                customerId: customer.data.Customer.id,
-                totalAmount: totalOrderAmount,
-                items: orderItems
-              }
-            );
-            
+        console.log('createOrder', totalOrderAmount, orderItems, customer.data.Customer.id);
+        const response = await axios.post(`${apiUrl}/order`,
+          {
+            customerId: customer.data.Customer.id,
+            totalAmount: totalOrderAmount,
+            items: orderItems
+          }
+        );
+
         // controlo respuesta de orden
-          console.log('orden creada: ', response);
-          return response; 
-        }
+        console.log('orden creada: ', response);
+        return response;
+      }
     }
-    return {error: 'usuario no logoneado o no existe relación de usuario con cliente'}
-  } 
-  catch(error) {
+    return { error: 'usuario no logoneado o no existe relación de usuario con cliente' }
+  }
+  catch (error) {
     console.log(error);
     setError(error);
-  }  
+  }
 }
 
 export const toggleShowCart = (show) => {
@@ -366,7 +401,7 @@ export const toggleShowCart = (show) => {
         type: TOGGLE_SHOW_CART,
         payload: show,
       });
-    }catch(error) {
+    } catch (error) {
       console.log(error)
     }
   };

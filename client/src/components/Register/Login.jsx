@@ -152,6 +152,10 @@ export default function Login() {
           credential: GoogleAuthProvider.credentialFromError(error),
         };
 
+        if(errorLog.code === "auth/user-disabled"){
+          setError("El usuario se encuentra deshabilitado, no tiene permiso para ingresar.")
+        }
+
         console.log(`Ha ocurrido un error con el codigo ${errorLog.code}`);
         console.log(`Ha sucedido al utilizar el email ${errorLog.email}`);
         console.log(`El error se refiere a`);

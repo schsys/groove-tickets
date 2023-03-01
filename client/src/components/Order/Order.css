@@ -50,6 +50,7 @@
   color: white;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding-right: 2vw;
+  margin-top: -3vh;
 }
 
 .cartSummary__show-processOrder {
@@ -60,9 +61,10 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 2vh;
   cursor: pointer;
-  font-size: 1.2vw;
+  font-size: 3vh;
   font-weight: bold;
   color: white;
+  margin-top: -2vh;
 }
 
 .cartSummary__show-processOrder:hover {
@@ -103,7 +105,7 @@
 .cartSummary__user-info input {
   color: rgb(0, 0, 0);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 2.6vh;
+  font-size: 2.4vh;
 }
 span[style="color: red;"] {
   font-size: 16px;
@@ -156,8 +158,13 @@ span[style="color: red;"] {
 
 .cartSummary__user-info #city,
 #state,
+#zip:enabled {
+  font-size: 2.4vh;
+}
+
 #zip {
-  font-size: 2.3vh;
+  width: 8vh;
+  font-size: 2.2vh;
 }
 .cartSummary__user-editInfo {
   margin-left: 1vw;
@@ -273,21 +280,26 @@ span[style="color: red;"] {
   background-color: var(--color-violet);
 }
 /*---------------------@media (min-width: 750px) and (max-width: 1200px)-----------------*/
-@media (min-width: 750px) and (max-width: 1500px) {
+@media (min-width: 750px) and (max-width: 1200px) {
   .cartSummary__user-info input {
-    font-size: 2.4vh;
+    font-size: 2.3vh;
+  }
+
+  .email_container {
+    float: left;
+  }
+  .telephone_container {
+    float: left;
   }
 
   .cartSummary__user-info {
-    color: white;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-left: 2vw;
-    font-size: 2.5vh;
   }
   .cartSummary__user-info #zip {
-    font-size: 2.4vh;
-    width: 10vh;
+    font-size: 2.3vh;
+    width: 6vh;
   }
+
   .back_button-order {
     width: 25vh;
     padding: 1%;
@@ -313,15 +325,21 @@ span[style="color: red;"] {
   }
 
   .cartSummary__user-info {
-    font-size: 3vh;
+    font-size: 2.3vh;
   }
 
   .cartSummary__summary-header {
     font-size: 90%;
   }
 }
-/*---------------------@media screen and (max-width: 750px)-----------------*/
+/*---------------------@media(max-width: 750px)-----------------*/
 @media screen and (max-width: 750px) {
+  .email_container {
+    float: left;
+  }
+  .telephone_container {
+    float: left;
+  }
   .cartSummary__user-editInfo-save {
     margin-left: 1vh;
     text-decoration: none;
@@ -331,7 +349,6 @@ span[style="color: red;"] {
     justify-content: flex-end;
     font-size: 80%;
   }
-
   .cartSummary__user-editInfo-cancel {
     margin-left: 1vh;
     position: relative;
@@ -371,16 +388,27 @@ span[style="color: red;"] {
   .cartSummary__user-info input {
     color: rgb(0, 0, 0);
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    /*     width: 20vw; */
     font-size: 2.3vh;
   }
-  .cartSummary__user-info #city,
-  #state,
-  #zip {
-    color: rgb(0, 0, 0);
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-size: 2.2vh;
-    width: 8vh;
+
+  #city:enabled {
+    width: 15vh;
+    font-size: 2.1vh;
+  }
+
+  #city:disabled {
+    width: 15vh;
+    font-size: 2.1vh;
+  }
+
+  #state:disabled {
+    width: 15vh;
+    font-size: 2.1vh;
+  }
+
+  #zip:disabled {
+    width: 5.5vh;
+    font-size: 2.1vh;
   }
 
   .back_button-order {
@@ -400,8 +428,7 @@ span[style="color: red;"] {
   .cartSummary__show-nameDate {
     position: absolute;
     display: block;
-    flex-direction: column;
-    font-size: 2.3vh;
+    font-size: 2vh;
     margin-left: 0.5vw;
   }
 
@@ -432,21 +459,50 @@ span[style="color: red;"] {
   .item-quantity {
     position: relative;
     margin-left: 35.7vw;
-    top: 1.3vh;
+    top: 1vh;
     margin-bottom: -50px;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .cartSummary__show-processOrder {
     font-size: 3vh;
   }
 }
-
-@media (min-width: 470px) and (max-width: 1060px) {
+/*---------------------@media (min-width: 100px) and (max-width: 550px)-----------------*/
+@media (min-width: 100px) and (max-width: 550px) {
+  .cartSummary__user-infoContainer {
+    height: 56vh;
+  }
   .email_container {
     float: left;
   }
   .telephone_container {
     float: left;
+  }
+  .city_container {
+    position: relative;
+    float: left;
+  }
+
+  #state:enabled {
+    position: relative;
+    margin-right: 17vh;
+    top: 29px;
+    width: 10vh;
+    margin-left: -16.5vh;
+  }
+
+  #zip:enabled {
+    position: relative;
+    margin-right: 17vh;
+    top: 29px;
+    margin-left: -16.5vh;
+  }
+
+  .cartSummary__show-nameDate {
+    position: absolute;
+    display: block;
+    flex-direction: column;
+    font-size: 1.7vh;
   }
 }

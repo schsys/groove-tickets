@@ -1,18 +1,18 @@
 import {
-  Show,
-  SimpleShowLayout,
+  List,
+  Datagrid,
   TextField,
   DateField,
-  NumberField,
+  EditButton,
 } from "react-admin";
 import { UserAuth } from "../../context/AuthContext";
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { getDetailedUser } from "../../common/integrations/api";
-import { Dashboard } from "../dashboard/dashboard";
+import { UserCard } from "./user-card";
 import { Card, CardContent, CardHeader } from "@mui/material";
 
-export const CustomerShow = () => {
+export const CustomerList = () => {
 
   const { user } = UserAuth();
 
@@ -56,17 +56,20 @@ export const CustomerShow = () => {
   }
 
   return <>
-    <Dashboard />
-    <Show title="Customer Detail" id={apiUser.item.Customer.id}>
-      <SimpleShowLayout>
-        <TextField source="address" label="Dirección" />
-        <TextField source="city" label="Ciudad" />
-        <TextField source="state" label="Provincia" />
-        <NumberField source="zip" label="Código Postal" />
+    <UserCard customerName={apiUser.item.Customer.name} />
+    <List
+      queryOptions={{ meta: { resource: apiUser.item.Customer.id } }}
+      exporter={false}
+      pagination={false}
+    >
+      <Datagrid bulkActionButtons={false} size="medium">
         <TextField source="telephone" label="Teléfono" />
         <TextField source="document" label="Documento" />
-        <DateField source="birthDate" label="Fecha de nacimiento" />
-      </SimpleShowLayout>
-    </Show>
+        <TextField source="address" label="Dirección" />
+        <TextField source="city" label="Ciudad" />
+        <DateField source="birthDate" label="Fecha de Nacimiento" />
+        <EditButton />
+      </Datagrid>
+    </List>
   </>
 };

@@ -1,7 +1,6 @@
 import {
   Edit,
   SimpleForm,
-  TextInput,
   SelectInput,
   required,
 } from "react-admin";
@@ -12,9 +11,6 @@ export const UserEdit = () => (
   <Edit>
     <SimpleForm sx={{ maxWidth: 500 }} toolbar={<CustomToolbar />}>
       <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
-        <Box flex={2} mr={{ xs: 0, sm: "0.5em" }}>
-          <TextInput source="userName" label="Nombre" validate={required()} fullWidth />
-        </Box>
         <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
           <SelectInput
             source="role"

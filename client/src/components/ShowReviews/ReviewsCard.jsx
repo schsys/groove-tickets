@@ -13,16 +13,11 @@ export default function ReviewsCard(props) {
 
   //Rating
   const labels = {
-    0.5: "Malo",
-    1: "Malo+",
-    1.5: "Pobre",
-    2: "Pobre+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Bueno",
-    4: "Bueno+",
-    4.5: "Excelente",
-    5: "Excelente+",
+    1: "Malo",
+    2: "Pobre",
+    3: "Ok",
+    4: "Bueno",
+    5: "Excelente",
   };
 
   function getLabelText() {
@@ -52,7 +47,7 @@ export default function ReviewsCard(props) {
         }}
           name="hover-feedback"
           value={stars}
-          precision={0.5}
+          precision={1}
           getLabelText={getLabelText}
           onChange={(event, stars) => {
             setValue(stars);
@@ -62,7 +57,6 @@ export default function ReviewsCard(props) {
     );
   }
 
-  console.log("props", props);
   return (
     <div className="individual_review_card">
       <p>{props.review.User.userName}</p>

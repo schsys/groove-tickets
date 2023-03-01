@@ -16,15 +16,10 @@ const createHeaders = () => {
 }
 
 export const dataProvider = {
-    getList: (resource, params) => {
+    getList: (_, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
-        const { resourceId } = params.meta;
-
-        if (resource === 'reviews') {
-            params.filter = {};
-        }
-        console.log('params.filter',params.filter);
+        const { resource } = params.meta;
 
         const query = {
             sort: JSON.stringify([field, order]),
@@ -32,7 +27,8 @@ export const dataProvider = {
             size: perPage,
             filter: JSON.stringify(params.filter),
         };
-        const url = `${apiUrl}/${resource}/${resourceId}?${stringify(query)}`;
+        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        console.log('dataProvider getList url', url);
         return httpClient(url, { headers: createHeaders() }).then(({ json }) => ({
             data: json.rows,
             total: json.count,
@@ -48,20 +44,21 @@ export const dataProvider = {
             filter: JSON.stringify({ id: params.ids }),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
-        console.log('dataProvider.getMany params.ids: ', params.ids);
+        // console.log('dataProvider.getMany params.ids: ', params.ids);
         // return httpClient(url).then(({ json }) => ({ data: json.rows }));
         return httpClient(url).then(({ json }) => {
-            console.log('json.rows: ', json.rows);
+            // console.log('json.rows: ', json.rows);
             return { data: json.rows };
         });
     },
     update: async (resource, params) => {
+        console.log('dataProvider update params: ', params);
         const response = await httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
             body: JSON.stringify(params.data)
         });
 
-        console.log('json returned by httpClient: ', response);
+        // console.log('json returned by httpClient: ', response);
         return { data: response.json };
 
     },
@@ -71,7 +68,7 @@ export const dataProvider = {
             body: JSON.stringify(params.data)
         });
 
-        console.log('json returned by httpClient: ', response.json);
+        // console.log('json returned by httpClient: ', response.json);
         return { data: { ...params.data, id: response.json.id } };
     },
     delete: (resource, params) =>

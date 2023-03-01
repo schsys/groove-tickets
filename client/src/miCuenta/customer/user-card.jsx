@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 import { useHistory } from "react-router-dom";
 
-export const Dashboard = () => {
+export const UserCard = ({ customerName }) => {
   const { user, logout } = UserAuth();
   const history = useHistory();
 
@@ -36,7 +36,7 @@ export const Dashboard = () => {
 
   return (
     <Card sx={{ mt: 1 }}>
-      <CardHeader title={`Hola ${user.displayName}!`} />
+      <CardHeader title={`Hola ${customerName}!`} />
       <CardContent>
         <p>{`Iniciaste sesión como ${user.email}`}</p>
       </CardContent>

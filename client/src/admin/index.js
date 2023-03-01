@@ -24,11 +24,9 @@ import { ProductCreate } from './product/product-create';
 import { ProductEdit } from './product/product-edit';
 
 import { UserList } from './user/user-list';
-import { UserCreate } from './user/user-create';
 import { UserEdit } from './user/user-edit';
 
 import { CustomerList } from './customer/customer-list';
-import { CustomerCreate } from './customer/customer-create';
 import { CustomerEdit } from './customer/customer-edit';
 
 import { OrderList } from './order/order-list';
@@ -36,11 +34,9 @@ import { OrderEdit } from './order/order-edit';
 
 import { Dashboard } from './dashboard/dashboard';
 import { dataProvider } from './data-provider';
-// import { authProvider } from './auth-provider';
 
 import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
-import { ReviewCreate } from './review/review-create';
 
 import { MailgenList } from "./mailgen/mailgen-list";
 import { MailgenEdit } from "./mailgen/mailgen-edit";
@@ -123,14 +119,12 @@ const App = () => {
                 name="users"
                 list={UserList}
                 edit={UserEdit}
-                create={UserCreate}
                 recordRepresentation="userName"
             />
             <Resource
                 name="customers"
                 list={CustomerList}
                 edit={CustomerEdit}
-                create={CustomerCreate}
                 recordRepresentation="name"
             />
             <Resource
