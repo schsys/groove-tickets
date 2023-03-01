@@ -12,6 +12,10 @@ import {
   getCreatedOrderByUser,
 } from "../../redux/actions";
 
+import Swal from "sweetalert2";
+import Error_Search from "../../assets/Error_Search.jpg";
+
+
 export const ItemsOrder = (customer) => {
   /*------------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
@@ -23,6 +27,18 @@ export const ItemsOrder = (customer) => {
     totalAmount: 0,
     fetchStatus: "loading",
   });
+  const apiUrl = process.env.REACT_APP_BASE_URL;
+
+  const sweetAlert = (message) => {
+    Swal.fire({
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Alerta !!!",
+      title: "Yazz",
+      html: `<h3>${message}</h3>`,
+    });
+  };
 
   useEffect(() => {
     async function fetchOrder() {
@@ -59,7 +75,6 @@ export const ItemsOrder = (customer) => {
           });
         });
       } catch (error) {
-        console.error(error);
         setorderItems({
           id: 0,
           items: [],
@@ -91,42 +106,72 @@ export const ItemsOrder = (customer) => {
   ) => {
     const items = [...orderItems.items];
     const item = items[index];
-    await addEditCartProduct(item.id, quantityToUpdate, user).then(() => {
-      const quantity = newQuantity > 0 ? newQuantity : defaultValue;
-      item.quantity = quantity;
-      const totalAmount = items.reduce(
-        (acc, cur) => acc + Number(cur.price) * cur.quantity,
-        0
-      );
-      setorderItems({
-        items,
-        totalAmount,
-        fetchStatus: "succeeded",
-      });
+    await addEditCartProduct(item.id, quantityToUpdate, user)
+      .then((response) => {
+        if (response.statusOk) {
+            const quantity = newQuantity > 0 ? newQuantity : defaultValue;
+            item.quantity = quantity;
+            const totalAmount = items.reduce(
+              (acc, cur) => acc + Number(cur.price) * cur.quantity,
+              0
+            );
+            setorderItems({
+              items,
+              totalAmount,
+              fetchStatus: "succeeded",
+            });
 
-      dispatch(getTotalItems(user));
-    });
+            dispatch(getTotalItems(user));
+        }else{
+          sweetAlert(response.message);
+        }
+      })
+      .catch((e) => {
+        sweetAlert(e.message);
+      })
   };
   /*------------------------------------------------------------------------------*/
 
   const handleMPago = async () => {
-    const order = {
-      id: orderItems.id,
-      TotalAmount: orderItems.totalAmount,
-      customerName: customer.name,
-      customerEmail: customer.email,
+    // valido stock
+    async function validateProductStock(productId, quantity) {
+      const productById = await axios.get(`${apiUrl}/products/${productId}`);
+      console.log(quantity, productById.data.Stock, quantity <= productById.data.Stock);
+      if (productById) return (quantity <=  productById.data.Stock);
+      return false;
     };
-    try {
-      await axios
-        .post("/pay/mercadopago", order)
-        .then(
-          (res) => (window.location.href = res.data.response.body.init_point)
-        )
-        .then(await axios.get("/payment"));
-    } catch (error) {
-      console.log(error);
+
+    let hasError = false;
+    for (const item of orderItems.items){
+       const productWithStock = await validateProductStock(item.id, item.quantity);
+       if (!productWithStock) {
+          hasError = true;
+          sweetAlert(`El producto ${item.name} no tiene stock suficiente`);
+       }
+    };
+
+    // se genera el objeto para enviar a mercado pago
+    if (!hasError) {
+      const order = {
+        id: orderItems.id,
+        TotalAmount: orderItems.totalAmount,
+        customerName: customer.name,
+        customerEmail: customer.email,
+      };
+
+      try {
+        await axios
+          .post("/pay/mercadopago", order)
+          .then(
+            (res) => (window.location.href = res.data.response.body.init_point)
+          )
+          .then(await axios.get("/payment"));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
+
   return (
     <div className="cartSummary__summary-Container">
       <h2 className="cartSummary__summary-header">TU CUENTA</h2>
@@ -152,7 +197,7 @@ export const ItemsOrder = (customer) => {
                 onMouseDown={(event) => {
                   if (item.quantity >= 10) {
                     event.preventDefault();
-                    alert("La cantidad máxima permitida por producto es 10 🙂");
+                    sweetAlert("La cantidad máxima permitida por producto es 10 🙂");
                   }
                 }}
               >
@@ -167,7 +212,7 @@ export const ItemsOrder = (customer) => {
                 onMouseDown={(event) => {
                   if (item.quantity <= 1) {
                     event.preventDefault();
-                    alert(
+                    sweetAlert(
                       "😯¡Oh! Si quieres eliminar este ítem. Hazlo desde tu carrito😊"
                     );
                   }
