@@ -16,6 +16,7 @@ import { Order } from "./components/Order/Order";
 // import UserAdmin from "./miCuenta"
 import Error404 from "./components/404/Error404";
 import "./App.css";
+import PaymentError from "./components/PaymentError/PaymentError";
 
 function App() {
   return (
@@ -65,6 +66,9 @@ function App() {
               <Order />
               <Footer />
             </PrivateRoute>
+          </Route>
+          <Route exact path={"/PaymentError"}>
+            <PaymentError />
           </Route>
           {/* <Route exact path={"/admin"}>
             <PrivateRoute>
