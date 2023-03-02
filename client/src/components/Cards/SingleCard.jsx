@@ -6,6 +6,7 @@ import { formatDate } from "../utils/formatedDate";
 import { formatTime } from "../utils/formatTime";
 import { formatPrice } from "../utils/formatPrice";
 import { FaInfoCircle, FaShoppingCart } from "react-icons/fa";
+import alternativeImage from "../../assets/Background.png";
 
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
@@ -101,7 +102,7 @@ const classStyle = () => {
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <div className="shows__cards_imgContainer">
           <img
-            src={data.data.Photos[0].Path}
+            src={data.data.Photos.length !== 0 ? data.data.Photos[0].Path : alternativeImage}
             alt="imagen show1"
             className="shows__cards-show1"
           /> 
