@@ -114,7 +114,7 @@ span[style="color: red;"] {
 .name {
   height: 8vh;
   float: left;
-  width: 52vh;
+  width: 75vh;
 }
 .email_container {
   height: 8vh;
@@ -122,10 +122,19 @@ span[style="color: red;"] {
   float: right;
   margin-right: 20vh;
 }
+
 .email_container input {
   width: 35vh;
 }
-
+.document_container {
+  height: 8vh;
+  width: 55vh;
+  float: right;
+  margin-right: 20vh;
+}
+.document_container input {
+  width: 15vh;
+}
 .address_container {
   height: 8vh;
   float: left;
@@ -149,7 +158,7 @@ span[style="color: red;"] {
 
 .city_container {
   float: left;
-  width: 100vh;
+  width: 80vh;
 }
 
 .city_container input {
@@ -288,6 +297,10 @@ span[style="color: red;"] {
   .email_container {
     float: left;
   }
+
+  .document_container {
+    float: left;
+  }
   .telephone_container {
     float: left;
   }
@@ -334,6 +347,9 @@ span[style="color: red;"] {
 }
 /*---------------------@media(max-width: 750px)-----------------*/
 @media screen and (max-width: 750px) {
+  .document_container {
+    float: left;
+  }
   .email_container {
     float: left;
   }
@@ -471,13 +487,20 @@ span[style="color: red;"] {
 /*---------------------@media (min-width: 100px) and (max-width: 550px)-----------------*/
 @media (max-width: 550px) {
   .cartSummary__user-infoContainer {
-    height: 55vh;
+    height: 65vh;
   }
   .email_container {
     float: left;
+    width: 32vh;
   }
+
+  #document {
+    width: 9vh;
+  }
+
   .telephone_container {
     float: left;
+    width: 35vh;
   }
   .city_container {
     position: relative;
@@ -495,7 +518,7 @@ span[style="color: red;"] {
     top: 29px;
     width: 10vh;
     margin-left: -16.5vh;
-    width: 10vh;
+    width: 8vh;
     font-size: 1.4vh;
   }
 
@@ -504,7 +527,7 @@ span[style="color: red;"] {
     margin-right: 17vh;
     top: 29px;
     margin-left: -16.5vh;
-    width: 3.5vh;
+    width: 3vh;
     font-size: 1.4vh;
   }
 
@@ -526,18 +549,11 @@ span[style="color: red;"] {
   }
 
   .name {
-    width: 32vh;
-  }
-
-  .email_container {
-    width: 32vh;
+    width: 33vh;
   }
 
   .address_container {
     width: 34vh;
-  }
-  .telephone_container {
-    width: 33vh;
   }
   .cartSummary__show-nameDate {
     position: absolute;
@@ -584,5 +600,12 @@ span[style="color: red;"] {
   .item-quantity {
     margin-left: 20.6vh;
     font-size: 2vh;
+  }
+
+  .cartSummary__user-editInfo-save {
+    font-size: 1.3vh;
+  }
+  .cartSummary__user-editInfo-cancel {
+    font-size: 1.3vh;
   }
 }
