@@ -59,6 +59,14 @@ function Search() {
     setSuggestions([]);
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      dispatch(search(name));
+    history.push("/");
+    setName(""); //vacia el input
+    setSuggestions([]);
+    }
+  }
   return (
     <div className="searchContainer">
       <div className="search_inputSuggest">
@@ -69,6 +77,7 @@ function Search() {
           placeholder="Buscar por nombre"
           onChange={(e) => handleInputChange(e)}
           value={name}
+          onKeyDown={handleKeyDown}
         />
         <div className="search_suggestion_div">
           <datalist className="suggestionsList">
