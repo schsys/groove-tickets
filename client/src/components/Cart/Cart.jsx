@@ -229,9 +229,19 @@ const Cart = () => {
             justifyContent={"space-between"}
             sx={{ pr: 2 }}
           >
-            <button onClick={() => handleMinus(item.id, item.quantity)}>
-              -
-            </button>
+          {item && item.quantity === 1 ? (
+              <button
+                title="se eliminará el show de tu carrito"
+                className="button"
+                onClick={() => handleMinus(item.id, item.quantity)}
+              >
+                -
+              </button>
+            ) : (
+              <button onClick={() => handleMinus(item.id, item.quantity)}>
+                -
+              </button>
+            )}
             <div className="cart__item-quantity">{item && item.quantity}</div>
             <button onClick={() => handlePlus(item.id, item.quantity)}>
               +
