@@ -49,7 +49,8 @@ export const search = (name) => {
         payload: info.data,
       });
     } catch (error) {
-      return "No pudimos encontrar ese producto";
+        return dispatch({type: SEARCH, payload: []});
+      //return "No pudimos encontrar ese producto";
     }
   };
 };
