@@ -37,7 +37,7 @@ export const ProductEdit = () => {
                 console.table(values);
                 await update(
                     'products',
-                    { data: values },
+                    { id: values.id, data: values },
                     { returnPromise: true }
                 );
                 // console.log('newProduct: ', newProduct);
