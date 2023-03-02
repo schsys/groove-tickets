@@ -21,6 +21,7 @@ import {
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { useHistory } from "react-router-dom";
 import { UserAuth } from "../../context/AuthContext";
+import Swal from 'sweetalert2';
 
 const Cart = () => {
   let totalOrder = 0;
@@ -40,7 +41,11 @@ const Cart = () => {
         if (order.hasOwnProperty("error")) {
           setOrderId(0);
           setCart([]);
-          alert(order.error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: order.error,
+          });
         } else {
           setOrderId(order.Id);
           if (order.OrderItems && order.OrderItems.length) {
@@ -82,41 +87,66 @@ const Cart = () => {
   }
 
   async function handleMinus(id, quantity) {
+    if (quantity === 1) {
+      handleRemove(id);
+      return;
+    }
+
     await addEditCartProduct(id, -1, user, orderId)
       .then((response) => {
         if (response.statusOk) {
-            if (quantity === 1) handleRemove(id);
-            quantity -= 1;
-            setCount(
-              cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-            );
-            dispatch(getTotalItems(user));
-        }else{
-          alert(response.message);        
+          quantity -= 1;
+          setCount(
+            cart.map((item) =>
+              item.id === id ? (item.quantity = quantity) : null
+            )
+          );
+          dispatch(getTotalItems(user));
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message,
+          });
         }
       })
-      .catch((e)=> {
-        alert(e.message);        
-      })
+      .catch((e) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: e.message,
+        });
+        
+      });
   }
 
   async function handlePlus(id, quantity) {
     await addEditCartProduct(id, 1, user, orderId)
       .then((response) => {
-          if (response.statusOk) {
-            if (quantity === 10) return;
-            quantity += 1;
-            setCount(
-              cart.map((item) => (item.id === id ? (item.quantity = quantity) : null))
-            );
-            dispatch(getTotalItems(user));
-          }else{
-            alert(response.message);        
-          }
+        if (response.statusOk) {
+          if (quantity === 10) return;
+          quantity += 1;
+          setCount(
+            cart.map((item) =>
+              item.id === id ? (item.quantity = quantity) : null
+            )
+          );
+          dispatch(getTotalItems(user));
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.message
+          });
+        }
       })
       .catch((e) => {
-        alert(e.message);                
-      })
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: e.message
+        });
+      });
   }
 
   async function handleEmptyCart() {
@@ -143,7 +173,12 @@ const Cart = () => {
 
   function handleComprar() {
     if (cart.length === 0) {
-      alert("Tu carrito esta vacío");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Tu carrito esta vacío",
+      });
+      handleCloseOnClick();
       return;
     }
     history.push("/comprar");
