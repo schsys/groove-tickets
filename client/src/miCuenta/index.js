@@ -2,11 +2,11 @@ import { Admin, Resource } from 'react-admin';
 import { dataProvider } from './data-provider';
 import { YazzLayout } from './layout';
 import { CustomerList } from './customer/customer-list';
-import { CustomerEdit } from '../admin/customer/customer-edit';
 import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
 import { OrderList } from './order/order-list';
 import { OrderShow } from './order/order-show';
+import { CustomerEdit } from './customer/customer-edit';
 
 const App = () => (
     <Admin layout={YazzLayout} dataProvider={dataProvider}>
