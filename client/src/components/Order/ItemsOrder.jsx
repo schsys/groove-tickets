@@ -211,7 +211,7 @@ export const ItemsOrder = (customer) => {
               >
                 +
               </button>
-              <span class="item-quantity">{item && item.quantity}</span>
+              <span className="item-quantity">{item && item.quantity}</span>
               <button
                 className="editItems_order-minus"
                 onClick={() =>
