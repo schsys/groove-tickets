@@ -14,6 +14,7 @@ export const EMPTY_CART = "EMPTY_CART";
 export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
 export const GET_OLDSHOWS = "GET_OLDSHOWS";
+export const CLEAN_SHOW = 'CLEAN_SHOW';
 
 // Old shows
 export const FETCH_OLD_SHOWS_REQUESTED = "oldShows/fetchRequested";
@@ -392,3 +393,6 @@ export const toggleShowCart = (show) => {
   };
 };
 
+export const cleanDetail = () => {
+  return { type: CLEAN_SHOW, payload: {}}
+}

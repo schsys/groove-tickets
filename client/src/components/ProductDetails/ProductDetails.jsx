@@ -7,6 +7,7 @@ import {
   toggleShowCart,
   getTotalItems,
   getProducts,
+  cleanDetail,
 } from "../../redux/actions";
 
 import Box from "@mui/material/Box";
@@ -39,7 +40,7 @@ export default function ProductDetails() {
  
   const [availableStock] = React.useState(0);
 
-  const [url, setUrl] = useState('')
+  //const [url, setUrl] = useState('')
 
   //const itemsToCart = useSelector((state) => state.cart);
   //const [mount, setMount] = useState(true);
@@ -51,6 +52,9 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductById(id));
+    return () => {
+      dispatch(cleanDetail());
+    }
     //La línea de código en formato comentado que estás debajo de este comentario, deshabilita específicamente la regla "react-hooks/exhaustive-deps. No borrar por favor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
