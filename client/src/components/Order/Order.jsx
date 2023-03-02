@@ -37,7 +37,6 @@ export const Order = () => {
         );
 
         const customerInfo = {
-          document: response.data.Customer.Document,
           customerId: response.data.Customer.Id,
           name: response.data.Customer.Name,
           address: response.data.Customer.Address,
@@ -46,6 +45,7 @@ export const Order = () => {
           zip: response.data.Customer.Zip,
           email: response.data.Customer.Email,
           telephone: response.data.Customer.Telephone,
+          document: response.data.Customer.Document,
         };
 
         setCustomer({
@@ -83,7 +83,6 @@ export const Order = () => {
   const customerItem = customer.editing
     ? customer.tempItem
     : customer.customerInfo;
-  const document = customerItem["document"];
   const name = customerItem["name"];
   const address = customerItem["address"];
   const email = customerItem["email"];
@@ -216,7 +215,7 @@ export const Order = () => {
               <input
                 id="document"
                 placeholder="No. de documento"
-                value={document}
+                value={customerInfo.document}
                 disabled
               />
             </h3>
