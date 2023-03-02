@@ -469,9 +469,9 @@ span[style="color: red;"] {
   }
 }
 /*---------------------@media (min-width: 100px) and (max-width: 550px)-----------------*/
-@media (min-width: 100px) and (max-width: 550px) {
+@media (max-width: 550px) {
   .cartSummary__user-infoContainer {
-    height: 56vh;
+    height: 55vh;
   }
   .email_container {
     float: left;
@@ -484,12 +484,19 @@ span[style="color: red;"] {
     float: left;
   }
 
+  #city:enabled {
+    width: 10vh;
+    font-size: 1.4vh;
+  }
+
   #state:enabled {
     position: relative;
     margin-right: 17vh;
     top: 29px;
     width: 10vh;
     margin-left: -16.5vh;
+    width: 10vh;
+    font-size: 1.4vh;
   }
 
   #zip:enabled {
@@ -497,12 +504,85 @@ span[style="color: red;"] {
     margin-right: 17vh;
     top: 29px;
     margin-left: -16.5vh;
+    width: 3.5vh;
+    font-size: 1.4vh;
   }
 
+  /*---------------------------------------------------------*/
+
+  #state:disabled {
+    width: 10vh;
+    font-size: 1.4vh;
+  }
+
+  #zip:disabled {
+    width: 3.5vh;
+    font-size: 1.4vh;
+  }
+
+  .cartSummary__user-info input {
+    font-size: 1.5vh;
+    width: 20vh;
+  }
+
+  .name {
+    width: 32vh;
+  }
+
+  .email_container {
+    width: 32vh;
+  }
+
+  .address_container {
+    width: 34vh;
+  }
+  .telephone_container {
+    width: 33vh;
+  }
   .cartSummary__show-nameDate {
     position: absolute;
     display: block;
     flex-direction: column;
+    font-size: 1.5vh;
+  }
+  span[style="color: red;"] {
+    font-size: 13px;
+  }
+  .cartSummary__user-info {
     font-size: 1.7vh;
+  }
+
+  .back_button-order {
+    width: 14vh;
+    padding: 1%;
+    font-size: 1.3vh;
+    margin-right: 0.5rem;
+  }
+
+  .cartSummary__show-processOrder {
+    font-size: 2vh;
+    height: 4vh;
+  }
+
+  .item_price {
+    font-size: 1.5vh;
+  }
+
+  .item_price-total {
+    font-size: 1.5vh;
+    margin-left: -3vh;
+  }
+
+  .editItems_order-plus,
+  .editItems_order-minus {
+    margin-left: 20vh;
+    width: 2.3vh;
+
+    font-size: 90%;
+  }
+
+  .item-quantity {
+    margin-left: 20.6vh;
+    font-size: 2vh;
   }
 }
