@@ -1,5 +1,8 @@
 .cart__item-quantity{
     margin-left: 0.5vw;
     margin-right: 0.5vw;
+}
 
+.swal2-container {
+  z-index: 10000;
 }
