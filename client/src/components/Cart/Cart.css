@@ -6,3 +6,22 @@
 .swal2-container {
   z-index: 10000;
 }
+
+.button {
+  position: relative;
+}
+
+.button:hover::before {
+  content: attr(title);
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
