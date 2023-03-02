@@ -21,25 +21,33 @@ const SingleCard = (data) => {
   const { user } = UserAuth();
   const orderId = useSelector((state) => state.orderId);
 
-  const LimitAlert = () => {
+  const LimitAlert = (message) => {
     Swal.fire({
       imageUrl: Error_Search,
       imageHeight: 150,
       imageWidth: 200,
       imageAlt: "Alerta sobre nuestro stock.",
       title: "Yazz",
-      html: "<h3>La cantidad máxima permitida es 10</h3>",
+      html: `<h3>${message}</h3>`,
     });
   };
 
   const addToCartFromShows = async () => {
     if (count < 10) {
-      await addEditCartProduct(data.data.id, 1, user, orderId).then(() => {
-        setCount(count + 1);
-        dispatch(getTotalItems(user));
-      });
+      await addEditCartProduct(data.data.id, 1, user, orderId)
+        .then((response) => {
+          if (response.statusOk) {
+             setCount(count + 1);
+             dispatch(getTotalItems(user));
+          }else {
+            LimitAlert(response.message);
+          }
+        })
+        .catch((e) => {
+          LimitAlert(e.message);
+        })
     } else {
-      LimitAlert();
+      LimitAlert('La cantidad máxima permitida es 10');
     }
   };
 

@@ -135,36 +135,51 @@ export const addEditCartProduct = async (productId, quantity, user, orderId) => 
         } else {
           // crear orden             
           await createOrder(user, [{ productId, quantity }]);
+          return {statusOk: true}
         }
       }
-      if (orderId)
-        await axios.put(`${apiUrl}/order/${orderId}/items`, { items: [{ productId, quantity }] });
-    } else {
+      if (orderId) {
+         await axios.put(`${apiUrl}/order/${orderId}/items`, { items: [{ productId, quantity }] });
+         return {statusOk: true};
+        }
+    } 
+    else 
+    {
       let cart = [];
       let stringCart = localStorage.getItem("cart");
       if (stringCart) cart = JSON.parse(stringCart);
       const cartItem = cart.find((e) => e.id === productId);
+      const productById = await axios.get(`${apiUrl}/products/${productId}`);
+      if (productById) {
+        if (stringCart && cartItem) {
+          if ((cartItem.quantity + quantity) > productById.data.Stock)
+             return {statusOk: false, message: `El producto ${productById.data.name} no tiene stock suficiente`};
 
-      if (stringCart && cartItem) {
-        cartItem.quantity = cartItem.quantity + quantity;
-      } else {
-        const productById = await axios.get(`${apiUrl}/products/${productId}`);
-        const productInsert = {
-          id: productById.data.id,
-          name: productById.data.name,
-          photo: productById.data.Photos[0].Path,
-          price: productById.data.Price,
-          startDate: productById.data.StartDate,
-          quantity: quantity,
-        };
-        cart.push(productInsert);
+          cartItem.quantity = cartItem.quantity + quantity;
+        } else {
+          if (quantity > productById.data.Stock)
+             return {statusOk: false, message: `El producto ${productById.data.name} no tiene stock suficiente`};
+
+          const productInsert = {
+            id: productById.data.id,
+            name: productById.data.name,
+            photo: productById.data.Photos[0].Path,
+            price: productById.data.Price,
+            startDate: productById.data.StartDate,
+            quantity: quantity,
+          };
+
+          cart.push(productInsert);
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        return {statusOk: true};
       }
-      localStorage.setItem("cart", JSON.stringify(cart));
     };
   }
+
   catch (error) {
-    console.log(error);
     setError(error);
+    return {statusOk: false, message: error.response.data.error}
   }
 };
 

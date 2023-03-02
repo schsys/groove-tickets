@@ -37,10 +37,11 @@ export default function ProductDetails() {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const dispatch = useDispatch();
   const { user } = UserAuth();
- 
+
   const [availableStock] = React.useState(0);
 
   //const [url, setUrl] = useState('')
+
 
   //const itemsToCart = useSelector((state) => state.cart);
   //const [mount, setMount] = useState(true);
@@ -59,13 +60,9 @@ export default function ProductDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const backDirection = ()=> {
-    return(
-      product.isShowFinished ? '/oldshows' : '/'
-    )
-      
-  }
-
+  const backDirection = () => {
+    return product.isShowFinished ? "/oldshows" : "/";
+  };
 
   /* <Link to="/" className="back_button">
             <i className="fa-solid fa-chevron-left"></i> Atrás
@@ -83,14 +80,14 @@ export default function ProductDetails() {
     });
   };
 
-  const LimitAlert = () => {
+  const LimitAlert = (message) => {
     Swal.fire({
       imageUrl: Error_Search,
       imageHeight: 150,
       imageWidth: 200,
       imageAlt: "Alerta sobre nuestro stock.",
       title: "Yazz",
-      html: "<h3>La cantidad máxima permitida es 10</h3>",
+      html: `<h3>${message}</h3>`,
     });
   };
 
@@ -101,7 +98,7 @@ export default function ProductDetails() {
       setQuantity(availableStock);
       StockAvailableAlert();
     } else {
-      LimitAlert();
+      LimitAlert("La cantidad máxima permitida es 10");
     }
   }
 
@@ -142,11 +139,19 @@ export default function ProductDetails() {
   //cart
   const addToCart = async () => {
     if (quantity > 0) {
-      await addEditCartProduct(product.id, quantity, user, orderId).then(() => {
-        setQuantity(1);
-        handleShowCart();
-        dispatch(getTotalItems(user));
-      });
+      await addEditCartProduct(product.id, quantity, user, orderId)
+        .then((response) => {
+          if (response.statusOk) {
+            setQuantity(1);
+            handleShowCart();
+            dispatch(getTotalItems(user));
+          } else {
+            LimitAlert(response.message);
+          }
+        })
+        .catch((e) => {
+          LimitAlert(e.message);
+        });
     }
   };
 
@@ -181,10 +186,10 @@ export default function ProductDetails() {
           <>
             {product.Artist && Object.keys(product.Artist).length > 0 ? (
               <p>
-                <i className="fas fa-music"></i> Conjunto: {product.Artist.Name}
+                <i className="fas fa-music"></i> Grupo: {product.Artist.Name}
               </p>
             ) : (
-              <p>Conjunto no disponible</p>
+              <p>Grupo no disponible</p>
             )}
           </>
 
@@ -231,7 +236,7 @@ export default function ProductDetails() {
         <div className="container_details">
           <div className="back_button_div">
             <Link to="/" className="back_button">
-            <i className="fa-solid fa-chevron-left"></i> Atrás
+              <i className="fa-solid fa-chevron-left"></i> Atrás
             </Link>
           </div>
           <div className="global_container">
