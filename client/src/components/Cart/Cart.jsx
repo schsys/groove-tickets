@@ -121,10 +121,17 @@ const Cart = () => {
   }
 
   async function handlePlus(id, quantity) {
+    if (quantity === 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Límite 10 entradas por show por usuario",
+      });
+      return;
+    }
     await addEditCartProduct(id, 1, user, orderId)
       .then((response) => {
         if (response.statusOk) {
-          if (quantity === 10) return;
           quantity += 1;
           setCount(
             cart.map((item) =>
