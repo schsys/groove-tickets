@@ -24,6 +24,7 @@ import Error_Search from "../../assets/Error_Search.jpg";
 import Loader from "../Loader/Loader";
 import RecommendedShows from "../RecommendedShows/RecommendedShows";
 import ShowReviews from "../ShowReviews/ShowReviews";
+import alternativeImage from "../../assets/Background.png";
 
 import "./ProductDetails.css";
 import { UserAuth } from "../../context/AuthContext";
@@ -310,7 +311,7 @@ export default function ProductDetails() {
             <div className="image_container">
               {product.Photos && product.Photos.length > 0 ? (
                 <img
-                  src={product.Photos[0].Path}
+                  src={product.Photos.length !== 0 ? product.Photos[0].Path : alternativeImage}
                   alt="product"
                   className={
                     product.Stock > 0 && !product.isShowFinished
