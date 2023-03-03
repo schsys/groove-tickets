@@ -3,6 +3,7 @@ import "./ReviewsCard.css";
 import StarIcon from "@mui/icons-material/Star";
 import { Rating } from "@mui/material";
 import { Box } from "@mui/system";
+import { UserAuth } from "../../context/AuthContext";
 
 export default function ReviewsCard(props) {
   const date = new Date(props.review.createdAt);
@@ -10,8 +11,8 @@ export default function ReviewsCard(props) {
   const formattedDate = date.toLocaleDateString("es-ES", options);
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
+  const {user} = UserAuth();
 
-console.log('props', props)
 
   //Rating
   const labels = {
@@ -60,6 +61,10 @@ console.log('props', props)
     );
   }
 
+  function handleClick() {
+    props.handleOpenModal(props);
+  }
+
   return (
     <div className="individual_review_card">
       <p>{props.review.User.userName}</p>
@@ -69,7 +74,7 @@ console.log('props', props)
         {getStars()}
         {getLabelText()}
       </div>
-      <button className="open_edit_review" onClick= {props.handleOpenModal}>Editar</button>
+      <button hidden={!user || user.email !== props.review.User.userName} className="open_edit_review" onClick= {handleClick}>Editar</button>
     </div>
   );
 }

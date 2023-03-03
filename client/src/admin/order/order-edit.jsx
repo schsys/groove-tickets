@@ -15,7 +15,8 @@ import {
     useRedirect,
     useNotify,
     useUpdate,
-    useEditContext
+    useEditContext,
+    BooleanInput
 } from 'react-admin';
 import { Card, CardContent, Box, Grid, Typography } from '@mui/material';
 
@@ -60,7 +61,7 @@ const CustomerAddress = () => {
 };
 
 const ToolbarOnlySave = ({ status }) => {
-    if (!status || ['Completed', 'Canceled'].some(s => s === status)) {
+    if (!status || status === 'Canceled') {
         return <></>;
     }
 
@@ -70,6 +71,14 @@ const ToolbarOnlySave = ({ status }) => {
         </Toolbar>
     )
 };
+
+const IsDeliveredInput = ({ status }) => {
+    if (!status || status !== 'Completed') {
+        return <></>;
+    }
+    
+    return <BooleanInput label="Is delivered ?" source="isDelivered" />
+}
 
 const StatusSelectInput = ({ status }) => {
     if (!status) {
@@ -121,8 +130,8 @@ const OrderForm = () => {
     const save = useCallback(
         async values => {
             try {
-                console.log('New data: ');
-                console.table(values);
+                // console.log('New data: ');
+                // console.table(values);
                 await update(
                     'orders',
                     {
@@ -195,6 +204,9 @@ const OrderForm = () => {
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={6}>
                                         <StatusSelectInput status={record?.status} />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <IsDeliveredInput status={record?.status} />
                                     </Grid>
                                 </Grid>
                             </Grid>
