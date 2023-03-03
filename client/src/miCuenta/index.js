@@ -6,7 +6,7 @@ import { ReviewList } from './review/review-list';
 import { ReviewShow } from './review/review-show';
 import { OrderList } from './order/order-list';
 import { OrderShow } from './order/order-show';
-import { CustomerEdit } from './customer/customer-edit';
+import { CustomerEdit } from '../admin/customer/customer-edit';
 
 const App = () => (
     <Admin layout={YazzLayout} dataProvider={dataProvider}>
