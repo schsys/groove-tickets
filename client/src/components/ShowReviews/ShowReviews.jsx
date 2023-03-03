@@ -23,10 +23,9 @@ const promiseHandleSubmit = (data) => {
   });
 }
 
-const promiseHandleEdit = (data) => {
-  console.log('dispara', promiseHandleSubmit)
+const promiseHandleEdit = (idReview, body) => {
   return new Promise((resolve, reject) => {
-    axios.put(`${apiUrl}/reviews/:id`, data)
+    axios.put(`${apiUrl}/reviews/${idReview}`, body)
       .then(data => resolve(data))
       .catch(e => reject(e))
   });
@@ -45,10 +44,11 @@ export default function ShowReviews({ productId }) {
     }
   }
 
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(2); // stars
   const [hover, setHover] = React.useState(-1);
   const [errors, setErrors] = useState({ e: "" });
-  const [input, setInput] = useState({ text: "" });
+  const [input, setInput] = useState({ text: "" }); // texto
+  const [reviewId, setReviewId] = useState(0);
   const [toRender, setToRender] = useState(false);
   const [reviews, setReviews] = useState({
     data: {},
@@ -142,24 +142,19 @@ export default function ShowReviews({ productId }) {
     } else {
       goToRegister()
     }
-
   }
 
   /*Edit Review*/
   const handleEdit = async (e) => {
     e.preventDefault();
     if (user && user.hasOwnProperty('email')) {
-      const customer = await axios.get(`${apiUrl}/user?userName=${user.email}`);
-      if (customer) {
-        const r = {
-          productId: productId,
-          CustomerId: customer.data.Customer.id,
-          UserId: customer.data.id,
+        const body = {
           stars: value,
           message: input.text,
         }
 
-        await promiseHandleEdit(r)
+        const idReview = 0;
+        await promiseHandleEdit(reviewId, body)
           .then(review => {
             setInput({ text: '' });
             setErrors('');
@@ -175,10 +170,9 @@ export default function ShowReviews({ productId }) {
           }
           );
       }
-    } else {
+    else {
       goToRegister()
     }
-
   }
 
 
@@ -221,10 +215,13 @@ export default function ShowReviews({ productId }) {
     return <h2>Puntaje promedio: {reviews.data.averageRating.toFixed(2)}</h2>;
   }
 
-
    //***Modal para editar review */
-   const handleOpenModal = () => {
-     setOpenModal(true);
+   const handleOpenModal = (data) => {
+      console.log('handleOpenModal', data);
+      setValue(data.review.stars); // stars
+      setInput({text: data.review.message});
+      setReviewId(data.review.id);
+      setOpenModal(true);
   };
 
   const handleCloseModal = () => {
@@ -371,9 +368,7 @@ export default function ShowReviews({ productId }) {
               {errors && errors.text && <p className="textarea_error">{errors.text}</p>}
             </div>
             <button className="send_review_btn" onClick={handleEdit}>ENVIAR OPINIÓN</button>
-          </form>
-                  
-      
+          </form>                      
               </div>
             </Modal>
     </div>
