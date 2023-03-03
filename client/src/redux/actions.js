@@ -15,6 +15,7 @@ export const ORDER_SELECTED = "ORDER_SELECTED";
 export const FETCHING_PRODUCTS = "FETCHING_PRODUCTS"
 export const GET_OLDSHOWS = "GET_OLDSHOWS";
 export const CLEAN_SHOW = 'CLEAN_SHOW';
+export const UPDATE_REVIEW = "UPDATE_REVIEW";
 
 // Old shows
 export const FETCH_OLD_SHOWS_REQUESTED = "oldShows/fetchRequested";
@@ -412,3 +413,15 @@ export const toggleShowCart = (show) => {
 export const cleanDetail = () => {
   return { type: CLEAN_SHOW, payload: {}}
 }
+
+// export const updateReview = (updateReview) => {
+//   return async function(dispatch){ //va la ruta del poke que tiene que actualizar
+//       await axios.put(`${apiUrl}/reviews/${updateReview.id}`, updateReview)
+//       .then((res) => { 
+//           dispatch({type: UPDATE_REVIEW, payload: res.data}) //res.data da OK
+//       })
+//       .catch((err) =>{
+//           console.log(err)
+//       });
+//   }
+// }
