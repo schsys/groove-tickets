@@ -6,6 +6,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 
+import { useDispatch } from "react-redux";
+import { setLocalStorageToApi } from "../../redux/actions";
+
 import "./CompleteRegister.css";
 
 const apiUrl = process.env.REACT_APP_BASE_URL;
@@ -36,6 +39,7 @@ function validate(input) {
 
 export default function CompleteRegister() {
   const history = useHistory();
+  const dispatch = useDispatch();
   /*   const { createUser } = UserAuth(); */
   const [checked, setChecked] = useState(false);
   const [errors, setErrors] = useState({ e: "" });
@@ -81,7 +85,7 @@ export default function CompleteRegister() {
     e.preventDefault();
     setErrors("");
     try {
-      await axios.post(
+      const customer = await axios.post(
         `${apiUrl}/customer`, // eslint-disable-next-line
         {
           userId: history.location.state.dbUser.id,
@@ -101,6 +105,11 @@ export default function CompleteRegister() {
         //terms: false,
       });
       setChecked(false);
+      //------------------------------------------------------------------------
+        // aca debo llamar a la funcion de control de localstorage contra carrito
+        //
+        dispatch(setLocalStorageToApi(customer.data));
+      //------------------------------------------------------------------------
       history.push("/"); //despues redirige para ver todos los shows
     } catch (errors) {
       switch (errors.code) {

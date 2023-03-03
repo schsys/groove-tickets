@@ -22,7 +22,20 @@ function Search() {
       imageWidth: 200,
       imageAlt: "Hubo un error en la búsqueda.",
       title: "Buscador de Yazz",
-      html: "<h3>Por favor, ingresá un nombre</p>",
+      html: "<h3>Por favor, ingresá un nombre</h3>",
+      footer: "<p>Probá de nuevo.</p>",
+    });
+  };
+
+  const showAlertNotFound = () => {
+    Swal.fire({
+      //icon:'warning',
+      imageUrl: Error_Search,
+      imageHeight: 150,
+      imageWidth: 200,
+      imageAlt: "Hubo un error en la búsqueda.",
+      title: "Buscador de Yazz",
+      html: "<h3>Por favor, ingresá un nombre</h3>",
       footer: "<p>Probá de nuevo.</p>",
     });
   };
@@ -35,8 +48,8 @@ function Search() {
       p.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setSuggestions(filtered);
-    if(e.target.value === ""){
-      setSuggestions([])
+    if (e.target.value === "") {
+      setSuggestions([]);
     }
   }
 
@@ -45,7 +58,6 @@ function Search() {
       showAlertNoEnter();
       return;
     }
-
     dispatch(search(name));
     history.push("/");
     setName(""); //vacia el input
@@ -59,6 +71,21 @@ function Search() {
     setSuggestions([]);
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (!name) {
+        showAlertNoEnter();
+        return;
+      }
+     
+      dispatch(search(name));
+      history.push("/");
+      setName(""); //vacia el input
+      setSuggestions([]);
+    }
+  };
+
   return (
     <div className="searchContainer">
       <div className="search_inputSuggest">
@@ -69,6 +96,7 @@ function Search() {
           placeholder="Buscar por nombre"
           onChange={(e) => handleInputChange(e)}
           value={name}
+          onKeyDown={handleKeyDown}
         />
         <div className="search_suggestion_div">
           <datalist className="suggestionsList">

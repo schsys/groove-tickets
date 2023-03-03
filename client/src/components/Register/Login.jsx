@@ -140,7 +140,7 @@ export default function Login() {
           //------------------------------------------------------------------------
           // aca debo llamar a la funcion de control de localstorage contra carrito
           //
-          dispatch(setLocalStorageToApi(user));
+          /* dispatch(setLocalStorageToApi(user)); */
           //------------------------------------------------------------------------
         }
       })

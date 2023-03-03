@@ -15,7 +15,6 @@ import {
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 
-
 export const ItemsOrder = (customer) => {
   /*------------------------------Datos de los items de la orden----------------------------*/
   const auth = getAuth();
@@ -109,26 +108,26 @@ export const ItemsOrder = (customer) => {
     await addEditCartProduct(item.id, quantityToUpdate, user)
       .then((response) => {
         if (response.statusOk) {
-            const quantity = newQuantity > 0 ? newQuantity : defaultValue;
-            item.quantity = quantity;
-            const totalAmount = items.reduce(
-              (acc, cur) => acc + Number(cur.price) * cur.quantity,
-              0
-            );
-            setorderItems({
-              items,
-              totalAmount,
-              fetchStatus: "succeeded",
-            });
+          const quantity = newQuantity > 0 ? newQuantity : defaultValue;
+          item.quantity = quantity;
+          const totalAmount = items.reduce(
+            (acc, cur) => acc + Number(cur.price) * cur.quantity,
+            0
+          );
+          setorderItems({
+            items,
+            totalAmount,
+            fetchStatus: "succeeded",
+          });
 
-            dispatch(getTotalItems(user));
-        }else{
+          dispatch(getTotalItems(user));
+        } else {
           sweetAlert(response.message);
         }
       })
       .catch((e) => {
         sweetAlert(e.message);
-      })
+      });
   };
   /*------------------------------------------------------------------------------*/
 
@@ -136,19 +135,26 @@ export const ItemsOrder = (customer) => {
     // valido stock
     async function validateProductStock(productId, quantity) {
       const productById = await axios.get(`${apiUrl}/products/${productId}`);
-      console.log(quantity, productById.data.Stock, quantity <= productById.data.Stock);
-      if (productById) return (quantity <=  productById.data.Stock);
+      console.log(
+        quantity,
+        productById.data.Stock,
+        quantity <= productById.data.Stock
+      );
+      if (productById) return quantity <= productById.data.Stock;
       return false;
-    };
+    }
 
     let hasError = false;
-    for (const item of orderItems.items){
-       const productWithStock = await validateProductStock(item.id, item.quantity);
-       if (!productWithStock) {
-          hasError = true;
-          sweetAlert(`El producto ${item.name} no tiene stock suficiente`);
-       }
-    };
+    for (const item of orderItems.items) {
+      const productWithStock = await validateProductStock(
+        item.id,
+        item.quantity
+      );
+      if (!productWithStock) {
+        hasError = true;
+        sweetAlert(`El producto ${item.name} no tiene stock suficiente`);
+      }
+    }
 
     // se genera el objeto para enviar a mercado pago
     if (!hasError) {
@@ -188,7 +194,7 @@ export const ItemsOrder = (customer) => {
               <div>{item && item.startDate.format("DD/MM/YYYY")}</div>
             </div>
 
-            <div>
+            <div className="plus_minus">
               <button
                 className="editItems_order-plus"
                 onClick={() =>
@@ -197,13 +203,15 @@ export const ItemsOrder = (customer) => {
                 onMouseDown={(event) => {
                   if (item.quantity >= 10) {
                     event.preventDefault();
-                    sweetAlert("La cantidad máxima permitida por producto es 10 🙂");
+                    sweetAlert(
+                      "La cantidad máxima permitida por producto es 10 🙂"
+                    );
                   }
                 }}
               >
                 +
               </button>
-              <span class="item-quantity">{item && item.quantity}</span>
+              <span className="item-quantity">{item && item.quantity}</span>
               <button
                 className="editItems_order-minus"
                 onClick={() =>
@@ -221,8 +229,10 @@ export const ItemsOrder = (customer) => {
                 -
               </button>
             </div>
-            <div>${item && formatNumber(item.price)}</div>
-            <div>
+            <div className="item_price">
+              ${item && formatNumber(item.price)}
+            </div>
+            <div className="item_price-total">
               ${item && item.price && formatNumber(item.price * item.quantity)}
             </div>
           </div>

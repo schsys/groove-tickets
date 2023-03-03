@@ -10,6 +10,7 @@ import {
   FaPhoneAlt,
   FaSave,
   FaTimesCircle,
+  FaRegFileAlt,
 } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -34,6 +35,7 @@ export const Order = () => {
         const response = await axios.get(
           `${apiUrl}/orders?status=Created&userName=${user.email}`
         );
+
         const customerInfo = {
           customerId: response.data.Customer.Id,
           name: response.data.Customer.Name,
@@ -43,6 +45,7 @@ export const Order = () => {
           zip: response.data.Customer.Zip,
           email: response.data.Customer.Email,
           telephone: response.data.Customer.Telephone,
+          document: response.data.Customer.Document,
         };
 
         setCustomer({
@@ -203,45 +206,18 @@ export const Order = () => {
           <div className="email_container">
             <h3>
               <FaMailBulk /> Email:{" "}
-              {editing ? (
-                <input
-                  placeholder="Correo Electrónico"
-                  type="email"
-                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                  maxLength="30"
-                  value={email}
-                  onChange={(e) =>
-                    setCustomer((customer) => ({
-                      ...customer,
-                      tempItem: { ...customer.tempItem, email: e.target.value },
-                    }))
-                  }
-                  onKeyUp={(e) => {
-                    const input = e.target;
-                    const value = input.value;
-                    const pattern = new RegExp(input.getAttribute("pattern"));
-
-                    if (!pattern.test(value)) {
-                      const errorSpan = input.parentNode.querySelector("span");
-                      if (errorSpan) {
-                        errorSpan.innerHTML = "Ingresa un correo válido";
-                      } else {
-                        const errorSpan = document.createElement("span");
-                        errorSpan.innerHTML = "Ingresa un correo válido";
-                        errorSpan.style.color = "red";
-                        input.parentNode.appendChild(errorSpan);
-                      }
-                    } else {
-                      const errorSpan = input.parentNode.querySelector("span");
-                      if (errorSpan) {
-                        errorSpan.remove();
-                      }
-                    }
-                  }}
-                />
-              ) : (
-                <input type="text" value={email} disabled />
-              )}
+              <input placeholder="Correo Electrónico" value={email} disabled />
+            </h3>
+          </div>
+          <div className="document_container">
+            <h3>
+              <FaRegFileAlt /> No. Documento:{" "}
+              <input
+                id="document"
+                placeholder="No. de documento"
+                value={customerInfo.document}
+                disabled
+              />
             </h3>
           </div>
           <div className="address_container">
@@ -389,8 +365,8 @@ export const Order = () => {
               )}{" "}
               {editing ? (
                 <input
-                  placeholder="Provincia"
                   id="state"
+                  placeholder="Provincia"
                   type="text"
                   pattern="^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$"
                   maxLength="30"

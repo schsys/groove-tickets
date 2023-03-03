@@ -14,7 +14,8 @@ import {
   GET_OLDSHOWS,
   FETCH_OLD_SHOWS_REQUESTED,
   FETCH_OLD_SHOWS_SUCCEEDED,
-  FETCH_OLD_SHOWS_FAILED
+  FETCH_OLD_SHOWS_FAILED,
+  CLEAN_SHOW
 } from "./actions";
 
 // import { addItem } from "./utils";
@@ -47,6 +48,11 @@ const rootReducer = (state = initialState, action) => {
           : action.payload,
         allProducts: action.payload,
         fetchProducts: "succeeded"
+      };
+    case CLEAN_SHOW:
+      return {
+        ...state,
+        product: action.payload
       };
     case TOGGLE_SHOW_CART:
       return {

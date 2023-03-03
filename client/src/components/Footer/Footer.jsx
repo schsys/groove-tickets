@@ -17,11 +17,11 @@ const Footer = () => {
         </a>
 
         <div className="app__footer-text">
-          <a href="/terminosycondiciones">Términos y Condiciones</a>
-          <a href="/preguntasfrecuentes">Preguntas Frecuentes</a>
-          <a href="/nosotros">Sobre Nosotros</a>
-          <a href="/admin">Log in Admin</a>
-          <a href="/contacto">Contacto</a>
+          <a href="/#">Términos y Condiciones</a>
+          <a href="/#">Preguntas Frecuentes</a>
+          <a href="/#">Sobre Nosotros</a>
+          <a href="/#">Log in Admin</a>
+          <a href="/#">Contacto</a>
         </div>
         <div className="app__footer-socialcopyright">
           <div className="app__footer-socialcontainer">
