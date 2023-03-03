@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
-import { Rating } from "@mui/material";
+import { Modal, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { NavLink } from "react-router-dom";
 import { getReviews } from "../../common/integrations/api";
 import { UserAuth } from "../../context/AuthContext";
+
+import { useRef } from 'react';
 
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
@@ -18,6 +20,14 @@ const apiUrl = process.env.REACT_APP_BASE_URL;
 const promiseHandleSubmit = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(`${apiUrl}/reviews`, data)
+      .then(data => resolve(data))
+      .catch(e => reject(e))
+  });
+}
+
+const promiseHandleEdit = (idReview, body) => {
+  return new Promise((resolve, reject) => {
+    axios.put(`${apiUrl}/reviews/${idReview}`, body)
       .then(data => resolve(data))
       .catch(e => reject(e))
   });
@@ -36,16 +46,22 @@ export default function ShowReviews({ productId }) {
     }
   }
 
-  const [value, setValue] = React.useState(2);
+
+  const modalRef = useRef(null);
+ 
+  const [value, setValue] = React.useState(2); // stars
+
   const [hover, setHover] = React.useState(-1);
   const [errors, setErrors] = useState({ e: "" });
-  const [input, setInput] = useState({ text: "" });
+  const [input, setInput] = useState({ text: "" }); // texto
+  const [reviewId, setReviewId] = useState(0);
   const [toRender, setToRender] = useState(false);
   const [reviews, setReviews] = useState({
     data: {},
     fetchStatus: 'loading',
     error: null
   });
+  const [openModal, setOpenModal] = useState(false);
   const { user } = UserAuth();
 
   useEffect(() => {
@@ -128,12 +144,47 @@ export default function ShowReviews({ productId }) {
             })
           }
           );
+          if (modalRef.current) {
+            modalRef.current.close();
+          }
       }
     } else {
       goToRegister()
     }
-
   }
+
+  /*Edit Review*/
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    if (user && user.hasOwnProperty('email')) {
+        const body = {
+          stars: value,
+          message: input.text,
+        }
+
+        const idReview = 0;
+        await promiseHandleEdit(reviewId, body)
+          .then(review => {
+            setInput({ text: '' });
+            setErrors('');
+            setToRender(!toRender);
+             setOpenModal(false);
+          }
+          )
+          .catch(e => {
+            console.log(e);
+            setErrors({
+              ...input,
+              text: e.response.data.error
+            })
+          }
+          );
+      }
+    else {
+      goToRegister()
+    }
+  }
+
 
   if (reviews.fetchStatus === 'loading') {
     return <>
@@ -153,12 +204,15 @@ export default function ShowReviews({ productId }) {
     if (!reviews.data) {
       return <></>
     }
-
     return <>
       <div className="reviews_div">
         <h2 className="detail_rating_title">Mirá las reviews de este show</h2>
         <div className="users_reviews_div">
-          {reviews.data.items.map((review) => <ReviewsCard review={review} key={review.id} />)}
+          {reviews.data.items.map((review) => 
+          <ReviewsCard 
+          handleOpenModal= {handleOpenModal} 
+          review={review} 
+          key={review.id} />)}
         </div>
       </div>
     </>
@@ -168,9 +222,21 @@ export default function ShowReviews({ productId }) {
     if (!reviews.data) {
       return <></>
     }
-
     return <h2>Puntaje promedio: {reviews.data.averageRating.toFixed(2)}</h2>;
   }
+
+   //***Modal para editar review */
+   const handleOpenModal = (data) => {
+      console.log('handleOpenModal', data);
+      setValue(data.review.stars); // stars
+      setInput({text: data.review.message});
+      setReviewId(data.review.id);
+      setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <div>
@@ -244,6 +310,82 @@ export default function ShowReviews({ productId }) {
       </div>
 
       <ReviewsCards />
+      
+      {/*Modal para editar review*/}
+      <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+              className="modal_edit_review"
+              ref={modalRef}
+            >
+              <div className="modal-edit-container">
+                <button className="edit_btn_close" onClick={handleCloseModal}>
+                  X
+                </button>
+                <h2 className="modal-title-edit">Editá tu opinión</h2>
+                <form onSubmit={handleSubmit}  className="reviews_form">
+            <Box
+              sx={{
+                width: 200,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Rating
+                sx={{
+                  '& .MuiRating-iconFilled': {
+                    color: '#efa13ce0',
+                  },
+                  '& .MuiRating-iconFocus': {
+                    color: '#6f4580e0',
+                  },
+                  '& .MuiRating-iconHover': {
+                    color: '#6f4580e0',
+                  },
+                }}
+                name="hover-feedback"
+                value={value}
+                precision={1}
+                getLabelText={getLabelText}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                onChangeActive={(event, newHover) => {
+                  setHover(newHover);
+                }}
+                emptyIcon={
+                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                }
+              />
+              {value !== null && (
+                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+              )}
+            </Box>
+
+            <div className="rating_textarea_div">
+              <textarea
+                className="reviews_textarea"
+                name="text"
+                id="text"
+                cols="30"
+                rows="10"
+                placeholder="Dejá tu comentario"
+                value={input.text}
+                onChange={handleTextChange}
+                maxLength={500}
+              ></textarea>
+              {errors && errors.text && <p className="textarea_error">{errors.text}</p>}
+            </div>
+
+            <button type="submit" className="send_review_btn" onClick={handleEdit}>ENVIAR OPINIÓN</button>
+          </form>
+                  
+      
+
+              </div>
+            </Modal>
     </div>
   );
 }

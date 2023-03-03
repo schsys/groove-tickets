@@ -32,7 +32,7 @@ export const OrderList = () => (
     <List filters={orderFilters} sort={{ field: 'orderDate', order: 'DESC' }}>
         <Datagrid rowClick="edit" bulkActionButtons={false}>
             <DateField source="orderDate" />
-            <DateField source="shippingDate" />
+            <DateField source="deliveredDate" />
             <ReferenceField source="customerId" reference="customers">
                 <TextField source="name" />
             </ReferenceField>

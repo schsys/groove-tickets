@@ -101,6 +101,7 @@ const classStyle = () => {
       {/* <h1 className="shows__cards-texth1">{data.data.name} - {data.data.isShowFinished ? 'FINALIZADO' : 'JAJA'}</h1> */}
       <Link className="shows__cards-link" to={`product/${data.data.id}`}>
         <div className="shows__cards_imgContainer">
+          
           <img
             src={data.data.Photos.length !== 0 ? data.data.Photos[0].Path : alternativeImage}
             alt="imagen show1"

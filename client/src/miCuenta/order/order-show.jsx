@@ -22,32 +22,6 @@ export const OrderShow = () => {
     );
 }
 
-const CustomerDetails = () => {
-    const record = useRecordContext();
-    return (
-        <div>
-            <Typography>
-                {record?.Customer.name}
-            </Typography>
-        </div>
-    );
-};
-
-const CustomerAddress = () => {
-    const record = useRecordContext();
-    return (
-        <div>
-            {/* <Typography>
-                {record?.name}
-            </Typography> */}
-            <Typography>{record?.Customer.address}</Typography>
-            <Typography>
-                {record?.Customer.city}, {record?.Customer.state} {record?.Customer.zip}
-            </Typography>
-        </div>
-    );
-};
-
 const ToolbarOnlySave = ({ status }) => {
     if (!status || ['Completed', 'Canceled'].some(s => s === status)) {
         return <></>;
@@ -75,17 +49,15 @@ const OrderForm = () => {
                                 <Typography variant="h6" gutterBottom>
                                     Order
                                 </Typography>
-                                <Grid container>
-                                    <Grid item xs={12} sm={12} md={6}>
-                                        <Labeled source="orderDate" label="Order Date">
-                                            <DateField source="orderDate" />
-                                        </Labeled>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={6}>
-                                        <Labeled source="id" label="Order Number">
-                                            <TextField source="id" />
-                                        </Labeled>
-                                    </Grid>
+                                <Grid item xs={12} sm={12} md={6}>
+                                    <Labeled source="orderDate" label="Order Date">
+                                        <DateField source="orderDate" />
+                                    </Labeled>
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={6}>
+                                    <Labeled source="id" label="Order Number">
+                                        <TextField source="id" />
+                                    </Labeled>
                                 </Grid>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={6}>
@@ -94,18 +66,6 @@ const OrderForm = () => {
                                         </Labeled>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Typography variant="h6" gutterBottom>
-                                    Customer
-                                </Typography>
-                                <CustomerDetails />
-                                <Spacer />
-
-                                <Typography variant="h6" gutterBottom>
-                                    Address
-                                </Typography>
-                                <CustomerAddress />
                             </Grid>
                         </Grid>
                         <Spacer />

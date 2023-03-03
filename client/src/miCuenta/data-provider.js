@@ -35,7 +35,7 @@ export const dataProvider = {
         }));
     },
     getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
+        httpClient(`${apiUrl}/${resource}/${params.id}`, { headers: createHeaders() }).then(({ json }) => ({
             data: json,
         })),
     getMany: (resource, params) => {
@@ -46,7 +46,7 @@ export const dataProvider = {
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
         // console.log('dataProvider.getMany params.ids: ', params.ids);
         // return httpClient(url).then(({ json }) => ({ data: json.rows }));
-        return httpClient(url).then(({ json }) => {
+        return httpClient(url, { headers: createHeaders() }).then(({ json }) => {
             // console.log('json.rows: ', json.rows);
             return { data: json.rows };
         });
@@ -55,7 +55,8 @@ export const dataProvider = {
         console.log('dataProvider update params: ', params);
         const response = await httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
-            body: JSON.stringify(params.data)
+            body: JSON.stringify(params.data),
+            headers: createHeaders()
         });
 
         // console.log('json returned by httpClient: ', response);
@@ -65,7 +66,8 @@ export const dataProvider = {
     create: async (resource, params) => {
         const response = await httpClient(`${apiUrl}/${resource}`, {
             method: 'POST',
-            body: JSON.stringify(params.data)
+            body: JSON.stringify(params.data),
+            headers: createHeaders()
         });
 
         // console.log('json returned by httpClient: ', response.json);
@@ -74,5 +76,6 @@ export const dataProvider = {
     delete: (resource, params) =>
         httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'DELETE',
+            headers: createHeaders()
         }).then(({ json }) => ({ data: json })),
 };

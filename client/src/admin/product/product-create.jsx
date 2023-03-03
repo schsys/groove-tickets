@@ -71,7 +71,7 @@ export const ProductCreate = () => {
         <Create>
             <SimpleForm defaultValues={productDefaultValues} onSubmit={save}>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={2} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={2}>
                         <TextInput source="name"
                             validate={required()}
                             fullWidth
@@ -103,7 +103,7 @@ export const ProductCreate = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={1}>
                         <DateInput source="startDate" validate={required()} fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -117,7 +117,7 @@ export const ProductCreate = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={1}>
                         <NumberInput source="stock" fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -125,7 +125,7 @@ export const ProductCreate = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <TextInput source="description" fullWidth multiline />
+                    <TextInput source="description" validate={required()} fullWidth multiline />
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
                     <ReferenceArrayInput reference="categories" source="categories">

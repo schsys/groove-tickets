@@ -73,7 +73,7 @@ export const ProductEdit = () => {
         <Edit>
             <SimpleForm toolbar={<CustomToolbar />} onSubmit={save}>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={2} mr={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={2}>
                         <TextInput source="name"
                             validate={required()}
                             fullWidth
@@ -105,7 +105,7 @@ export const ProductEdit = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={1}>
                         <DateInput source="startDate" validate={required()} fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -119,7 +119,7 @@ export const ProductEdit = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
+                    <Box flex={1}>
                         <NumberInput source="stock" fullWidth />
                     </Box>
                     <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
@@ -127,8 +127,8 @@ export const ProductEdit = () => {
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
-                    <Box flex={1} ml={{ xs: 0, sm: '0.5em' }}>
-                        <TextInput source="description" fullWidth multiline />
+                    <Box flex={1}>
+                        <TextInput source="description" validate={required()} fullWidth multiline />
                     </Box>
                 </Box>
                 <Box display={{ xs: 'block', sm: 'flex', width: '100%' }}>
