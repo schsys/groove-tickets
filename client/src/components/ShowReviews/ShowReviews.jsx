@@ -7,6 +7,8 @@ import { NavLink } from "react-router-dom";
 import { getReviews } from "../../common/integrations/api";
 import { UserAuth } from "../../context/AuthContext";
 
+import { useRef } from 'react';
+
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
 
@@ -45,6 +47,7 @@ export default function ShowReviews({ productId }) {
     }
   }
 
+  const modalRef = useRef(null);
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [errors, setErrors] = useState({ e: "" });
@@ -138,6 +141,9 @@ export default function ShowReviews({ productId }) {
             })
           }
           );
+          if (modalRef.current) {
+            modalRef.current.close();
+          }
       }
     } else {
       goToRegister()
@@ -304,20 +310,21 @@ export default function ShowReviews({ productId }) {
 
       <ReviewsCards />
       
-      {/*Modal para recuperar contraseña*/}
+      {/*Modal para editar review*/}
       <Modal
               open={openModal}
               onClose={handleCloseModal}
               aria-labelledby="modal-title"
               aria-describedby="modal-description"
               className="modal_edit_review"
+              ref={modalRef}
             >
               <div className="modal-edit-container">
                 <button className="edit_btn_close" onClick={handleCloseModal}>
                   X
                 </button>
                 <h2 className="modal-title-edit">Editá tu opinión</h2>
-                <form onSubmit={handleSubmit} className="reviews_form">
+                <form onSubmit={handleSubmit}  className="reviews_form">
             <Box
               sx={{
                 width: 200,
@@ -370,7 +377,7 @@ export default function ShowReviews({ productId }) {
               ></textarea>
               {errors && errors.text && <p className="textarea_error">{errors.text}</p>}
             </div>
-            <button className="send_review_btn" onClick={handleEdit}>ENVIAR OPINIÓN</button>
+            <button type="submit" className="send_review_btn" onClick={handleEdit}>ENVIAR OPINIÓN</button>
           </form>
                   
       
