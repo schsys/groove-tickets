@@ -168,7 +168,7 @@ export default function ShowReviews({ productId }) {
             setInput({ text: '' });
             setErrors('');
             setToRender(!toRender);
-            setOpenModal(false);
+             setOpenModal(false);
           }
           )
           .catch(e => {
