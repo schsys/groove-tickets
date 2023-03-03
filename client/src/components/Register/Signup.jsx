@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserAuth } from '../../context/AuthContext';
+import { useDispatch } from "react-redux";
+import { setLocalStorageToApi } from "../../redux/actions";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Error_Search from "../../assets/Error_Search.jpg";
@@ -45,6 +47,7 @@ function validate(input) {  //va a recibir el estado input con los cambios detec
 
 export default function Signup() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { createUser } = UserAuth();
   const [checked, setChecked] = useState(false);
   const [errors, setErrors] = useState({ e: '' });
@@ -125,7 +128,12 @@ export default function Signup() {
           document: input.dni
         }
       )
-
+      
+      //------------------------------------------------------------------------
+        // aca debo llamar a la funcion de control de localstorage contra carrito
+        //
+        dispatch(setLocalStorageToApi(newCustomer.data));
+      //------------------------------------------------------------------------
       history.push("/"); //despues redirige para ver todos los shows
       setInput({
         //resetea el estado del input
