@@ -16,3 +16,19 @@
     padding: 0;
     width: auto;
 }
+
+.open_edit_review{
+    margin: 0 0 0.5rem 1.2rem;
+    background-color: var(--color-orange);
+    transition: 0.2s all;
+    color: white;
+    border: none;
+    width: 4.5rem;
+    height: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.open_edit_review:hover{
+    background-color: var(--color-violet);
+    cursor: pointer;
+}

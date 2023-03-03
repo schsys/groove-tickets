@@ -11,6 +11,8 @@ export default function ReviewsCard(props) {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
+console.log('props', props)
+
   //Rating
   const labels = {
     1: "Malo",
@@ -28,6 +30,7 @@ export default function ReviewsCard(props) {
       </div>
     );
   }
+
 
   function getStars() {
     const stars = props.review.stars;
@@ -66,6 +69,7 @@ export default function ReviewsCard(props) {
         {getStars()}
         {getLabelText()}
       </div>
+      <button className="open_edit_review" onClick= {props.handleOpenModal}>Editar</button>
     </div>
   );
 }
