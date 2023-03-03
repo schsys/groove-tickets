@@ -105,7 +105,7 @@ export default function Signup() {
     console.log("form register submited");
     setErrors('')
     try {
-      await createUser(input.email, input.password)
+      const response = await createUser(input.email, input.password)
       // const dbExistUser = await axios.get(`http://localhost:3001/admin/users/user/${input.email}`)
       // const dbExistUser = await axios.get(`${apiUrl}/user?userName=${input.email}`)
       // console.log('dbExistUser en signup', dbExistUser.data)
@@ -128,7 +128,9 @@ export default function Signup() {
           document: input.dni
         }
       )
-      
+      sessionStorage.setItem("userName", input.email);
+      // set access token in session storage
+      sessionStorage.setItem("accessToken", response.user.accessToken);
       //------------------------------------------------------------------------
         // aca debo llamar a la funcion de control de localstorage contra carrito
         //
