@@ -243,6 +243,7 @@ export default function Login() {
   const handleSendEmail = (e) => {
     e.preventDefault();
     setError("");
+    setOpenModal(false);
     return sendPasswordResetEmail(auth, email).then(() => {
       //setEmail(true);
       // setInput({ email: "", password: "" });
