@@ -24,11 +24,11 @@ PostgreSQL
 <b>Register y Login:</b> los usuarios pueden iniciar sesión a través de su correo electrónico y contraseña o mediante su cuenta de Google.
 
 <h3>Instalación</h3>
-Clona este repositorio.
-Ejecuta npm install para instalar las dependencias necesarias.
-Crea una base de datos PostgreSQL local y configura las credenciales en el archivo server/config/config.json.
-Ejecuta npm run dev para correr la aplicación en modo desarrollo.
-Abre http://localhost:3000 en tu navegador.
+Clona este repositorio.</br>
+Ejecuta npm install para instalar las dependencias necesarias.</br>
+Crea una base de datos PostgreSQL local y configura las credenciales en el archivo server/config/config.json.</br>
+Ejecuta npm run dev para correr la aplicación en modo desarrollo.</br>
+Abre http://localhost:3000 en tu navegador.</br>
 
 <h3>Acceso a la aplicación</h3>
 La aplicación está disponible en línea en https://pg-front-henry.vercel.app/.
