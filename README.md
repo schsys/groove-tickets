@@ -14,9 +14,13 @@ PostgreSQL
 
 <h3>Funcionalidades</h3>
 <b>Búsqueda de shows:</b> los usuarios pueden buscar shows por nombre y la searchbar mostrará sugerencias mientras el usuario escribe.
+</br>
 <b>Filtros:</b> los usuarios pueden filtrar los shows por fecha y categoría de música.
+</br>
 <b>Reviews:</b> los usuarios pueden hacer reviews de los shows a los que asistieron.
+</br>
 <b>Compra de entradas:</b> los usuarios pueden comprar entradas a través de la pasarela de pago de Mercado Pago.
+</br>
 <b>Register y Login:</b> los usuarios pueden iniciar sesión a través de su correo electrónico y contraseña o mediante su cuenta de Google.
 
 <h3>Instalación</h3>
