@@ -13,11 +13,11 @@ Sequelize
 PostgreSQL
 
 <h3>Funcionalidades</h3>
-Búsqueda de shows: los usuarios pueden buscar shows por nombre y la searchbar mostrará sugerencias mientras el usuario escribe.
-Filtros: los usuarios pueden filtrar los shows por fecha y categoría de música.
-Reviews: los usuarios pueden hacer reviews de los shows a los que asistieron.
-Compra de entradas: los usuarios pueden comprar entradas a través de la pasarela de pago de Mercado Pago.
-Login: los usuarios pueden iniciar sesión a través de su correo electrónico y contraseña o mediante su cuenta de Google.
+<b>Búsqueda de shows:</b> los usuarios pueden buscar shows por nombre y la searchbar mostrará sugerencias mientras el usuario escribe.
+<b>Filtros:</b> los usuarios pueden filtrar los shows por fecha y categoría de música.
+<b>Reviews:</b> los usuarios pueden hacer reviews de los shows a los que asistieron.
+<b>Compra de entradas:</b> los usuarios pueden comprar entradas a través de la pasarela de pago de Mercado Pago.
+<b>Register y Login:</b> los usuarios pueden iniciar sesión a través de su correo electrónico y contraseña o mediante su cuenta de Google.
 
 <h3>Instalación</h3>
 Clona este repositorio.
