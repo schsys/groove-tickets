@@ -5,12 +5,13 @@ Proyecto Grupal para la finalización del Bootcamp de Henry
 Este proyecto fue realizado en grupo como parte del trabajo final del Bootcamp de Henry. Se trata de un eccomerce que será usado por una ONG de Mar del Plata dedicada a la enseñanza de música, realización de festivales y venta de entradas a shows de música. Nuestra aplicación permite vender entradas a shows y eventos.
 
 <h3>Tecnologías utilizadas</h3>
-JavaScript
-React
-MUI
-Redux
-Sequelize
-PostgreSQL
+JavaScript</br>
+React</br>
+MUI</br>
+Redux</br>
+Sequelize</br>
+PostgreSQL</br>
+React Admin</br>
 
 <h3>Funcionalidades</h3>
 <b>Búsqueda de shows:</b> los usuarios pueden buscar shows por nombre y la searchbar mostrará sugerencias mientras el usuario escribe.
@@ -32,3 +33,11 @@ Abre http://localhost:3000 en tu navegador.</br>
 
 <h3>Acceso a la aplicación</h3>
 La aplicación está disponible en línea en https://pg-front-henry.vercel.app/.
+
+<h3>¿Cómo testear la funcionalidad de carrito y pasarlea de pago?</h3>
+Para poder completar una compra, como la app está todavía en modo desarrollo, se debe utilizar los datos de la tarjeta provista por Mercado Pago. </br>
+Estos son los datos que debes introducir:</br>
+Número de tarjeta: 5031 7557 3453 0604 </br>
+Fecha de vto.: 11/25</br>
+Nombre: Cualquier nombre</br>
+Clave: 123</br>
