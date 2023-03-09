@@ -34,10 +34,10 @@ Abre http://localhost:3000 en tu navegador.</br>
 <h3>Acceso a la aplicación</h3>
 La aplicación está disponible en línea en https://pg-front-henry.vercel.app/.
 
-<h3>¿Cómo testear la funcionalidad de carrito y pasarlea de pago?</h3>
+<h3>¿Cómo testear la funcionalidad de carrito y pasarela de pago?</h3>
 Para poder completar una compra, como la app está todavía en modo desarrollo, se debe utilizar los datos de la tarjeta provista por Mercado Pago. </br>
 Estos son los datos que debes introducir:</br>
-Número de tarjeta: 5031 7557 3453 0604 </br>
-Fecha de vto.: 11/25</br>
-Nombre: Cualquier nombre</br>
-Clave: 123</br>
+<b>Número de tarjeta:</b> 5031 7557 3453 0604 </br>
+<b>Fecha de vto.:</b> 11/25</br>
+<b>Nombre:</b> Cualquier nombre</br>
+<b>Clave:</b> 123</br>
