@@ -49,13 +49,14 @@ color: white;
   width: 5.5rem;
 }
 
-/* .shows__banner-img {
+.shows__banner-img {
   position: relative;
-  width: 95vw;
-  margin-left: 2.5%;
+  width: 100%;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+  border-top: 1px solid rgba(128, 128, 128, 0.8);
   margin-top: 2vh;
-  border: 2px solid var(--color-gray);
-} */
+
+}
 
 .shows__cards-container {
   display: grid;

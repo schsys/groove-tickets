@@ -4,7 +4,7 @@ import { getProducts } from "../../redux/actions";
 import { Pagination, productIndex } from "../Pagination/Pagination";
 import SingleCard from "../Cards/SingleCard";
 import "./Shows.css";
-// import banner from "../../assets/banner.shows.fw.png";
+import banner from "../../assets/banner.shows.fw.png";
 import Filters from "../Filters/FiltersV2";
 import SkeletonShows from "../Skeleton/SkeletonShows";
 import OldShowCards from "../OldShows/OldShowsCards";
@@ -43,7 +43,7 @@ const Shows = () => {
 
   return (
     <div className="shows__background-container">
-      {/* <img src={banner} alt="banner shows" className="shows__banner-img" /> */}
+      <img src={banner} alt="banner shows" className="shows__banner-img" />
       {fetchProducts === "loading" ? (
         <SkeletonShows />
       ) : (
