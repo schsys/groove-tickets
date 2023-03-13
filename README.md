@@ -1,7 +1,7 @@
-# Yazz - PG HENRY
+# Groove Tickets - PG HENRY
 Proyecto Grupal para la finalización del Bootcamp de Henry
 
-<h2>Yazz</h2>
+<h2>Groove Tickets</h2>
 Este proyecto fue realizado en grupo como parte del trabajo final del Bootcamp de Henry. Se trata de un eccomerce que será usado por una ONG de Mar del Plata dedicada a la enseñanza de música, realización de festivales y venta de entradas a shows de música. Nuestra aplicación permite vender entradas a shows y eventos.
 
 <h3>Tecnologías utilizadas</h3>
