@@ -1,5 +1,4 @@
-package-lock.json
-/pg-henry-back
+/.sources
 # Logs
 logs
 *.log
