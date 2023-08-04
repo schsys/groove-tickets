@@ -1,0 +1,138 @@
+body {
+  color: #000;
+}
+
+.container {
+  background-image: url("./Background.png");
+  position: absolute;
+  top: auto;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.logoyazz img {
+  margin-top: 10px;
+  object-fit: cover;
+  width: 5%;
+  margin-bottom: 25px;
+}
+
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 60px;
+}
+
+.form-container b {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+#p1 {
+  margin-bottom: -10px;
+}
+
+.footer-form {
+  font-size: 0.8em;
+}
+
+input {
+  border-radius: 32px 32px 32px 32px;
+  padding: 10px 10px 10px 10px;
+  width: 90%;
+  margin-bottom: 25px;
+}
+
+.card-container img {
+  display: inline-block;
+  width: 20%;
+  margin: 0 25px 5px;
+  border: solid 2px rgb(140, 139, 139);
+  box-shadow: 0 1px 5px 1px #72cb10;
+}
+
+.card-body {
+  float: left;
+  text-align: left;
+  margin: 5px 10px 5px 0px;
+  width: 100%;
+}
+.card-body2 {
+  float: left;
+  text-align: left;
+  margin: 5px 10px 20px 0px;
+  width: 100%;
+}
+
+.form-container {
+  color: #fff;
+  position: fixed;
+  top: 80px;
+  right: 50px;
+  width: 50%; /* valor en porcentaje */
+  max-width: 300px; /* límite máximo */
+  padding: 30px;
+  background-color: rgba(51, 51, 51, 0.897);
+  border: 1px solid rgb(140, 139, 139);
+  text-align: center;
+  border-radius: 25px;
+}
+
+@media (min-width: 1600px) {
+  .form-container {
+    width: 30%; /* valor en porcentaje */
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .form-container {
+    width: 20%; /* valor en porcentaje */
+    right: 60px;
+  }
+  .card-container img {
+    display: inline-block;
+    width: 20%;
+    margin: 0 10px 5px;
+    border: solid 2px rgb(140, 139, 139);
+    box-shadow: 0 1px 5px 1px #72cb10;
+  }
+
+  input {
+    border-radius: 32px 32px 32px 32px;
+    padding: 10px 10px 10px 10px;
+    width: 75%;
+    margin-bottom: 20px;
+  }
+  .form-container b {
+    font-size: 0.7em;
+    font-weight: bold;
+  }
+  .footer-form {
+    font-size: 0.7em;
+    margin-top: 0;
+  }
+
+  .card-body {
+    float: left;
+    text-align: left;
+    margin: 20px 0px 10px 20px;
+    width: 95%;
+  }
+  .card-body2 {
+    float: left;
+    text-align: left;
+    margin: 5px 0px 30px 20px;
+    width: 95%;
+  }
+
+  .whatsapp {
+    position: fixed;
+    bottom: 30px;
+    right: 85px;
+  }
+}

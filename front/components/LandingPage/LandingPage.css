@@ -1,0 +1,72 @@
+.landindPage_section{
+    background-image: url(bg01.png);
+    width: 100%;
+    height: 97.5vh;
+    overflow:hidden;
+    background-size:cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.landingPage_titles{
+   height: 20vh;
+}
+
+.landingPage_titles_h1{
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 2px rgba(161, 161, 161, 0.6);
+}
+
+/* .landingPage_cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 2.5rem;
+    width: 100%; 
+}
+*/
+.landingPage_cards{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.landingPage_titles, .landingPage_link, .landingPage_cards_shows{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items:center;
+}
+
+.landingPage_link{
+    width: 70%;
+    height: auto;
+    text-decoration: none;
+    justify-self: center;
+}
+
+.landingPage_cards_shows{
+    width: 100%;
+    position: relative;
+}
+
+.landingPage_cards_shows img {
+    width: 100%;
+    height: auto;
+    opacity: 0.92;
+}
+
+.landingPage_cards_shows h3 {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #3773A1;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
+    font-size: 4rem;
+    z-index: 10;
+}
